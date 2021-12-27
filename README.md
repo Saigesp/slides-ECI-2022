@@ -26,9 +26,9 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
             
 ![image](https://user-images.githubusercontent.com/26646492/147409542-86195191-2733-42f8-a38c-94712cd25332.png)
 
-* **Diapositivas** (dadosdelaplace.github.io/slides-ECI-2022)
+* **Diapositivas** (https://dadosdelaplace.github.io/slides-ECI-2022)
            
 * **Código diapositivas** (https://github.com/dadosdelaplace/slides-ECI-2022)
             
-* **Material del curso** (dadosdelaplace.github.io/courses-ECI-2022)
+* **Material del curso** (https://dadosdelaplace.github.io/courses-ECI-2022)
             
