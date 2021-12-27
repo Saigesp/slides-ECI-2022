@@ -1,17 +1,24 @@
 ---
-title: "Presentation Ninja"
-subtitle: "⚔<br/>with xaringan"
-author: "Yihui Xie"
-institute: "RStudio, PBC"
-date: "2016/12/12 (updated: `r Sys.Date()`)"
+title: "Analizando datos, visualizando información, contando historias"
+subtitle: "Curso de la ECI 2022"
+author:
+  - "Javier Álvarez Liébana"
+institute: "Universidad Complutense de Madrid"
+date: "2021/12/21 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
+    self_contained: false
     lib_dir: libs
+    # css: [default, rOpenSpain.css]
     nature:
+      # beforeInit: "rOpenSpain.js"
+      # slideNumberFormat: "%current%"
       highlightStyle: github
       highlightLines: true
-      countIncrementalSlides: false
+      ratio: 16:9
+      countIncrementalSlides: true
 ---
+
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
