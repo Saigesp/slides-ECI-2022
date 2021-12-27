@@ -2,30 +2,48 @@
 title: "Analizando datos, visualizando información, contando historias"
 subtitle: "Curso de la ECI 2022"
 author:
-  - "Javier Álvarez Liébana"
-institute: "Universidad Complutense de Madrid"
-date: "2021/12/21 (updated: `r Sys.Date()`)"
+  - "Javier Álvarez Liébana (UCM)"
+institute: "(.css y .js basados en el repo de dieghernan/rpubs)"
+date: "2021/12/21 (actualizado: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
     self_contained: false
     lib_dir: libs
-    # css: [default, rOpenSpain.css]
+    css: [default, style.css]
     nature:
       # beforeInit: "rOpenSpain.js"
-      # slideNumberFormat: "%current%"
+      slideNumberFormat: "%current%"
       highlightStyle: github
       highlightLines: true
       ratio: 16:9
       countIncrementalSlides: true
 ---
 
-
-```{r setup, include=FALSE}
+```{r settings, include = FALSE}
 options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.retina = 3, out.width = "100%", cache = FALSE,
+                      comment = "#>", echo = TRUE, message = FALSE, warning = FALSE,
+                      hiline = TRUE, dpi = 300)
 ```
+
+class: inverse center middle
+
+# Analizando datos, visualizando información, contando historias
+
+### [Introducción](#intro)
+
+### [Diccionarios](#diccionario)
+
+### [Límites políticos](#politico)
+
+### [Imágenes](#images)
+
+### [Otros recursos](#other)
+
 
 ---
 class: center, middle
+
 
 # xaringan
 
