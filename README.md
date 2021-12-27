@@ -26,9 +26,9 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
             
 ![image](https://user-images.githubusercontent.com/26646492/147409542-86195191-2733-42f8-a38c-94712cd25332.png)
 
-* **Diapositivas** (https://github.com/dadosdelaplace/slides-ECI-2022/index.html)
-  
-* **Manual introductorio de R** (https://aprendiendo-r-intro.netlify.app)
+* **Diapositivas** (https://dadosdelaplace.github.io/slides-ECI-2022)
+           
+* **Código diapositivas** (https://github.com/dadosdelaplace/slides-ECI-2022)
             
-* **Código Rmarkdown del curso** (https://github.com/dadosdelaplace/courses-ECI-2022)
+* **Material del curso** (https://dadosdelaplace.github.io/courses-ECI-2022)
             
