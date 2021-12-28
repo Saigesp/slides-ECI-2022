@@ -5,7 +5,7 @@ https://github.com/dieghernan/rpubs/blob/main/mapSpain_RMadrid/rOpenSpain.css
 */
 
 @import url(https://fonts.googleapis.com/css?family=Roboto&display=swap);
-@import url(https://fonts.googleapis.com/css?family=Roboto:400&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300&display=swap);
 @import url(https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap);
 
 
@@ -29,8 +29,8 @@ https://github.com/dieghernan/rpubs/blob/main/mapSpain_RMadrid/rOpenSpain.css
   --header-h3-font-size: 1.75rem;
 
   /* Colores */
-  --text-color: #515151; /* gris claro */
-  --header-color: #313131; /* gris oscuro */
+  --text-color: #515151; /* gris */
+  --header-color: #515151; /* gris */
   --background-color: #FFFFFF; /* blanco */
   --link-color: #8E63B4; /* morado; antes #986dbd */
   --text-bold-color: #BC3E3E; /* rojo; antes #986dbd */
@@ -61,7 +61,7 @@ body {
 }
 h1, h2, h3 {
   font-family: var(--header-font-family), var(--header-font-family-fallback);
-  font-weight: 400;
+  font-weight: 300;
   color: var(--header-color);
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -122,7 +122,7 @@ a, a > code {
     overflow-x: auto;
     padding: .5em;
     color: #333;
-    background: #F6F6F7;
+    background: #F7F7F7;
 }
 
 .remark-code-line-highlighted {

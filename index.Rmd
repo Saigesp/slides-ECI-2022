@@ -25,38 +25,48 @@ knitr::opts_chunk$set(fig.retina = 3, out.width = "100%", cache = FALSE,
                       comment = "#>", echo = TRUE, message = FALSE, warning = FALSE,
                       hiline = TRUE, dpi = 300)
 ```
+class: inverse center middle
+
+# Presentación del curso
+
+---
 
 class: inverse center middle
 
-# Analizando datos, visualizando información, contando historias
+# Bloque I: introducción a R desde cero.
 
-### [Introducción](#intro)
+### [¿Qué es R? Primeros pasos](#primeros-pasos)
 
-### [Diccionarios](#diccionario)
+### [Vectores y matrices](#matrices)
 
-### [Límites políticos](#politico)
+### [Estructuras de datos](#datos)
 
-### [Imágenes](#images)
+### [Estructuras de control. Listas y factores](#estructuras)
 
-### [Otros recursos](#other)
+### [Creación del primer proyecto](#proyecto)
+
+### [Creando funciones](#funciones)
+
+### [Tidy data](#tidy-data)
+
+### [Introducción al tidyverse](#tidy-verse)
 
 
 ---
+name: primeros-pasos
 class: center, middle
 
+# ¿Qué es R? Primeros pasos
+## **Instalación**
 
-# xaringan
+&nbsp;
 
-### /ʃaː.'riŋ.ɡan/
+Programar es como escribir un libro: necesitamos una gramática y un Word.
 
----
-class: inverse, center, middle
-
-# Get Started
 
 ---
 
-# Hello World
+# ¿Qué es R?
 
 Install the **xaringan** package from [Github](https://github.com/yihui/xaringan):
 
