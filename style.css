@@ -23,7 +23,7 @@ https://github.com/dieghernan/rpubs/blob/main/mapSpain_RMadrid/rOpenSpain.css
   --base-font-size: 21px;
   --text-font-size: 1rem;
   --code-font-size: 0.9rem;
-  --code-inline-font-size: 1em;
+  --code-inline-font-size: 0.9em;
   --header-h1-font-size: 2.75rem;
   --header-h2-font-size: 2.25rem;
   --header-h3-font-size: 1.75rem;
@@ -32,9 +32,9 @@ https://github.com/dieghernan/rpubs/blob/main/mapSpain_RMadrid/rOpenSpain.css
   --text-color: #515151; /* gris */
   --header-color: #515151; /* gris */
   --background-color: #FFFFFF; /* blanco */
-  --link-color: #8E63B4; /* morado; antes #986dbd */
+  --link-color: #236E43; /* morado; antes #986dbd */
   --text-bold-color: #BC3E3E; /* rojo; antes #986dbd */
-  --code-highlight-color: rgba(105,207,154,0.2);  /* verde; antes rgba(255,255,0,0.5); */
+  --code-highlight-color: rgba(58,164,109,1);  /* verde; antes rgba(255,255,0,0.5); */
   --inverse-text-color: #FFFFFF; /* antes #F4F0F8; */
   --inverse-background-color: #8E63B4; /* morado; antes #986dbd */
   --inverse-header-color: #FFFFFF; /* antes #F4F0F8; */
@@ -93,8 +93,8 @@ h1, h2, h3 {
 .remark-inline-code {
   font-size: var(--code-inline-font-size);
   color: #333;
-  background-color: #DBE6F3; /* antes #f8f8f8; */
-  padding: 1.7px;
+  background-color: rgba(35,134,108,0.3); /* #C2F2E5; #DBE6F3;  antes #f8f8f8; */
+  padding: 1.6px;
 }
 .remark-slide-number {
   color: #BD6D6D; /* antes #986dbd; */

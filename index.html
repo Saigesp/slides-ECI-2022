@@ -5,6 +5,21 @@
     <meta charset="utf-8" />
     <meta name="author" content="Autor: Javier Álvarez Liébana (UCM)" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link href="libs/xaringanExtra-extra-styles/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Click para copiar código","success":"Código copiado","error":"Ctrl+C para copiar"})</script>
+    <script src="libs/freezeframe/freezeframe.min.js"></script>
+    <script src="libs/xaringanExtra-freezeframe/freezeframe-init.js"></script>
+    <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
+    <link href="libs/animate.css-xaringan/animate.fade.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
     <script src="libs/htmlwidgets/htmlwidgets.js"></script>
     <script src="libs/jquery/jquery.min.js"></script>
     <link href="libs/leaflet/leaflet.css" rel="stylesheet" />
@@ -39,46 +54,77 @@ class: center, middle, inverse, title-slide
 
 
 
----
-
 class: inverse center middle
 
-# Presentación del curso
+# PRESENTACIÓN DEL CURSO
+
+
+
+`$$\\[2.7in]$$`
+
+.left[Pulsa &lt;kbd-black&gt;O&lt;/kbd-black&gt; para ver el panel de diapositivas]
+.left[Pulsa &lt;kbd-black&gt;H&lt;/kbd-black&gt; para ver otros atajos]
+
+---
+
+# Objetivos
+
+&lt;img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/imagen_curso.jpeg" alt = "course-ECI" align = "right" width = "360" style = "margin-top: 20vh;margin-right: 0.5rem;margin-left: 1rem;"&gt;
+
+¡Bienvenidos/as/es!
+
+Tomen asiento, entren a la secta del **software libre** y dejen sus Excel en la entrada
+
+
+
+El **objetivo** del curso no es ser un/a sesudo/a programador/a de `R`, sino adquirir los suficientes conocimientos como para lograr 5 objetivos:
+
+
+- **Perder el miedo** a programar.
+- Entender los [**conceptos básicos de R**](https://cran.rstudio.com/), lenguaje estadístico por excelencia, desde cero.
+- Dotarnos de **autonomía en el análisis** de datos.
+- Crear programas y flujos de trabajo **reproducibles** y mantenibles.
+- Adquirir habilidades en la **visualización de datos** en `R` (haciendo uso también de otras herramientas como [**Datawrapper**](https://www.datawrapper.de/)), incluyendo la visualización de datos en **mapas**.
+
+
+&amp;nbsp;
+
+📚 Estas **diapositivas** han sido elaboradas con el propio `R` haciendo uso del paquete `{xaringan}`
+y `{xaringanExtra}`.
+
+---
+
+# Material del curso
+
+&lt;img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/imagen_curso.jpeg" alt = "course-ECI" align = "right" width = "360" style = "margin-top: 20vh;margin-right: 0.5rem;margin-left: 1rem;"&gt;
+
 
 ---
 
 class: inverse middle
 
-# BLOQUE I. Introducción a R desde cero
+### BLOQUE I. Introducción a R desde cero
 
-Impartido por Javier Álvarez Liébana y Gabriel Valverde Castilla.
-
-* Instalación de R y RStudio.
-* Primeros pasos como calculadora 
-* Tipos de datos (individuales)
-* Vectores
-* Operaciones con vectores
+* Instalación de R y RStudio. Primeros pasos. Tipos de datos.
 * Datos estructurados: matrices y data.frame
-* Primer análisis de datos: arrestos en Estados Unidos
-* Extras: estructuras de control, proyectos, funciones y tibble
-
-* Caso práctico: crear un Rmarkdown (35 minutos; acumulado 5 horas) [¿AMBOS?]
-* Evaluación
+* Extras: estructuras de control, proyectos, funciones y datos en formato tibble
 
 
-## BLOQUE II. Introducción a dataviz y  estadística con R
+### BLOQUE II. Introducción a dataviz y  estadística con R
 
-Impartido por Javier Álvarez Liébana y Gabriel Valverde Castilla.
+* Introducción a estadística básica: centralización y dispersión, conceptos de regresión e inferencia.
+* Tidy data. Introducción a Tidyverse
+* Dataviz: la importancia de visualizar datos. Introducción a ggplot2. Visualización en tablas
 
-## BLOQUE III. Periodismo de datos: análisis electoral y visualización en R
+### BLOQUE III. Periodismo de datos
 
 Impartido por Borja Andrino, Javier Álvarez Liébana y Gabriel Valverde Castilla.
 
-## BLOQUE IV. Story Telling: lo que nos cuentan los datos
+### BLOQUE IV. Story Telling
 
 Impartido por Victòria Oliveres, Javier Álvarez Liébana y Gabriel Valverde Castilla.
 
-## BLOQUE V. Visualización de datos en mapas en R
+### BLOQUE V. Visualización de datos en mapas
 
 Impartido por Dominic Royé, Javier Álvarez Liébana y Gabriel Valverde Castilla.
 
@@ -399,8 +445,8 @@ library(leaflet)
 leaflet() %&gt;% addTiles() %&gt;% setView(-93.65, 42.0285, zoom = 17)
 ```
 
-<div id="htmlwidget-ec6c1b8d7b625074bc1d" style="width:100%;height:1800px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ec6c1b8d7b625074bc1d">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-f32f21d1b6654efbddd1" style="width:100%;height:1800px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f32f21d1b6654efbddd1">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -412,8 +458,8 @@ DT::datatable(
 )
 ```
 
-<div id="htmlwidget-84fd1f3563e01e9cbc2e" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-84fd1f3563e01e9cbc2e">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-5143c5c96e0df59cf844" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5143c5c96e0df59cf844">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 
 ---
 

@@ -25,48 +25,95 @@ options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(fig.retina = 3, out.width = "100%", cache = FALSE,
                       comment = "#>", echo = TRUE, message = FALSE,
                       warning = FALSE, hiline = TRUE, dpi = 300)
-```
 
----
+# xaringan Extra
+library(xaringanExtra)
+use_xaringan_extra(c("tile_view", "animate_css", "tachyons"))
+use_tile_view() # panel
+# xaringanExtra::use_scribble() # scribble
+use_extra_styles(hover_code_line = TRUE,
+                 mute_unhighlighted_code = FALSE) # Hover triangle code line
+use_clipboard( # About clipboard
+  button_text = "Click para copiar código",
+  success_text = "Código copiado",
+  error_text = "Ctrl+C para copiar"
+)
+use_freezeframe() # restarting gifs
+use_animate_all("fade") # animates
+use_panelset() # panels 
+```
 
 class: inverse center middle
 
-# Presentación del curso
+# PRESENTACIÓN DEL CURSO
+
+
+
+$$\\[2.7in]$$
+
+.left[Pulsa <kbd-black>O</kbd-black> para ver el panel de diapositivas]
+.left[Pulsa <kbd-black>H</kbd-black> para ver otros atajos]
+
+---
+
+# Objetivos
+
+<img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/imagen_curso.jpeg" alt = "course-ECI" align = "right" width = "360" style = "margin-top: 20vh;margin-right: 0.5rem;margin-left: 1rem;">
+
+¡Bienvenidos/as/es!
+
+Tomen asiento, entren a la secta del **software libre** y dejen sus Excel en la entrada
+
+
+
+El **objetivo** del curso no es ser un/a sesudo/a programador/a de `R`, sino adquirir los suficientes conocimientos como para lograr 5 objetivos:
+
+
+- **Perder el miedo** a programar.
+- Entender los [**conceptos básicos de R**](https://cran.rstudio.com/), lenguaje estadístico por excelencia, desde cero.
+- Dotarnos de **autonomía en el análisis** de datos.
+- Crear programas y flujos de trabajo **reproducibles** y mantenibles.
+- Adquirir habilidades en la **visualización de datos** en `R` (haciendo uso también de otras herramientas como [**Datawrapper**](https://www.datawrapper.de/)), incluyendo la visualización de datos en **mapas**.
+
+
+&nbsp;
+
+📚 Estas **diapositivas** han sido elaboradas con el propio `R` haciendo uso del paquete `{xaringan}`
+y `{xaringanExtra}`.
+
+---
+
+# Material del curso
+
+<img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/imagen_curso.jpeg" alt = "course-ECI" align = "right" width = "360" style = "margin-top: 20vh;margin-right: 0.5rem;margin-left: 1rem;">
+
 
 ---
 
 class: inverse middle
 
-# BLOQUE I. Introducción a R desde cero
+### BLOQUE I. Introducción a R desde cero
 
-Impartido por Javier Álvarez Liébana y Gabriel Valverde Castilla.
-
-* Instalación de R y RStudio.
-* Primeros pasos como calculadora 
-* Tipos de datos (individuales)
-* Vectores
-* Operaciones con vectores
+* Instalación de R y RStudio. Primeros pasos. Tipos de datos.
 * Datos estructurados: matrices y data.frame
-* Primer análisis de datos: arrestos en Estados Unidos
-* Extras: estructuras de control, proyectos, funciones y tibble
-
-* Caso práctico: crear un Rmarkdown (35 minutos; acumulado 5 horas) [¿AMBOS?]
-* Evaluación
+* Extras: estructuras de control, proyectos, funciones y datos en formato tibble
 
 
-## BLOQUE II. Introducción a dataviz y  estadística con R
+### BLOQUE II. Introducción a dataviz y  estadística con R
 
-Impartido por Javier Álvarez Liébana y Gabriel Valverde Castilla.
+* Introducción a estadística básica: centralización y dispersión, conceptos de regresión e inferencia.
+* Tidy data. Introducción a Tidyverse
+* Dataviz: la importancia de visualizar datos. Introducción a ggplot2. Visualización en tablas
 
-## BLOQUE III. Periodismo de datos: análisis electoral y visualización en R
+### BLOQUE III. Periodismo de datos
 
 Impartido por Borja Andrino, Javier Álvarez Liébana y Gabriel Valverde Castilla.
 
-## BLOQUE IV. Story Telling: lo que nos cuentan los datos
+### BLOQUE IV. Story Telling
 
 Impartido por Victòria Oliveres, Javier Álvarez Liébana y Gabriel Valverde Castilla.
 
-## BLOQUE V. Visualización de datos en mapas en R
+### BLOQUE V. Visualización de datos en mapas
 
 Impartido por Dominic Royé, Javier Álvarez Liébana y Gabriel Valverde Castilla.
 
