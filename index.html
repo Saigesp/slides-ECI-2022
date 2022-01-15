@@ -3,7 +3,7 @@
   <head>
     <title>Analizando datos, visualizando información, contando historias</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Javier Álvarez Liébana (UCM)" />
+    <meta name="author" content="Autor: Javier Álvarez Liébana (UCM)" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <script src="libs/htmlwidgets/htmlwidgets.js"></script>
     <script src="libs/jquery/jquery.min.js"></script>
@@ -29,13 +29,17 @@ class: center, middle, inverse, title-slide
 
 # Analizando datos, visualizando información, contando historias
 ## Curso de la ECI 2022
-### Javier Álvarez Liébana (UCM)
-### (.css y .js basados en el repo de dieghernan/rpubs)
-### 2021/12/21 (actualizado: 2021-12-28)
+### Autor: Javier Álvarez Liébana (UCM)
+### (.css y .js basados en <mark><a href="https://github.com/dieghernan/rpubs" class="uri">https://github.com/dieghernan/rpubs</a></mark>)
+### 31/01/2022 - 04/02/2022 (actualizado: 2022-01-15)
 
 ---
 
 
+
+
+
+---
 
 class: inverse center middle
 
@@ -43,26 +47,66 @@ class: inverse center middle
 
 ---
 
+class: inverse middle
+
+# BLOQUE I. Introducción a R desde cero
+
+Impartido por Javier Álvarez Liébana y Gabriel Valverde Castilla.
+
+* Instalación de R y RStudio.
+* Primeros pasos como calculadora 
+* Tipos de datos (individuales)
+* Vectores
+* Operaciones con vectores
+* Datos estructurados: matrices y data.frame
+* Primer análisis de datos: arrestos en Estados Unidos
+* Extras: estructuras de control, proyectos, funciones y tibble
+
+* Caso práctico: crear un Rmarkdown (35 minutos; acumulado 5 horas) [¿AMBOS?]
+* Evaluación
+
+
+## BLOQUE II. Introducción a dataviz y  estadística con R
+
+Impartido por Javier Álvarez Liébana y Gabriel Valverde Castilla.
+
+## BLOQUE III. Periodismo de datos: análisis electoral y visualización en R
+
+Impartido por Borja Andrino, Javier Álvarez Liébana y Gabriel Valverde Castilla.
+
+## BLOQUE IV. Story Telling: lo que nos cuentan los datos
+
+Impartido por Victòria Oliveres, Javier Álvarez Liébana y Gabriel Valverde Castilla.
+
+## BLOQUE V. Visualización de datos en mapas en R
+
+Impartido por Dominic Royé, Javier Álvarez Liébana y Gabriel Valverde Castilla.
+
+---
+
 class: inverse center middle
 
 # Bloque I: introducción a R desde cero.
 
-### [¿Qué es R? Primeros pasos](#primeros-pasos)
+&amp;nbsp;
 
-### [Vectores y matrices](#matrices)
+### [Instalación y primeros pasos](#instalacion-primeros-pasos)
 
-### [Estructuras de datos](#datos)
+### [Celdas: tipos de datos](#matrices)
 
-### [Estructuras de control. Listas y factores](#estructuras)
+### [Columnas: vectores](#matrices)
 
-### [Creación del primer proyecto](#proyecto)
+### [Tablas: estructuras de datos](#datos)
 
-### [Creando funciones](#funciones)
+### [Extras: estructuras de control](#estructuras)
 
-### [Tidy data](#tidy-data)
+### [Primer proyecto. Funciones](#proyecto-funciones)
 
-### [Introducción al tidyverse](#tidy-verse)
+### [Mejorando los datos: tibble](#tibble)
 
+### [Caso práctico: informe RMarkdown](#rmarkdown)
+
+### [🏅Evaluación](#evaluacion)
 
 ---
 name: primeros-pasos
@@ -78,7 +122,7 @@ Programar es como escribir un libro: necesitamos una gramática y un Word.
 
 ---
 
-# Hello World
+# ¿Qué es R?
 
 Install the **xaringan** package from [Github](https://github.com/yihui/xaringan):
 
@@ -355,8 +399,8 @@ library(leaflet)
 leaflet() %&gt;% addTiles() %&gt;% setView(-93.65, 42.0285, zoom = 17)
 ```
 
-<div id="htmlwidget-7f60dc2a2294a18248d1" style="width:100%;height:1800px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-7f60dc2a2294a18248d1">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ec6c1b8d7b625074bc1d" style="width:100%;height:1800px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ec6c1b8d7b625074bc1d">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -368,8 +412,8 @@ DT::datatable(
 )
 ```
 
-<div id="htmlwidget-0da850225b0765d21475" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0da850225b0765d21475">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-84fd1f3563e01e9cbc2e" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-84fd1f3563e01e9cbc2e">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 
 ---
 

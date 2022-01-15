@@ -2,16 +2,16 @@
 title: "Analizando datos, visualizando información, contando historias"
 subtitle: "Curso de la ECI 2022"
 author:
-  - "Javier Álvarez Liébana (UCM)"
-institute: "(.css y .js basados en el repo de dieghernan/rpubs)"
-date: "2021/12/21 (actualizado: `r Sys.Date()`)"
+  - "Autor: Javier Álvarez Liébana (UCM)"
+institute: "(.css y .js basados en <mark>https://github.com/dieghernan/rpubs</mark>)"
+date: "31/01/2022 - 04/02/2022 (actualizado: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
     self_contained: false
     lib_dir: libs
     css: [default, style.css]
     nature:
-      # beforeInit: "rOpenSpain.js"
+      # beforeInit: "stylejs.js"
       slideNumberFormat: "%current%"
       highlightStyle: github
       highlightLines: true
@@ -19,15 +19,56 @@ output:
       countIncrementalSlides: true
 ---
 
+
 ```{r settings, include = FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(fig.retina = 3, out.width = "100%", cache = FALSE,
-                      comment = "#>", echo = TRUE, message = FALSE, warning = FALSE,
-                      hiline = TRUE, dpi = 300)
+                      comment = "#>", echo = TRUE, message = FALSE,
+                      warning = FALSE, hiline = TRUE, dpi = 300)
 ```
+
+---
+
 class: inverse center middle
 
 # Presentación del curso
+
+---
+
+class: inverse middle
+
+# BLOQUE I. Introducción a R desde cero
+
+Impartido por Javier Álvarez Liébana y Gabriel Valverde Castilla.
+
+* Instalación de R y RStudio.
+* Primeros pasos como calculadora 
+* Tipos de datos (individuales)
+* Vectores
+* Operaciones con vectores
+* Datos estructurados: matrices y data.frame
+* Primer análisis de datos: arrestos en Estados Unidos
+* Extras: estructuras de control, proyectos, funciones y tibble
+
+* Caso práctico: crear un Rmarkdown (35 minutos; acumulado 5 horas) [¿AMBOS?]
+* Evaluación
+
+
+## BLOQUE II. Introducción a dataviz y  estadística con R
+
+Impartido por Javier Álvarez Liébana y Gabriel Valverde Castilla.
+
+## BLOQUE III. Periodismo de datos: análisis electoral y visualización en R
+
+Impartido por Borja Andrino, Javier Álvarez Liébana y Gabriel Valverde Castilla.
+
+## BLOQUE IV. Story Telling: lo que nos cuentan los datos
+
+Impartido por Victòria Oliveres, Javier Álvarez Liébana y Gabriel Valverde Castilla.
+
+## BLOQUE V. Visualización de datos en mapas en R
+
+Impartido por Dominic Royé, Javier Álvarez Liébana y Gabriel Valverde Castilla.
 
 ---
 
@@ -35,22 +76,25 @@ class: inverse center middle
 
 # Bloque I: introducción a R desde cero.
 
-### [¿Qué es R? Primeros pasos](#primeros-pasos)
+&nbsp;
 
-### [Vectores y matrices](#matrices)
+### [Instalación y primeros pasos](#instalacion-primeros-pasos)
 
-### [Estructuras de datos](#datos)
+### [Celdas: tipos de datos](#matrices)
 
-### [Estructuras de control. Listas y factores](#estructuras)
+### [Columnas: vectores](#matrices)
 
-### [Creación del primer proyecto](#proyecto)
+### [Tablas: estructuras de datos](#datos)
 
-### [Creando funciones](#funciones)
+### [Extras: estructuras de control](#estructuras)
 
-### [Tidy data](#tidy-data)
+### [Primer proyecto. Funciones](#proyecto-funciones)
 
-### [Introducción al tidyverse](#tidy-verse)
+### [Mejorando los datos: tibble](#tibble)
 
+### [Caso práctico: informe RMarkdown](#rmarkdown)
+
+### [🏅Evaluación](#evaluacion)
 
 ---
 name: primeros-pasos

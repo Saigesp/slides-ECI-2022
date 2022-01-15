@@ -38,7 +38,7 @@ https://github.com/dieghernan/rpubs/blob/main/mapSpain_RMadrid/rOpenSpain.css
   --inverse-text-color: #FFFFFF; /* antes #F4F0F8; */
   --inverse-background-color: #8E63B4; /* morado; antes #986dbd */
   --inverse-header-color: #FFFFFF; /* antes #F4F0F8; */
-  --inverse-link-color: #ECD5D5; /* antes #e1d5ec; */
+  --inverse-link-color: #FAF4F4; /* antes #e1d5ec; */
   --title-slide-background-color: #BC3E3E; /* rojo; antes #986dbd */
   --title-slide-text-color: #313131;
   --header-background-color: #515151;
@@ -344,4 +344,8 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
     margin-right: 10px;
     vertical-align: middle;
     margin-top: -4px;
+}
+
+mark {
+  background-color: #555555; /*Add your desired color*/
 }
