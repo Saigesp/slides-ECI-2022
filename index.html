@@ -46,7 +46,7 @@ class: center, middle, inverse, title-slide
 ## Curso de la ECI 2022
 ### Autor: Javier Álvarez Liébana (UCM)
 ### (.css y .js basados en <mark><a href="https://github.com/dieghernan/rpubs" class="uri">https://github.com/dieghernan/rpubs</a></mark>)
-### 31/01/2022 - 04/02/2022 (actualizado: 2022-01-15)
+### 31/01/2022 - 04/02/2022 (actualizado: 2022-01-16)
 
 ---
 
@@ -66,6 +66,43 @@ class: inverse center middle
 .left[Pulsa &lt;kbd-black&gt;H&lt;/kbd-black&gt; para ver otros atajos]
 
 ---
+
+
+# Material del curso
+
+&lt;img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/imagen_curso.jpeg" alt = "course-ECI" align = "right" width = "360" style = "margin-top: 20vh;margin-right: 0.5rem;margin-left: 1rem;"&gt;
+
+- **Web** del curso:
+
+&lt;https://dadosdelaplace.github.io/curso-dataviz-ECI-2022&gt;
+
+
+
+- **Diapositivas** del curso ([**código R de las diapositivas**](https://github.com/dadosdelaplace/slides-ECI-2022)):
+
+&lt;https://dadosdelaplace.github.io/slides-ECI-2022&gt;
+
+
+
+- **Manual** del curso ([**código R del manual**](https://github.com/dadosdelaplace/courses-ECI-2022)):
+
+&lt;https://dadosdelaplace.github.io/courses-ECI-2022&gt;
+
+
+
+- **Scripts** del curso:
+
+&lt;https://github.com/dadosdelaplace/courses-ECI-2022/tree/main/scripts&gt;
+
+
+&amp;nbsp;
+
+- **Grupo de Telegram** para dudas, preguntas y demás cosicas:
+
+&lt;https://t.me/curso_dataviz_ECI&gt;
+
+---
+
 
 # Objetivos
 
@@ -91,13 +128,6 @@ El **objetivo** del curso no es ser un/a sesudo/a programador/a de `R`, sino adq
 
 📚 Estas **diapositivas** han sido elaboradas con el propio `R` haciendo uso del paquete `{xaringan}`
 y `{xaringanExtra}`.
-
----
-
-# Material del curso
-
-&lt;img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/imagen_curso.jpeg" alt = "course-ECI" align = "right" width = "360" style = "margin-top: 20vh;margin-right: 0.5rem;margin-left: 1rem;"&gt;
-
 
 ---
 
@@ -138,11 +168,11 @@ class: inverse center middle
 
 ### [Instalación y primeros pasos](#instalacion-primeros-pasos)
 
-### [Celdas: tipos de datos](#matrices)
+### [Celdas: tipos de datos](#tipos-datos)
 
-### [Columnas: vectores](#matrices)
+### [Columnas: vectores](#vectores)
 
-### [Tablas: estructuras de datos](#datos)
+### [Tablas: estructuras de datos](#matrices-dataframes)
 
 ### [Extras: estructuras de control](#estructuras)
 
@@ -155,16 +185,39 @@ class: inverse center middle
 ### [🏅Evaluación](#evaluacion)
 
 ---
-name: primeros-pasos
+name: instalacion-primeros-pasos
 class: center, middle
 
-# ¿Qué es R? Primeros pasos
-## **Instalación**
+# Instalación y primeros pasos
+
+## **Instalación de R**
 
 &amp;nbsp;
 
-Programar es como escribir un libro: necesitamos una gramática y un Word.
+Programaremos como escribimos un libro: necesitamos una **gramática** (`R`) y un **Word** (`RStudio`).
 
+---
+
+# Instalación de R
+
+Para el presente curso los únicos **requisitos** serán:
+
+1. **Conexión a internet** (para la descarga de algunos datos y paquetes).
+
+2. **Instalar R**: será nuestro **lenguaje**, nuestro **castellano** para poder «comunicarnos con el ordenador. La descarga la haremos (gratuitamente) desde &lt;https://cran.r-project.org/&gt;
+
+3. **Instalar R Studio**. De la misma manera que podemos escribir castellano en un ordenador, en un Word, en un papel o en un tuit, podemos usar distintos IDE (entornos de desarrollo integrados, nuestro Office), para que el trabajo sea más cómodo. Nuestro **Word** para nosotros será **RStudio**.
+
+.left[
+  &lt;img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/imagen_curso.jpeg" alt = "cran-R" align = "left" width = "350" style = "margin-top: 5vh"&gt;
+]
+.right[
+  &lt;img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/imagen_curso.jpeg" alt = "RStudio" align = "right" width = "350" style = "margin-top: 5vh;"&gt;
+]
+
+---
+
+# Instalación de R Studio
 
 ---
 
@@ -445,8 +498,8 @@ library(leaflet)
 leaflet() %&gt;% addTiles() %&gt;% setView(-93.65, 42.0285, zoom = 17)
 ```
 
-<div id="htmlwidget-f32f21d1b6654efbddd1" style="width:100%;height:1800px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f32f21d1b6654efbddd1">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-75042316d20961b4564d" style="width:100%;height:1800px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-75042316d20961b4564d">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -458,8 +511,8 @@ DT::datatable(
 )
 ```
 
-<div id="htmlwidget-5143c5c96e0df59cf844" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5143c5c96e0df59cf844">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-9a3365344b287308aff7" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9a3365344b287308aff7">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 
 ---
 

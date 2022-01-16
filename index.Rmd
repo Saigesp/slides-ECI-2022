@@ -56,6 +56,43 @@ $$\\[2.7in]$$
 
 ---
 
+
+# Material del curso
+
+<img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/imagen_curso.jpeg" alt = "course-ECI" align = "right" width = "360" style = "margin-top: 20vh;margin-right: 0.5rem;margin-left: 1rem;">
+
+- **Web** del curso:
+
+<https://dadosdelaplace.github.io/curso-dataviz-ECI-2022>
+
+
+
+- **Diapositivas** del curso ([**código R de las diapositivas**](https://github.com/dadosdelaplace/slides-ECI-2022)):
+
+<https://dadosdelaplace.github.io/slides-ECI-2022>
+
+
+
+- **Manual** del curso ([**código R del manual**](https://github.com/dadosdelaplace/courses-ECI-2022)):
+
+<https://dadosdelaplace.github.io/courses-ECI-2022>
+
+
+
+- **Scripts** del curso:
+
+<https://github.com/dadosdelaplace/courses-ECI-2022/tree/main/scripts>
+
+
+&nbsp;
+
+- **Grupo de Telegram** para dudas, preguntas y demás cosicas:
+
+<https://t.me/curso_dataviz_ECI>
+
+---
+
+
 # Objetivos
 
 <img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/imagen_curso.jpeg" alt = "course-ECI" align = "right" width = "360" style = "margin-top: 20vh;margin-right: 0.5rem;margin-left: 1rem;">
@@ -80,13 +117,6 @@ El **objetivo** del curso no es ser un/a sesudo/a programador/a de `R`, sino adq
 
 📚 Estas **diapositivas** han sido elaboradas con el propio `R` haciendo uso del paquete `{xaringan}`
 y `{xaringanExtra}`.
-
----
-
-# Material del curso
-
-<img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/imagen_curso.jpeg" alt = "course-ECI" align = "right" width = "360" style = "margin-top: 20vh;margin-right: 0.5rem;margin-left: 1rem;">
-
 
 ---
 
@@ -127,11 +157,11 @@ class: inverse center middle
 
 ### [Instalación y primeros pasos](#instalacion-primeros-pasos)
 
-### [Celdas: tipos de datos](#matrices)
+### [Celdas: tipos de datos](#tipos-datos)
 
-### [Columnas: vectores](#matrices)
+### [Columnas: vectores](#vectores)
 
-### [Tablas: estructuras de datos](#datos)
+### [Tablas: estructuras de datos](#matrices-dataframes)
 
 ### [Extras: estructuras de control](#estructuras)
 
@@ -144,16 +174,39 @@ class: inverse center middle
 ### [🏅Evaluación](#evaluacion)
 
 ---
-name: primeros-pasos
+name: instalacion-primeros-pasos
 class: center, middle
 
-# ¿Qué es R? Primeros pasos
-## **Instalación**
+# Instalación y primeros pasos
+
+## **Instalación de R**
 
 &nbsp;
 
-Programar es como escribir un libro: necesitamos una gramática y un Word.
+Programaremos como escribimos un libro: necesitamos una **gramática** (`R`) y un **Word** (`RStudio`).
 
+---
+
+# Instalación de R
+
+Para el presente curso los únicos **requisitos** serán:
+
+1. **Conexión a internet** (para la descarga de algunos datos y paquetes).
+
+2. **Instalar R**: será nuestro **lenguaje**, nuestro **castellano** para poder «comunicarnos con el ordenador. La descarga la haremos (gratuitamente) desde <https://cran.r-project.org/>
+
+3. **Instalar R Studio**. De la misma manera que podemos escribir castellano en un ordenador, en un Word, en un papel o en un tuit, podemos usar distintos IDE (entornos de desarrollo integrados, nuestro Office), para que el trabajo sea más cómodo. Nuestro **Word** para nosotros será **RStudio**.
+
+.left[
+  <img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/imagen_curso.jpeg" alt = "cran-R" align = "left" width = "350" style = "margin-top: 5vh">
+]
+.right[
+  <img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/imagen_curso.jpeg" alt = "RStudio" align = "right" width = "350" style = "margin-top: 5vh;">
+]
+
+---
+
+# Instalación de R Studio
 
 ---
 
