@@ -728,6 +728,14 @@ class: center, middle
 
 # Datos: de la celda a la tabla
 
+&lt;img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/celdas.jpg" alt = "celdas" align = "center" width = "850" style = "margin-top: 1vh;"&gt;
+
+
+* **Celda**: un dato de un tipo concreto.
+* **Variable**: concatenación de datos del mismo tipo.
+* **Matriz**: concatenación de variables del mismo tipo y longitud.
+* **Tabla**: concatenación de variables de distinto tipo pero igual longitud.
+
 ---
 
 # Celdas: tipos de datos individuales
@@ -743,6 +751,424 @@ Piensa por ejemplo en los **datos guardados de una persona**:
 * Su nombre será una cadena de **texto**.
 * Su fecha de nacimiento será precisamente eso, una **fecha**.
 * A la pregunta «¿está usted soltero/a?» la respuesta será lo que llamamos una **variable binaria o lógica** (`TRUE` si está soltero/a o `FALSE` en otro caso).
+
+&lt;img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/celdas.jpg" alt = "celdas" align = "center" width = "600" style = "margin-top: 1vh;"&gt;
+
+---
+
+# Variables numéricas
+
+El **dato más sencillo**, dato que ya hemos usado en nuestros primeros pasos como calculadora.
+
+
+```r
+a &lt;- 1
+b &lt;- 2
+a + b
+```
+
+&amp;nbsp;
+
+En el código anterior, tanto `a` como `b`, como la suma `a + b`**, son de tipo numérico**
+
+
+```r
+# Clase de las variables
+class(a)
+```
+
+```
+&gt; [1] "numeric"
+```
+
+```r
+# Tipología interna
+*typeof(a)
+```
+
+```
+&gt; [1] "double"
+```
+
+**Operaciones**: con los datos numéricos podemos realizar todas las **operaciones aritméticas** que se nos ocurriría hacer en una **calculadora**.
+
+
+```r
+b^3
+```
+
+```
+&gt; [1] 125
+```
+
+
+---
+
+# Variables de texto
+
+No solo de números viven los datos: imagina que además de la edad de una persona queremos guardar su nombre.
+
+
+```r
+edad &lt;- 32
+nombre &lt;- "Javier"
+
+class(nombre)
+```
+
+```
+&gt; [1] "character"
+```
+
+```r
+typeof(nombre)
+```
+
+```
+&gt; [1] "character"
+```
+
+&amp;nbsp;
+
+La variable `nombre` es de **tipo caracter**: una **cadena de texto** (conocido en otros lenguajes como string o char) entre **comillas**.
+
+Las cadenas de texto son un **tipo especial de dato** con los que obviamente no podremos hacer operaciones aritméticas, pero si podemos hacer **otras operaciones**.
+
+---
+
+# Nuestra primera función: paste
+
+Una **función** es un **código encapsulado**: ejecuta un código en función de unos **argumentos de entrada**. Nuestra primera función será `paste()`: dadas **dos cadenas de texto como argumento de entrada** nos permite pegarlas, indicándole en el **argumento** `sep = ` el caracter que queremos entre medias.
+
+
+```r
+# todo junto, sin espacios, igual a paste0("Javier", "Álvarez")
+paste("Javier", "Álvarez", sep = "") 
+```
+
+```
+&gt; [1] "JavierÁlvarez"
+```
+
+
+```r
+paste("Javier", "Álvarez") # separados por un espacio
+```
+
+```
+&gt; [1] "Javier Álvarez"
+```
+
+
+```r
+paste("Javier", "Álvarez", sep = ".") # separados por un punto .
+```
+
+```
+&gt; [1] "Javier.Álvarez"
+```
+
+**Argumentos por defecto**: `paste(nombre, apellido)` es equivalente a `paste(nombre, apellido, sep = " ")`. El argumento `sep` tiene un **valor por defecto** `sep = " "`: si no se le asigna otro, tomará ese por defecto
+
+---
+
+# Nuestro primer paquete: glue
+
+Otra forma **más intuitiva de trabajar con textos** es usar el **paquete** `{glue}`.
+
+
+
+```r
+install.packages("glue") # solo la primera vez
+library(glue)
+```
+
+
+
+Recuerda que `install.packages()` es solo necesario la primera que «compramos el libro»: cada vez que queramos usarlo bastará con `library()`.
+
+&amp;nbsp;
+
+Con dicho paquete podemos **usar variables dentro de cadenas de texto**. Por ejemplo, vamos a crear «la edad es de ... años», donde la edad concreta la tenemos guardada en una variable `edad`.
+
+
+```r
+edad &lt;- 32
+glue("La edad es de {edad} años")
+```
+
+```
+&gt; La edad es de 32 años
+```
+
+---
+
+# Variables lógicas
+
+Una **variable lógica, binaria o booleana** es aquella que **solo puede tomar dos valores (en realidad pueden tomar un tercer valor, ausente):
+
+* `TRUE`, verdadero, guardado internamente como un 1.
+* `FALSE`, verdadero, guardado internamente como un 1.
+
+
+```r
+soltero &lt;- TRUE # ¿Es soltero? --&gt; SÍ
+class(soltero)
+```
+
+```
+&gt; [1] "logical"
+```
+
+&amp;nbsp;
+
+**NO son variables de texto**: "TRUE" es un texto (como rojo o azul), `TRUE` es una valor lógico.
+
+
+```r
+TRUE + 1
+```
+
+```
+&gt; [1] 2
+```
+
+```r
+"TRUE" + 1
+```
+
+```
+&gt; Error in "TRUE" + 1: argumento no-numérico para operador binario
+```
+
+---
+
+# Condiciones lógicas
+
+Los valores lógicos suelen ser **resultado de evaluar condiciones lógicas**. Por ejemplo, imaginemos que queremos comprobar si una persona está o no soltero, con el **operador lógico** `==` (¿lo de la izquierda es igual a lo de la derecha) y su opuesto `!=` (distinto de).
+
+
+```r
+soltero &lt;- TRUE # persona soltera
+soltero == TRUE # ¿está soltero?
+```
+
+```
+&gt; [1] TRUE
+```
+
+```r
+soltero != TRUE # ¿no está soltero?
+```
+
+```
+&gt; [1] FALSE
+```
+
+
+Por el mismo razonamiento podemos **comparar si una variable numérica** cumple una condición. ¿Tiene la persona menos de 32 años? Además de las comparaciones «igual a»  frente «distinto», también comparaciones de orden como `&lt;, &lt;=, &gt; o &gt;=`.
+
+
+```r
+edad &lt;- 38
+edad &lt; 32
+```
+
+```
+&gt; [1] FALSE
+```
+
+---
+
+# Combinar condiciones lógicas
+
+Las **condiciones lógicas pueden ser combinadas**, principalmente de dos maneras:
+
+* **Intersección**: **todas** las condiciones concatenadas se deben cumplir (conjunción y, operador `&amp;`) para devolver un `TRUE`.
+
+* **Unión**: basta con que **una** de las condiciones concatenadas se cumpla (conjunción o, operador `|`) para devolver un `TRUE`.
+
+&amp;nbsp;
+
+Ejemplo: podríamos preguntarnos si la persona tiene menos de 32 años y está soltero (AMBAS deben cumplirse).
+
+
+```r
+edad &lt; 32 &amp; soltero
+```
+
+```
+&gt; [1] FALSE
+```
+
+El resultado es `FALSE` ya que solo se cumple una de las condiciones. Si nos bastase con una («¿está soltero y/o tiene menos de 32 años?»), el valor devuelto sería `TRUE`
+
+
+```r
+edad &lt; 32 | soltero
+```
+
+```
+&gt; [1] TRUE
+```
+
+---
+
+# Variables de tipo fecha
+
+Las **variables de tipo fecha** son de un tipo muy especial: no son una simple cadena de texto "2021-04-21", representan un **instante temporal**.
+
+
+```r
+# Cadena de texto
+fecha_char &lt;- "2021-04-21"
+fecha_char + 1
+```
+
+```
+&gt; Error in fecha_char + 1: argumento no-numérico para operador binario
+```
+
+Para **convertirlo a una fecha** podemos usar la función `as.Date()` 
+
+
+```r
+fecha_date &lt;- as.Date("2021-04-21")
+fecha_date 
+```
+
+```
+&gt; [1] "2021-04-21"
+```
+
+```r
+fecha_date + 1
+```
+
+```
+&gt; [1] "2021-04-22"
+```
+
+Dado que internamente es un número, **podemos restar fechas** (días entre ambas), podemos sumar números a fechas (fecha días después), etc.
+
+
+```r
+as.Date("2021-04-21") - as.Date("2021-02-15")
+```
+
+```
+&gt; Time difference of 65 days
+```
+
+---
+
+# Funcionalidades de fechas
+
+**¿Cómo obtener automáticamente la fecha de hoy?**
+
+
+```r
+Sys.Date()
+```
+
+```
+&gt; [1] "2022-01-17"
+```
+
+&amp;nbsp;
+
+**¿Cómo convertir una cadena de texto a fecha?** Basta usar la función `as.Date()`, pasándole como argumento la fecha y su formato .
+
+
+```r
+as.Date("10-03-2020", "%d-%m-%Y") # con día-mes-año (4 cifras)
+```
+
+```
+&gt; [1] "2020-03-10"
+```
+
+```r
+as.Date("10-03-20", "%d-%m-%y")  # con día-mes-año (2 cifras)
+```
+
+```
+&gt; [1] "2020-03-10"
+```
+
+
+Dentro del **paquete `{lubridate}` tenemos bastantes **funciones útiles** para trabajar con fechas como las siguientes.
+
+---
+
+# Paquete lubridate
+
+
+
+```r
+install.packages("lubridate") # solo la primera vez
+library(lubridate)
+```
+
+
+
+
+```r
+today()
+```
+
+```
+&gt; [1] "2022-01-17"
+```
+
+```r
+fecha &lt;- now()
+year(fecha)
+```
+
+```
+&gt; [1] 2022
+```
+
+```r
+month(fecha)
+```
+
+```
+&gt; [1] 1
+```
+
+```r
+fecha &gt; ymd(20170131)
+```
+
+```
+&gt; [1] TRUE
+```
+
+---
+
+# Tips
+
+Dentro del entorno de paquetes tidyverse, el paquete stringr permite un manejo más complejo de cadenas de texo (como el uso de expresiones regulares).
+
+lubridate
+
+ayuda ? 
+
+---
+
+name: vectores
+class: center, middle
+
+# Vectores
+
+
+## **Variables: colección de datos individuales de igual tipo**
+
+&amp;nbsp;
+
+¿Cómo concatenar edades de varias personas? ¿Cómo ordenarlas?
 
 ---
 
