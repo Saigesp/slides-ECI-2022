@@ -30,7 +30,7 @@ class: center, middle, inverse, title-slide
 ## Curso de la ECI 2022
 ### Autor: Javier Álvarez Liébana (UCM)
 ### (.css y .js basados en <mark><a href="https://github.com/dieghernan/rpubs" class="uri">https://github.com/dieghernan/rpubs</a></mark>)
-### 31/01/2022 - 04/02/2022 (actualizado: 2022-01-17)
+### 31/01/2022 - 04/02/2022 (actualizado: 2022-01-18)
 
 ---
 
@@ -1072,7 +1072,7 @@ Sys.Date()
 ```
 
 ```
-&gt; [1] "2022-01-17"
+&gt; [1] "2022-01-18"
 ```
 
 &amp;nbsp;
@@ -1118,7 +1118,7 @@ today()
 ```
 
 ```
-&gt; [1] "2022-01-17"
+&gt; [1] "2022-01-18"
 ```
 
 ```r
@@ -1150,11 +1150,136 @@ fecha &gt; ymd(20170131)
 
 # Tips
 
-Dentro del entorno de paquetes tidyverse, el paquete stringr permite un manejo más complejo de cadenas de texo (como el uso de expresiones regulares).
+El **paquete `{stringr}`** permite un **manejo más complejo de cadenas de texto** (como el uso de expresiones regulares).
 
-lubridate
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/stringr.png" alt = "stringr" align = "right" width = "900"&gt;
 
-ayuda ? 
+---
+
+# Tips
+
+Si haces click en la consola y pulsas la flecha «arriba» del teclado, te irá apareciendo todo el **historial de órdenes ejecutadas**. Es una manera de ahorrar tiempo para ejecutar órdenes similares a las ya ejecutadas. Si empiezas a escribir el nombre de una variable pero no te acuerdas exactamente de su nombre, pulsando tabulador te autocompletará solo.
+
+&amp;nbsp;
+
+Siempre que veas el símbolo `&gt;` como última línea en la consola significa que está listo para que le escribamos otra orden.
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tip_consola_lista.jpg" alt = "stringr" align = "right" width = "600"&gt;
+
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: define una variable que guarde tu edad, otra con tu nombre, otra respondiendo a la pregunta «¿tengo hermanos?» y otra con la fecha de tu nacimiento.
+ 
+
+* 📝 **Ejercicio 2**: define otra variable con tus apellidos y junta las variables nombre y apellidos en una sola variable `nombre_completo`.
+ 
+
+* 📝 **Ejercicio 4**: calcula los días que han pasado desde la fecha de tu nacimiento
+ 
+
+* 📝 **Ejercicio 5**: obtén una variable lógica que nos diga si se cumplen (todas) las condiciones i) menor de 30 años (`edad &lt; 30`); ii) con hermanos (`hermanos == TRUE`); iii) nacido en 1990 o posterior (`fecha_nacimiento &gt;= as.Date("1990-01-01")`).
+
+* 📝 **Ejercicio 6**: modifica el código del ejercicio anterior para obtener una variable lógica que nos diga si se cumplen (al menos) alguna de las condiciones i) menor de 30 años; ii) con hermanos; iii) nacido en 1990 o posterior. Nos basta con que se cumple al menos una.
+]
+
+.panel[.panel-name[Solución ej. 1]
+
+```r
+edad &lt;- 32 # tipo numeric
+nombre &lt;- "Javier" # tipo caracter
+hermanos &lt;- TRUE # tipo hermanos
+fecha_nacimiento &lt;- as.Date("1989-09-10") # tipo fecha
+```
+]
+
+
+.panel[.panel-name[Solución ej. 2]
+
+
+```r
+# Nombre
+nombre &lt;- "Javier"
+# Apellidos
+apellidos &lt;- "Álvarez Liébana"
+
+# Pegamos
+library(glue)
+nombre_completo &lt;- glue("{nombre} {apellidos}")
+nombre_completo
+```
+
+```
+&gt; Javier Álvarez Liébana
+```
+
+```r
+# Otra forma
+nombre_completo &lt;- paste(nombre, apellidos)
+nombre_completo
+```
+
+```
+&gt; [1] "Javier Álvarez Liébana"
+```
+]
+
+.panel[.panel-name[Solución ej. 4]
+
+
+```r
+library(lubridate)
+fecha_nacimiento &lt;- as.Date("1989-09-10")
+days(today() - fecha_nacimiento)
+```
+
+```
+&gt; [1] "11818d 0H 0M 0S"
+```
+]
+
+.panel[.panel-name[Solución ej. 5]
+
+
+```r
+# Se tienen que cumplir todas
+edad &lt; 30 &amp; fecha_nacimiento &gt;= as.Date("1990-01-01") &amp; hermanos
+```
+
+```
+&gt; [1] FALSE
+```
+
+```r
+# otra forma
+edad &lt; 30 &amp; fecha_nacimiento &gt;= as.Date("1990-01-01") &amp; hermanos == TRUE
+```
+
+```
+&gt; [1] FALSE
+```
+
+]
+
+.panel[.panel-name[Solución ej. 6]
+
+
+```r
+# Se tienen que cumplir todas
+edad &lt; 30 | fecha_nacimiento &gt;= as.Date("1990-01-01") | hermanos
+```
+
+```
+&gt; [1] TRUE
+```
+]
+]
+
 
 ---
 
@@ -1168,15 +1293,1210 @@ class: center, middle
 
 &amp;nbsp;
 
-¿Cómo concatenar edades de varias personas? ¿Cómo ordenarlas?
+¿Cómo **concatenar** edades de varias personas? ¿Cómo ordenarlas?
 
 ---
 
-background-image: url(https://github.com/yihui/xaringan/releases/download/v0.0.2/karl-moustache.jpg)
-background-position: 50% 50%
-class: center, bottom, inverse
+# Vectores: concatenar elementos
 
-# You only live once!
+Los **vectores o arrays** no son más que una **concatenación de elementos del mismo tipo** (de hecho un número individual `x &lt;- 1` es en realidad un vector de longitud uno).
+
+Los crearemos con `c()` (c de concatenar), con sus **elementos entre paréntesis y separados por comas**. 
+
+
+```r
+edades &lt;- c(32, 27, 60, 61)
+edades
+```
+
+```
+&gt; [1] 32 27 60 61
+```
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/vectores_enviroment.jpg" alt = "stringr" align = "right" width = "350"&gt;
+
+
+La **longitud de un vector** se puede calcular con `length()`
+
+
+```r
+length(edades)
+```
+
+```
+&gt; [1] 4
+```
+
+Dado que un número y un vector es lo mismo (con distinta longitud), podemos **concatenar a vectores uno tras otro**.
+
+
+```r
+c(edades, edades, 8)
+```
+
+```
+&gt; [1] 32 27 60 61 32 27 60 61  8
+```
+
+
+---
+
+# Secuencias numéricas
+
+Es habitual **crear vectores numéricos con un patrón** repetido. Hay un **atajo**: `seq()` nos permite crear una **secuencia desde un elemento inicial hasta un elemento final**, avanzando de uno en uno.
+
+
+```r
+seq(1, 11) # secuencia desde 1 hasta 11 de 1 en 1 (equivalente: 1:11)
+```
+
+```
+&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11
+```
+
+```r
+11:1 # orden inverso
+```
+
+```
+&gt;  [1] 11 10  9  8  7  6  5  4  3  2  1
+```
+
+También podemos definir **otro tipo de distancia entre dos elementos consecutivos**
+
+
+```r
+seq(1, 7, by = 0.5) # secuencia desde 1 a 7 de 0.5 en 0.5
+```
+
+```
+&gt;  [1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5 6.0 6.5 7.0
+```
+
+Otras veces nos interesará definir una secuencia con un **número concreto de elementos**.
+
+
+```r
+seq(1, 50, l = 7) # secuencia desde 1 a 50 de longitud 11
+```
+
+```
+&gt; [1]  1.000000  9.166667 17.333333 25.500000 33.666667 41.833333 50.000000
+```
+
+---
+
+# Secuencias numéricas
+
+**Vectores repetidos**: otro atajo, para definir vectores de elementos repetidos, es la función `rep()` nos permite repetir un elemento un número fijado de veces.
+
+
+```r
+rep(0, 7) # vector de 7 ceros
+```
+
+```
+&gt; [1] 0 0 0 0 0 0 0
+```
+
+No solo podemos repetir un número sino que podemos **repetir vectores enteros**.
+
+
+```r
+rep(c(0, 1, 2), 4) # repetimos el vector c(0, 1, 2) 4 veces
+```
+
+```
+&gt;  [1] 0 1 2 0 1 2 0 1 2 0 1 2
+```
+
+Esa repetición además podemos definirla también de **forma intercalada**
+
+
+```r
+rep(c(0, 1, 2), each = 4) # cuatro 0, luego cuatro 1, luego cuatro 2
+```
+
+```
+&gt;  [1] 0 0 0 0 1 1 1 1 2 2 2 2
+```
+
+---
+
+# Vectores de texto
+
+
+El concepto de vectores **no solo atañe a los números**
+
+
+```r
+mi_nombre &lt;- c("Mi", "nombre", "es", "Javier")
+mi_nombre
+```
+
+```
+&gt; [1] "Mi"     "nombre" "es"     "Javier"
+```
+
+Cuando tenemos un vector de caracteres podemos colapsarlos con `paste()`, esta vez con `collapse = ...`
+
+
+```r
+paste(mi_nombre, collapse = ".") # separados por un punto .
+```
+
+```
+&gt; [1] "Mi.nombre.es.Javier"
+```
+
+Podemos también combinar vectores numéricos con caracteres.
+
+
+```r
+paste("persona", 1:5, sep = "_") # separado por una barra baja
+```
+
+```
+&gt; [1] "persona_1" "persona_2" "persona_3" "persona_4" "persona_5"
+```
+
+---
+
+# Vectores lógicos
+
+Los **vectores lógicos** suelen aparecer de nuevo como la evaluación de condiciones lógicas.  Por ejemplo, si definimos el vector `x &lt;- c(1.5, -1, 2, 4, 3, -4)`, ¿qué numeros de x son menores que 2?
+
+
+```r
+x &lt;- c(1.5, -1, 2, 4, 3, -4)
+x &lt; 2 
+```
+
+```
+&gt; [1]  TRUE  TRUE FALSE FALSE FALSE  TRUE
+```
+
+El primer, segundo y sexto elemento del vector son los únicos elementos (estrictamente) menores que 2, de ahí que en el primer, segundo y sexto elemento aparezca un TRUE y en el resto un FALSE.
+
+&amp;nbsp;
+
+Al igual que antes, las condiciones pueden ser **combinadas**
+
+
+```r
+x &lt;- c(1.5, -1, 2, 4, 3, -4)
+x &lt; 3 &amp; x &gt; 0 # Solo los que cumplen ambas condiciones
+```
+
+```
+&gt; [1]  TRUE FALSE  TRUE FALSE FALSE FALSE
+```
+
+---
+
+# Datos ausentes
+
+* **NA** (not available): valores que no tenemos (por ejemplo, el dato de contagios covid los fines de semana).
+
+
+```r
+x &lt;- c(1, NA, 3, NA, NA, 5, 6) # Vector numérico con datos faltante
+x
+```
+
+```
+&gt; [1]  1 NA  3 NA NA  5  6
+```
+
+```r
+2 * x
+```
+
+```
+&gt; [1]  2 NA  6 NA NA 10 12
+```
+
+--
+
+* **NaN** (not a number): resultado no permitido
+
+
+```r
+sqrt(-1)
+```
+
+```
+&gt; [1] NaN
+```
+
+
+```r
+x &lt;- c(1, NA, 3, 4, 6, 7, NaN, NA)
+is.na(x)
+```
+
+```
+&gt; [1] FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE  TRUE
+```
+
+---
+
+# Operaciones aritméticas con vectores
+
+Toda **operación aritmética** que podamos hacer con un número la vamos a poder a hacer con un vector de números: la operación se realizará en **CADA ELEMENTO** del vector (en otros lenguajes no siempre es así).
+
+
+```r
+# Multiplicamos por 2 a CADA ELEMENTO del vector
+z &lt;- c(2, 4, 6)
+2 * z
+```
+
+```
+&gt; [1]  4  8 12
+```
+
+De la misma manera se pueden definir **sumas** de vectores.
+
+
+```r
+x &lt;- c(1, 3, 5)
+x + z
+```
+
+```
+&gt; [1]  3  7 11
+```
+
+--
+
+Dado que los valores lógicos son guardados internamente como `0/1`  podemos usar operaciones aritméticas con ellos.
+
+
+```r
+x &lt;- c(1, 3, 5)
+sum(x &lt; 2) # sumamos el vector lógico --&gt; número de valores TRUE
+```
+
+```
+&gt; [1] 1
+```
+
+---
+
+# Operaciones estadísticas con vectores
+ 
+También podemos realizar **operaciones estadísticas** como la suma, la media o la mediana.
+
+
+```r
+y &lt;- c(1, -4, 5, 0, 7)
+sum(y)  # suma
+```
+
+```
+&gt; [1] 9
+```
+
+```r
+mean(y) # media
+```
+
+```
+&gt; [1] 1.8
+```
+
+**IMPORTANTE**: las operaciones con ausentes no funcionan (salvo que los eliminemos antes con `na.rm = TRUE`).
+
+
+```r
+y &lt;- c(1, 2, NA, -5, 0)
+sum(y)
+```
+
+```
+&gt; [1] NA
+```
+
+```r
+sum(y, na.rm = TRUE)
+```
+
+```
+&gt; [1] -2
+```
+
+
+---
+
+# Seleccionar elementos
+
+¿Y si del vector original queremos **EXTRAER UN SUBCONJUNTO**? La forma más sencilla es **acceder al elemento i-ésimo** con el operador de selección `[i]`, o en base a una **condición lógica**
+
+
+
+
+```r
+edades &lt;- c(20, 30, 32, NA, 61)
+edades[3] # accedemos a la edad de la tercera persona
+```
+
+```
+&gt; [1] 32
+```
+
+```r
+*edades[c(3, 4)]
+```
+
+```
+&gt; [1] 32 NA
+```
+
+```r
+edades[edades &gt; 30]
+```
+
+```
+&gt; [1] 32 NA 61
+```
+
+Otras veces no querremos seleccionar un elemento sino **filtrarlo**, con el operador `[-i]`
+
+
+```r
+edades[-1]
+```
+
+```
+&gt; [1] 30 32 NA 61
+```
+
+
+
+
+---
+
+# Nombrando vectores
+
+
+`R` nos permite dar **significado léxico a nuestros datos**, pudiendo poner **nombres a los elementos** de un vector.
+
+
+```r
+x &lt;- c("edad" = 31, "tlf" = 613910687, "cp" = 33007) # cada número tiene un significado distinto
+x
+```
+
+```
+&gt;      edad       tlf        cp 
+&gt;        31 613910687     33007
+```
+
+Esto es una ventaja ya que nos permite su **selección usando dichos nombres**: los números ya representan algo.
+
+
+```r
+x[c("edad", "cp")] # seleccionamos los elementos que tienen ese nombre asignado
+```
+
+```
+&gt;  edad    cp 
+&gt;    31 33007
+```
+
+Con la función `names()` podemos, no solo consultar sino cambiar los nombres.
+
+
+```r
+names(x) # Consultamos nombres antiguos
+```
+
+```
+&gt; [1] "edad" "tlf"  "cp"
+```
+
+```r
+names(x) &lt;- c("años", "móvil", "dirección") # Cambiamos nombres
+```
+
+---
+
+# Ordenar vectores
+
+Una acción **muy habitual** es **ordenar los datos**: de menor a mayor edad, datos más recientes vs antiguos, etc. Para ello tenemos la función `sort()`: vamos a ordenar, por ejemplo, una colección de edades.
+
+
+```r
+edades &lt;- c(81, 7, 25, 41, 65, 20, 32, 23, 77)
+sort(edades) # orden de joven a mayor
+```
+
+```
+&gt; [1]  7 20 23 25 32 41 65 77 81
+```
+
+Por defecto `sort()` ordena de menor a mayor: con `decreasing = TRUE` podemos ordenar de mayor a menor.
+
+
+```r
+sort(edades, decreasing = TRUE) 
+```
+
+```
+&gt; [1] 81 77 65 41 32 25 23 20  7
+```
+
+Otra forma de ordenar un vector es **pedirle nos devuelva los índices de los elementos ordenados** con `order`, y luego usar dichos índices.
+
+
+```r
+x &lt;- c(7, 1, 2, 6)
+x[order(x)]
+```
+
+```
+&gt; [1] 1 2 6 7
+```
+
+---
+
+# Ejercicios con vectores
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: modifica el código para crear un vector de nombre `vector_num` que contenga los números 1, 5 y -7.
+
+
+```r
+# Vector de números
+vector_num &lt;- c(1)
+```
+
+* 📝 **Ejercicio 2**: define un vector que contenga los números `1, 10, -1 y 2`, y obtén la longitud del vector anterior vector_num.
+ 
+
+* 📝 **Ejercicio 4**: crea un vector con las palabras “Hola”, “me”, “llamo” (y tu nombre y apellidos), y pega luego sus elementos de forma que la frase esté correctamente escrita en castellano. Tras hacerlo, añade “y tengo 30 años”.
+ 
+ 
+* 📝 **Ejercicio 7**: crea una secuencia que empiece en 1 y recorra todos los naturales hasta el 10. Después crea otra secuencia de longitud 7 que todos los números sean 3.
+ 
+
+* 📝 **Ejercicio 9**: crea un vector con las edades de cuatro conocidos o familiares. Tras ello, determina cuáles de ellos tienen menos de 20 años, 30 años o más, menos de 40 años y más de 65 años.
+
+]
+
+.panel[.panel-name[Solución ej. 1]
+
+
+```r
+# Vector de números
+vector_num &lt;- c(1, 5, -7)
+vector_num
+```
+
+```
+&gt; [1]  1  5 -7
+```
+]
+
+.panel[.panel-name[Solución ej. 2]
+
+
+```r
+# Vector de números
+vector_num &lt;- c(1, 10, -1, 2)
+vector_num
+```
+
+```
+&gt; [1]  1 10 -1  2
+```
+]
+
+.panel[.panel-name[Solución ej. 4]
+
+
+```r
+# Definiendo el vector
+vector_char &lt;- c("Hola", "me", "llamo", "Javier",
+                 "Álvarez", "Liébana")
+
+# Pegamos
+frase &lt;- paste(vector_char, collapse = " ")
+frase
+```
+
+```
+&gt; [1] "Hola me llamo Javier Álvarez Liébana"
+```
+
+```r
+# Añadimos frase
+glue("{frase} y tengo 30 años.")
+```
+
+```
+&gt; Hola me llamo Javier Álvarez Liébana y tengo 30 años.
+```
+]
+
+.panel[.panel-name[Solución ej. 7]
+
+
+```r
+1:10
+```
+
+```
+&gt;  [1]  1  2  3  4  5  6  7  8  9 10
+```
+
+```r
+rep(3, 7) # secuencia repetida de treses
+```
+
+```
+&gt; [1] 3 3 3 3 3 3 3
+```
+]
+
+.panel[.panel-name[Solución ej. 9]
+
+
+```r
+edades &lt;- c(27, 32, 60, 61) # en mi caso, por ejemplo
+edades &lt; 20 # menos de 20 años
+```
+
+```
+&gt; [1] FALSE FALSE FALSE FALSE
+```
+
+```r
+edades &gt;= 30 # 30 años o más
+```
+
+```
+&gt; [1] FALSE  TRUE  TRUE  TRUE
+```
+
+```r
+edades &lt; 40 # menos de 40 años
+```
+
+```
+&gt; [1]  TRUE  TRUE FALSE FALSE
+```
+]
+]
+
+
+
+---
+
+name: matrices-datafroames
+class: center, middle
+
+
+
+# Datos estructurados: colección de variables
+
+
+## **matrices: igual tipo y longitud**
+
+&amp;nbsp;
+
+## **data.frame o tabla: distinto tipo pero igual longitud**
+
+---
+
+# Datos estructurados: colección de variables
+
+
+&lt;img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/celdas.jpg" alt = "celdas" align = "center" width = "580" style = "margin-top: 1vh;"&gt;
+
+Ya sabemos:
+
+✅ Los **tipos de datos** que puede contener una **celda**.
+
+✅ Como **concatenar celdas** obteniendo variables (vectores, datos del mismo tipo).
+
+Lo que haremos a continuación será **juntar esas variables**: bien del **mismo tipo** (matrices), bien de **distinto tipo** (`data.frame`), en cualquier caso de **igual longitud**.
+
+---
+
+# Matrices: variables del mismo tipo
+
+Cuando analizamos datos solemos tener **varias variables distintas de cada individuo**. Necesitamos una «tabla» que una distintas variables (de IGUAL longitud). Las **matrices** son una **concatenación de variables, del mismo tipo e igual longitud**, dispuestas en columnas (normalmente cada fila representa un individuo y cada columna una variable). La concatenación en columnas la haremos con `cbind()`.
+
+
+```r
+estaturas &lt;- c(150, 160, 170, 180)
+pesos &lt;- c(60, 70, 80, 90)
+datos_matriz &lt;- cbind(estaturas, pesos) # Construimos la matriz por columnas
+datos_matriz # nuestra primera matriz
+```
+
+```
+&gt;      estaturas pesos
+&gt; [1,]       150    60
+&gt; [2,]       160    70
+&gt; [3,]       170    80
+&gt; [4,]       180    90
+```
+
+
+| estaturas| pesos|
+|---------:|-----:|
+|       150|    60|
+|       160|    70|
+|       170|    80|
+|       180|    90|
+
+---
+
+# Matrices
+
+
+También podemos **construir la matriz por filas** con `rbind()`, que nos permite **añadir filas a una matriz o construirla desde cero** (aunque lo habitual es tener cada variable en una columna y cada individuo en una fila).
+
+
+```r
+rbind(estaturas, pesos) # Construimos la matriz por filas
+```
+
+```
+&gt;           [,1] [,2] [,3] [,4]
+&gt; estaturas  150  160  170  180
+&gt; pesos       60   70   80   90
+```
+
+
+|          |    |    |    |    |
+|:---------|---:|---:|---:|---:|
+|estaturas | 150| 160| 170| 180|
+|pesos     |  60|  70|  80|  90|
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/datos_matriz_1.jpg" alt = "course-ECI" align = "right" width = "400" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+--
+
+Podemos **visualizar la matriz** en un formato «excelizado» con la función `View()`
+
+
+```r
+View(datos_matriz)
+```
+
+---
+
+# Matrices
+
+.panelset[
+.panel[.panel-name[Ejemplo] 
+
+Veamos un ejemplo más jugoso para practicar: una matriz con las edades, teléfonos y códigos postales.
+
+
+
+```r
+edades &lt;- c(14, 56, 31, 20, 68) # vector numérico de longitud 4
+tlf &lt;- c(NA, 683839390, 621539732, NA, NA)
+cp &lt;- c(33007, 28019, 37005, 18003, 28045)
+
+# Construimos la matriz por columnas
+datos_matriz &lt;- cbind(edades, tlf, cp) 
+datos_matriz
+```
+
+```
+&gt;      edades       tlf    cp
+&gt; [1,]     14        NA 33007
+&gt; [2,]     56 683839390 28019
+&gt; [3,]     31 621539732 37005
+&gt; [4,]     20        NA 18003
+&gt; [5,]     68        NA 28045
+```
+]
+
+.panel[.panel-name[Añadir columna] 
+
+Con `cbind()` también podemos **añadir una columna**
+
+
+```r
+cbind(datos_matriz, "estaturas" = c(160, NA, 181, 165, 173))
+```
+
+```
+&gt;      edades       tlf    cp estaturas
+&gt; [1,]     14        NA 33007       160
+&gt; [2,]     56 683839390 28019        NA
+&gt; [3,]     31 621539732 37005       181
+&gt; [4,]     20        NA 18003       165
+&gt; [5,]     68        NA 28045       173
+```
+]
+
+.panel[.panel-name[Dimensiones] 
+Y podemos **ver sus dimensiones** con `dim()`, o por separado con `nrow()` y `ncol()`
+
+
+```r
+dim(datos_matriz)
+```
+
+```
+&gt; [1] 5 3
+```
+
+```r
+c(nrow(datos_matriz), ncol(datos_matriz))
+```
+
+```
+&gt; [1] 5 3
+```
+
+Dada una matriz también podemos **«darle vuelta»** (lo que se conoce como **matriz transpuesta**) con `t()`.
+
+
+```r
+t(datos_matriz)
+```
+
+```
+&gt;         [,1]      [,2]      [,3]  [,4]  [,5]
+&gt; edades    14        56        31    20    68
+&gt; tlf       NA 683839390 621539732    NA    NA
+&gt; cp     33007     28019     37005 18003 28045
+```
+
+]
+
+.panel[.panel-name[matrix()] 
+
+Igual que a veces es útil generar un vector de elementos repetidos, también podemos definir una **matriz de números repetidos** (por ejemplo, de ceros), con la función `matrix()`, indicándole el número de filas y columnas.
+
+
+```r
+matrix(0, nrow = 4, ncol = 2) # 4 filas, 2 columnas, todo 0's
+```
+
+```
+&gt;      [,1] [,2]
+&gt; [1,]    0    0
+&gt; [2,]    0    0
+&gt; [3,]    0    0
+&gt; [4,]    0    0
+```
+
+También podemos **definir una matriz a partir de un vector numérico**, reorganizando los valores en forma de matriz, sabiendo que los elementos se van colocando por columnas.
+
+
+```r
+z &lt;- matrix(1:15, ncol = 5) # Matriz con el vector 1:5 con 5 columnas (ergo 3 filas)
+z
+```
+
+```
+&gt;      [,1] [,2] [,3] [,4] [,5]
+&gt; [1,]    1    4    7   10   13
+&gt; [2,]    2    5    8   11   14
+&gt; [3,]    3    6    9   12   15
+```
+
+]
+
+.panel[.panel-name[Operaciones] 
+
+Con las matrices sucede como con los vectores: cuando **aplicamos una operación aritmética se la estamos aplicando elemento a elemento**, por ejemplo, dividir entre 5 o sumar una constante
+
+
+```r
+datos_matriz / 5
+```
+
+```
+&gt;      edades       tlf     cp
+&gt; [1,]    2.8        NA 6601.4
+&gt; [2,]   11.2 136767878 5603.8
+&gt; [3,]    6.2 124307946 7401.0
+&gt; [4,]    4.0        NA 3600.6
+&gt; [5,]   13.6        NA 5609.0
+```
+
+```r
+datos_matriz + 3
+```
+
+```
+&gt;      edades       tlf    cp
+&gt; [1,]     17        NA 33010
+&gt; [2,]     59 683839393 28022
+&gt; [3,]     34 621539735 37008
+&gt; [4,]     23        NA 18006
+&gt; [5,]     71        NA 28048
+```
+]
+
+.panel[.panel-name[Otras matrices] 
+
+También podemos **crear matrices de otros tipos de datos**, siempre y cuando las columnas sean del mismo tipo e igual longitud.
+
+
+```r
+nombres &lt;- c("Javier", "Carlos", "María", "Paloma")
+apellidos &lt;- c("Álvarez", "García", "Pérez", "Liébana")
+cbind(nombres, apellidos)
+```
+
+```
+&gt;      nombres  apellidos
+&gt; [1,] "Javier" "Álvarez"
+&gt; [2,] "Carlos" "García" 
+&gt; [3,] "María"  "Pérez"  
+&gt; [4,] "Paloma" "Liébana"
+```
+
+]
+]
+
+---
+
+# Matrices
+
+Las matrices son objetos **bidimensionales**: para acceder a la **fila i-ésima** se usa el operador `[i, ]` (dejando el otro sin rellenar), para acceder a la **columna j-ésima** se usa el operador `[, j]`. Para acceder **conjuntamente al elemento (i, j)** se  `[i, j]`. También podemos **acceder por nombres de las columnas**.
+
+
+
+```r
+datos_matriz[2, 3]
+```
+
+```
+&gt;    cp 
+&gt; 28019
+```
+
+```r
+datos_matriz[1, ] # fila 1
+```
+
+```
+&gt; edades    tlf     cp 
+&gt;     14     NA  33007
+```
+
+```r
+datos_matriz[, 3] # columna 3
+```
+
+```
+&gt; [1] 33007 28019 37005 18003 28045
+```
+
+```r
+datos_matriz[1, c("edades", "tlf")] # por nombres
+```
+
+```
+&gt; edades    tlf 
+&gt;     14     NA
+```
+
+---
+
+# Operaciones por filas y columnas (apply)
+
+Imagina que tuviésemos nuestra matriz de estaturas y pesos.
+
+
+```r
+datos_matriz &lt;- cbind(estaturas, pesos)
+datos_matriz
+```
+
+```
+&gt;      estaturas pesos
+&gt; [1,]       150    60
+&gt; [2,]       160    70
+&gt; [3,]       170    80
+&gt; [4,]       180    90
+```
+
+¿Cómo podemos **obtener la media de cada columna**? Con la función `apply()` le indicaremos
+
+* la matriz
+* el sentido de la operación (`MARGIN = 1` por filas, `MARGIN = 2` por columnas)
+* la función a aplicar (en este caso, `mean`).
+
+
+```r
+# Media por columnas (MARGIN = 2)
+apply(datos_matriz, MARGIN = 2, FUN = "mean")
+```
+
+```
+&gt; estaturas     pesos 
+&gt;       165        75
+```
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: modifica el código para definir una matriz x de ceros de 3 filas y 7 columnas.
+ 
+
+```r
+# Matriz
+x &lt;- matrix(0, nrow = 2, ncol = 3)
+x
+```
+
+* 📝 **Ejercicio 2**: a la matriz anterior, suma un 1 a cada número de la matriz y divide el resultado entre 5.
+ 
+ 
+* 📝 **Ejercicio 4**: el siguiente código define una matriz de dimensiones `4 x 3` y calcula la suma por columnas. Modifica el código para que realice la suma por filas.
+ 
+
+```r
+# Matriz
+matriz &lt;- matrix(1:12, nrow = 4)
+
+# Suma por columnas
+apply(matriz, MARGIN = 2, FUN = "sum")
+```
+
+
+* 📝 **Ejercicio 5**: con la matriz anterior definida como `matrix(1:12, nrow = 4)`, calcula la media de todos los elementos, la media de cada fila y la media de cada columna.
+]
+
+.panel[.panel-name[Solución Ej. 1]
+
+
+```r
+# Matriz
+x &lt;- matrix(0, nrow = 3, ncol = 7)
+x
+```
+
+```
+&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+&gt; [1,]    0    0    0    0    0    0    0
+&gt; [2,]    0    0    0    0    0    0    0
+&gt; [3,]    0    0    0    0    0    0    0
+```
+
+]
+
+.panel[.panel-name[Solución Ej. 2]
+
+
+```r
+(x + 1) / 5
+```
+
+```
+&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+&gt; [1,]  0.2  0.2  0.2  0.2  0.2  0.2  0.2
+&gt; [2,]  0.2  0.2  0.2  0.2  0.2  0.2  0.2
+&gt; [3,]  0.2  0.2  0.2  0.2  0.2  0.2  0.2
+```
+
+]
+
+.panel[.panel-name[Solución Ej. 4]
+
+
+```r
+# Matriz
+matriz &lt;- matrix(1:12, nrow = 4)
+
+# Suma por filas
+apply(matriz, MARGIN = 1, FUN = "sum")
+```
+
+```
+&gt; [1] 15 18 21 24
+```
+
+]
+
+.panel[.panel-name[Solución Ej. 5]
+
+
+```r
+# Matriz
+matriz &lt;- matrix(1:12, nrow = 4)
+
+#  media de todos
+mean(matriz)
+```
+
+```
+&gt; [1] 6.5
+```
+
+```r
+# Media por filas (MARGIN = 1 ya que es una operación por filas)
+apply(matriz, MARGIN = 1, FUN = "mean")
+```
+
+```
+&gt; [1] 5 6 7 8
+```
+
+```r
+# Media por filas (MARGIN = 2 ya que es una operación por filas)
+apply(matriz, MARGIN = 2, FUN = "mean")
+```
+
+```
+&gt; [1]  2.5  6.5 10.5
+```
+
+]
+]
+ 
+---
+
+# data.frame: tablas
+
+**¿Qué sucede si añadimos una columna con los nombres de cada persona en nuestra matriz `datos_matriz`?** En dicha matriz teníamos guardadas las edades, códigos postales y teléfonos de una serie de personas, todas ellas variables numéricas.
+
+
+```r
+nombres &lt;- c("Sonia", "Carla", "Pepito", "Carlos")
+datos_matriz_nueva &lt;- cbind(nombres, datos_matriz)
+datos_matriz_nueva
+```
+
+```
+&gt;      nombres  estaturas pesos
+&gt; [1,] "Sonia"  "150"     "60" 
+&gt; [2,] "Carla"  "160"     "70" 
+&gt; [3,] "Pepito" "170"     "80" 
+&gt; [4,] "Carlos" "180"     "90"
+```
+
+Como una **matriz SOLO puede tener un tipo de dato**, al añadir una variable de tipo texto, `R` se ha visto obligado a convertir los números en texto: hemos **roto la integridad** de los datos.
+
+
+```r
+datos_matriz_nueva[, "pesos"] + 1
+```
+
+```
+&gt; Error in datos_matriz_nueva[, "pesos"] + 1: argumento no-numérico para operador binario
+```
+
+
+---
+
+# data.frame: tablas
+
+El formato de tabla de datos en `R` que vamos a empezar a usar se llama `data.frame`, y no es más que una **colección de variables de igual longitud pero cada una puede ser de un tipo distinto**. Para crear un `data.frame` basta con usar la función `data.frame()`.
+
+
+```r
+# Nombres
+nombres &lt;- c("Sonia", "Carla", "Pepito", "Carlos")
+# Edades
+edades &lt;- c(45, 67, NA, 31)
+# Estado civil (no lo sabemos de una persona)
+casado &lt;- c(TRUE, FALSE, FALSE, NA)
+# Fecha de creación (fecha en el que esa persona entra en el sistema)
+# lo convertimos a tipo fecha
+f_creacion &lt;-
+  as.Date(c("2021-03-04", "2020-10-12", "1990-04-05", "2019-09-10"))
+
+# Creamos nuestro primer data.frame
+tabla &lt;- data.frame(nombres, edades, casado, f_creacion)
+tabla
+```
+
+```
+&gt;   nombres edades casado f_creacion
+&gt; 1   Sonia     45   TRUE 2021-03-04
+&gt; 2   Carla     67  FALSE 2020-10-12
+&gt; 3  Pepito     NA  FALSE 1990-04-05
+&gt; 4  Carlos     31     NA 2019-09-10
+```
+
+---
+
+# data.frame: tablas
+
+Al igual que con las matrices, podemos **crearlos** indicando además el **nombre de las columnas**.
+
+
+```r
+tabla &lt;- data.frame("nombre" = nombres, "edad" = edades,
+                    "casado" = casado, "fecha_registro" = f_creacion)
+```
+
+
+Si tenemos un `data.frame` ya creado podemos usar `data.frame()` también para añadir una columna.
+
+
+```r
+# Añadimos una nueva columna con nº de hermanos/as
+tabla &lt;- data.frame(tabla, "n_hermanos" = c(0, 0, 1, 5))
+```
+
+Con `View()` podemos **visualizar nuestra tabla**.
+
+
+|nombre | edad|casado |fecha_registro | n_hermanos|
+|:------|----:|:------|:--------------|----------:|
+|Sonia  |   45|TRUE   |2021-03-04     |          0|
+|Carla  |   67|FALSE  |2020-10-12     |          0|
+|Pepito |   NA|FALSE  |1990-04-05     |          1|
+|Carlos |   31|NA     |2019-09-10     |          5|
+
+---
+
+# Selección de columnas y filas
+
+Si queremos **acceder a una columna, fila o elemento** en concreto, los `data.frame` tienen las mismas ventajas que una matriz, así que bastaría con usar los mismos operadores.
+
+
+```r
+tabla[, 3] # Accedemos a la tercera columna
+```
+
+```
+&gt; [1]  TRUE FALSE FALSE    NA
+```
+
+```r
+tabla[4, ] # Accedemos a la cuarta fila
+```
+
+```
+&gt;   nombre edad casado fecha_registro n_hermanos
+&gt; 4 Carlos   31     NA     2019-09-10          5
+```
+
+No solo tiene las ventajas de una matriz si no que también tiene las ventajas de una **«base» de datos**: podemos **aceder a las variables** por su nombre poniendo el nombre de la tabla más el símbolo `$` y, con el tabulador, nos aparecerá un **menú de columnas** a elegir.
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tabla_dolar.jpg" alt = "course-ECI" align = "right" width = "450" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+---
+
+# Ejercicios
+
+---
+
+# dsada
 
 ---
 

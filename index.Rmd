@@ -940,11 +940,22 @@ fecha > ymd(20170131)
 
 # Tips
 
-Dentro del entorno de paquetes tidyverse, el paquete stringr permite un manejo más complejo de cadenas de texo (como el uso de expresiones regulares).
+El **paquete `{stringr}`** permite un **manejo más complejo de cadenas de texto** (como el uso de expresiones regulares).
 
-lubridate
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/stringr.png" alt = "stringr" align = "right" width = "900">
 
-ayuda ? 
+---
+
+# Tips
+
+Si haces click en la consola y pulsas la flecha «arriba» del teclado, te irá apareciendo todo el **historial de órdenes ejecutadas**. Es una manera de ahorrar tiempo para ejecutar órdenes similares a las ya ejecutadas. Si empiezas a escribir el nombre de una variable pero no te acuerdas exactamente de su nombre, pulsando tabulador te autocompletará solo.
+
+&nbsp;
+
+Siempre que veas el símbolo `>` como última línea en la consola significa que está listo para que le escribamos otra orden.
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tip_consola_lista.jpg" alt = "stringr" align = "right" width = "600">
+
 
 ---
 
@@ -953,32 +964,81 @@ ayuda ?
 .panelset[
 .panel[.panel-name[Ejercicios]
 
+* 📝 **Ejercicio 1**: define una variable que guarde tu edad, otra con tu nombre, otra respondiendo a la pregunta «¿tengo hermanos?» y otra con la fecha de tu nacimiento.
+ 
+
+* 📝 **Ejercicio 2**: define otra variable con tus apellidos y junta las variables nombre y apellidos en una sola variable `nombre_completo`.
+ 
+
+* 📝 **Ejercicio 4**: calcula los días que han pasado desde la fecha de tu nacimiento
+ 
+
+* 📝 **Ejercicio 5**: obtén una variable lógica que nos diga si se cumplen (todas) las condiciones i) menor de 30 años (`edad < 30`); ii) con hermanos (`hermanos == TRUE`); iii) nacido en 1990 o posterior (`fecha_nacimiento >= as.Date("1990-01-01")`).
+
+* 📝 **Ejercicio 6**: modifica el código del ejercicio anterior para obtener una variable lógica que nos diga si se cumplen (al menos) alguna de las condiciones i) menor de 30 años; ii) con hermanos; iii) nacido en 1990 o posterior. Nos basta con que se cumple al menos una.
 ]
 
 .panel[.panel-name[Solución ej. 1]
-
+```{r}
+edad <- 32 # tipo numeric
+nombre <- "Javier" # tipo caracter
+hermanos <- TRUE # tipo hermanos
+fecha_nacimiento <- as.Date("1989-09-10") # tipo fecha
+```
 ]
 
 
-.panel[.panel-name[Solución ej. 3]
+.panel[.panel-name[Solución ej. 2]
 
+```{r}
+# Nombre
+nombre <- "Javier"
+# Apellidos
+apellidos <- "Álvarez Liébana"
+
+# Pegamos
+library(glue)
+nombre_completo <- glue("{nombre} {apellidos}")
+nombre_completo
+
+# Otra forma
+nombre_completo <- paste(nombre, apellidos)
+nombre_completo
+```
+]
+
+.panel[.panel-name[Solución ej. 4]
+
+```{r}
+library(lubridate)
+fecha_nacimiento <- as.Date("1989-09-10")
+days(today() - fecha_nacimiento)
+```
 ]
 
 .panel[.panel-name[Solución ej. 5]
 
-<img src = "
-https://dadosdelaplace.github.io/courses-ECI-2022/img/consola_multiplicacion_3.jpg" alt = "script01" align = "middle" width = "420" style = "margin-top: 1vh;">
+```{r}
+# Se tienen que cumplir todas
+edad < 30 & fecha_nacimiento >= as.Date("1990-01-01") & hermanos
 
-Tienes todos los scripts en <https://github.com/dadosdelaplace/courses-ECI-2022/blob/main/scripts/> (el  `script01.R` en concreto en <https://github.com/dadosdelaplace/courses-ECI-2022/blob/main/scripts/script01.R>
+# otra forma
+edad < 30 & fecha_nacimiento >= as.Date("1990-01-01") & hermanos == TRUE
+```
 
+]
+
+.panel[.panel-name[Solución ej. 6]
+
+```{r}
+# Se tienen que cumplir todas
+edad < 30 | fecha_nacimiento >= as.Date("1990-01-01") | hermanos
+```
 ]
 ]
 
 
 ---
-name: tipos-datos
-class: center, middle
-
 
 name: vectores
 class: center, middle
@@ -990,15 +1050,723 @@ class: center, middle
 
 &nbsp;
 
-¿Cómo concatenar edades de varias personas? ¿Cómo ordenarlas?
+¿Cómo **concatenar** edades de varias personas? ¿Cómo ordenarlas?
 
 ---
 
-background-image: url(`r xaringan:::karl`)
-background-position: 50% 50%
-class: center, bottom, inverse
+# Vectores: concatenar elementos
 
-# You only live once!
+Los **vectores o arrays** no son más que una **concatenación de elementos del mismo tipo** (de hecho un número individual `x <- 1` es en realidad un vector de longitud uno).
+
+Los crearemos con `c()` (c de concatenar), con sus **elementos entre paréntesis y separados por comas**. 
+
+```{r}
+edades <- c(32, 27, 60, 61)
+edades
+```
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/vectores_enviroment.jpg" alt = "stringr" align = "right" width = "350">
+
+
+La **longitud de un vector** se puede calcular con `length()`
+
+```{r}
+length(edades)
+```
+
+Dado que un número y un vector es lo mismo (con distinta longitud), podemos **concatenar a vectores uno tras otro**.
+
+```{r}
+c(edades, edades, 8)
+```
+
+
+---
+
+# Secuencias numéricas
+
+Es habitual **crear vectores numéricos con un patrón** repetido. Hay un **atajo**: `seq()` nos permite crear una **secuencia desde un elemento inicial hasta un elemento final**, avanzando de uno en uno.
+
+```{r}
+seq(1, 11) # secuencia desde 1 hasta 11 de 1 en 1 (equivalente: 1:11)
+11:1 # orden inverso
+```
+
+También podemos definir **otro tipo de distancia entre dos elementos consecutivos**
+
+```{r}
+seq(1, 7, by = 0.5) # secuencia desde 1 a 7 de 0.5 en 0.5
+```
+
+Otras veces nos interesará definir una secuencia con un **número concreto de elementos**.
+
+```{r}
+seq(1, 50, l = 7) # secuencia desde 1 a 50 de longitud 11
+```
+
+---
+
+# Secuencias numéricas
+
+**Vectores repetidos**: otro atajo, para definir vectores de elementos repetidos, es la función `rep()` nos permite repetir un elemento un número fijado de veces.
+
+```{r}
+rep(0, 7) # vector de 7 ceros
+```
+
+No solo podemos repetir un número sino que podemos **repetir vectores enteros**.
+
+```{r}
+rep(c(0, 1, 2), 4) # repetimos el vector c(0, 1, 2) 4 veces
+```
+
+Esa repetición además podemos definirla también de **forma intercalada**
+
+```{r}
+rep(c(0, 1, 2), each = 4) # cuatro 0, luego cuatro 1, luego cuatro 2
+```
+
+---
+
+# Vectores de texto
+
+
+El concepto de vectores **no solo atañe a los números**
+
+```{r}
+mi_nombre <- c("Mi", "nombre", "es", "Javier")
+mi_nombre
+```
+
+Cuando tenemos un vector de caracteres podemos colapsarlos con `paste()`, esta vez con `collapse = ...`
+
+```{r}
+paste(mi_nombre, collapse = ".") # separados por un punto .
+```
+
+Podemos también combinar vectores numéricos con caracteres.
+
+```{r}
+paste("persona", 1:5, sep = "_") # separado por una barra baja
+```
+
+---
+
+# Vectores lógicos
+
+Los **vectores lógicos** suelen aparecer de nuevo como la evaluación de condiciones lógicas.  Por ejemplo, si definimos el vector `x <- c(1.5, -1, 2, 4, 3, -4)`, ¿qué numeros de x son menores que 2?
+
+```{r}
+x <- c(1.5, -1, 2, 4, 3, -4)
+x < 2 
+``` 
+
+El primer, segundo y sexto elemento del vector son los únicos elementos (estrictamente) menores que 2, de ahí que en el primer, segundo y sexto elemento aparezca un TRUE y en el resto un FALSE.
+
+&nbsp;
+
+Al igual que antes, las condiciones pueden ser **combinadas**
+
+```{r}
+x <- c(1.5, -1, 2, 4, 3, -4)
+x < 3 & x > 0 # Solo los que cumplen ambas condiciones
+```
+
+---
+
+# Datos ausentes
+
+* **NA** (not available): valores que no tenemos (por ejemplo, el dato de contagios covid los fines de semana).
+
+```{r}
+x <- c(1, NA, 3, NA, NA, 5, 6) # Vector numérico con datos faltante
+x
+2 * x
+```
+
+--
+
+* **NaN** (not a number): resultado no permitido
+
+```{r}
+sqrt(-1)
+```
+
+```{r}
+x <- c(1, NA, 3, 4, 6, 7, NaN, NA)
+is.na(x)
+```
+
+---
+
+# Operaciones aritméticas con vectores
+
+Toda **operación aritmética** que podamos hacer con un número la vamos a poder a hacer con un vector de números: la operación se realizará en **CADA ELEMENTO** del vector (en otros lenguajes no siempre es así).
+
+```{r}
+# Multiplicamos por 2 a CADA ELEMENTO del vector
+z <- c(2, 4, 6)
+2 * z
+```
+
+De la misma manera se pueden definir **sumas** de vectores.
+
+```{r}
+x <- c(1, 3, 5)
+x + z
+```
+
+--
+
+Dado que los valores lógicos son guardados internamente como `0/1`  podemos usar operaciones aritméticas con ellos.
+
+```{r}
+x <- c(1, 3, 5)
+sum(x < 2) # sumamos el vector lógico --> número de valores TRUE
+```
+
+---
+
+# Operaciones estadísticas con vectores
+ 
+También podemos realizar **operaciones estadísticas** como la suma, la media o la mediana.
+
+```{r}
+y <- c(1, -4, 5, 0, 7)
+sum(y)  # suma
+mean(y) # media
+```
+
+**IMPORTANTE**: las operaciones con ausentes no funcionan (salvo que los eliminemos antes con `na.rm = TRUE`).
+
+```{r error = TRUE}
+y <- c(1, 2, NA, -5, 0)
+sum(y)
+sum(y, na.rm = TRUE)
+```
+
+
+---
+
+# Seleccionar elementos
+
+¿Y si del vector original queremos **EXTRAER UN SUBCONJUNTO**? La forma más sencilla es **acceder al elemento i-ésimo** con el operador de selección `[i]`, o en base a una **condición lógica**
+
+
+
+```{r}
+edades <- c(20, 30, 32, NA, 61)
+edades[3] # accedemos a la edad de la tercera persona
+edades[c(3, 4)] #<<
+edades[edades > 30]
+```
+
+Otras veces no querremos seleccionar un elemento sino **filtrarlo**, con el operador `[-i]`
+
+```{r}
+edades[-1]
+```
+
+
+
+
+---
+
+# Nombrando vectores
+
+
+`R` nos permite dar **significado léxico a nuestros datos**, pudiendo poner **nombres a los elementos** de un vector.
+
+```{r}
+x <- c("edad" = 31, "tlf" = 613910687, "cp" = 33007) # cada número tiene un significado distinto
+x
+```
+
+Esto es una ventaja ya que nos permite su **selección usando dichos nombres**: los números ya representan algo.
+
+```{r}
+x[c("edad", "cp")] # seleccionamos los elementos que tienen ese nombre asignado
+```
+
+Con la función `names()` podemos, no solo consultar sino cambiar los nombres.
+
+```{r}
+names(x) # Consultamos nombres antiguos
+names(x) <- c("años", "móvil", "dirección") # Cambiamos nombres
+```
+
+---
+
+# Ordenar vectores
+
+Una acción **muy habitual** es **ordenar los datos**: de menor a mayor edad, datos más recientes vs antiguos, etc. Para ello tenemos la función `sort()`: vamos a ordenar, por ejemplo, una colección de edades.
+
+```{r}
+edades <- c(81, 7, 25, 41, 65, 20, 32, 23, 77)
+sort(edades) # orden de joven a mayor
+```
+
+Por defecto `sort()` ordena de menor a mayor: con `decreasing = TRUE` podemos ordenar de mayor a menor.
+
+```{r}
+sort(edades, decreasing = TRUE) 
+```
+
+Otra forma de ordenar un vector es **pedirle nos devuelva los índices de los elementos ordenados** con `order`, y luego usar dichos índices.
+
+```{r}
+x <- c(7, 1, 2, 6)
+x[order(x)]
+```
+
+---
+
+# Ejercicios con vectores
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: modifica el código para crear un vector de nombre `vector_num` que contenga los números 1, 5 y -7.
+
+```{r eval = FALSE}
+# Vector de números
+vector_num <- c(1)
+```
+
+* 📝 **Ejercicio 2**: define un vector que contenga los números `1, 10, -1 y 2`, y obtén la longitud del vector anterior vector_num.
+ 
+
+* 📝 **Ejercicio 4**: crea un vector con las palabras “Hola”, “me”, “llamo” (y tu nombre y apellidos), y pega luego sus elementos de forma que la frase esté correctamente escrita en castellano. Tras hacerlo, añade “y tengo 30 años”.
+ 
+ 
+* 📝 **Ejercicio 7**: crea una secuencia que empiece en 1 y recorra todos los naturales hasta el 10. Después crea otra secuencia de longitud 7 que todos los números sean 3.
+ 
+
+* 📝 **Ejercicio 9**: crea un vector con las edades de cuatro conocidos o familiares. Tras ello, determina cuáles de ellos tienen menos de 20 años, 30 años o más, menos de 40 años y más de 65 años.
+
+]
+
+.panel[.panel-name[Solución ej. 1]
+
+```{r}
+# Vector de números
+vector_num <- c(1, 5, -7)
+vector_num
+```
+]
+
+.panel[.panel-name[Solución ej. 2]
+
+```{r}
+# Vector de números
+vector_num <- c(1, 10, -1, 2)
+vector_num
+```
+]
+
+.panel[.panel-name[Solución ej. 4]
+
+```{r}
+# Definiendo el vector
+vector_char <- c("Hola", "me", "llamo", "Javier",
+                 "Álvarez", "Liébana")
+
+# Pegamos
+frase <- paste(vector_char, collapse = " ")
+frase
+
+# Añadimos frase
+glue("{frase} y tengo 30 años.")
+```
+]
+
+.panel[.panel-name[Solución ej. 7]
+
+```{r}
+1:10
+rep(3, 7) # secuencia repetida de treses
+```
+]
+
+.panel[.panel-name[Solución ej. 9]
+
+```{r}
+edades <- c(27, 32, 60, 61) # en mi caso, por ejemplo
+edades < 20 # menos de 20 años
+edades >= 30 # 30 años o más
+edades < 40 # menos de 40 años
+```
+]
+]
+
+
+
+---
+
+name: matrices-datafroames
+class: center, middle
+
+
+
+# Datos estructurados: colección de variables
+
+
+## **matrices: igual tipo y longitud**
+
+&nbsp;
+
+## **data.frame o tabla: distinto tipo pero igual longitud**
+
+---
+
+# Datos estructurados: colección de variables
+
+
+<img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/celdas.jpg" alt = "celdas" align = "center" width = "580" style = "margin-top: 1vh;">
+
+Ya sabemos:
+
+✅ Los **tipos de datos** que puede contener una **celda**.
+
+✅ Como **concatenar celdas** obteniendo variables (vectores, datos del mismo tipo).
+
+Lo que haremos a continuación será **juntar esas variables**: bien del **mismo tipo** (matrices), bien de **distinto tipo** (`data.frame`), en cualquier caso de **igual longitud**.
+
+---
+
+# Matrices: variables del mismo tipo
+
+Cuando analizamos datos solemos tener **varias variables distintas de cada individuo**. Necesitamos una «tabla» que una distintas variables (de IGUAL longitud). Las **matrices** son una **concatenación de variables, del mismo tipo e igual longitud**, dispuestas en columnas (normalmente cada fila representa un individuo y cada columna una variable). La concatenación en columnas la haremos con `cbind()`.
+
+```{r}
+estaturas <- c(150, 160, 170, 180)
+pesos <- c(60, 70, 80, 90)
+datos_matriz <- cbind(estaturas, pesos) # Construimos la matriz por columnas
+datos_matriz # nuestra primera matriz
+```
+
+```{r echo = FALSE}
+knitr::kable(datos_matriz)
+```
+
+---
+
+# Matrices
+
+
+También podemos **construir la matriz por filas** con `rbind()`, que nos permite **añadir filas a una matriz o construirla desde cero** (aunque lo habitual es tener cada variable en una columna y cada individuo en una fila).
+
+```{r}
+rbind(estaturas, pesos) # Construimos la matriz por filas
+```
+
+```{r echo = FALSE}
+knitr::kable(rbind(estaturas, pesos))
+```
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/datos_matriz_1.jpg" alt = "course-ECI" align = "right" width = "400" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+--
+
+Podemos **visualizar la matriz** en un formato «excelizado» con la función `View()`
+
+```{r eval = FALSE}
+View(datos_matriz)
+```
+
+---
+
+# Matrices
+
+.panelset[
+.panel[.panel-name[Ejemplo] 
+
+Veamos un ejemplo más jugoso para practicar: una matriz con las edades, teléfonos y códigos postales.
+
+
+```{r}
+edades <- c(14, 56, 31, 20, 68) # vector numérico de longitud 4
+tlf <- c(NA, 683839390, 621539732, NA, NA)
+cp <- c(33007, 28019, 37005, 18003, 28045)
+
+# Construimos la matriz por columnas
+datos_matriz <- cbind(edades, tlf, cp) 
+datos_matriz
+```
+]
+
+.panel[.panel-name[Añadir columna] 
+
+Con `cbind()` también podemos **añadir una columna**
+
+```{r}
+cbind(datos_matriz, "estaturas" = c(160, NA, 181, 165, 173))
+```
+]
+
+.panel[.panel-name[Dimensiones] 
+Y podemos **ver sus dimensiones** con `dim()`, o por separado con `nrow()` y `ncol()`
+
+```{r}
+dim(datos_matriz)
+c(nrow(datos_matriz), ncol(datos_matriz))
+```
+
+Dada una matriz también podemos **«darle vuelta»** (lo que se conoce como **matriz transpuesta**) con `t()`.
+
+```{r}
+t(datos_matriz)
+```
+
+]
+
+.panel[.panel-name[matrix()] 
+
+Igual que a veces es útil generar un vector de elementos repetidos, también podemos definir una **matriz de números repetidos** (por ejemplo, de ceros), con la función `matrix()`, indicándole el número de filas y columnas.
+
+```{r}
+matrix(0, nrow = 4, ncol = 2) # 4 filas, 2 columnas, todo 0's
+```
+
+También podemos **definir una matriz a partir de un vector numérico**, reorganizando los valores en forma de matriz, sabiendo que los elementos se van colocando por columnas.
+
+```{r}
+z <- matrix(1:15, ncol = 5) # Matriz con el vector 1:5 con 5 columnas (ergo 3 filas)
+z
+```
+
+]
+
+.panel[.panel-name[Operaciones] 
+
+Con las matrices sucede como con los vectores: cuando **aplicamos una operación aritmética se la estamos aplicando elemento a elemento**, por ejemplo, dividir entre 5 o sumar una constante
+
+```{r}
+datos_matriz / 5
+datos_matriz + 3
+```
+]
+
+.panel[.panel-name[Otras matrices] 
+
+También podemos **crear matrices de otros tipos de datos**, siempre y cuando las columnas sean del mismo tipo e igual longitud.
+
+```{r}
+nombres <- c("Javier", "Carlos", "María", "Paloma")
+apellidos <- c("Álvarez", "García", "Pérez", "Liébana")
+cbind(nombres, apellidos)
+```
+
+]
+]
+
+---
+
+# Matrices
+
+Las matrices son objetos **bidimensionales**: para acceder a la **fila i-ésima** se usa el operador `[i, ]` (dejando el otro sin rellenar), para acceder a la **columna j-ésima** se usa el operador `[, j]`. Para acceder **conjuntamente al elemento (i, j)** se  `[i, j]`. También podemos **acceder por nombres de las columnas**.
+
+
+```{r}
+datos_matriz[2, 3]
+datos_matriz[1, ] # fila 1
+datos_matriz[, 3] # columna 3
+datos_matriz[1, c("edades", "tlf")] # por nombres
+```
+
+---
+
+# Operaciones por filas y columnas (apply)
+
+Imagina que tuviésemos nuestra matriz de estaturas y pesos.
+
+```{r}
+datos_matriz <- cbind(estaturas, pesos)
+datos_matriz
+```
+
+¿Cómo podemos **obtener la media de cada columna**? Con la función `apply()` le indicaremos
+
+* la matriz
+* el sentido de la operación (`MARGIN = 1` por filas, `MARGIN = 2` por columnas)
+* la función a aplicar (en este caso, `mean`).
+
+```{r}
+# Media por columnas (MARGIN = 2)
+apply(datos_matriz, MARGIN = 2, FUN = "mean")
+```
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: modifica el código para definir una matriz x de ceros de 3 filas y 7 columnas.
+ 
+```{r eval = FALSE}
+# Matriz
+x <- matrix(0, nrow = 2, ncol = 3)
+x
+```
+
+* 📝 **Ejercicio 2**: a la matriz anterior, suma un 1 a cada número de la matriz y divide el resultado entre 5.
+ 
+ 
+* 📝 **Ejercicio 4**: el siguiente código define una matriz de dimensiones `4 x 3` y calcula la suma por columnas. Modifica el código para que realice la suma por filas.
+ 
+```{r eval = FALSE}
+# Matriz
+matriz <- matrix(1:12, nrow = 4)
+
+# Suma por columnas
+apply(matriz, MARGIN = 2, FUN = "sum")
+```
+
+
+* 📝 **Ejercicio 5**: con la matriz anterior definida como `matrix(1:12, nrow = 4)`, calcula la media de todos los elementos, la media de cada fila y la media de cada columna.
+]
+
+.panel[.panel-name[Solución Ej. 1]
+
+```{r}
+# Matriz
+x <- matrix(0, nrow = 3, ncol = 7)
+x
+```
+
+]
+
+.panel[.panel-name[Solución Ej. 2]
+
+```{r}
+(x + 1) / 5
+```
+
+]
+
+.panel[.panel-name[Solución Ej. 4]
+
+```{r}
+# Matriz
+matriz <- matrix(1:12, nrow = 4)
+
+# Suma por filas
+apply(matriz, MARGIN = 1, FUN = "sum")
+```
+
+]
+
+.panel[.panel-name[Solución Ej. 5]
+
+```{r}
+# Matriz
+matriz <- matrix(1:12, nrow = 4)
+
+#  media de todos
+mean(matriz)
+
+# Media por filas (MARGIN = 1 ya que es una operación por filas)
+apply(matriz, MARGIN = 1, FUN = "mean")
+
+# Media por filas (MARGIN = 2 ya que es una operación por filas)
+apply(matriz, MARGIN = 2, FUN = "mean")
+```
+
+]
+]
+ 
+---
+
+# data.frame: tablas
+
+**¿Qué sucede si añadimos una columna con los nombres de cada persona en nuestra matriz `datos_matriz`?** En dicha matriz teníamos guardadas las edades, códigos postales y teléfonos de una serie de personas, todas ellas variables numéricas.
+
+```{r}
+nombres <- c("Sonia", "Carla", "Pepito", "Carlos")
+datos_matriz_nueva <- cbind(nombres, datos_matriz)
+datos_matriz_nueva
+```
+
+Como una **matriz SOLO puede tener un tipo de dato**, al añadir una variable de tipo texto, `R` se ha visto obligado a convertir los números en texto: hemos **roto la integridad** de los datos.
+
+```{r, error = TRUE} 
+datos_matriz_nueva[, "pesos"] + 1
+```
+
+
+---
+
+# data.frame: tablas
+
+El formato de tabla de datos en `R` que vamos a empezar a usar se llama `data.frame`, y no es más que una **colección de variables de igual longitud pero cada una puede ser de un tipo distinto**. Para crear un `data.frame` basta con usar la función `data.frame()`.
+
+```{r}
+# Nombres
+nombres <- c("Sonia", "Carla", "Pepito", "Carlos")
+# Edades
+edades <- c(45, 67, NA, 31)
+# Estado civil (no lo sabemos de una persona)
+casado <- c(TRUE, FALSE, FALSE, NA)
+# Fecha de creación (fecha en el que esa persona entra en el sistema)
+# lo convertimos a tipo fecha
+f_creacion <-
+  as.Date(c("2021-03-04", "2020-10-12", "1990-04-05", "2019-09-10"))
+
+# Creamos nuestro primer data.frame
+tabla <- data.frame(nombres, edades, casado, f_creacion)
+tabla
+```
+
+---
+
+# data.frame: tablas
+
+Al igual que con las matrices, podemos **crearlos** indicando además el **nombre de las columnas**.
+
+```{r}
+tabla <- data.frame("nombre" = nombres, "edad" = edades,
+                    "casado" = casado, "fecha_registro" = f_creacion)
+```
+
+
+Si tenemos un `data.frame` ya creado podemos usar `data.frame()` también para añadir una columna.
+
+```{r}
+# Añadimos una nueva columna con nº de hermanos/as
+tabla <- data.frame(tabla, "n_hermanos" = c(0, 0, 1, 5))
+```
+
+Con `View()` podemos **visualizar nuestra tabla**.
+
+```{r echo = FALSE}
+knitr::kable(tabla)
+```
+
+---
+
+# Selección de columnas y filas
+
+Si queremos **acceder a una columna, fila o elemento** en concreto, los `data.frame` tienen las mismas ventajas que una matriz, así que bastaría con usar los mismos operadores.
+
+```{r}
+tabla[, 3] # Accedemos a la tercera columna
+tabla[4, ] # Accedemos a la cuarta fila
+```
+
+No solo tiene las ventajas de una matriz si no que también tiene las ventajas de una **«base» de datos**: podemos **aceder a las variables** por su nombre poniendo el nombre de la tabla más el símbolo `$` y, con el tabulador, nos aparecerá un **menú de columnas** a elegir.
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tabla_dolar.jpg" alt = "course-ECI" align = "right" width = "450" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+---
+
+# Ejercicios
+
+---
+
+# dsada
 
 ---
 
