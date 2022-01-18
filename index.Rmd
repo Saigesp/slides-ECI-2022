@@ -1764,9 +1764,520 @@ No solo tiene las ventajas de una matriz si no que también tiene las ventajas d
 
 # Ejercicios
 
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 6**: el `data.frame` llamado `airquality`, del paquete `{datasets}`, contiene variables de la calidad del aire de la ciudad de Nueva York desde mayo hasta septiembre de 1973. Obtén el nombre de las variables.
+ 
+
+* 📝 **Ejercicio 7**: obtén las dimensiones del anterior conjunto de datos. ¿Cuántas variables hay? ¿Cuántos días se han medido?
+ 
+
+* 📝 **Ejercicio 8**: filtra del conjunto anterior solo los datos del mes de julio.
+
+* 📝 **Ejercicio 10**: qúedate solo con las variable Ozone y Temp.
+ 
+* 📝 **Ejercicio 13**: añade a los datos originales una columna con la fecha completa (recuerda que es del año 1973 todas las observaciones.
+
+]
+
+.panel[.panel-name[Solución Ej. 6]
+
+```{r}
+# install.packages("datasets") si no estuviera ya instalado
+library(datasets)
+names(airquality)
+```
+
+]
+
+.panel[.panel-name[Solución Ej. 7]
+
+```{r}
+# Dimensiones
+dim(airquality)
+nrow(airquality)
+ncol(airquality)
+```
+
+]
+
+.panel[.panel-name[Solución Ej. 8]
+
+```{r}
+filtro_filas <- airquality[airquality$Month == 7, ]
+filtro_filas
+```
+
+]
+
+.panel[.panel-name[Solución Ej. 10]
+
+```{r}
+# Filtramos columnas
+filtro_cols <- airquality[, c("Ozone", "Temp")]
+filtro_cols
+```
+
+]
+
+.panel[.panel-name[Solución Ej. 13]
+
+```{r}
+# Construimos las fechas (pegamos año-mes-día con "-")
+fechas <- 
+  as.Date(paste("1973", airquality$Month, airquality$Day,
+                sep = "-"))
+
+# Añadimos
+data.frame(airquality, fechas)
+```
+
+]
+
+]
+
 ---
 
-# dsada
+# Primer análisis: datos de arrestos de EE.UU.
+
+
+.panelset[
+.panel[.panel-name[Carga]
+
+El paquete llamado `{datasets}` contiene distintos conjuntos de datos reales
+
+```{r}
+# install.packages("datasets") # Descomentar si nunca se ha instalado
+library(datasets)
+```
+
+Tras instalarlo, si escribimos `datasets::` y pulsamos tabulador, se nos abre un **desplegable con distintos conjuntos**. Vamos a practicar lo aprendido con `datasets::USArrests`, que contiene **estadísticas de arrestos en 1973 (por cada 100 000 habitantes)**  en cada uno de los 50 estados de Estaods Unidos.
+
+```{r}
+datasets::USArrests
+```
+
+]
+
+.panel[.panel-name[Detalles de datos]
+
+**¿Qué tipo de objeto es?**
+
+```{r}
+class(datasets::USArrests)
+```
+
+**¿Cómo buscar información de los datos?**
+
+```{r eval = FALSE}
+? datasets::USArrests
+```
+
+**¿Qué variables tenemos?**
+
+```{r}
+names(datasets::USArrests)
+```
+
+]
+
+.panel[.panel-name[Dimensiones]
+
+**¿Qué dimensiones tiene nuestro objeto?**
+```{r}
+dim(datasets::USArrests)
+```
+
+**¿Cuántos estados tenemos con estadísticas?**
+```{r}
+nrow(datasets::USArrests)
+```
+
+**¿Cuántas variables se han medido en cada uno?**
+```{r}
+ncol(datasets::USArrests)
+```
+]
+
+
+.panel[.panel-name[Añadir columna]
+
+En el conjunto de datos tenemos las **filas nombradas** (pero sin ser una variable).
+
+```{r}
+row.names(datasets::USArrests)[1:5] # los 5 primeros
+```
+
+**¿Cómo podemos incluir dicho nombre como nueva columna?**
+
+```{r}
+tabla_nueva <- data.frame("estado" = row.names(datasets::USArrests),
+                          datasets::USArrests)
+row.names(tabla_nueva) <- NULL # ya no necesitamos los nombres de las filas
+head(tabla_nueva) # Cabecera de la tabla
+```
+
+]
+
+.panel[.panel-name[Selección «clásica»]
+
+**¿Cómo seleccionar solo las columnas `Murder` y `Assault` para el segundo y el décimo estado?**
+
+```{r}
+USArrests[c(2, 10), c("Murder", "Assault")]
+```
+
+]
+
+.panel[.panel-name[Subset]
+
+Tenemos además a nuestro disposición una **herramienta muy potente**: la función `subset()`. Dicha función nos va a permitir **seleccionar filas y columnas a la vez** con argumentos:
+
+* `x`: un `data.frame` de entrada.
+* `subset`: **condición lógica** para **seleccionar registros (filas)**.
+* `select`: un vector que contenga el **nombre de las columnas que queremos seleccionar**.
+
+Por ejemplo, vamos a seleccionar solo los **delitos de asesinato y agresión** de aquellos **estados** cuyo porcentaje de **población urbana sea superior al 80%**.
+
+```{r}
+subset(USArrests, subset = UrbanPop > 80, select = c("Murder", "Assault"))
+```
+
+
+]
+]
+
+---
+
+name: estructuras
+class: center, middle
+
+# Extra: estructuras de control
+
+## **if-else y bucles**
+
+&nbsp;
+
+A veces necesitaremos algunas estructuras de control para guiar nuestro código
+
+---
+
+# Estructuras if-else
+
+`if-else` es una de las **estructuras de control** más famosas: **SI** las condiciones impuestas se cumplen (`TRUE`), ejecuta las **órdenes que tengamos dentro del `if {}`. 
+
+```{r}
+edades <- c(14, 17, 24, 56, 31, 20, 87, 73)
+if (any(edades < 18)) { # TRUE si al menos una persona mayor de edad
+  print("existe alguna persona mayor de edad")
+}
+```
+
+```{r}
+if (all(edades >= 18)) { # TRUE si TODOS son mayores de edad
+  print("todas las personas son mayores de edad")
+}
+```
+
+Si no se cumple no hace nada salvo que añadamos un `else {}` (con lo que sucede cuando no sucede)
+
+```{r}
+if (all(edades >= 18)) { # TRUE si TODOS son mayores de edad
+  print("todas las personas son mayores de edad")
+} else { # si hay alguno menor de edad 
+  print("existe alguna persona menor de edad")
+}
+```
+
+
+---
+
+# Bucles (a evitar)
+
+* `for`: bucle que permite **repetir** el mismo código un **número fijo** de veces.
+
+```{r}
+library(glue)
+nombres <- c("Javi", "Laura")
+edades <- c(32, 51)
+
+# Recorremos cada uno de los nombres e imprimimos un mensaje que depende de i
+for (i in 1:length(nombres)) { #<<
+  print(glue("{nombres[i]} tiene {edades[i]} años")) 
+}
+```
+
+* `while`: **repetir** un **número indeterminado** de veces hasta que se **deje de cumplir una condición**.
+
+```{r}
+ciclos <- 1
+while(ciclos <= 3) { #<<
+  print(paste("Todavía no, vamos por el ciclo ", ciclos))
+  ciclos <- ciclos + 1
+}
+```
+
+---
+
+name: proyecto-funciones
+class: center, middle
+
+# Primer proyecto. Uso de funciones
+
+## **encapsulando y ordenando nuestro código**
+
+&nbsp;
+
+Un proyecto será una «carpeta» dentro de `RStudio`. Las funciones nos servirán para encapsular nuestro código.
+
+---
+
+# Proyecto
+
+Cuando se empieza a programar para un trabajo concreto de `R` es recomendable crearnos lo que se conoce como un **proyecto de trabajo**: en lugar de ir abriendo ventanas sueltas para programar, podemos agruparlos en proyectos, de forma que podamos acceder a ellos de forma **ordenada**
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/crear_proyecto1.jpg" alt = "course-ECI" align = "left" width = "220" style = "margin-top: 5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/crear_proyecto2.jpg" alt = "course-ECI" align = "middle" width = "220" style = "margin-top: 5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/crear_proyecto3.jpg" alt = "course-ECI" align = "right" width = "250" style = "margin-top: 5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/crear_proyecto4.jpg" alt = "course-ECI" align = "right" width = "250" style = "margin-top: 5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+
+---
+
+# Funciones
+
+No solo podemos usar las funciones predeterminadas, como `sum()` o `paste()`, sino que además podemos **crear nuestras propias funciones**, para automatizar **tareas que vayamos a repetir**
+
+**¿Cómo crear nuestra propia función?** Veamos su **esquema básico**:
+
+* Un **nombre**, por ejemplo `nombre_funcion`.
+* A dicho nombre le asignamos `<-` la palabra reservada `function()`.
+* Dentro de `function()` definimos los **argumentos de entrada**.
+* Dentro de `{}` incluiremos las órdenes.
+* Finalizaremos la función con `return()` indicando lo que queremos **devolver**.
+
+```{r eval = FALSE}
+nombre_funcion <- function(argumento_1, argumento_2, ... ) {
+  
+  # Código que queramos ejecutar en la función
+  código
+  
+  # Salida
+  return(variable_salida)
+}
+```
+
+**IMPORTANTE**: todas las variables que definamos dentro de la función son **variables locales, solo existirán dentro de la función** salvo que especifiquemos lo contrario.
+
+---
+
+# Funciones
+
+Un **ejemplo muy simple**: una función para **calcular el área de un rectángulo**. Los **argumentos de entrada** serán los **lados** y el valor a **devolver** será el área (el producto de los lados).
+
+```{r}
+# Definición del nombre de función y argumentos de entrada
+calcular_area <- function(lado_1, lado_2) {
+
+  # Resultado que devolvemos
+  return(lado_1 * lado_2)
+  
+}
+```
+
+**¿Cómo aplicar la función?**
+
+```{r}
+# Aplicación de la función con los parámetros por defecto
+calcular_area(5, 3) # área de un rectángulo 5 x 3 
+```
+
+---
+
+# Funciones
+
+Imagina que nos damos cuenta que el **90% de las veces el área que nos toca calcular fuese la de un cuadrado**, es decir, solo necesitamos un argumento, un lado: `R` nos permite **definir argumentos por defecto** en la función (tomarán dicho valor salvo que le asignemos otro).
+
+**¿Por qué no asignar `lado_2 = lado_1` por defecto?**
+
+```{r}
+# Definición del nombre de función y argumentos de entrada
+calcular_area <- function(lado_1, lado_2 = lado_1) {
+  
+  # Cuerpo de la función
+  area <- lado_1 * lado_2
+  
+  # Resultado que devolvemos
+  return(area)
+  
+}
+```
+
+Ahora, **si no indicamos nada por defecto el segundo lado será igual al primero** (un cuadrado).
+
+```{r}
+calcular_area(lado_1 = 5)
+```
+
+---
+
+# Funciones
+
+**Compliquemos un poco la función** y añadamos en la salida los valores de cada lado.
+
+```{r}
+calcular_area <- function(lado_1, lado_2 = lado_1) {
+  
+  # Cuerpo de la función
+  area <- lado_1 * lado_2
+  
+  # Resultado
+  return(c("area" = area, "lado_1" = lado_1, "lado_2" = lado_2))
+}
+
+salida <- calcular_area(lado_1 = 5, lado_2 = 3)
+salida
+salida["area"]
+```
+
+---
+
+# Ejercicios
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: modifica el código inferior para definir una función llamada `funcion_suma`, de forma que dados dos elementos, devuelve su suma.
+
+```{r eval = FALSE}
+# Definimos función
+nombre <- function(x, y) {
+  # Sumamos
+  suma <- # código a ejecutar
+  # ¿Qué devolvemos?
+  return()
+}
+```
+
+* 📝 **Ejercicio 2**: modifica el código para definir una función llamada `funcion_producto`, de forma que dados dos elementos, devuelve su producto.
+
+* 📝 **Ejercicio 3**: modifica el código para definir una función llamada `funcion_producto`, pero que por defecto calcule el cuadrado.
+
+* 📝 **Ejercicio 4**: define una función llamada igualdad_nombres que, dados dos `nombres persona_1` e `persona_2`, nos diga si son iguales o no. Hazlo considerando importantes las mayúsculas, y sin que importen las mayúsculas. Recuerda que con `toupper()` podemos pasar todo un texto a mayúscula.
+
+]
+
+.panel[.panel-name[Solución Ej. 1]
+
+```{r}
+# Definimos función
+funcion_suma <- function(x, y) {
+  
+  # Sumamos
+  suma <- x + y
+  
+  # Devolvemos la salida
+  return(suma)
+}
+
+# Aplicamos la función
+funcion_suma(3, 7)
+```
+
+]
+
+.panel[.panel-name[Solución Ej. 2]
+
+```{r}
+# Definimos función
+funcion_producto <- function(x, y) {
+  
+  # Multiplicamos
+  producto <- x * y
+  
+  # Devolvemos la salida
+  return(producto)
+}
+
+# Aplicamos la función
+funcion_producto(3, -7)
+```
+
+]
+
+.panel[.panel-name[Solución Ej. 3]
+
+```{r}
+# Definimos función
+funcion_producto <- function(x, y = x) {
+  
+  # Multiplicamos
+  producto <- x * y
+  
+  # Devolvemos la salida
+  return(producto)
+}
+
+# Aplicamos la función
+funcion_producto(3) # por defecto x = 3, y = 3
+funcion_producto(3, -7)
+```
+]
+
+.panel[.panel-name[Solución Ej. 4]
+```{r}
+# Distinguiendo mayúsculas
+igualdad_nombres <- function(persona_1, persona_2) {
+  
+  return(persona_1 == persona_2)
+}
+igualdad_nombres("Javi", "javi")
+igualdad_nombres("Javi", "Lucía")
+
+# Sin importar mayúsculas
+igualdad_nombres <- function(persona_1, persona_2) {
+  
+  return(toupper(persona_1) == toupper(persona_2))
+}
+igualdad_nombres("Javi", "javi")
+igualdad_nombres("Javi", "Lucía")
+```
+]
+
+]
+---
+
+name: tibble
+class: center, middle
+
+# Mejorando los datos: tibble
+
+## **mejorando los data.frame**
+
+&nbsp;
+
+Un **dato de tipo tibble** será un `data.frame` mejorado: más ágil, más rápido y más cómodo.
+
+---
+
+name: rmarkdown
+class: center, middle
+
+# Caso práctico: informe RMarkdown
+
+## **presentado nuestros análisis**
+
+&nbsp;
+
+`Rmarkdown` es una herramienta para juntar en un mismo documento `markdown` (como el lenguaje marcado que se usa para wordpress o newsletter), código `R`, imágenes, fórmulas, etc
 
 ---
 
