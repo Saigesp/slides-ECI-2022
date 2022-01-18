@@ -2380,21 +2380,60 @@ Si ya tienes un `data.frame` es altamente recomendable **convertirlo a tibble** 
 
 .panel[.panel-name[Solución Ej. 1]
 
+```{r}
+library(datasets)
+head(airquality)
+class(airquality)
+```
 ]
 
 .panel[.panel-name[Solución Ej. 2]
+
+```{r}
+as_tibble(airquality)
+class(as_tibble(airquality))
+glimpse(as_tibble(airquality))
+```
 
 ]
 
 .panel[.panel-name[Solución Ej. 3]
 
+```{r}
+tibble("a" = 1:5, "b" = 11:15, "c" = a * b)
+```
+
 ]
 
 .panel[.panel-name[Solución Ej. 4]
 
+```{r}
+# Definimos el tibble
+datos_tb <- tibble("variable" = 1:7, "tercera falsa :)" = 0, "2" = 11:17)
+# Accedemos a sus columnas
+datos_tb$variable
+datos_tb$`tercera falsa :)`
+datos_tb$`2`
+```
+
 ]
 
-.panel[.panel-name[Solución Ej. 5]
+.panel[.panel-name[5a]
+
+```{r}
+dplyr::starwars
+dim(dplyr::starwars)
+```
+
+]
+
+.panel[.panel-name[5b]
+
+```{r}
+library(gapminder)
+gapminder
+dim(gapminder)
+```
 
 ]
 

@@ -3778,21 +3778,199 @@ Si ya tienes un `data.frame` es altamente recomendable **convertirlo a tibble** 
 
 .panel[.panel-name[Solución Ej. 1]
 
+
+```r
+library(datasets)
+head(airquality)
+```
+
+```
+&gt;   Ozone Solar.R Wind Temp Month Day
+&gt; 1    41     190  7.4   67     5   1
+&gt; 2    36     118  8.0   72     5   2
+&gt; 3    12     149 12.6   74     5   3
+&gt; 4    18     313 11.5   62     5   4
+&gt; 5    NA      NA 14.3   56     5   5
+&gt; 6    28      NA 14.9   66     5   6
+```
+
+```r
+class(airquality)
+```
+
+```
+&gt; [1] "data.frame"
+```
 ]
 
 .panel[.panel-name[Solución Ej. 2]
+
+
+```r
+as_tibble(airquality)
+```
+
+```
+&gt; # A tibble: 153 × 6
+&gt;    Ozone Solar.R  Wind  Temp Month   Day
+&gt;    &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+&gt;  1    41     190   7.4    67     5     1
+&gt;  2    36     118   8      72     5     2
+&gt;  3    12     149  12.6    74     5     3
+&gt;  4    18     313  11.5    62     5     4
+&gt;  5    NA      NA  14.3    56     5     5
+&gt;  6    28      NA  14.9    66     5     6
+&gt;  7    23     299   8.6    65     5     7
+&gt;  8    19      99  13.8    59     5     8
+&gt;  9     8      19  20.1    61     5     9
+&gt; 10    NA     194   8.6    69     5    10
+&gt; # … with 143 more rows
+```
+
+```r
+class(as_tibble(airquality))
+```
+
+```
+&gt; [1] "tbl_df"     "tbl"        "data.frame"
+```
+
+```r
+glimpse(as_tibble(airquality))
+```
+
+```
+&gt; Rows: 153
+&gt; Columns: 6
+&gt; $ Ozone   &lt;int&gt; 41, 36, 12, 18, NA, 28, 23, 19, 8, NA, 7, 16, 11, 14, 18, 14, …
+&gt; $ Solar.R &lt;int&gt; 190, 118, 149, 313, NA, NA, 299, 99, 19, 194, NA, 256, 290, 27…
+&gt; $ Wind    &lt;dbl&gt; 7.4, 8.0, 12.6, 11.5, 14.3, 14.9, 8.6, 13.8, 20.1, 8.6, 6.9, 9…
+&gt; $ Temp    &lt;int&gt; 67, 72, 74, 62, 56, 66, 65, 59, 61, 69, 74, 69, 66, 68, 58, 64…
+&gt; $ Month   &lt;int&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
+&gt; $ Day     &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,…
+```
 
 ]
 
 .panel[.panel-name[Solución Ej. 3]
 
+
+```r
+tibble("a" = 1:5, "b" = 11:15, "c" = a * b)
+```
+
+```
+&gt; # A tibble: 5 × 3
+&gt;       a     b     c
+&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;
+&gt; 1     1    11    11
+&gt; 2     2    12    24
+&gt; 3     3    13    39
+&gt; 4     4    14    56
+&gt; 5     5    15    75
+```
+
 ]
 
 .panel[.panel-name[Solución Ej. 4]
 
+
+```r
+# Definimos el tibble
+datos_tb &lt;- tibble("variable" = 1:7, "tercera falsa :)" = 0, "2" = 11:17)
+# Accedemos a sus columnas
+datos_tb$variable
+```
+
+```
+&gt; [1] 1 2 3 4 5 6 7
+```
+
+```r
+datos_tb$`tercera falsa :)`
+```
+
+```
+&gt; [1] 0 0 0 0 0 0 0
+```
+
+```r
+datos_tb$`2`
+```
+
+```
+&gt; [1] 11 12 13 14 15 16 17
+```
+
 ]
 
-.panel[.panel-name[Solución Ej. 5]
+.panel[.panel-name[5a]
+
+
+```r
+dplyr::starwars
+```
+
+```
+&gt; # A tibble: 87 × 14
+&gt;    name    height  mass hair_color  skin_color eye_color birth_year sex   gender
+&gt;    &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt;  1 Luke S…    172    77 blond       fair       blue            19   male  mascu…
+&gt;  2 C-3PO      167    75 &lt;NA&gt;        gold       yellow         112   none  mascu…
+&gt;  3 R2-D2       96    32 &lt;NA&gt;        white, bl… red             33   none  mascu…
+&gt;  4 Darth …    202   136 none        white      yellow          41.9 male  mascu…
+&gt;  5 Leia O…    150    49 brown       light      brown           19   fema… femin…
+&gt;  6 Owen L…    178   120 brown, grey light      blue            52   male  mascu…
+&gt;  7 Beru W…    165    75 brown       light      blue            47   fema… femin…
+&gt;  8 R5-D4       97    32 &lt;NA&gt;        white, red red             NA   none  mascu…
+&gt;  9 Biggs …    183    84 black       light      brown           24   male  mascu…
+&gt; 10 Obi-Wa…    182    77 auburn, wh… fair       blue-gray       57   male  mascu…
+&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+
+```r
+dim(dplyr::starwars)
+```
+
+```
+&gt; [1] 87 14
+```
+
+]
+
+.panel[.panel-name[5b]
+
+
+```r
+library(gapminder)
+gapminder
+```
+
+```
+&gt; # A tibble: 1,704 × 6
+&gt;    country     continent  year lifeExp      pop gdpPercap
+&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+&gt;  1 Afghanistan Asia       1952    28.8  8425333      779.
+&gt;  2 Afghanistan Asia       1957    30.3  9240934      821.
+&gt;  3 Afghanistan Asia       1962    32.0 10267083      853.
+&gt;  4 Afghanistan Asia       1967    34.0 11537966      836.
+&gt;  5 Afghanistan Asia       1972    36.1 13079460      740.
+&gt;  6 Afghanistan Asia       1977    38.4 14880372      786.
+&gt;  7 Afghanistan Asia       1982    39.9 12881816      978.
+&gt;  8 Afghanistan Asia       1987    40.8 13867957      852.
+&gt;  9 Afghanistan Asia       1992    41.7 16317921      649.
+&gt; 10 Afghanistan Asia       1997    41.8 22227415      635.
+&gt; # … with 1,694 more rows
+```
+
+```r
+dim(gapminder)
+```
+
+```
+&gt; [1] 1704    6
+```
 
 ]
 
