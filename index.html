@@ -3591,6 +3591,216 @@ Un **dato de tipo tibble** será un `data.frame` mejorado: más ágil, más ráp
 
 ---
 
+# Resumen de datos
+
+.pull-left[&lt;img src = "https://miro.medium.com/max/727/0*MgEQsDgZZ7fJcdhZ.png" alt = "course-ECI" align = "left" width = "450" style = "margin-top: -5vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+Imagen de https://medium.com/@tiwarigaurav2512
+]
+
+.pull-right[
+
+* **Celdas**: numéricas, texto, lógicas, fecha, etc.
+* **Vectores**: variables, colección de celdas del mismo tipo.
+* **Matrices**: colección de variables, del mismo tipo e igual longitud.
+* **data.frame**: colección de variables, de igual longitud pero cualquier tipo.
+
+
+* `if-else`, bucles, funciones
+]
+
+Un dato que no hemos comentado son las **listas**: una colección de variables de cualquier tipo y longitud.
+
+
+```r
+list("a" = 1:2, "b" = data.frame("d1" = 1:2, "d2" = 3:4))
+```
+
+```
+&gt; $a
+&gt; [1] 1 2
+&gt; 
+&gt; $b
+&gt;   d1 d2
+&gt; 1  1  3
+&gt; 2  2  4
+```
+
+---
+
+# Tibble
+
+Los **datos en formato tibble** (del paquete `{tibble}`) son un tipo de `data.frame` mejorado, para una **gestión más ágil, eficiente y coherente**. Las tablas en formato `tibble` tienen **4 ventajas principales**:
+
+* Imprime **mayor información de las variables**, y solo **imprime por defecto las primeras filas**.
+
+
+```r
+library(tibble)
+# tibble
+tabla_tb &lt;- tibble("x" = 1:30, "y" = rep(c("a", "b", "c"), 10),
+                   "z" = 31:60, "logica" = rep(c(TRUE, TRUE, FALSE), 10))
+tabla_tb
+```
+
+```
+&gt; # A tibble: 30 × 4
+&gt;        x y         z logica
+&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;lgl&gt; 
+&gt;  1     1 a        31 TRUE  
+&gt;  2     2 b        32 TRUE  
+&gt;  3     3 c        33 FALSE 
+&gt;  4     4 a        34 TRUE  
+&gt;  5     5 b        35 TRUE  
+&gt;  6     6 c        36 FALSE 
+&gt;  7     7 a        37 TRUE  
+&gt;  8     8 b        38 TRUE  
+&gt;  9     9 c        39 FALSE 
+&gt; 10    10 a        40 TRUE  
+&gt; # … with 20 more rows
+```
+
+---
+
+# Tibble
+
+Los **datos en formato tibble** (del paquete `{tibble}`) son un tipo de `data.frame` mejorado, para una **gestión más ágil, eficiente y coherente**. Las tablas en formato `tibble` tienen **4 ventajas principales**:
+
+* Mantiene la **integridad de los datos** (no cambia los tipos de las variables y hace una carga de datos inteligente).
+
+
+```r
+tibble("fecha" = as.Date(c("1989-01-01", "1989-02-01", "1989-03-01")),
+       "valores" = 1:3)
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;   fecha      valores
+&gt;   &lt;date&gt;       &lt;int&gt;
+&gt; 1 1989-01-01       1
+&gt; 2 1989-02-01       2
+&gt; 3 1989-03-01       3
+```
+
+---
+
+# Tibble
+
+Los **datos en formato tibble** (del paquete `{tibble}`) son un tipo de `data.frame` mejorado, para una **gestión más ágil, eficiente y coherente**. Las tablas en formato `tibble` tienen **4 ventajas principales**:
+
+* La función `tibble()` **construye las variables secuencialmente**.
+
+
+```r
+# data.frame
+data.frame("x" = 1:3, "z" = 11:13, "x*z" = x * z)
+```
+
+```
+&gt; Error in x * z: arreglos de dimensón no compatibles
+```
+
+
+```r
+# tibble
+tabla_tb &lt;- tibble("x" = 1:3, "z" = 11:13, "x*z" = x * z)
+tabla_tb
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;       x     z `x*z`
+&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;
+&gt; 1     1    11    11
+&gt; 2     2    12    24
+&gt; 3     3    13    39
+```
+
+---
+
+# Tibble
+
+Puedes consultar **más funcionalidades** de dichos datos en &lt;https://tibble.tidyverse.org/&gt;
+
+Ahora además de poder ver una cabecera de las filas con `head()` tenemos la función `glimpse()`, que nos permite **obtener el resumen de columnas**
+
+
+```r
+head(tabla_tb)
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;       x     z `x*z`
+&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;
+&gt; 1     1    11    11
+&gt; 2     2    12    24
+&gt; 3     3    13    39
+```
+
+```r
+glimpse(tabla_tb)
+```
+
+```
+&gt; Rows: 3
+&gt; Columns: 3
+&gt; $ x     &lt;int&gt; 1, 2, 3
+&gt; $ z     &lt;int&gt; 11, 12, 13
+&gt; $ `x*z` &lt;int&gt; 11, 24, 39
+```
+
+Si ya tienes un `data.frame` es altamente recomendable **convertirlo a tibble** con `as_tibble()`
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: ¿es el conjunto de datos `airquality` (del paquete `{datasets}`) de tipo tibble?
+ 
+
+* 📝 **Ejercicio 2**: convierte el conjunto `airquality` de `data.frame` a `tibble`.
+ 
+* 📝 **Ejercicio 3**: define un tibble con tres variables numéricas `a, b, c`, tal que la tercera sea el producto de las dos primeras `c = a * b`.
+ 
+
+* 📝 **Ejercicio 4**: define un `tibble` con tres variables de nombres variable, 2, tercera :), e intenta acceder a ellas.
+ 
+
+* 📝 **Ejercicio 5**: obten de los paquetes `{dplyr}` y `{gapminder}` los conjuntos de datos `starwars` y `gapminder`. Comprueba el número de variables, de registros e imprime los datos.
+]
+
+
+.panel[.panel-name[Solución Ej. 1]
+
+]
+
+.panel[.panel-name[Solución Ej. 2]
+
+]
+
+.panel[.panel-name[Solución Ej. 3]
+
+]
+
+.panel[.panel-name[Solución Ej. 4]
+
+]
+
+.panel[.panel-name[Solución Ej. 5]
+
+]
+
+]
+
+
+---
+
 name: rmarkdown
 class: center, middle
 
