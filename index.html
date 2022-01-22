@@ -30,7 +30,7 @@ class: center, middle, inverse, title-slide
 ## Curso de la ECI 2022
 ### Autor: Javier Álvarez Liébana (UCM)
 ### (.css y .js basados en <mark><a href="https://github.com/dieghernan/rpubs" class="uri">https://github.com/dieghernan/rpubs</a></mark>)
-### 31/01/2022 - 04/02/2022 (actualizado: 2022-01-18)
+### 31/01/2022 - 04/02/2022 (actualizado: 2022-01-22)
 
 ---
 
@@ -1072,7 +1072,7 @@ Sys.Date()
 ```
 
 ```
-&gt; [1] "2022-01-18"
+&gt; [1] "2022-01-22"
 ```
 
 &amp;nbsp;
@@ -1118,7 +1118,7 @@ today()
 ```
 
 ```
-&gt; [1] "2022-01-18"
+&gt; [1] "2022-01-22"
 ```
 
 ```r
@@ -1239,7 +1239,7 @@ days(today() - fecha_nacimiento)
 ```
 
 ```
-&gt; [1] "11818d 0H 0M 0S"
+&gt; [1] "11822d 0H 0M 0S"
 ```
 ]
 
@@ -3992,9 +3992,216 @@ class: center, middle
 
 ---
 
+# Rmarkdown
+
+Vamos acabar nuestra primera sesión de `R` con una **forma práctica de presentar** nuestros análisis y resultados, y que será el formato en el que pedirán las **prácticas evaluables**: hablemos de **Rmarkdown**.
+
+
+Una de las principales **fortalezas** de `R` frente a `Python` es, no solo la visualización de datos, sino sus **opciones para generar informes**, incluso **libros**, **webs**, apuntes y hasta **diapositivas** (tanto el manual como estas mismas diapositivas han sido basadas en paquetes usan `{rmarkdown}`.
+
+
+```r
+install.packages("rmarkdown")
+```
+
+&lt;img src = "https://rubenfcasal.github.io/bookdown_intro/images/rmarkdown.png" alt = "rmd" align = "left" width = "280" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+
+---
+
+
+# Rmarkdown
+
+**¿Cuál es la ventaja de generarlos desde rmarkdown?**
+
+La más obvia: lo podemos hacer desde `RStudio` sin salirnos del entorno de programación, e integrar fácilmente **código R**.
+
+&lt;img src = "https://d33wubrfki0l68.cloudfront.net/87603549ad0d95b0071da0f9270b2f89ead3b39b/48700/lesson-images/websites-1-render.png" alt = "rmd" align = "left" width = "500" style = "margin-top: 3vh;margin-right: 3rem;margin-left: 0.5rem;"&gt;
+
+**¿Qué es Rmarkdown?**
+
+Una **herramienta** que nos permite crear de forma sencilla documentos:
+
+* **Markdown**: creado en 2004 por John Gruber, y de uso libre, es un **«lenguaje» que nos permite crear contenido** con un diseño legible, permitiendo la inclusión sencilla de párrafos, negritas, cursivas, etc. Si acostumbras a escribir en **wordpress, blogs u otras plataformas**, seguramente hayas escrito de esta forma (sin saberlo quizás).
+* **Latex**:  para escribir notación matemática como `\(x^2\)`.
+* **Código y salidas de R**.
+* **Imágenes**
+* **Estilos (css, js, etc)**
+
+---
+
+# Rmarkdown
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/file_rmarkdown.jpg" alt = "rmd" align = "left" width = "300" style = "margin-top: 3vh;margin-right: 3rem;margin-left: 0.5rem;"&gt;
+
+
+**Crear un Rmarkdown**: para crear el primero fichero con extensión `.rmd` (la extensión de los archivos `R Markdown`). Tras hacer click en el botón `File &lt;&lt; New File &lt;&lt; R Markdown`, nos aparecerá un menú con varias opciones.
+
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/new_rmd.jpg" alt = "rmd" align = "left" width = "350" style = "margin-top: 3vh;margin-right: 3rem;margin-left: 0.5rem;"&gt;
+
+* **Formatos de salida**: `.pdf`, `.html` (documento dinámico, permite la interacción con el usuario, como una «página web»), `.doc` (nada recomendable)
+* **Título (title)**: título de nuestro documento. 
+* **Autor (author)**: autor del documento.
+
+---
+
+# Rmarkdown
+
+
+&lt;img src="./img/rmd_estructura.jpg" width="55%" /&gt;
+
+
+Un fichero `.Rmd` se divide básicamente en **tres partes**
+
+* **Cabecera**: el inicio que hay entre `---` (los ajustes del documento general).
+* **Texto**: texto escrito que con markdown podremos mejorar con **negritas** (escrito como `**negritas**`, con doble astérisco al inicio y final), _cursivas_ (`_cursivas_`, con barra baja al inicio y final) o destacar nombres de funciones o `variables de R`. Recuerda que puedes añadir además **ecuaciones** como `\(x^2\)` (he escrito `$x^2$`, la ecuación entre dólares).
+* **Código R**: las cajitas donde metamos nuestro código `R` se llamarán **chunks**.
+
+**IMPORTANTE**: salvo que indiquemos lo contrario con **chunks**, todo lo que vamos a escribir en el documento es texto. No código R.
+
+---
+
+# Cabecera
+
+La **cabecera están en formato YAML**, y contiene los **metadatos** del documento: título, autor, fecha, estilos (si los tuviésemos), etc. Vamos a cambiar la cabecera que nos ha generado por defecto de la siguiente forma:
+
+* **Title**: `"Probando Probando"`
+* **author**: `"Señor X"`
+* **date**: `"11/7/2014"`
+* **output**: `html_document`
+
+Le indicamos el **formato de salida**, en este caso un **documento HTML**.
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/rmd_vacio.jpg" alt = "rmd" align = "left" width = "500" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+---
+
+# Cuerpo de texto
+
+Para empezar nuestro documento escribiremos, por ejemplo, la siguiente frase
+
+&gt; Este material ha sido diseñado como complemento y recursos de apoyo al curso de la Escuela de Invierno de la UCM titulado «Analizando datos, visualizando información, contando historias», celebrado presencialmente del 31 de enero al 4 de febrero de 2022 (16:00 a 21:00 horas, de lunes a viernes).
+
+**Guardamos** el archivo `.Rmd` haciendo click en el botón Guardar y **tejeremos** nuestro documento haciendo click en el botón `Knit`.
+
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/primer_html_rmd.jpg" alt = "rmd" align = "left" width = "400" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+---
+
+# Añadiendo formato
+
+Podemos **mejorar un poco el texto**:
+
+* Vamos a añadir **negrita** a la frase `"curso de la Escuela de Invierno de la UCM"` (poniendo ** al inicio y al final).
+
+--
+
+* Vamos añadir **cursiva** a la palabra `"material"` (poniendo _ al inicio y al final).
+
+--
+
+* Vamos añadir un **enlace**, &lt;https://www.ucm.es/eci//cursoecic02-pre&gt;, asociándolo al título `«Analizando datos, visualizando información, contando historias»`. Para ello el título lo ponemos entre corchetes y justo detrás el enlace entre paréntesis [«Analizando datos, visualizando información, contando historias»](https://www.ucm.es/eci//cursoecic02-pre)
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/rmd_2.jpg" alt = "rmd" align = "left" width = "520" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+--
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/html_rmd_2.jpg" alt = "rmd" align = "left" width = "380" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+---
+
+# Chunks de código
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/chunk_1.jpg" alt = "rmd" align = "left" width = "400" style = "margin-top: 2vh;margin-right: 1rem;margin-left: 0.5rem;"&gt;
+
+
+Nuestras **cajas de código** llamadas _chunks_ serán altos en el camino en nuestro texto _markdown_ donde podremos incluir código. Para incluir uno deberá de ir **encabezado** de la siguiente forma.
+
+--
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/rmd_3.jpg" alt = "rmd" align = "left" width = "530" style = "margin-top: 1vh;margin-right: 1rem;margin-left: 0.5rem;"&gt;
+
+Dentro de la cajita **escribiremos código R**, como lo veníamos haciendo hasta ahora. Vamos por ejemplo a **definir dos variables y su suma**. Dentro de esos _chunks_ puedes **comentar código** como hacemos habitualmente con `#`.
+
+Tras tejer de nuevo y obtenemos ahora un documento que tiene una caja de código y su salida, en este caso `x + y`.
+ 
+---
+
+# Etiquetando chunks
+
+Los _chunks_ de código pueden tener un **nombre o etiqueta** para poder referenciarlos de nuevo (y para no repetir código). En la etiqueta no se pueden poner espacios, preferiblemente solo letras y guiones.
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/chunk_repe_tag.jpg" alt = "rmd" align = "left" width = "500" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/html_tag_chunk.jpg" alt = "rmd" align = "left" width = "500" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+
+---
+
+# Organizando el documento
+
+El **documento podemos dividirlo en secciones y subsecciones**. Para ello usaremos la sintaxis de _markdown_, poniendo **almohadillas**: una `#` para secciones, `##` para subsecciones, `###` para subsubsecciones, etc. Vamos a crear una **sección principal** que sea `# Primer informe` y una **subsección** que se titule `## Chunks de código` donde incluiremos los dos chunks que tenemos hasta ahora.
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/secciones_rmd.jpg" alt = "rmd" align = "left" width = "450" style = "margin-top: 2vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+También podemos **organizar nuestro documento** creando listas de ítems, usando `*` para cada uno de ellos.
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/items_rmd.jpg" alt = "rmd" align = "left" width = "450" style = "margin-top: 2vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+---
+
+# Ejecutando chunk a chunk
+
+En cada _chunk_ aparece una botón de _play_: pulsándolo podemos tener la **ejecución y salida de cada chunk** en nuestro `.Rmd`, sin tener que esperar a «tejer» (con Knit) todo el documento para ver lo que vamos ejecutando.
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/play_chunk.jpg" alt = "rmd" align = "left" width = "500" style = "margin-top: 2vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/chunk_ejecutado.jpg" alt = "rmd" align = "left" width = "500" style = "margin-top: 2vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+Además **podemos incluir código R dentro de la línea de texto**.
+
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/codigo_inline_rmd.jpg" alt = "rmd" align = "right" width = "450" style = "margin-top: 2vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+---
+
+# Personalizando chunks
+
+Los _chunks_ podemos **personalizarlos** con algunas opciones, pasándolos como argumentos dentro de las llaves `{r etiqueta, ...}`.
+
+* `include = FALSE`: se **ejecuta el código** pero **no se muestra** ni código ni resultados en la salida final (pero lo que se ejecuta puede ser usado en otros chunks futuros). Por ejemplo, `{r etiqueta, include = FALSE}`
+
+* `echo = FALSE`: se **ejecuta el código** y se **muestra el resultado** pero **no el código** en la salida final. Por ejemplo, `{r etiqueta, echo = FALSE}`
+ 
+* `eval = FALSE`: se **muestra** pero **no se ejecuta** el código en la salida final.
+
+* `message = FALSE`: se **ejecuta el código** pero **no se muestran los mensajes** de salida que tendríamos en consola (en caso de existir).
+
+* `warning = FALSE`: se **ejecuta el código** pero **no se muestran los warning** que tendríamos en consola (en caso de existir).
+
+* `error = TRUE`: se **ejecuta el código** pero permite ejecutar el código **con errores** mostrando los mensajes de error que tendríamos en consola (en caso de existir).
+
+Puedes ver las **diferentes salidas** en el archivo [primer_rmarkdown.Rmd](https://github.com/dadosdelaplace/courses-ECI-2022/blob/main/scripts/primer_rmarkdown.Rmd)
+
+
+---
+
+# Variables y ecuaciones
+
+También podemos **incluir ecuaciones** haciendo uso de código latex (entre dolares `$$`), así como nombres de variables.
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/variables_rmd.jpg" alt = "rmd" align = "left" width = "600" style = "margin-top: 2vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/variables_html.jpg" alt = "rmd" align = "left" width = "600" style = "margin-top: 2vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+
+---
+
 class: center, middle
 
-# ¡Muchísimas gracias a todos/as!
+# Mañana más y mejor. ¡Muchísimas gracias a todos/as!
 
 Las diapositivas han sido generadas con el paquete [**{xaringan}**](https://github.com/yihui/xaringan).
 
