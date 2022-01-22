@@ -383,6 +383,14 @@ library(ggplot2)
 
 ---
 
+class: center middle
+
+# ¿Por qué no usar Excel?
+
+![](./img/meme_barco.jpg)
+
+---
+
 class: inverse center middle
 
 # ¿Por qué no usar Excel?
@@ -2269,6 +2277,8 @@ name: tibble
 class: center, middle
 
 # Mejorando los datos: tibble
+
+![](./img/meme_gato.jpg)
 
 ## **mejorando los data.frame**
 
