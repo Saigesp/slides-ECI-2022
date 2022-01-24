@@ -4534,6 +4534,435 @@ class: center, middle
 
 ---
 
+# Tidy data: filosofía de trabajo
+
+Hasta ahora solo le hemos dado importancia al «qué» pero no al **«cómo» manejamos los datos**.
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/flujo_tidy_data.jpg" alt="Flujo deseable de datos según Hadley Wickham, extraída de https://r4ds.had.co.nz/wrangle-intro.html" width="60%" /&gt;
+&lt;p class="caption"&gt;Flujo deseable de datos según Hadley Wickham, extraída de https://r4ds.had.co.nz/wrangle-intro.html&lt;/p&gt;
+&lt;/div&gt;
+
+La **organización de nuestros datos** es fundamental para que su preparación y explotación sea lo más eficiente posible: la **limpieza y preprocesamiento** puede llevarnos hasta el 80% del tiempo en nuestro análisis si no se hace forma correcta (Dasu and Johnson 2003).
+
+--
+
+El concepto **tidy data** fue introducido por **Hadley Wickham** como el primer paso a realizar del entorno de paquetes que posteriormente se fueron desarrollando bajo el nombre de `{tidyverse}`, desarrollando un flujo de trabajo desde la carga hasta la visualización
+
+
+---
+
+# Tidy data
+
+Los **conjuntos tidy o datos ordenados** tienen tres objetivos principales:
+
+1. **Estandarización** en su estructura.
+2. **Sencillez** en su manipulación.
+3. Listos para ser **modelizados y visualizados**.
+
+--
+
+Para ello, los **datos ordenados o tidy data** deben cumplir:
+
+* Cada **variable en una columna**.
+* Cada **observación/registro/individuo en una fila** diferente.
+* Cada **celda con un único valor**.
+* Cada **conjunto** o unidad observacional conforma una **tabla**.
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/tidy_data.png" alt="Infografía con datos ordenados (tidy data) extraída de https://r4ds.had.co.nz/tidy-data.html" width="67%" /&gt;
+&lt;p class="caption"&gt;Infografía con datos ordenados (tidy data) extraída de https://r4ds.had.co.nz/tidy-data.html&lt;/p&gt;
+&lt;/div&gt;
+
+Lo contrario lo llamaremos **datos desordenados** o _messy data_. 
+
+---
+
+# Pipeline %&gt;%
+
+En este entorno de trabajo tendremos un **operador clave**: el **operador pipeline (%&gt;%)**, el cual lo debemos interpretar como una **flecha que une nodos**, y nos servirá para **concatenar operaciones sobre un conjunto de datos de forma legible**. Por ejemplo, si tuviésemos tres funciones `first()`, `second()` y `third()`, la opción más inmediata sería anidar las tres funciones.
+
+
+```r
+third(second(first(x)))
+```
+
+Con el **pipeline %&gt;%** podremos escribir (y leer) la concetanción de izquierda a derecha
+
+
+```r
+first(x) %&gt;% second(x) %&gt;% third(x)
+```
+
+&amp;nbsp;
+
+Dicho operador depende del paquete `{magrittr}`: para evitar esta dependencia (cuantos menos paquetes tengamos que cargar, mejor), desde la **versión 4.1.0 de R** disponemos de un operador pipeline nativo de R, el **operador |&gt;** (disponible además fuera del entorno tidyverse).
+
+Usaremos el **paquete `{tidyr}`** para pasar de _messy_ a _tidy data_
+
+---
+
+# Messy data: valores en el nombre
+
+Veamos un primer ejemplo con el conjunto `table4a` del paquete `{tidyr}`.
+
+
+```r
+library(tidyr)
+table4a
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;   country     `1999` `2000`
+&gt; * &lt;chr&gt;        &lt;int&gt;  &lt;int&gt;
+&gt; 1 Afghanistan    745   2666
+&gt; 2 Brazil       37737  80488
+&gt; 3 China       212258 213766
+```
+
+En este ejemplo de 3 filas y 3 columnas, tenemos dos columnas `1999` y `2000` que **no están representando cada una a una sola variable**: ambas son la misma variable, solo que medida en años distintos, **cada fila está representando dos observaciones (1999, 2000) en lugar de un solo registro**.
+
+Lo que haremos será **incluir una nueva columna llamada `year`** que nos marque el año y otra `values` que nos diga el valor de la variable de interés en cada uno de esos años.
+
+---
+
+# pivot_longer: pivotando tablas
+
+
+Con la función `pivot_longer` del mencionado paquete le indicaremos lo siguiente:
+
+* `cols`: el **nombre de las columnas a pivotar** (con comillas porque son números, no texto como nombre).
+* `names_to`: el nombre de la columna a la que vamos a mandar los valores que figuran ahora en los nombres de las columnas.
+* `values_to`: el nombre de la columna a la que vamos a mandar los valores.
+
+
+```r
+table4a %&gt;% pivot_longer(cols = c("1999", "2000"), names_to = "year",
+*                        values_to = "values")
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   country     year  values
+&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;int&gt;
+&gt; 1 Afghanistan 1999     745
+&gt; 2 Afghanistan 2000    2666
+&gt; 3 Brazil      1999   37737
+&gt; 4 Brazil      2000   80488
+&gt; 5 China       1999  212258
+&gt; 6 China       2000  213766
+```
+
+Ahora tenemos **un registro por fila, una variable por columna y cada celda representa un único valor**. Lo que hacemos con `pivot_longer()` es **«ampliar» la tabla haciéndola más larga (más filas)** pero con menos columnas.
+
+---
+
+# Segundo ejemplo: relig_income
+
+
+```r
+relig_income[1:3, ]
+```
+
+```
+&gt; # A tibble: 3 × 11
+&gt;   religion `&lt;$10k` `$10-20k` `$20-30k` `$30-40k` `$40-50k` `$50-75k` `$75-100k`
+&gt;   &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+&gt; 1 Agnostic      27        34        60        81        76       137        122
+&gt; 2 Atheist       12        27        37        52        35        70         73
+&gt; 3 Buddhist      27        21        30        34        33        58         62
+&gt; # … with 3 more variables: $100-150k &lt;dbl&gt;, &gt;150k &lt;dbl&gt;,
+&gt; #   Don't know/refused &lt;dbl&gt;
+```
+
+Salvo la primera, el **resto de columnas tienen como nombre los valores de una variable en sí misma (ingresos)**. Ahora en lugar de indicarle el nombre de todas vamos a indicarle **la columna que NO queremos pivotar**.
+
+
+```r
+# No necesitamos comillas en el nombre salvo que tengan caracteres que no sean letras
+*relig_income %&gt;% pivot_longer(-religion, names_to = "ingresos", values_to = "frec")
+```
+
+```
+&gt; # A tibble: 180 × 3
+&gt;    religion ingresos            frec
+&gt;    &lt;chr&gt;    &lt;chr&gt;              &lt;dbl&gt;
+&gt;  1 Agnostic &lt;$10k                 27
+&gt;  2 Agnostic $10-20k               34
+&gt;  3 Agnostic $20-30k               60
+&gt;  4 Agnostic $30-40k               81
+&gt;  5 Agnostic $40-50k               76
+&gt;  6 Agnostic $50-75k              137
+&gt;  7 Agnostic $75-100k             122
+&gt;  8 Agnostic $100-150k            109
+&gt;  9 Agnostic &gt;150k                 84
+&gt; 10 Agnostic Don't know/refused    96
+&gt; # … with 170 more rows
+```
+
+---
+
+# Messy data: un registro en varias filas
+
+Otro caso puede ser tener un mismo registro (datos de un mismo individuo) pero dividido en varias filas.
+
+
+```r
+table2[1:3, ]
+```
+
+```
+&gt; # A tibble: 3 × 4
+&gt;   country      year type          count
+&gt;   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;         &lt;int&gt;
+&gt; 1 Afghanistan  1999 cases           745
+&gt; 2 Afghanistan  1999 population 19987071
+&gt; 3 Afghanistan  2000 cases          2666
+```
+
+Los registros con el mismo año deberían ser el mismo, es la misma información, pero están divididos en dos filas. Lo que haremos será lo opuesto a antes: con `pivot_wider()` **«ampliaremos» la tabla a lo ancho**
+
+
+```r
+*table2 %&gt;% pivot_wider(names_from = type, values_from = count)
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   country      year  cases population
+&gt;   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+&gt; 1 Afghanistan  1999    745   19987071
+&gt; 2 Afghanistan  2000   2666   20595360
+&gt; 3 Brazil       1999  37737  172006362
+&gt; 4 Brazil       2000  80488  174504898
+&gt; 5 China        1999 212258 1272915272
+&gt; 6 China        2000 213766 1280428583
+```
+
+---
+
+# Messy data: múltiples valores en celda
+
+
+```r
+table3
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   country      year rate             
+&gt; * &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;            
+&gt; 1 Afghanistan  1999 745/19987071     
+&gt; 2 Afghanistan  2000 2666/20595360    
+&gt; 3 Brazil       1999 37737/172006362  
+&gt; 4 Brazil       2000 80488/174504898  
+&gt; 5 China        1999 212258/1272915272
+&gt; 6 China        2000 213766/1280428583
+```
+
+En la columna `rate` hay **guardados dos valores, separados por /**, lo que hace que en **una celda no tenga un único valor**. La función `separate()` nos permitirá **separar los múltiples valores de la columna** (por defecto **localiza como separador cualquier caracter que no sea alfa-numérico**)
+
+
+```r
+*table3 %&gt;% separate(rate, into = c("cases", "population"))
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   country      year cases  population
+&gt;   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;     
+&gt; 1 Afghanistan  1999 745    19987071  
+&gt; 2 Afghanistan  2000 2666   20595360  
+&gt; 3 Brazil       1999 37737  172006362 
+&gt; 4 Brazil       2000 80488  174504898 
+&gt; 5 China        1999 212258 1272915272
+&gt; 6 China        2000 213766 1280428583
+```
+
+---
+
+# Messy data: múltiples valores en celda
+
+Si **queremos un caracter concreto para dividir** podemos indicárselo explícitamente
+
+
+```r
+table3 %&gt;% separate(rate, into = c("cases", "population"), sep = "/")
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   country      year cases  population
+&gt;   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;     
+&gt; 1 Afghanistan  1999 745    19987071  
+&gt; 2 Afghanistan  2000 2666   20595360  
+&gt; 3 Brazil       1999 37737  172006362 
+&gt; 4 Brazil       2000 80488  174504898 
+&gt; 5 China        1999 212258 1272915272
+&gt; 6 China        2000 213766 1280428583
+```
+
+De la misma manera que **podemos separar columnas también podemos unirlas**. Para ello vamos a usar la tabla `table5`: con la función `unite()` vamos a **unir el siglo (en century) y el año (en year)**.
+
+
+```r
+*table5 %&gt;% unite(date, century, year)
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   country     date  rate             
+&gt;   &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;            
+&gt; 1 Afghanistan 19_99 745/19987071     
+&gt; 2 Afghanistan 20_00 2666/20595360    
+&gt; 3 Brazil      19_99 37737/172006362  
+&gt; 4 Brazil      20_00 80488/174504898  
+&gt; 5 China       19_99 212258/1272915272
+&gt; 6 China       20_00 213766/1280428583
+```
+
+---
+
+# Convertir al tipo adecuado
+
+Una opción muy útil que podemos usar al **aplicar la separación de los múltiples valores** es **convertir los datos al tipo adecuado**. Los datos unidos en `rate` eran **caracteres** (no podían ser numéricos). Al separarlos, por defecto, aunque ahora ya son solo números, **los separa como si fueran textos**. Con `convert = TRUE` podemos indicarle que identifique el tipo de dato y lo convierta.
+
+
+```r
+table3 %&gt;%
+  separate(rate, into = c("cases", "population"), convert = TRUE)
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   country      year  cases population
+&gt;   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+&gt; 1 Afghanistan  1999    745   19987071
+&gt; 2 Afghanistan  2000   2666   20595360
+&gt; 3 Brazil       1999  37737  172006362
+&gt; 4 Brazil       2000  80488  174504898
+&gt; 5 China        1999 212258 1272915272
+&gt; 6 China        2000 213766 1280428583
+```
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: convierte en _tidy data_ el siguiente _data.frame_.
+
+
+```r
+tabla_tb &lt;- tibble("trimestre" = c("T1", "T2", "T3"),
+                   "2020" = c(10, 12, 7.5),
+                   "2021" = c(8, 0, 9))
+```
+
+* 📝 **Ejercicio 2**: convierte en _tidy data_ el siguiente _data.frame_.
+ 
+
+```r
+tabla_tb &lt;- tibble("año" = c(2019, 2019, 2020, 2020, 2021, 2021),
+                   "variable" = c("A", "B", "A", "B", "A", "B"),
+                   "valor" = c(10, 9383, 7.58, 10839, 9, 32949))
+```
+
+* 📝 **Ejercicio 3**: convierte en _tidydata_ la tabla `table5` del paquete `{tidyr}`.
+
+]
+
+.panel[.panel-name[Solución Ej. 1]
+
+El problema es que las dos columnas con nombres de año son en realidad valores que deberían pasar a ser variables, así que deberíamos disminuir aplicar `pivot_longer()`.
+
+
+```r
+library(tidyr)
+tabla_tb &lt;- tibble("trimestre" = c("T1", "T2", "T3"),
+                   "2020" = c(10, 12, 7.5),
+                   "2021" = c(8, 0, 9))
+
+# Aplicamos pivot_longer
+tabla_tb %&gt;% pivot_longer(cols = c("2020", "2021"),
+                          names_to = "año", values_to = "valores")
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   trimestre año   valores
+&gt;   &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt;
+&gt; 1 T1        2020     10  
+&gt; 2 T1        2021      8  
+&gt; 3 T2        2020     12  
+&gt; 4 T2        2021      0  
+&gt; 5 T3        2020      7.5
+&gt; 6 T3        2021      9
+```
+
+
+]
+
+
+.panel[.panel-name[Solución Ej. 2]
+
+El problema es que las filas que comparten año son el mismo registro (pero con dos características que tenemos divididas en dos filas), así que deberíamos disminuir aplicar `pivot_wider()`.
+
+
+```r
+tabla_tb &lt;- tibble("año" = c(2019, 2019, 2020, 2020, 2021, 2021),
+                   "variable" = c("A", "B", "A", "B", "A", "B"),
+                   "valor" = c(10, 9383, 7.58, 10839, 9, 32949))
+
+# Aplicamos pivot_wider
+tabla_tb %&gt;% pivot_wider(names_from = "variable",
+                         values_from = "valor")
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;     año     A     B
+&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1  2019 10     9383
+&gt; 2  2020  7.58 10839
+&gt; 3  2021  9    32949
+```
+
+]
+
+.panel[.panel-name[Solución Ej. 3]
+
+Primero uniremos el siglo y las dos últimas cifras del año para obtener el año completo (guardado en año). Tras ello deberemos separar el valor del ratio en denominador y numerador (ya que ahora hay dos valores en una celda), y convertiremos el tipo de dato en la salida para que sea número.
+
+
+```r
+table5 %&gt;%
+  unite(año, century, year, sep = "") %&gt;%
+  separate(rate, c("numerador", "denominador"), convert = TRUE)
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   country     año   numerador denominador
+&gt;   &lt;chr&gt;       &lt;chr&gt;     &lt;int&gt;       &lt;int&gt;
+&gt; 1 Afghanistan 1999        745    19987071
+&gt; 2 Afghanistan 2000       2666    20595360
+&gt; 3 Brazil      1999      37737   172006362
+&gt; 4 Brazil      2000      80488   174504898
+&gt; 5 China       1999     212258  1272915272
+&gt; 6 China       2000     213766  1280428583
+```
+
+]
+
+]
+
+
+---
+
 name: tidyverse
 class: center, middle
 
@@ -4545,6 +4974,61 @@ class: center, middle
 
 El conjunto de paquetes de `{tidyverse}` supuso un antes y un después en el preprocesamiento de los datos en `R`
 
+---
+
+# Entorno tidyverse
+
+Aunque conocemos ya un formato amable de almacenar los datos, muchas veces los **datos no los tenemos en el formato deseado**, o directamente queremos realizar algunas **transformaciones en los mismos**. Para trabajar con los datos vamos a cargar `{tidyverse}`, un **entorno de paquetes para el manejo de datos**.
+
+
+```r
+install.packages("tidyverse") # SOLO la primera vez
+library(tidyverse)
+```
+
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://dadosdelaplace.github.io/courses-ECI-2022/img/flujo_tidyverse.png" alt="Imagen extraída de https://sporella.github.io/datos_espaciales_presentacion/#30" width="60%" /&gt;
+&lt;p class="caption"&gt;Imagen extraída de https://sporella.github.io/datos_espaciales_presentacion/#30&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Entorno tidyverse
+
+El **entorno tidyverse** es una de las **herramientas más importantes en el manejo de datos en R**, una c**olección de paquetes** pensada para el manejo, la exploración, el análisis y la visualización de datos, **compartiendo una misma filosofía y gramática**.
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://dadosdelaplace.github.io/courses-ECI-2022/img/flujo_tidyverse_1.png" alt="Imagen extraída de https://www.storybench.org/getting-started-with-tidyverse-in-r/" width="90%" /&gt;
+&lt;p class="caption"&gt;Imagen extraída de https://www.storybench.org/getting-started-with-tidyverse-in-r/&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Paquetes de tidyverse
+
+* `{tidyr}`: para **adecuar los datos a tidy data**
+
+* `{tibble}`: **mejorando los data.frame** para un manejo más eficiente.
+
+* Paquetes `{readr}` para una **carga rápida y eficaz de datos rectangulares** (formatos .csv, .tsv, etc). Paquete `{readxl}` para **importar archivos .xls y .xlsx**. Paquete `{haven}` para importar archivos desde **SPSS, Stata y SAS**. Paquete `{httr}` para **importar desde web**. Paquete `{rvest}` para **web scraping**.
+
+* `{dplyr}`: una **gramática de manipulación de datos** para facilitar su procesamiento.
+
+* `{ggplot2}`: una **gramática para la visualización** de datos.
+
+* Paquete `{stringr}` para un manejo sencillo de **cadenas de texto**. Paquete `{forcast}` para un manejo de **variables cualitativas** (en R conocidas como factores).
+
+* `{purrr}`: manejo de **listas**.
+
+* `{lubridate}` para el **manejo de fechas**.
+
+&amp;nbsp;
+
+Puedes ver su **documentación completa** en &lt;https://www.tidyverse.org/&gt;.
+
+ 
 ---
 
 name: dataviz
