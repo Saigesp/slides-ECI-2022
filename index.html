@@ -4243,6 +4243,349 @@ Las diapositivas han sido generadas con el paquete [**{xaringan}**](https://gith
 
 
 Los estilos (.css y .js) de estas diapositivas están basados en las diapositivas del repositorio &lt;https://github.com/dieghernan/rpubs&gt;
+
+---
+
+class: inverse center middle
+
+# Bloque II: introducción al dataviz en R.
+
+&amp;nbsp;
+
+### [Repaso](#repaso-1)
+
+### [Tidy data: ordenando los datos](#tidy-data)
+
+### [Introducción a Tidyverse](#tidyverse)
+
+### [Dataviz e introducción a ggplot2](#dataviz)
+
+### [Introducción a la estadística](#stats)
+
+### [Caso práctico: análisis y dataviz de datos (cómics y chocolate)](#caso-practico-2)
+
+### [🏅Evaluación](#evaluacion-2)
+
+---
+
+name: repaso-1
+class: center, middle
+
+# Repaso
+
+Previously on Breaking Bad...
+
+![](https://occ-0-1722-1723.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABeq9Fg04r6qPCr1dq7VKOglPPuluLbGBoyy60tgKnh9KsXWh5Y2VaY7jDWhrl4QQV1NhshZxCtLJrM_3V_WJc5J0p-eW.jpg?r=776)
+
+
+---
+
+# Repaso: tipos de datos
+
+
+.pull-left[&lt;img src = "https://miro.medium.com/max/727/0*MgEQsDgZZ7fJcdhZ.png" alt = "course-ECI" align = "left" width = "450" style = "margin-top: -5vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+Imagen de https://medium.com/@tiwarigaurav2512
+]
+
+.pull-right[
+
+* **Celdas**: numéricas, texto, lógicas, fecha, etc.
+
+
+```r
+numero &lt;- 1
+texto &lt;- "hola"
+var_logica &lt;- texto == "adios"
+var_logica
+```
+
+```
+&gt; [1] FALSE
+```
+
+]
+
+---
+
+# Repaso: tipos de datos
+
+
+.pull-left[&lt;img src = "https://miro.medium.com/max/727/0*MgEQsDgZZ7fJcdhZ.png" alt = "course-ECI" align = "left" width = "450" style = "margin-top: -5vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+Imagen de https://medium.com/@tiwarigaurav2512
+]
+
+.pull-right[
+* **Vectores**: variables, colección de celdas del mismo tipo.
+
+
+```r
+vector_num &lt;- 1:3 # vector numérico
+
+glue("variable_{vector_num}") # vector de texto
+```
+
+```
+&gt; variable_1
+&gt; variable_2
+&gt; variable_3
+```
+
+```r
+vector_num &lt; 3 # vector lógico
+```
+
+```
+&gt; [1]  TRUE  TRUE FALSE
+```
+
+```r
+length(vector_num) # Longitud vector
+```
+
+```
+&gt; [1] 3
+```
+
+```r
+sum(vector_num) # Sumar vector numérico
+```
+
+```
+&gt; [1] 6
+```
+
+]
+
+---
+
+# Repaso: tipos de datos
+
+
+&lt;img src = "https://miro.medium.com/max/727/0*MgEQsDgZZ7fJcdhZ.png" alt = "course-ECI" align = "left" width = "450" style = "margin-top: -5vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+* **Matrices**: colección de variables, del mismo tipo e igual longitud.
+
+
+```r
+mat &lt;- cbind("a" = 1:3, "b" = c(-1, 5, 6)) # construir matriz
+mat
+```
+
+```
+&gt;      a  b
+&gt; [1,] 1 -1
+&gt; [2,] 2  5
+&gt; [3,] 3  6
+```
+
+```r
+apply(mat, MARGIN = 2, FUN = mean) # media por columnas
+```
+
+```
+&gt;        a        b 
+&gt; 2.000000 3.333333
+```
+
+---
+
+# Repaso: tipos de datos
+
+
+* **data.frame**: colección de variables, de igual longitud pero cualquier tipo.
+
+
+```r
+df &lt;- data.frame("nombre" = c("javi", "mar", "carlos"),
+                 "hermanos" = 1:3, "soltero" = c(TRUE, NA, FALSE),
+                 "fecha_nac" = as.Date(c("1989-01-01", "1989-02-02",
+                                         "1989-03-03")))
+df
+```
+
+```
+&gt;   nombre hermanos soltero  fecha_nac
+&gt; 1   javi        1    TRUE 1989-01-01
+&gt; 2    mar        2      NA 1989-02-02
+&gt; 3 carlos        3   FALSE 1989-03-03
+```
+
+```r
+df$nombre
+```
+
+```
+&gt; [1] javi   mar    carlos
+&gt; Levels: carlos javi mar
+```
+
+---
+
+# Repaso: tipos de datos
+
+
+* **tibble**: data.frame optimizado.
+
+
+```r
+tb &lt;- tibble("a" = 1:3, "b" = 4:6, "c" = a * b)
+tb
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;       a     b     c
+&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;
+&gt; 1     1     4     4
+&gt; 2     2     5    10
+&gt; 3     3     6    18
+```
+
+```r
+glimpse(as_tibble(df))
+```
+
+```
+&gt; Rows: 3
+&gt; Columns: 4
+&gt; $ nombre    &lt;fct&gt; javi, mar, carlos
+&gt; $ hermanos  &lt;int&gt; 1, 2, 3
+&gt; $ soltero   &lt;lgl&gt; TRUE, NA, FALSE
+&gt; $ fecha_nac &lt;date&gt; 1989-01-01, 1989-02-02, 1989-03-03
+```
+
+---
+
+# Repaso: tipos de datos
+
+* **listas** compendio de variables, de cualquier tipo y longitud.
+
+
+```r
+lista &lt;- list("celda" = 1, "vec" = c(1, 3, 5), "df" = df)
+lista
+```
+
+```
+&gt; $celda
+&gt; [1] 1
+&gt; 
+&gt; $vec
+&gt; [1] 1 3 5
+&gt; 
+&gt; $df
+&gt;   nombre hermanos soltero  fecha_nac
+&gt; 1   javi        1    TRUE 1989-01-01
+&gt; 2    mar        2      NA 1989-02-02
+&gt; 3 carlos        3   FALSE 1989-03-03
+```
+
+---
+
+# Repaso: estructuras de control y extras
+
+* `if-else`: si se cumple la condición, un camino; en otro caso, camino alternativo.
+* bucles: repetir órdenes hasta un criterio de parada (bien hasta un numéro de iteraciones, bien hasta que se cumpla una condición)
+* funciones: encapsular código.
+* proyectos: organizar scripts.
+* rmarkdown: presentación de resultados.
+
+
+## Subset
+
+* `subset`: **condición lógica** para **seleccionar registros (filas)**.
+* `select`: un vector que contenga el **nombre de las columnas que queremos seleccionar**.
+
+
+```r
+*subset(USArrests, subset = UrbanPop &gt; 85, select = c("Murder", "Assault"))
+```
+
+```
+&gt;              Murder Assault
+&gt; California      9.0     276
+&gt; New Jersey      7.4     159
+&gt; New York       11.1     254
+&gt; Rhode Island    3.4     174
+```
+
+---
+
+class: center, middle
+
+# **¿DUDAS?**
+
+![](https://elsitioderuife.files.wordpress.com/2012/10/lenny-simpsons.jpg)
+
+---
+
+name: tidy-data
+class: center, middle
+
+# Tidy data
+
+## **Ordenando los datos**
+
+&amp;nbsp;
+
+&gt; Tidy datasets are all alike, but every messy dataset is messy in its own way (Hadley Wickham, Chief Scientist en RStudio).
+
+---
+
+name: tidyverse
+class: center, middle
+
+# Introducción a tidyverse
+
+## **Manipulando (para bien) los datos**
+
+&amp;nbsp;
+
+El conjunto de paquetes de `{tidyverse}` supuso un antes y un después en el preprocesamiento de los datos en `R`
+
+---
+
+name: dataviz
+class: center, middle
+
+# Dataviz e introducción a ggplot2
+
+## **La gramática de los gráficos**
+
+&amp;nbsp;
+
+El paquete `{ggplot2}` se basa en la idea propuesta en «Grammar of graphics» del recién fallecido Wilkinson.
+
+---
+
+name: evaluacion-2
+class: center, middle
+
+# EVALUACIÓN
+
+## **Práctica evaluable II: primeras visualizaciones**
+
+&amp;nbsp;
+
+En la carpeta [EVALUACIÓN](https://github.com/dadosdelaplace/courses-ECI-2022/tree/main/EVALUACI%C3%93N), accede al fichero `Evaluacion_2.Rmd` en la carpeta `PRÁCTICA II`...
+
+&amp;nbsp;
+
+La **entrega de las cinco prácticas** deberán ser enviadas por mail antes de las 23:59h del 11 de febrero, todas en un archivo comprimido (`.zip`, `.rar`, etc), con el nombre de el/la alumno/a.
+
+
+---
+
+class: center, middle
+
+# Mañana más y mejor. ¡Muchísimas gracias a todos/as!
+
+Las diapositivas han sido generadas con el paquete [**{xaringan}**](https://github.com/yihui/xaringan).
+
+
+Los estilos (.css y .js) de estas diapositivas están basados en las diapositivas del repositorio &lt;https://github.com/dieghernan/rpubs&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

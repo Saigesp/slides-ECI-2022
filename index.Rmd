@@ -2707,3 +2707,239 @@ Las diapositivas han sido generadas con el paquete [**{xaringan}**](https://gith
 
 
 Los estilos (.css y .js) de estas diapositivas están basados en las diapositivas del repositorio <https://github.com/dieghernan/rpubs>
+
+---
+
+class: inverse center middle
+
+# Bloque II: introducción al dataviz en R.
+
+&nbsp;
+
+### [Repaso](#repaso-1)
+
+### [Tidy data: ordenando los datos](#tidy-data)
+
+### [Introducción a Tidyverse](#tidyverse)
+
+### [Dataviz e introducción a ggplot2](#dataviz)
+
+### [Introducción a la estadística](#stats)
+
+### [Caso práctico: análisis y dataviz de datos (cómics y chocolate)](#caso-practico-2)
+
+### [🏅Evaluación](#evaluacion-2)
+
+---
+
+name: repaso-1
+class: center, middle
+
+# Repaso
+
+Previously on Breaking Bad...
+
+![](https://occ-0-1722-1723.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABeq9Fg04r6qPCr1dq7VKOglPPuluLbGBoyy60tgKnh9KsXWh5Y2VaY7jDWhrl4QQV1NhshZxCtLJrM_3V_WJc5J0p-eW.jpg?r=776)
+
+
+---
+
+# Repaso: tipos de datos
+
+
+.pull-left[<img src = "https://miro.medium.com/max/727/0*MgEQsDgZZ7fJcdhZ.png" alt = "course-ECI" align = "left" width = "450" style = "margin-top: -5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+Imagen de https://medium.com/@tiwarigaurav2512
+]
+
+.pull-right[
+
+* **Celdas**: numéricas, texto, lógicas, fecha, etc.
+
+```{r}
+numero <- 1
+texto <- "hola"
+var_logica <- texto == "adios"
+var_logica
+```
+
+]
+
+---
+
+# Repaso: tipos de datos
+
+
+.pull-left[<img src = "https://miro.medium.com/max/727/0*MgEQsDgZZ7fJcdhZ.png" alt = "course-ECI" align = "left" width = "450" style = "margin-top: -5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+Imagen de https://medium.com/@tiwarigaurav2512
+]
+
+.pull-right[
+* **Vectores**: variables, colección de celdas del mismo tipo.
+
+```{r}
+vector_num <- 1:3 # vector numérico
+
+glue("variable_{vector_num}") # vector de texto
+
+vector_num < 3 # vector lógico
+
+length(vector_num) # Longitud vector
+
+sum(vector_num) # Sumar vector numérico
+```
+
+]
+
+---
+
+# Repaso: tipos de datos
+
+
+<img src = "https://miro.medium.com/max/727/0*MgEQsDgZZ7fJcdhZ.png" alt = "course-ECI" align = "left" width = "450" style = "margin-top: -5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+* **Matrices**: colección de variables, del mismo tipo e igual longitud.
+
+```{r}
+mat <- cbind("a" = 1:3, "b" = c(-1, 5, 6)) # construir matriz
+mat
+
+apply(mat, MARGIN = 2, FUN = mean) # media por columnas
+```
+
+---
+
+# Repaso: tipos de datos
+
+
+* **data.frame**: colección de variables, de igual longitud pero cualquier tipo.
+
+```{r}
+df <- data.frame("nombre" = c("javi", "mar", "carlos"),
+                 "hermanos" = 1:3, "soltero" = c(TRUE, NA, FALSE),
+                 "fecha_nac" = as.Date(c("1989-01-01", "1989-02-02",
+                                         "1989-03-03")))
+df
+df$nombre
+```
+
+---
+
+# Repaso: tipos de datos
+
+
+* **tibble**: data.frame optimizado.
+
+```{r}
+tb <- tibble("a" = 1:3, "b" = 4:6, "c" = a * b)
+tb
+glimpse(as_tibble(df))
+```
+
+---
+
+# Repaso: tipos de datos
+
+* **listas** compendio de variables, de cualquier tipo y longitud.
+
+```{r}
+lista <- list("celda" = 1, "vec" = c(1, 3, 5), "df" = df)
+lista
+```
+
+---
+
+# Repaso: estructuras de control y extras
+
+* `if-else`: si se cumple la condición, un camino; en otro caso, camino alternativo.
+* bucles: repetir órdenes hasta un criterio de parada (bien hasta un numéro de iteraciones, bien hasta que se cumpla una condición)
+* funciones: encapsular código.
+* proyectos: organizar scripts.
+* rmarkdown: presentación de resultados.
+
+
+## Subset
+
+* `subset`: **condición lógica** para **seleccionar registros (filas)**.
+* `select`: un vector que contenga el **nombre de las columnas que queremos seleccionar**.
+
+```{r}
+subset(USArrests, subset = UrbanPop > 85, select = c("Murder", "Assault")) #<<
+```
+
+---
+
+class: center, middle
+
+# **¿DUDAS?**
+
+![](https://elsitioderuife.files.wordpress.com/2012/10/lenny-simpsons.jpg)
+
+---
+
+name: tidy-data
+class: center, middle
+
+# Tidy data
+
+## **Ordenando los datos**
+
+&nbsp;
+
+> Tidy datasets are all alike, but every messy dataset is messy in its own way (Hadley Wickham, Chief Scientist en RStudio).
+
+---
+
+name: tidyverse
+class: center, middle
+
+# Introducción a tidyverse
+
+## **Manipulando (para bien) los datos**
+
+&nbsp;
+
+El conjunto de paquetes de `{tidyverse}` supuso un antes y un después en el preprocesamiento de los datos en `R`
+
+---
+
+name: dataviz
+class: center, middle
+
+# Dataviz e introducción a ggplot2
+
+## **La gramática de los gráficos**
+
+&nbsp;
+
+El paquete `{ggplot2}` se basa en la idea propuesta en «Grammar of graphics» del recién fallecido Wilkinson.
+
+---
+
+name: evaluacion-2
+class: center, middle
+
+# EVALUACIÓN
+
+## **Práctica evaluable II: primeras visualizaciones**
+
+&nbsp;
+
+En la carpeta [EVALUACIÓN](https://github.com/dadosdelaplace/courses-ECI-2022/tree/main/EVALUACI%C3%93N), accede al fichero `Evaluacion_2.Rmd` en la carpeta `PRÁCTICA II`...
+
+&nbsp;
+
+La **entrega de las cinco prácticas** deberán ser enviadas por mail antes de las 23:59h del 11 de febrero, todas en un archivo comprimido (`.zip`, `.rar`, etc), con el nombre de el/la alumno/a.
+
+
+---
+
+class: center, middle
+
+# Mañana más y mejor. ¡Muchísimas gracias a todos/as!
+
+Las diapositivas han sido generadas con el paquete [**{xaringan}**](https://github.com/yihui/xaringan).
+
+
+Los estilos (.css y .js) de estas diapositivas están basados en las diapositivas del repositorio <https://github.com/dieghernan/rpubs>
