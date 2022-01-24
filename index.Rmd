@@ -3201,7 +3201,75 @@ knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/f
 
 Puedes ver su **documentación completa** en <https://www.tidyverse.org/>.
 
- 
+---
+
+# Intro a tidyverse: conjunto starwars
+
+Para nuestra **introducción de tidyverse** vamos a trastear con el conjunto de datos `starwars` del paquete `{dplyr}` (incluido en `{tidyverse}`).
+
+
+.pull-left[
+
+```{r luke-starwars, echo = FALSE,  out.width = "90%", fig.align = "left", fig.cap = "Imagen extraída de https://rstudio-education.github.io/"}
+knitr::include_graphics("https://rstudio-education.github.io/bootcamper/slides/02-visualize-data/img/luke-skywalker.png")
+``` 
+]
+
+.pull-right[
+
+```{r}
+starwars
+```
+
+]
+
+---
+
+# Intro a tidyverse: conjunto starwars
+
+
+```{r}
+glimpse(starwars) #<<
+```
+
+Dicho conjunto de datos, extraído de la [Star Wars API](https://swapi.dev/), recopila **14 variables para 87 personajes de Star Wars**. 
+
+```{r}
+dim(starwars)
+```
+
+---
+
+# Intro a tidyverse: conjunto starwars
+
+```{r}
+print(starwars, n = 3, width = Inf)
+```
+
+* `int`: números enteros (`height`).
+* `dbl`: números reales (`mass`, `birth_year`).
+* `chr`: cadenas de texto (`name`, `hair_color`, `skin_color`, `eye_color`, `sex`, `gender`, `homeworld`, `species`).
+* `list`: listas (`films`, `vehicles`, `starships`).
+
+---
+
+# Intro a tidyverse: conjunto starwars
+
+Para los **datos de tipo lista** tenemos guardados las películas de cada personaje, los vehículos de cada uno y las naves de cada personaje. Por ejemplo, con `starwars$films` podemos extraer las películas en las que aparecen los tres primeros personajes, basta con ejecutar (del conjunto starwars –> accedemos a la variable films con `$`)
+
+```{r}
+starwars$films[1:3]
+```
+
+---
+
+# dplyr: manipulando datos
+
+```{r dplyr, echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "3heet sheet de las opciones del paquete dplyr para la manipulación de datos extraída de https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/dplyr.png")
+``` 
+
+
 ---
 
 name: dataviz
