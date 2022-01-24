@@ -5173,10 +5173,208 @@ starwars$films[1:3]
 # dplyr: manipulando datos
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="https://dadosdelaplace.github.io/courses-ECI-2022/img/dplyr.png" alt="Cheet sheet de las opciones del paquete dplyr para la manipulación de datos extraída de https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf" width="60%" /&gt;
+&lt;img src="https://dadosdelaplace.github.io/courses-ECI-2022/img/dplyr.png" alt="Cheet sheet de las opciones del paquete dplyr para la manipulación de datos extraída de https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf" width="63%" /&gt;
 &lt;p class="caption"&gt;Cheet sheet de las opciones del paquete dplyr para la manipulación de datos extraída de https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf&lt;/p&gt;
 &lt;/div&gt;
 
+---
+
+# Operaciones con filas: selecionar
+
+Una de las **operaciones más comunes** es **filtrar registros**: de todos los individuos de nuestro conjunto de datos, seleccionaremos parte de ellos. Para hacerlo tenemos principalmente **tres opciones**:
+
+* **Seleccionar en base a algún filtro lógico**: con `filter()`, se seleccionarán solo individuos que cumplan ciertas condiciones (por ejemplo, solo los mayores de tal edad). Dentro de `filter()` se incluirán las condiciones lógicas a cumplir.
+
+
+Por ejemplo, vamos a **filtrar solo aquellos personajes con ojos marrones**, es decir, con la condición `eye_color == "brown"`.
+
+
+```r
+*starwars %&gt;% filter(eye_color == "brown")
+```
+
+```
+&gt; # A tibble: 21 × 14
+&gt;    name     height  mass hair_color skin_color eye_color birth_year sex   gender
+&gt;    &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt;  1 Leia Or…    150  49   brown      light      brown           19   fema… femin…
+&gt;  2 Biggs D…    183  84   black      light      brown           24   male  mascu…
+&gt;  3 Han Solo    180  80   brown      fair       brown           29   male  mascu…
+&gt;  4 Yoda         66  17   white      green      brown          896   male  mascu…
+&gt;  5 Boba Fe…    183  78.2 black      fair       brown           31.5 male  mascu…
+&gt;  6 Lando C…    177  79   black      dark       brown           31   male  mascu…
+&gt;  7 Arvel C…     NA  NA   brown      fair       brown           NA   male  mascu…
+&gt;  8 Wicket …     88  20   brown      brown      brown            8   male  mascu…
+&gt;  9 Quarsh …    183  NA   black      dark       brown           62   &lt;NA&gt;  &lt;NA&gt;  
+&gt; 10 Shmi Sk…    163  NA   black      fair       brown           72   fema… femin…
+&gt; # … with 11 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+
+---
+
+# Operaciones con filas: selecionar
+
+Con `%&gt;% filter()`, en **tan solo una línea**, hemos hecho más de lo que parece: `R` ha «recorrido» (algo similar a un bucle) cada una de las filas y ha ido comprobando que filas cumplen la condición y cuales no.
+
+El operador de comparación `==` puede ser **cambiado por `!=`** (seleccionamos los que **NO TIENEN ojos marrones**).
+
+
+```r
+starwars %&gt;% filter(eye_color != "brown")
+```
+
+```
+&gt; # A tibble: 66 × 14
+&gt;    name    height  mass hair_color  skin_color eye_color birth_year sex   gender
+&gt;    &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt;  1 Luke S…    172    77 blond       fair       blue            19   male  mascu…
+&gt;  2 C-3PO      167    75 &lt;NA&gt;        gold       yellow         112   none  mascu…
+&gt;  3 R2-D2       96    32 &lt;NA&gt;        white, bl… red             33   none  mascu…
+&gt;  4 Darth …    202   136 none        white      yellow          41.9 male  mascu…
+&gt;  5 Owen L…    178   120 brown, grey light      blue            52   male  mascu…
+&gt;  6 Beru W…    165    75 brown       light      blue            47   fema… femin…
+&gt;  7 R5-D4       97    32 &lt;NA&gt;        white, red red             NA   none  mascu…
+&gt;  8 Obi-Wa…    182    77 auburn, wh… fair       blue-gray       57   male  mascu…
+&gt;  9 Anakin…    188    84 blond       fair       blue            41.9 male  mascu…
+&gt; 10 Wilhuf…    180    NA auburn, gr… fair       blue            64   male  mascu…
+&gt; # … with 56 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+
+
+---
+
+# Operaciones con filas: selecionar
+
+También se pueden **seleccionar los personajes que tienen los ojos de una serie de colores** permitidos: con `%in%` le indicaremos que seleccione solo aquellas filas cuyo valor de la variable `eye_color` esté **dentro de un conjunto** de candidatos.
+
+
+```r
+starwars %&gt;% # con ojos marrones, azules o rojos
+  filter(eye_color %in% c("brown", "blue", "red"))
+```
+
+```
+&gt; # A tibble: 45 × 14
+&gt;    name    height  mass hair_color  skin_color eye_color birth_year sex   gender
+&gt;    &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt;  1 Luke S…    172    77 blond       fair       blue            19   male  mascu…
+&gt;  2 R2-D2       96    32 &lt;NA&gt;        white, bl… red             33   none  mascu…
+&gt;  3 Leia O…    150    49 brown       light      brown           19   fema… femin…
+&gt;  4 Owen L…    178   120 brown, grey light      blue            52   male  mascu…
+&gt;  5 Beru W…    165    75 brown       light      blue            47   fema… femin…
+&gt;  6 R5-D4       97    32 &lt;NA&gt;        white, red red             NA   none  mascu…
+&gt;  7 Biggs …    183    84 black       light      brown           24   male  mascu…
+&gt;  8 Anakin…    188    84 blond       fair       blue            41.9 male  mascu…
+&gt;  9 Wilhuf…    180    NA auburn, gr… fair       blue            64   male  mascu…
+&gt; 10 Chewba…    228   112 brown       unknown    blue           200   male  mascu…
+&gt; # … with 35 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+  
+---
+
+# Operaciones con filas: selecionar
+
+Si es una variable numérica también podemos **seleccionar por rango** con `between()`, por ejemplo, los personajes cuya altura está entre 120 y 160 cm.
+
+
+```r
+# Con between filtramos por rango
+starwars %&gt;% filter(between(height, 120, 160))
+```
+
+```
+&gt; # A tibble: 6 × 14
+&gt;   name     height  mass hair_color skin_color eye_color birth_year sex   gender 
+&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  
+&gt; 1 Leia Or…    150    49 brown      light      brown             19 fema… femini…
+&gt; 2 Mon Mot…    150    NA auburn     fair       blue              48 fema… femini…
+&gt; 3 Nien Nu…    160    68 none       grey       black             NA male  mascul…
+&gt; 4 Watto       137    NA black      blue, grey yellow            NA male  mascul…
+&gt; 5 Gasgano     122    NA none       white, bl… black             NA male  mascul…
+&gt; 6 Cordé       157    NA brown      light      brown             NA fema… femini…
+&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+
+---
+
+# Operaciones con filas: selecionar
+
+Las condiciones se pueden **concatenar** todo lo que queramos, pudiendo en pocas líneas realizar un filtro complejo, por ejemplo, seleccionando los **personajes con ojos marrones Y ADEMÁS NO humanos**.
+
+
+```r
+starwars %&gt;% filter(eye_color == "brown" &amp; species != "Human")
+```
+
+```
+&gt; # A tibble: 3 × 14
+&gt;   name      height  mass hair_color skin_color eye_color birth_year sex   gender
+&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt; 1 Yoda          66    17 white      green      brown            896 male  mascu…
+&gt; 2 Wicket S…     88    20 brown      brown      brown              8 male  mascu…
+&gt; 3 Eeth Koth    171    NA black      brown      brown             NA male  mascu…
+&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+
+Otro ejemplo: ojos azules o rojos, que no sean humanos, y con menos de 50 años.
+
+
+```r
+starwars %&gt;%  filter(eye_color %in% c("blue", "red") &amp; species != "Human" &amp; birth_year &lt; 50)
+```
+
+```
+&gt; # A tibble: 3 × 14
+&gt;   name     height  mass hair_color skin_color  eye_color birth_year sex   gender
+&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt; 1 R2-D2        96    32 &lt;NA&gt;       white, blue red               33 none  mascu…
+&gt; 2 IG-88       200   140 none       metal       red               15 none  mascu…
+&gt; 3 Barriss…    166    50 black      yellow      blue              40 fema… femin…
+&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+
+---
+
+# Operaciones con filas: selecionar
+
+Una de las **operaciones más comunes** es **filtrar registros**: de todos los individuos de nuestro conjunto de datos, seleccionaremos parte de ellos. Para hacerlo tenemos principalmente **tres opciones**:
+
+
+* **Seleccionar por su índice de fila**: con `[]` o `slice()`, se seleccionarán los individuos que ocupen cierta posición en la tabla (la fila que ocupa tal personaje).
+
+---
+
+# Operaciones con filas: selecionar
+
+Una de las **operaciones más comunes** es **filtrar registros**: de todos los individuos de nuestro conjunto de datos, seleccionaremos parte de ellos. Para hacerlo tenemos principalmente **tres opciones**:
+
+* **Seleccionar aleatoriamente**: con `slice()`, se seleccionarán los individuos qaleatoriamente (como un sorteo).
+ 
+--- 
+
+# Operaciones con filas: reordenar
+
+--- 
+
+# Operaciones con filas: eliminar
+
+--- 
+
+# Operaciones con filas: duplicados
+
+--- 
+
+# Operaciones con filas: añadir
+
+---
+
+# Ejercicios
 
 ---
 
@@ -5190,6 +5388,10 @@ class: center, middle
 &amp;nbsp;
 
 El paquete `{ggplot2}` se basa en la idea propuesta en «Grammar of graphics» del recién fallecido Wilkinson.
+
+---
+
+# Ejercicios
 
 ---
 
