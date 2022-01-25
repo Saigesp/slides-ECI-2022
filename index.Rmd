@@ -27,6 +27,7 @@ knitr::opts_chunk$set(fig.retina = 3, out.width = "100%", cache = FALSE,
                       warning = FALSE, hiline = TRUE, dpi = 300)
 
 # xaringan Extra
+# devtools::install_github("gadenbuie/xaringanExtra")
 library(xaringanExtra)
 use_xaringan_extra(c("tile_view", "animate_css", "tachyons"))
 use_tile_view() # panel
@@ -3271,7 +3272,7 @@ knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/d
 
 ---
 
-# Operaciones con filas: selecionar
+# Operaciones con filas: seleccionar
 
 Una de las **operaciones más comunes** es **filtrar registros**: de todos los individuos de nuestro conjunto de datos, seleccionaremos parte de ellos. Para hacerlo tenemos principalmente **tres opciones**:
 
@@ -3286,7 +3287,7 @@ starwars %>% filter(eye_color == "brown") #<<
 
 ---
 
-# Operaciones con filas: selecionar
+# Operaciones con filas: filter()
 
 Con `%>% filter()`, en **tan solo una línea**, hemos hecho más de lo que parece: `R` ha «recorrido» (algo similar a un bucle) cada una de las filas y ha ido comprobando que filas cumplen la condición y cuales no.
 
@@ -3299,9 +3300,9 @@ starwars %>% filter(eye_color != "brown")
 
 ---
 
-# Operaciones con filas: selecionar
+# Operaciones con filas: filter()
 
-También se pueden **seleccionar los personajes que tienen los ojos de una serie de colores** permitidos: con `%in%` le indicaremos que seleccione solo aquellas filas cuyo valor de la variable `eye_color` esté **dentro de un conjunto** de candidatos.
+También se pueden **seleccionar los personajes** que tienen los **ojos de una serie de colores** permitidos: con `%in%` le indicaremos que seleccione solo aquellas filas cuyo valor de la variable `eye_color` esté **dentro de un conjunto de candidatos**.
 
 ```{r}
 starwars %>% # con ojos marrones, azules o rojos
@@ -3310,9 +3311,9 @@ starwars %>% # con ojos marrones, azules o rojos
   
 ---
 
-# Operaciones con filas: selecionar
+# Operaciones con filas: filter()
 
-Si es una variable numérica también podemos **seleccionar por rango** con `between()`, por ejemplo, los personajes cuya altura está entre 120 y 160 cm.
+Si es una variable numérica también podemos **seleccionar por rango** con `between()`, por ejemplo, los personajes cuya altura está **entre** 120 y 160 cm.
 
 ```{r}
 # Con between filtramos por rango
@@ -3321,7 +3322,7 @@ starwars %>% filter(between(height, 120, 160))
 
 ---
 
-# Operaciones con filas: selecionar
+# Operaciones con filas: filter()
 
 Las condiciones se pueden **concatenar** todo lo que queramos, pudiendo en pocas líneas realizar un filtro complejo, por ejemplo, seleccionando los **personajes con ojos marrones Y ADEMÁS NO humanos**.
 
@@ -3337,40 +3338,575 @@ starwars %>%  filter(eye_color %in% c("blue", "red") & species != "Human" & birt
 
 ---
 
-# Operaciones con filas: selecionar
+# Operaciones con filas: seleccionar
 
 Una de las **operaciones más comunes** es **filtrar registros**: de todos los individuos de nuestro conjunto de datos, seleccionaremos parte de ellos. Para hacerlo tenemos principalmente **tres opciones**:
 
 
 * **Seleccionar por su índice de fila**: con `[]` o `slice()`, se seleccionarán los individuos que ocupen cierta posición en la tabla (la fila que ocupa tal personaje).
 
+
+```{r}
+# slice: extramos filas por índice de fila.
+starwars %>% slice(1) #<<
+starwars[1, ]
+```
+
 ---
 
-# Operaciones con filas: selecionar
+# Operaciones con filas: slice()
+
+
+Podemos **extraer varias a la vez**, por ejemplo, filtrando las filas quinta, séptima y novena.
+
+```{r}
+# slice: extramos filas por índice de fila.
+starwars %>% slice(c(5, 7, 9))
+```
+
+También podemos **usar una secuencia de índices a extraer**, por ejemplo solo las filas pares.
+
+```{r}
+starwars %>% slice(seq(2, 8, by = 2)) # filas pares hasta la octava
+```
+
+---
+
+# Operaciones con filas: slice()
+
+Disponemos además de opciones por defecto para directamente **extraer las m primeras o últimas filas** con `slice_head()` y `slice_tail()`.
+
+```{r}
+# Podemos extraer directamente las primeras o últimas filas
+starwars %>% slice_head(n = 3) # 3 primeras filas 
+```
+
+```{r}
+starwars %>% slice_tail(n = 2) # 2 últimas filas 
+```
+
+---
+
+# Operaciones con filas: seleccionar
 
 Una de las **operaciones más comunes** es **filtrar registros**: de todos los individuos de nuestro conjunto de datos, seleccionaremos parte de ellos. Para hacerlo tenemos principalmente **tres opciones**:
 
-* **Seleccionar aleatoriamente**: con `slice()`, se seleccionarán los individuos qaleatoriamente (como un sorteo).
+* **Seleccionar aleatoriamente**: con `slice()`, se seleccionarán los individuos aleatoriamente.
  
---- 
+```{r}
+# También podemos hacer una extracción al azar de filas
+starwars %>% slice_sample(n = 3) # 3 al azar
+starwars %>% slice_sample(n = 3) # 3 al azar nuevas
+```
+
+---
+
+# Operaciones con filas: slice_min()
+
+También tenemos `slice_min()` y `slice_max()` que nos permite **extraer filas en función del mínimo y máximo de una variable** (si hay empate, mostrará todas las filas aunque supere el número indicado, salvo que `with_ties = FALSE`). Por ejemplo, vamos a filtrar con `slice_min(height, n = 2)` los 2 personasjes más bajitos, y con `slice_max(mass, n = 3)` los 2 personajes más pesados.
+
+```{r}
+# Podemos extraer filas en función del mín/máx de una variable
+starwars %>% slice_min(height, n = 2) # los 2 más bajitos
+starwars %>% slice_max(mass, n = 2) # los 3 más pesados
+```
+
+---
 
 # Operaciones con filas: reordenar
 
---- 
+Otra operación habitual en las filas es **ordenarlas en función del valor de alguna de las variables** con `arrange()`,  pasándole como argumento el nombre de la variable que usaremos para la ordenación. Por ejemplo, vamos a ordenar nuestra **tabla de personajes por altura, de bajitos a altos**.
+
+```{r}
+# Con arrange ordenamos en base al orden de la variable que introduzcamos
+starwars %>% arrange(height) #<<
+```
+
+---
+
+# Operaciones con filas: reordenar
+
+Por defecto la ordenación es de menor a mayor pero podemos invertirlo usando `desc()`.
+
+```{r}
+# Por defecto lo hace ascendente pero podemos cambiarlo
+starwars %>% arrange(desc(height))
+```
+
+---
+
+# Operaciones con filas: reordenar
+
+La ordenación también puede **realizarse en base al valor de dos o más variables**: ordenará las filas en base a la primera, en caso de empate usará la segunda, en caso de empate la tercera, y así sucesivamente. Vamos a ordenar los personajes por altura y, luego, por peso.
+
+```{r}
+# Un dato NA va siempre al final
+starwars %>% arrange(height, desc(mass))
+```
+
+---
+
+# Ejercicio
+
+Como estarás imaginando podemos combinar varias acciones en pocas líneas, filtrando a la vez que ordenamos el filtro resultante. 
+
+.panelset[
+.panel[.panel-name[Ejercicio]
+
+
+* 📝 Selecciona solo los personajes que sean humanos, hombres y de ojos marrones, para después ordernarlos en altura descendente y peso ascendente.
+
+]
+
+.panel[.panel-name[Solución]
+
+```{r}
+# Podemos combinar varias acciones en pocas líneas
+starwars %>%
+  filter(eye_color == "brown",
+         species == "Human", sex == "male") %>%
+  arrange(height, desc(mass))
+```
+
+]
+]
+
+---
 
 # Operaciones con filas: eliminar
 
---- 
+La misma lógica que hemos usado para seleccionar filas podemos usarla para **eliminar filas** con `slice()`, simplemente **negando** la condición de filtrado. Por ejemplo, vamos a eliminar las 5 primeras filas.
+
+```{r}
+# Eliminamos por índices
+starwars %>% slice(-(1:5)) # eliminamos las 5 primeras filas
+```
+
+---
 
 # Operaciones con filas: duplicados
 
---- 
+Otra opción es **eliminar filas duplicadas** con `distinct()`, pasándole como argumentos el nombre de las variables que usaremos para quitar duplicados, por ejemplo, aquellos personajes con igual par de color de pelo y ojos.
+
+```{r}
+# Eliminamos registros con igual par (color_pelo, color_ojos)
+starwars %>%
+  distinct(hair_color, eye_color)
+```
+  
+---
+
+# Operaciones con filas: duplicados
+
+Por defecto, solo ha extraído las dos columnas en base a las cuales hemos eliminado duplicados. Si queremos que nos mantenga todas deberemos explicitarlo con `.keep_all = TRUE`.
+
+```{r}
+# Eliminamos duplicados
+starwars %>% # Eliminamos registros con igual par (color_pelo, color_ojos)
+  distinct(hair_color, eye_color, .keep_all = TRUE)
+```
+
+---
 
 # Operaciones con filas: añadir
+
+No suele ser habitual pero si quisiéramos añadir un nuevo registro manualmente, podremos hacerlo con `bind_rows()`, asegurándonos que las **variables en el nuevo registro son las mismas que en el original**. Por ejemplo, vamos a añadir al fichero original los 3 primeros registros (al final).
+
+```{r}
+starwars_nuevo <- bind_rows(starwars, starwars[1:3, ]) #<<
+dim(starwars)
+dim(starwars_nuevo)
+```
+
+---
+
+# Operaciones con columnas: seleccionar
+
+La opción más sencilla para **seleccionar variables/columnas** es usar `select()`, pasándole como argumentos los nombres de columnas (¡SIN COMILLAS!) que queremos seleccionar, por ejemplo, color de pelo.
+
+```{r}
+# seleccionamos solo 1 columna: color de pelo
+starwars %>% select(hair_color) #<<
+```
+
+---
+
+# Operaciones con columnas: seleccionar
+
+Podemos **seleccionar varias a la vez concatenando sus nombres**, por ejemplo, seleccionando las variables de color de pelo, piel y ojos.
+
+```{r}
+# seleccionamos solo 3 columnas: pelo, piel y ojos
+starwars %>% select(c(hair_color, skin_color, eye_color))
+```
+
+---
+
+# Operaciones con columnas: seleccionar
+
+La misma lógica podemos aplicar para **deseleccionar**, excluyendo columnas
+
+```{r}
+# sin 3 columnas: pelo, piel y ojos
+starwars %>% select(-c(hair_color, skin_color, eye_color))
+```
+
+---
+
+# Operaciones con columnas: seleccionar
+
+Las columnas también las podemos **seleccionar a través de expresiones regulares**, por ejemplo, seleccionando solo aquellas columnas que compartan un **sufijo común** en el nombre, con `ends_with()` dentro de órdenes como `select()`
+
+```{r}
+# Podemos seleccionar columnas por sufijo y prefijo
+starwars %>% select(ends_with("color")) # acaban en "color"
+```
+
+
+---
+
+# Operaciones con columnas: seleccionar
+
+De una manera similar podemos seleccionar columnas cuyo **nombre empiecen o contengan alguna cadena de texto concreta**, con `starts_with()` o `contains()`.
+
+```{r}
+starwars %>% select(starts_with("h")) # empiezan por h
+```
+
+---
+
+# Operaciones con columnas: seleccionar
+
+Incluso nos permite **seleccionar aquellas columnas que son del mismo tipo** (imagina que necesitamos solo las columnas numéricas para calcular ciertas estadísticas) con `where()`.
+
+```{r}
+# Seleccionamos solo la columnas numéricas
+starwars %>% select(where(is.numeric))
+```
+
+---
+
+# Visualizar el flujo de datos
+
+Existe una **reciente herramienta** que nos va a permitir **entender mejor y visualizar el flujo de trabajo** en `{tidyverse}`: <https://tidydatatutor.com/>. 
+Basta con poner el código que queremos ejecutar, y nos **muestra visualmente las operaciones en los datos**.
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tidytutor3.jpg" alt = "course-ECI" align = "right" width = "450" style = "margin-top: 1vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tidytutor4.jpg" alt = "course-ECI" align = "right" width = "450" style = "margin-top: 1vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tidytutor5.jpg" alt = "course-ECI" align = "right" width = "400" style = "margin-top: 1vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+---
+
+# Operaciones con columnas: renombrar
+
+A veces también podemos querer **modificar la «metainformación» renombrando el orden** de las columnas. Para ello debremos usar la función `rename()` poniendo **primero el nombre nuevo y luego el antiguo**. Como ejemplo, vamos a traducir el nombre de las columnas `name, height, mass` a castellano.
+
+```{r}
+# rename: renombrar columnas, primero el nuevo y luego el antiguo
+starwars %>% rename(nombre = name, altura = height, peso = mass)
+```
+
+---
+
+# Operaciones con columnas: renombrar
+
+Muchas de las funciones pueden ir acompañadas de `at` o `if`, como `rename_if`, que nos permite hacer operaciones más personalizadas. Por ejemplo, vamos a renombrar las columnas, pasándolas a mayúscula con toupper, pero solo aquellas que sean de tipo numérico.
+
+```{r}
+starwars %>% rename_if(is.numeric, toupper)
+```
+
+---
+
+# Operaciones con columnas: reordenar
+
+De la misma manera podemos **reordenar las columnas**, indicando el nombre de columnas que queremos mover, y con `.after` o `.before` para indicar antes o después de que columnas queremos moverlas.
+
+```{r}
+starwars %>% # altura y masa detrás de color de piel
+  relocate(height, mass, .after = skin_color) 
+```
+
+  
+---
+
+# Crear nuevas variables (mutate)
+
+A veces no queremos modificar variables ya existentes sino **crear nuevas variables** en base a las ya existentes. Para ello tenemos `mutate()`. Para empezar, vamos a crear una **nueva variable** `height_m` con la altura en centímetros.
+
+```{r}
+# altura en metros
+starwars %>% mutate(height_m = height / 100) %>%
+  relocate(height_m, .after = height)
+```
+
+---
+
+# Crear nuevas variables (mutate)
+
+Otra opción es **quedarnos solo con las columnas nuevas** creadas con `transmute()`
+
+```{r}
+starwars %>% transmute(height_m = height / 100)
+```
+
+---
+
+# Crear nuevas variables (mutate)
+
+También se pueden aplicar **funciones más complejas** como `map()` del paquete `{purrr}` para el manejo de **listas** (no se pueden vectorizar, esta función nos permite aplicar operaciones a listas elemento a elemento). Imagina que queremos **calcular el número de películas** en las que sale cada personaje.
+
+&nbsp;
+
+Las películas de cada personaje están en una lista: para saber la **cantidad de películas** en las que ha participado el primer personaje basta con usar el comando `length()` (nos dará el número de elementos de cada lista).
+
+```{r}
+length(starwars$films[1])
+length(starwars$films[2])
+```
+
+---
+
+# Crear nuevas variables (mutate)
+
+**¿Cómo aplicar dicha a función a cada personaje?** Con `map_int()` (para que nos devuelva un vector de `int`) y la función a aplicar en cada elemento.
+
+```{r}
+# Mapeamos la lista con length pero devolvemos un vector de números enteros
+starwars$films %>% map_int(length)
+```
+
+
+&nbsp;
+
+Tenemos también otras funciones como `map_chr()`, `map_dfr()`, etc, que nos definen como será la salida (con `map` a secas lo devuelve en una lista).
+
+```{r}
+starwars$films %>% map_chr(length)
+```
+
+---
+
+# Crear nuevas variables (mutate)
+
+Una vez que tenemos una forma de calcular la variable que queremos, lo añadimos con `mutate()`
+
+```{r}
+starwars %>%
+  mutate("n_peliculas" = map_int(films, length)) %>%
+  select(c(name, homeworld, n_peliculas))
+```
+
+  
+---
+
+# Recategorizar variables
+
+Una operación también muy habitual es querer **recategorizar nuestras variables**: tenemos categorías ya existentes o variables numéricas que queremos convertir a **categorías (factores en R)**. Supongamos por ejemplo que queremos crear una **categoría en función de su altura**: menos de 120, entre 120 y 180, y más de 180. Para ello podemos podemos usar `cut()`, y en el argumento `breaks` le debemos indicar los **«cortes» o saltos de la variable**.
+
+```{r}
+starwars %>%
+  mutate("estat_cat" = cut(height, breaks = c(-Inf, 120, 180, Inf))) %>%
+  relocate(estat_cat, .after = height)
+```
+
+---
+
+# Recategorizar variables
+
+Si queremos que **las categorías tenga nun nombre explícito** (y no el intervalo en sí), podemos indicárselo en `labels =` el vector de nombres de las categorías.
+
+```{r}
+starwars %>%
+  mutate("estat_cat" = cut(height, breaks = c(-Inf, 120, 180, Inf),
+                           labels = c("bajos", "medios", "altos"))) %>%
+  relocate(estat_cat, .after = height)
+```
+
+---
+
+# Recategorizar variables
+
+Otra opción para no anidar es `case_when`, en el que le podemos indicar que valores asignamos en función de condiciones. Vamos a crear una variable nueva altura
+
+* Si `height > 180` –> serán `"altos"`.
+* Si `height <= 180` y `height > 120` –> serán `"bajos"`
+* Si `height <= 120` y `height > 0` –> serán `"enanos"`
+* Si no se cumple lo anterior –> serán `"ausentes"`
+
+```{r}
+starwars %>%
+  transmute(altura = case_when(height > 180 ~ "altos",
+                               height > 120 ~ "bajos",
+                               height > 0 ~ "enanos",
+                               TRUE ~ "ausentes"))
+```
+  
+                        
+---
+
+# Datos ausentes
+
+Por último, podemos **eliminar los registros ausentes** en alguna de sus variables con `drop_na()`.
+
+```{r}
+starwars %>% drop_na()
+```
+
+Podemos indicarle que nos elimine con datos ausentes solo en algunos campos en concreto.
+
+```{r}
+starwars %>% drop_na(mass, height, sex, gender, birth_year)
+```
+
 
 ---
 
 # Ejercicios
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: del conjunto `starwars` encuentra todos los personajes cuyo peso esté entre 60kg y 90kg y que además tengan los ojos que no sean azules.
+ 
+* 📝 **Ejercicio 2**: añadido al anterior, encuentra todos los personajes que además tengan menos de 100 años.
+ 
+* 📝 **Ejercicio 3**: selecciona además solo  `name, mass, height, eye_color, birth_year`.
+ 
+* 📝 **Ejercicio 4**: añadido al filtro anterior, ordena los registros de más pesados a más ligeros, y al revés.
+ 
+* 📝 **Ejercicio 5**: añadido al filtro anterior, ordena los registros (en orden ascendente) por altura y peso.
+ 
+* 📝 **Ejercicio 6**: selecciona solo las columnas que contengan variables numéricas, coloca los años de nacimiento como primera columna y cambia los nombres a castellano.
+ 
+* 📝 **Ejercicio 7**: calcula una nueva columna que indique el IMC de cada personaje (define antes una función).
+
+* 📝 **Ejercicio 8**: selecciona los 3 personajes que en más películas han salido y los 3 que menos.
+ 
+* 📝 **Ejercicio 9**: selecciona solo las columnas que se refieren a variables de color (ojos, piel, pelo) (con sufijo "color")
+
+]
+
+.panel[.panel-name[Sol. 1]
+
+```{r}
+# todas columnas
+filtro <-
+  starwars %>% filter(between(mass, 60, 90) & eye_color != "blue")
+print(filtro, width = Inf)
+```
+
+]
+
+.panel[.panel-name[Sol. 2]
+
+```{r}
+filtro <-
+  starwars %>%
+  filter(between(mass, 60, 90) & eye_color != "blue" &
+           birth_year < 100)
+print(filtro, width = Inf)
+```
+
+]
+
+.panel[.panel-name[Sol. 3]
+
+```{r}
+# Solo name, mass, height, eye_color, birth_year
+filtro %>% select(c(name, mass, height, eye_color, birth_year))
+```
+
+]
+
+.panel[.panel-name[Sol. 4]
+
+```{r}
+filtro %>% select(c(name, mass, height, eye_color, birth_year)) %>%
+  arrange(mass)
+```
+
+```{r}
+filtro %>% select(c(name, mass, height, eye_color, birth_year)) %>%
+  arrange(desc(mass))
+```
+
+]
+
+.panel[.panel-name[Sol. 5]
+
+```{r}
+filtro %>% select(c(name, mass, height, eye_color, birth_year)) %>%
+  arrange(height, mass)
+```
+
+]
+
+.panel[.panel-name[Sol. 6]
+
+```{r}
+starwars %>%
+  select(where(is.numeric)) %>%
+  relocate(height, mass, .after = birth_year) %>%
+  rename(edad = birth_year, altura = height, peso = mass)
+```
+
+]
+
+.panel[.panel-name[Sol. 7]
+
+Primero definimos la función `IMC_fun` (calcula el IMC dada estatura y peso).
+
+```{r}
+IMC_fun <- function(m, h) {
+  
+  return(m / h^2)
+}
+IMC_fun(90, 1.6)
+```
+
+La función definida como `IMC_fun()` podemos ahora aplicarla dentro del `mutate()`.
+
+```{r}
+starwars %>%
+  mutate(height_m = height / 100,
+         IMC = IMC_fun(mass, height_m)) %>%
+  # Las movemos al inicio (por defecto las mete al final)
+  relocate(height_m, IMC, .after = name)
+```
+
+]
+
+.panel[.panel-name[Sol. 8]
+
+ 
+```{r}
+starwars  %>%
+  mutate(n_films = map_int(films, length)) %>%
+  slice_max(n_films, n = 3)
+```
+
+```{r}
+starwars  %>%
+  mutate(n_films = map_int(films, length)) %>%
+  slice_min(n_films, n = 3)
+```
+
+]
+
+.panel[.panel-name[Sol. 9]
+
+```{r}
+# Contiene "color" independientemente de que sea sufijo o prefijo
+starwars %>% select(contains("color"))
+```
+
+]
+]
 
 ---
 
