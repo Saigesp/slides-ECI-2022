@@ -30,7 +30,7 @@ class: center, middle, inverse, title-slide
 ## Curso de la ECI 2022
 ### Autores: Javier Álvarez Liébana y Gabriel Valverde Castilla
 ### Facultad de Estudios Estadísticos (UCM)
-### 31/01/2022 - 04/02/2022 (actualizado: 2022-01-25)
+### 31/01/2022 - 04/02/2022 (actualizado: 2022-01-26)
 
 ---
 
@@ -1090,7 +1090,7 @@ Sys.Date()
 ```
 
 ```
-&gt; [1] "2022-01-25"
+&gt; [1] "2022-01-26"
 ```
 
 &amp;nbsp;
@@ -1136,7 +1136,7 @@ today()
 ```
 
 ```
-&gt; [1] "2022-01-25"
+&gt; [1] "2022-01-26"
 ```
 
 ```r
@@ -1257,7 +1257,7 @@ days(today() - fecha_nacimiento)
 ```
 
 ```
-&gt; [1] "11825d 0H 0M 0S"
+&gt; [1] "11826d 0H 0M 0S"
 ```
 ]
 
@@ -5474,11 +5474,11 @@ starwars %&gt;% slice_sample(n = 3) # 3 al azar
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name     height  mass hair_color skin_color eye_color birth_year sex    gender
-&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; 
-&gt; 1 Biggs D…    183    84 black      light      brown             24 male   mascu…
-&gt; 2 Barriss…    166    50 black      yellow     blue              40 female femin…
-&gt; 3 Mon Mot…    150    NA auburn     fair       blue              48 female femin…
+&gt;   name     height  mass hair_color skin_color eye_color birth_year sex   gender 
+&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  
+&gt; 1 IG-88       200   140 none       metal      red               15 none  mascul…
+&gt; 2 Rugor N…    206    NA none       green      orange            NA male  mascul…
+&gt; 3 Dormé       165    NA brown      light      brown             NA fema… femini…
 &gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
@@ -5489,11 +5489,11 @@ starwars %&gt;% slice_sample(n = 3) # 3 al azar nuevas
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name     height  mass hair_color skin_color  eye_color birth_year sex   gender
-&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Bail Pr…    191    NA black      tan         brown             67 male  mascu…
-&gt; 2 Ben Qua…    163    65 none       grey, gree… orange            NA male  mascu…
-&gt; 3 Quarsh …    183    NA black      dark        brown             62 &lt;NA&gt;  &lt;NA&gt;  
+&gt;   name     height  mass hair_color  skin_color eye_color birth_year sex   gender
+&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt; 1 Jar Jar…    196    66 none        orange     orange            52 male  mascu…
+&gt; 2 Wilhuff…    180    NA auburn, gr… fair       blue              64 male  mascu…
+&gt; 3 Finn         NA    NA black       dark       dark              NA male  mascu…
 &gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
@@ -6805,6 +6805,982 @@ class: center, middle
 &amp;nbsp;
 
 El paquete `{ggplot2}` se basa en la idea propuesta en «Grammar of graphics» del recién fallecido Wilkinson.
+
+---
+
+# Breve historia del dataviz
+
+
+## Punto de partida: los mapas
+
+&lt;img src = "https://images-na.ssl-images-amazon.com/images/I/713JiiOHrEL.jpg" alt = "atlas" align = "right" width = "230" style = "margin-top: 0.1vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
+
+Podríamos considerar a los **mapas** como las primeras **visualización de datos**, con la representación de nuestra realidad en **superficies bidimensionales** &lt;sup&gt;1&lt;/sup&gt;, usando sistemas de coordenadas para resumir o proyectar la realidad.
+
+&amp;nbsp;
+
+Las propias palabras _chart_ y _cartography_ derivan del mismo origen latino, _charta_, así como otros términos matemáticos relacionados como contornos, niveles, curvas, escalas o dominios &lt;sup&gt;2&lt;/sup&gt;, aunque el primer uso datado de coordenadas parece venir de los egipcios. &lt;sup&gt;3&lt;/sup&gt;
+
+.footnote[[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+[2] [«Presentation Graphics» de Leland Wilkinson. International Encyclopedia of the Social &amp; Behavioral Sciences](https://www.cs.uic.edu/~wilkinson/Publications/iesbs.pdf)
+
+[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+
+---
+
+# Breve historia del dataviz
+
+La **visualización de datos** o _dataviz_ está muy ligada a la evolución de ramas que han acabado convergiendo en paralelo:
+
+* La **producción de los datos**: hasta no hace mucho, el dato no era usado ni generado para explicar a la población sino para «uso interno».
+
+* La **estadística** (convertir el dato en información).
+
+* La **tecnología**: cómo cualquier acto de comunicación visual, está tremendamente condicionado a los medios técnicos.
+
+* La **comunicación**: no es lo mismo producir una visualización para un periódico en papel (no editable) que para un formato digital.
+
+&amp;nbsp;
+
+Parte de esta introducción está basada en
+
+[«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](https://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+«The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo.
+
+[«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+
+---
+
+# Breve historia de la estadística
+
+## ¿Qué es la estadística?
+
+### Según la RAE:
+
+1. f. Estudio de los datos cuantitativos de la población, de los recursos naturales e industriales, del tráfico o de cualquier otra manifestación de las sociedades humanas.
+
+2. f. Rama de la matemática que utiliza grandes conjuntos de datos numéricos para obtener inferencias basadas en el cálculo de probabilidades.
+
+&amp;nbsp;
+
+### Según Stanford&lt;sup&gt;1&lt;/sup&gt;:
+
+Disciplina encargada del estudio, la recolección, la organización, el análisis, la interpretación y **la presentación** de los datos.
+
+.footnote[[1] [Stanford Encyclopedia of Philosophy](https://plato.stanford.edu/entries/statistics/)]
+
+---
+
+# Breve historia de la estadística
+
+.pull-left[
+* Del (neo)latín «statisticum collegium»: consejo de **Estado**.
+* Del alemán «statistik» (ciencia del **Estado**, intoducido por G. Achenwall).
+
+&amp;nbsp;
+
+**Origen**: una herramienta para la **administración** eficiente del Estado
+
+&amp;nbsp;
+
+Hasta no hace tanto, la mayoría de usos de la Estadística eran para una gestión de los recursos públicos, pero **sin intención de comunicar ni de convertir el dato en información**.
+
+]
+
+
+.pull-right[
+&lt;img src="./img/biblia.jpg" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Breve historia de la estadística
+
+## Primeros usos: elaboración de censos
+
+Los **primeros usos** documentados de la estadística fueron la elaboración de **censos** por parte de **mesopotámicos, chinos y egipcios**, con tres fines:
+
+* Cobrar **impuestos** (un saludo, Willyrex).
+* Reparto de **tierras** y optimización de su uso.
+* **Reclutamiento de soldados**.
+
+## Estadística en la guerra
+
+.pull-left[Según Tucídides, conceptos estadísticos como la **moda** datan del **siglo V a.C.**: para asaltar la muralla de la ciudad de Platea, ponían a contar a varios soldados el número de ladrillos vistos en la muralla, quedándose con el **conteo más repetido (la moda, el más frecuente)**, permitiendo el cálculo de la altura de la muralla.]
+
+.pull-right[
+&lt;img src="./img/peloponeso.jpg" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# ¿Qué han hecho los romanos por nosotros?
+
+
+
+.pull-left[
+
+Precisamente por el tamaño de su Imperio, fueron los **romanos** quienes hicieron un uso más intenso de la estadística:
+
+* **Censos** (elaborados por la censura, que elaboraba no solo el censo sino la supervisión de la moralidad pública).
+* Primeras **tablas de natalidad/mortalidad**
+* Primeros **catastros** (registros oficiales de propiedades, primeros impuestos)
+
+&lt;img src="./img/catastro.jpg" width="60%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
+&lt;img src="https://www.publico.es/tremending/wp-content/uploads/2019/02/lifeofbrian3.jpg" width="95%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+]
+
+---
+
+# Breve historia de la estadística
+
+.pull-left[
+
+## **ÁRABES**
+
+Autores de los **primeros tratados de estadística**, como el manuscrito de **Al-Kindi (801-873)**, que usó la distribución de **frecuencias de palabras** para el desarrollo de métodos de cifrado y descifrado de **mensajes encriptados**.
+
+]
+
+.pull-right[
+
+## **MÉXICO**
+
+Ya en el **año 1116, el rey Xólotl** implementó un **censo** que consistía en la **estimación de piedras**, tirando cada súbdito una a un montón (Nepohualco).
+]
+
+
+&amp;nbsp;
+
+.pull-left[
+
+## **INGLATERRA**
+
+Desde el siglo XII se realiza la **Prueba del Pyx**, considerado uno de los **primeros controles de calidad**: se extre una de las monedas acuñadas y se deposita en una caja, para un año después comprobar su calidad y pureza.
+
+]
+
+.pull-right[
+
+## **ITALIA**
+
+En paralelo al **auge de los primeros «sistemas financieros» en Italia**, «La Nuova Crónica» de G. Villani fue considerado durante mucho tiempo el primer tratado de estadística (hasta el descubrimiento de los trabajos de Al-Kindi).
+
+]
+
+---
+
+# Navegación y astronomía
+
+Y es de aquella época medieval, en la que la navegación y la astronomía empezaban a tomar relevancia científica, cuando aparece la que se considera la primera gráfica (aunque no propiamente estadística) &lt;sup&gt;3&lt;/sup&gt;, representando el **movimiento cíclico de los planetas** (entre los siglos X y XI)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/dataviz_historico_1.png" alt="Gráfica extraída de Beniger y Robyn (1978)" width="60%" /&gt;
+&lt;p class="caption"&gt;Gráfica extraída de Beniger y Robyn (1978)&lt;/p&gt;
+&lt;/div&gt;
+
+[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)
+
+ 
+---
+
+# Navegación y astronomía
+
+Con una motivación similar, en torno a 1360 el matemático **Nicole Oresme** diseñó el **primer gráfico de barras** (no estadístico), con la idea de **visualizar a la vez dos magnitudes físicas teóricas**.
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/dataviz_historico_2.jpeg" alt="Gráfica extraída de Friendly y Valero-Mora (2010), de «Tractatus De Latitudinibus Formarum»" width="30%" /&gt;
+&lt;p class="caption"&gt;Gráfica extraída de Friendly y Valero-Mora (2010), de «Tractatus De Latitudinibus Formarum»&lt;/p&gt;
+&lt;/div&gt;
+
+[5] [«The First (Known) Statistical Graph: Michael Florent van Langren and the 'Secret' of Longitude» de M. Friendly y P. M. Valero-Mora. The American Statistician (2010)](https://www.researchgate.net/publication/227369016_The_First_Known_Statistical_Graph_Michael_Florent_van_Langren_and_the_Secret_of_Longitude)
+
+ 
+---
+
+# Primer gráfico estadístico
+
+La mayoría de expertos, como Tufte &lt;sup&gt;6,7&lt;/sup&gt;, consideran **este gráfico** casi longitudinal como la **primera visualización de datos** de la historia, hecha por **van Langren** en 1644, representando la **distancia (en longitud) entre Toledo y Roma** (un poco mal medida ya que la distancia real es de 16.5º).
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/longitud_dataviz.jpg" alt="Gráfica original extraída de Friendly y Valero-Mora (2010)" width="45%" /&gt;
+&lt;p class="caption"&gt;Gráfica original extraída de Friendly y Valero-Mora (2010)&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/dataviz_historico_3.jpeg" alt="Adaptación extraída de Friendly y Valero-Mora (2010)" width="45%" /&gt;
+&lt;p class="caption"&gt;Adaptación extraída de Friendly y Valero-Mora (2010)&lt;/p&gt;
+&lt;/div&gt;
+
+[6] [«Visual explanations: images and quantities, evidence and narrative» de E. Tufte](https://archive.org/details/visualexplanatio00tuft)
+
+[7] [«PowerPoint is evil» de E. Tufte](https://www.wired.com/2003/09/ppt2/)
+
+---
+
+# ¿Qué es una gráfica estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística? **¿Cuál es la frontera entre una ilustración y una gráfica (de datos)?**
+
+&amp;nbsp;
+
+Esas mismas preguntas se hizo **Joaquín Sevilla** en su manual &lt;sup&gt;1&lt;/sup&gt;, argumentando que deben cumplir **3 requisitos**:
+
+1. Que se base en el esquema de composición de **eje métrico** (proceso de medida): **no cualquier dibujo que incluya números** lo podemos denominar «gráfica estadística». 
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/mapa_sevilla.jpg" alt="INFOGRAFÍA extraída del manual de Joaquín Sevilla" width="55%" /&gt;
+&lt;p class="caption"&gt;INFOGRAFÍA extraída del manual de Joaquín Sevilla&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/grafica_dinero_sevilla.jpg" alt="GRÁFICA extraída del manual de Joaquín Sevilla" width="53%" /&gt;
+&lt;p class="caption"&gt;GRÁFICA extraída del manual de Joaquín Sevilla&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+
+---
+
+# Vizfail
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/persona_dataviz.jpg" alt="Ejemplo de metáfora visual mal ejecutada" width="99%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de metáfora visual mal ejecutada&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+* La figura elegida (una persona caminando) no guarda relación alguna con lo que se pretende representar.
+
+* Los sectores señalados no tienen relación con el ítem a representar, lo que dificulta su interpretación
+
+* Los colores no dan información de ningún tipo.
+
+* La forma hace imposible la comparación entre áreas (salvo que leas el % adjunto).
+
+* La suma total supera el 100% ¿?
+
+* **Sin la fuente de los datos**.
+
+]
+
+---
+
+# ¿Qué es una gráfica estadística?
+
+Ese **proceso de medida** en el que una gráfica se debe apoyar lo ilustra muy bien Alberto Cairo &lt;sup&gt;8&lt;/sup&gt; con esta **infografía**.
+
+
+* ¿Sabrías decir en 5 segundos en que región el empleo ha crecido más? ¿Y menos?
+* ¿Sabrías decir en 5 segundos si la variación ha sido mayor en Madrid, La Rioja o Canarias?
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/mapa_cairo_esp.jpg" alt="INFOGRAFÍA extraída de Alberto Cairo" width="65%" /&gt;
+&lt;p class="caption"&gt;INFOGRAFÍA extraída de Alberto Cairo&lt;/p&gt;
+&lt;/div&gt;
+
+[8] «The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo.
+
+---
+
+# ¿Qué es una gráfica estadística?
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/mapa_cairo_2.jpg" alt="GRÁFICA extraída de Alberto Cairo" width="90%" /&gt;
+&lt;p class="caption"&gt;GRÁFICA extraída de Alberto Cairo&lt;/p&gt;
+&lt;/div&gt;
+
+La principal diferencia entre otro tipo de comunicación visual y una **gráfica estadística** radica en proporcionar **herramientas de medida**.
+
+---
+
+# ¿Qué es una gráfica estadística?
+
+1. Que se base en el esquema de composición de **eje métrico**
+
+2. Debe incluir **información cuantitativa** (debe visualizar datos)
+
+3. La relación de representatividad debería **ser reversible**: los **datos deberían poder «recuperarse»** a partir de la gráfica (una gráfica estadística es un tipo particular de **aplicación** matemática).
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/sevilla_densidad.jpg" alt="Gráfica extraída del manual de Joaquín Sevilla" width="50%" /&gt;
+&lt;p class="caption"&gt;Gráfica extraída del manual de Joaquín Sevilla&lt;/p&gt;
+&lt;/div&gt;
+
+[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+
+---
+
+# ¿Qué es una gráfica estadística?
+
+Hay muchas formas de hacer una gráfica estadística, y **no suele pasar** por hacer un gráfico de tartas. Los **diagramas de tartas o sectores** tiene un problema de reversibilidad:
+
+* Si hay **muchas variables**: salvo que conozcas el montante total y tengas un transportador de ángulos a mano, es muy complicado que obtengas información.
+
+* Si hay **pocas variables**: ¿aporta algo distinto (y/o mejor) que una tabla?
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/sectores_sevilla.jpg" alt="Gráfica extraída del manual de Joaquín Sevilla" width="40%" /&gt;
+&lt;p class="caption"&gt;Gráfica extraída del manual de Joaquín Sevilla&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# ¿Qué es una gráfica estadística?
+
+El principal problema de un **diagrama de sectores** es que la posible información está contenido en los **ángulos**, pero nuestra interpretación la realizamos a través de la **comparación de áreas** (nuestros ojos no miden bien ángulos), las cuales dependen no solo del ángulo sino del radio.
+
+Algo similar sucede con los mal llamados **gráficos tridimensionales** (son bidimensionales con perspectiva en realidad): los valores más cercanos aparecen sobredimensionados, siendo prácticamente imposible la reversibilidad.
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/sectores_3D_sevilla.jpg" alt="Gráfica extraída del manual de Joaquín Sevilla" width="70%" /&gt;
+&lt;p class="caption"&gt;Gráfica extraída del manual de Joaquín Sevilla&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Vizfail
+
+Además, dado que un diagrama de sectores solo permite una **visualización relativa** de los datos, no son comparables con otros diagramas de tartas.
+
+&lt;img src="./img/medals_race.jpg" width="78%" style="display: block; margin: auto;" /&gt;
+
+Gráfica extraída de &lt;https://twitter.com/Dave_Andrade/status/432576336872624129?t=FGjLtxE8V1BJR_QdXdtZgQ&amp;s=19&gt;
+
+---
+
+# Vizfail
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/gijon_psoe.jpg" alt="Ejemplo de un desastre" width="50%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de un desastre&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Historia de la estadística: navegación y astronomía
+
+.pull-left[
+
+### T. Brahe
+
+Uno de los primeros usos «modernos» de la estadística fue en la **navegación y la astronomía**, siendo Tycho Brahe de los primeros en utilizar la estadística para **reducir los errores** observacionales.
+]
+
+.pull-right[
+
+### E. Wright
+
+Fue el primero en usar en 1599 lo que hoy llamamos **mediana** en su libro «Certaine errors in navigation», aplicada a la navegación.
+
+]
+
+.pull-left[
+
+### G. Galileo
+
+Aunque la fama se la llevó **Gauss**, fue el primero en plantear una idea similar a la que hoy llamamos **método de mínimos cuadrados**: los valores más probables serían aquellos que minimizaran los errores.
+
+]
+
+.pull-right[
+### C. F. Gauss y A. M. Legendre
+
+El **método de los mínimos cuadrados**, en el que basan modelos actuales como la regresión, fue desarrollado por **Legendre y Gauss** (el último lo aplicó a la detección más probable del planeta enano Ceres).
+
+]
+
+---
+
+# Historia de la estadística: demografía, epidemiología y fisiología
+
+.pull-left[
+
+#### J. Graunt
+
+Autor de «Natural and Political Observations Made upon the Bills of Mortality» (1662), uno de los primeros trabajos en los que ya se hablaba de **exceso de mortalidad** a partir de las primeras tablas de natalidad y mortalidad, **estimando la población de Londres**.
+]
+
+.pull-right[
+
+#### G. Neumann
+
+Las **fakes news** ya existían en el siglo XVII: Gaspar Neumann también un precursor en el **análisis estadístico de tablas de mortalidad**, para desmentir bulos (ejemplo: desmontó la creencia de que en los años acabados en siete morían más personas).
+]
+
+
+Son precisamente las tablas de Graunt las que usó **Christiaan Huygens** (pionero en teoría de probabilidad con su «De ratiociniis in ludo aleae» en 1656) para generar la **primera gráfica de densidad** de una distribución continua, visualizando la **esperanza de vida** (en función de la edad).
+
+
+---
+
+# Primer gráfico de densidad
+
+Son precisamente las tablas de Graunt las que usó **Christiaan Huygens** (pionero en teoría de probabilidad con su «De ratiociniis in ludo aleae» en 1656) para generar la **primera gráfica de densidad** de una distribución continua, visualizando la **esperanza de vida** (en función de la edad).
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://omeka.lehigh.edu/files/fullsize/65fc32c11a768f1d3263a99caca28dff.jpg" alt="Primera función de densidad, extraída de https://omeka.lehigh.edu/exhibits/show/data_visualization/vital_statistics/huygen" width="50%" /&gt;
+&lt;p class="caption"&gt;Primera función de densidad, extraída de https://omeka.lehigh.edu/exhibits/show/data_visualization/vital_statistics/huygen&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Edmond Halley
+
+El astrónomo **Edmond Halley** fue uno de los primeros científicos en usar la visualización de datos para sus trabajos, publicando en 1686 un gráfico relacionando la presión barométrica en función de la altitud, y se le atribuye el primer mapa no geográfico: un mapa representando datos meteorológicos (direcciones de viento)
+
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://friendly.github.io/HistDataVis/figs-web/06_2-halleygraph2.png" alt="Gráfico bivariante de Halley, extraída de https://friendly.github.io/HistDataVis" width="80%" /&gt;
+&lt;p class="caption"&gt;Gráfico bivariante de Halley, extraída de https://friendly.github.io/HistDataVis&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/mapa_halley.jpg" alt="Mapa meteorológico, extraído de Thrower (1969)" width="80%" /&gt;
+&lt;p class="caption"&gt;Mapa meteorológico, extraído de Thrower (1969)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[9] [«Edmond Halley as a Thematic Geo-Cartographer» de Norman J. W. Thrower (1969)](https://www.jstor.org/stable/2561832)
+
+
+---
+
+# El gran boom: los gráficos de Playfair
+
+La figura que cambió el dataviz fue, sin lugar a dudas, el economista y político **William Playfair (1759-1823)**. En 1786 publicó el **«Atlas político y comercial»** con 44 gráficas (43 series temporales y el **diagrama de barras más famoso**, aunque no el primero).
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_1.jpg" alt="Gráficas de Playfair, extraídas de Funkhouser y Walker (1935)" width="85%" /&gt;
+&lt;p class="caption"&gt;Gráficas de Playfair, extraídas de Funkhouser y Walker (1935)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_2.jpg" alt="Gráficas de Playfair, extraídas de Funkhouser y Walker (1935)" width="35%" /&gt;
+&lt;p class="caption"&gt;Gráficas de Playfair, extraídas de Funkhouser y Walker (1935)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
+
+[11] [«Playfair and his charts» de H. Gray Funkhouser and  Helen M. Walker (1935)](https://www.jstor.org/stable/45366440)
+
+---
+
+# El gran boom: los gráficos de Playfair
+
+Playfair no solo fue el primero en usar el dataviz para entender (y no solo describir) la realidad: fue el primero en usar **conceptos modernos** como el _grid_ o el color como un elemento no solo estético.
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_3.jpg" alt="Gráficas de Playfair, extraídas de https://friendly.github.io/HistDataVis" width="99%" /&gt;
+&lt;p class="caption"&gt;Gráficas de Playfair, extraídas de https://friendly.github.io/HistDataVis&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_4.png" alt="Gráficas de Playfair, extraídas de la wikipedia." width="99%" /&gt;
+&lt;p class="caption"&gt;Gráficas de Playfair, extraídas de la wikipedia.&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
+
+---
+
+# Primer gráfico de barras
+
+Playfair es además el **autor del gráfico de barras más famoso** (aunque no fue el primero, pero sí el que sentó un precedente, quien lo hizo _mainstream_).
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_5.jpg" alt="Gráficas de Playfair de importaciones (barras grises) y exportaciones (negras) de Escocia en 1781, extraídas de la wikipedia." width="95%" /&gt;
+&lt;p class="caption"&gt;Gráficas de Playfair de importaciones (barras grises) y exportaciones (negras) de Escocia en 1781, extraídas de la wikipedia.&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_6.jpg" alt="Primer diagrama de barras (Philippe Buache y Guillaume de L’Isle), visualizando los niveles del Sena desde 1732 hasta 1766, extraída de https://friendly.github.io/HistDataVis" width="95%" /&gt;
+&lt;p class="caption"&gt;Primer diagrama de barras (Philippe Buache y Guillaume de L’Isle), visualizando los niveles del Sena desde 1732 hasta 1766, extraída de https://friendly.github.io/HistDataVis&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
+
+---
+
+# El gran boom: los gráficos de Playfair
+
+
+Playfair además fue el primero en **combinar gráficos en la misma visualización**
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_7.jpg" alt="Gráfica de Playfair, visualizando 3 series temporales: precios (barras)f a quarter of wheat (the histogram bars), salarios (línea) y time-line con reinados, extraída de https://friendly.github.io/HistDataVis." width="92%" /&gt;
+&lt;p class="caption"&gt;Gráfica de Playfair, visualizando 3 series temporales: precios (barras)f a quarter of wheat (the histogram bars), salarios (línea) y time-line con reinados, extraída de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_8.jpg" alt="Gráfica de Playfair, visualizando un time-line histórico, extraída de https://friendly.github.io/HistDataVis." width="92%" /&gt;
+&lt;p class="caption"&gt;Gráfica de Playfair, visualizando un time-line histórico, extraída de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+]
+
+[12] [«A Letter on Our Agricultural Distresses, Their Causes and Remedies» de William Playfair (1821)](http://onlinebooks.library.upenn.edu/webbin/book/lookupid?key=ha009726110)
+
+[13] [«An Inquiry Into the Permanent Causes of the Decline and Fall of Powerful and Wealthy Nations» de William Playfair (1821)](https://www.amazon.com/Permanent-Powerful-Nations-Prosperity-Prolonged/dp/140691830X)
+
+
+---
+
+# Primeros gráficos de tarta
+
+Junto a **J.H. Lambert** (sí, el de la proyección cartográfica), Playfair inventó las gráficas circulares y los **diagramas de tartas**.
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://www.researchgate.net/profile/Ian-Spence-7/publication/228091928/figure/fig18/AS:668617855234069@1536422327601/Lamberts-chart-of-soil-temperatures-1779.ppm" alt="Gráfica de Lambert visualizando la temperatura de la tierra (eje horizontal: tiempo; eje vertical: latitud)." width="85%" /&gt;
+&lt;p class="caption"&gt;Gráfica de Lambert visualizando la temperatura de la tierra (eje horizontal: tiempo; eje vertical: latitud).&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_9.png" alt="Gráfica de Playfair, considerada el primer diagrama de tartas, visualizando el tamaño, localización y población de 5 países, extraída de https://friendly.github.io/HistDataVis." width="100%" /&gt;
+&lt;p class="caption"&gt;Gráfica de Playfair, considerada el primer diagrama de tartas, visualizando el tamaño, localización y población de 5 países, extraída de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[14] [«The Statistical Breviary» de William Playfair (1801)](https://www.amazon.es/Statistical-Breviary-Shewing-Resources-Kingdom/dp/1293282693)
+
+---
+
+# Gráficos combinados en mapas
+
+**Minard** fue además el primero en 1858 que se atrevió a **incorporar gráficas en mapas**, mostrando la proporción de consumo de carne (ternera, cerdo, cordero) proporcionado por el mercado central de París.
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/minard.png" alt="Mapa con diagramas de sectores de Minard, extraída de https://friendly.github.io/HistDataVis." width="43%" /&gt;
+&lt;p class="caption"&gt;Mapa con diagramas de sectores de Minard, extraída de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+
+# Mapas figurativos de Minard
+
+Minard fue el autor del famoso «Carte figurative des pertes successives en hommes de l'Armée Française dans la campagne de Russie 1812-1813», según Tufte «el mejor gráfico estadístico jamás dibujado», publicado en 1869 sobre la **desastrosa campaña rusa de las tropas de Napoleón en 1812**, mostrando 3 variables en un gráfico bidimensional
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/minard_2.png" alt="Gráfico de Minard sobre el avance de las tropas de Napoleón hacia Rusia, extraída de https://friendly.github.io/HistDataVis." width="73%" /&gt;
+&lt;p class="caption"&gt;Gráfico de Minard sobre el avance de las tropas de Napoleón hacia Rusia, extraída de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+
+# Primera función de distribución
+
+Años antes, en  1821, el **matemático J. B. J. Fourier** publicó  el primer **gráfico de una distribución acumulada** (la población de Paris en 1817 por grupos de edad), aunque nacieron para ser leídas al revés de lo usual actualmente (de derecha a izquierda).
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/fourier_dataviz.jpg" alt="Primera función de distribución acumulada, extraída de Beniger y Robyn (1978)." width="57%" /&gt;
+&lt;p class="caption"&gt;Primera función de distribución acumulada, extraída de Beniger y Robyn (1978).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Primer diagrama de dispersión
+
+Según Sevilla &lt;sup&gt;1&lt;/sup&gt;, se considera al astrónomo británico **John Frederick William Herschel** el primero que publicó un **diagrama de dispersión o scatterplot** en 1833, visualizando el movimiento de la estrella doble Virginis (tiempo en el eje horizontal, posición angular en el eje vertical)
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/herschel.jpg" alt="Primer scatterplot, extraído de https://friendly.github.io/HistDataVis." width="36%" /&gt;
+&lt;p class="caption"&gt;Primer scatterplot, extraído de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+
+[15] [«On the investigation of the orbits of revolving double stars: being a supplement to a paper entitled micrometrical measures of 364 double stars», de John F. W. Herschel (1833)](https://adsabs.harvard.edu/full/1833MmRAS...5..171H)
+
+---
+
+# Primera pirámide poblacional
+
+La **primera pirámide de población** (en realidad es un doble histograma de población, en función de dos variables, edad y sexo), fue publicada por **Francis Amasa Walker**, superintendente del censo de EE.UU., en 1874.
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/walker_piramide.jpg" alt="Primera pirámide de población, extraída de https://www.depauw.edu/learn/dew/wpaper/workingpapers/DePauw2016-02-Barreto-DemographyEconomics.pdf" width="55%" /&gt;
+&lt;p class="caption"&gt;Primera pirámide de población, extraída de https://www.depauw.edu/learn/dew/wpaper/workingpapers/DePauw2016-02-Barreto-DemographyEconomics.pdf&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+
+# Primer gráfico de mosaico
+
+Walker también fue el autor del **primera gráfico de mosaico** en 1874, visualizando la población de Missouri por origen racial, según el censo de 1870
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/walker_mosaico.jpg" alt="Primer gráfico de mosaico, extraído de https://friendly.github.io/HistDataVis." width="75%" /&gt;
+&lt;p class="caption"&gt;Primer gráfico de mosaico, extraído de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# El boom de la estadística: epidemiología y bioestadística
+
+
+.pull-left[
+
+#### John Snow
+
+Se le considera uno de los pioneros de la **epidemiología moderna** y la **estadística espacial**: aunque los **diagramas de Voronoi** tardarían años en ser formalizados, John Snow aplicó el mismo concepto para mitigar la **epidemia de cólera en Londres**, con su **mapa con diagrama de barras**, localizando el foco en la conocida fuente de Broad Street.
+
+]
+
+--
+
+.pull-right[
+
+&lt;img src="https://media.revistagq.com/photos/5cc84a91c46d3a2b7435d7cf/2:3/w_1799,h_2699,c_limit/pelo%20jon%20snow.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+
+# El boom de la estadística: epidemiología y bioestadística
+
+
+.pull-left[
+
+#### John Snow
+
+Se le considera uno de los pioneros de la **epidemiología moderna** y la **estadística espacial**: aunque los **diagramas de Voronoi** tardarían años en ser formalizados, John Snow aplicó el mismo concepto para mitigar la **epidemia de cólera en Londres**, con su **mapa con diagrama de barras**, localizando el foco en la conocida fuente de Broad Street.
+
+
+[📚 «El mapa fantasma», Steven Johnson, sobre la historia de John Snow](https://capitanswing.com/libros/el-mapa-fantasma/)
+
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://s1.eestatic.com/2016/04/22/reportajes/reportajes_119248513_3987143_854x640.jpg" alt="John Snow, el epidemiólogo" width="100%" /&gt;
+&lt;p class="caption"&gt;John Snow, el epidemiólogo&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# Nacimiento de la estadística espacial
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/snow_mapa.jpg" alt="Mapa de Londres, mostrando los casos de cólera del 19 de agosto al 30 de septiembre de 1854, extraído de https://friendly.github.io/HistDataVis." width="77%" /&gt;
+&lt;p class="caption"&gt;Mapa de Londres, mostrando los casos de cólera del 19 de agosto al 30 de septiembre de 1854, extraído de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Cólera en Londres
+
+Esa **epidemia de cólera** en Londres fue una catástrofe en términos humanos pero supuso un verdadero auge de la **bioestadística y visualización de datos**. Unos años antes que Snow, **William Farr** ya usaba el dataviz para **monitorizar las muertes diarias** de cólera (abajo, cólera en azul, diarre en amarillo), en función del tiempo meteorológico (arriba)
+
+
+&lt;img src="./img/farr_colera.png" width="48%" style="display: block; margin: auto;" /&gt;
+
+[16] [«General Register Office, Report on the Mortality of Cholera in England, 1848–49» publicado en 1852](https://wellcomecollection.org/works/pajtrpez/items?canvas=9)
+
+
+---
+
+# Primer diagrama de área polar
+
+Fue también Farr al que se le atribuye el primer **diagrama de área polar o radial**, cambiando por completo el **paradigma cartesiano** de la época: para visualizar la estacionalidad de la mortalidad en función de la temperatura, Farr decidió visualizarlo con coordenadas polares o esféricas.
+
+&lt;img src="./img/farr_colera_2.png" width="48%" style="display: block; margin: auto;" /&gt;
+
+[16] [«General Register Office, Report on the Mortality of Cholera in England, 1848–49» publicado en 1852](https://wellcomecollection.org/works/pajtrpez/items?canvas=9)
+
+
+---
+
+# Florence Nigthingale: una revolución
+
+.pull-left[
+
+
+* El 21 de octubre de 1854 **Florence Nigthingale** fue enviada para mejorar las **condiciones sanitarias** de los **soldados británicos en la guerra de Crimea**. 
+
+* A su regreso se dedicó a demostrar que los **soldados fallecían por las condiciones sanitarias**: eran **muertes evitables**. Nigthingale es la creadora del famoso **diagrama de rosa**, permitiendo pintar tres variables a la vez y su estacionalidad.
+
+* El 8 de febrero de 1955, The Times la describió como la **«ángel guardián» de los hospitales**, y al finalizar la contienda, fue recibida como una heroína, conocida como **«The Lady with the Lamp»** tras un poema de H. W. Longfellow publicado en 1857.
+
+* Años después se convirtió en la **primera mujer en la Royal Statistical Society** y renunció a su puesto para crear las primeras escuelas de enfermería
+
+]
+
+.pull-right[
+
+&lt;img src="https://www.researchgate.net/profile/Miguel-Guevara-4/publication/325622727/figure/fig1/AS:635977265582080@1528640204506/FIGURA-2-La-dama-con-la-lampara-1891-en-ingles-The-lady-with-the-lamp.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Los gráficos en espiral no son novedosos
+
+**Florence Nigthingale** es la creadora del famoso **diagrama de rosa**, permitiendo pintar tres variables a la vez y su estacionalidad: **tiempo** (cada **gajo** es un mes), **nº de muertes** (**área** del gajo) y **causa** de la muerte (**color** del gajo: azules enfermedades infecciosas, rojas por heridas, negras otras causas).
+
+
+&lt;img src="./img/rosa_nightingale.jpg" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# La espiral de la polémica
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://www.memo.com.ar/files/image/30/30306/61e162fc784b3_715_896!.jpg?s=8418d87978ab79e1a76da127f6b37bb2&amp;d=1642160894" alt="Gráfica en espiral del New York Times" width="100%" /&gt;
+&lt;p class="caption"&gt;Gráfica en espiral del New York Times&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+
+
+.pull-right[
+
+**¿A favor? ¿En contra?**
+
+✖️ No es novedosa (la novedad tampoco debería ser un argumento a favor per se)
+
+✔️ Las **coordenadas polares** son un **acierto**: los datos estacionales como los datos epidemiológicos o las temperaturas son precisamente los casos en los que está más justificado representar los datos en coordenadas polares o en espiral.
+
+✖️ **No respeta la reversibilidad**: es más una ilustración que una gráfica estadística. La forma de llevarlo a cabo **infraestima los datos** actuales y, por su **distorsión de la realidad**, no permite **medir** precisamente el patrón estacional que se propone visualizar.
+
+✔️ **Metáfora visual** de la pandemia.
+
+✖️ Opinión personal: buena idea, buena como ilustración, error como gráfica estadística en su ejecución.
+]
+
+---
+
+# La espiral de la polémica
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://www.memo.com.ar/files/image/30/30306/61e162fc784b3_715_896!.jpg?s=8418d87978ab79e1a76da127f6b37bb2&amp;d=1642160894" alt="Gráfica en espiral del New York Times" width="60%" /&gt;
+&lt;p class="caption"&gt;Gráfica en espiral del New York Times&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://elartedeldato.com/blog/the-new-york-times-spiral-graph-en-r/featured-the_nyt_spiral_hu8f42fa4590b2c04399b29318317fd771_501398_720x0_resize_lanczos_3.png" alt="Mejora de la espiral realizada por Paula Casado https://elartedeldato.com/blog/the-new-york-times-spiral-graph-en-r/" width="100%" /&gt;
+&lt;p class="caption"&gt;Mejora de la espiral realizada por Paula Casado https://elartedeldato.com/blog/the-new-york-times-spiral-graph-en-r/&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+✖️ El **eje que recorre la espiral no aporta**, distrae de los datos a representar, **aumenta la distorsión producida** por la no linealidad de la espiral y duplica información, dificultando la comparación estacional.
+
+
+---
+
+# La espiral de la polémica
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://pbs.twimg.com/media/FIgzfW4XMAsWYMs?format=jpg&amp;name=large" alt="Misma idea, distinta ejecución, de https://twitter.com/abmakulec/status/1479496579040034822" width="90%" /&gt;
+&lt;p class="caption"&gt;Misma idea, distinta ejecución, de https://twitter.com/abmakulec/status/1479496579040034822&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# La espiral de la polémica
+
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://pbs.twimg.com/media/FIg4FiIXIAITUq6?format=jpg&amp;name=medium" alt="Mejora de https://twitter.com/abmakulec/status/1479496581439238152" width="100%" /&gt;
+&lt;p class="caption"&gt;Mejora de https://twitter.com/abmakulec/status/1479496581439238152&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+✖️ La **inclusión de colores** codificando los datos hubiese mejorado el gráfico, máxime cuando no se añade ningún tipo de escala al gráfico (aunque mida la estacionalidad, para visualizar algo estacional es fundamental que precisamente los periodos puedan ser comparables para percibir ese patrón periódico)
+
+&amp;nbsp;
+
+El **uso de colores** no es solo algo estético: es una variable más, y la paleta elegida así como su uso es fundamental (por ejemplo, la inclusión de colores nos permite centrarnos en los oscuros, y comparar entre tonalidades).
+
+]
+
+---
+
+
+# La espiral de la polémica
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://pbs.twimg.com/media/FIg4PXhXoAU7C2P?format=jpg&amp;name=medium" alt="Mejora de https://twitter.com/abmakulec/status/1479496581439238152" width="100%" /&gt;
+&lt;p class="caption"&gt;Mejora de https://twitter.com/abmakulec/status/1479496581439238152&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+✖️ No hay ninguna codificación de ningún tipo, ni en ejes ni en colores: añadir **barras con tamaños** codifica de nuevo los datos (ya estaban con colores), y su solapamiento en algunos periodos nos permiten calibrar mejor la colosal magnitud de ómicron en ese momento. El **tamaño de las barras** no solo nos permite medir, per se, sino facilitar aún más la comparación, sin ejes centrales sin significado en base a los datos.
+
+]
+
+
+---
+
+
+# La espiral de la polémica
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://pbs.twimg.com/media/FIg4bLWX0AgHuBT?format=jpg&amp;name=medium" alt="Mejora de https://twitter.com/abmakulec/status/1479496581439238152" width="100%" /&gt;
+&lt;p class="caption"&gt;Mejora de https://twitter.com/abmakulec/status/1479496581439238152&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+✖️ La forma de llevarlo a cabo, **incluyendo solo algunos meses** (¿por qué esos y no otros?), hace más complicado obtener información sin recorrer la espiral (que quizás sea en parte un acierto, por darte la sensación de mareo). Además el **grid que se incluye no aporta escala ni información** por lo que distrae de la verdadera información.
+
+]
+
+---
+
+# La espiral de la polémica
+
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://pbs.twimg.com/media/FIg4FiIXIAITUq6?format=jpg&amp;name=medium" alt="Mejora de https://twitter.com/abmakulec/status/1479496581439238152" width="100%" /&gt;
+&lt;p class="caption"&gt;Mejora de https://twitter.com/abmakulec/status/1479496581439238152&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+✖️ La **espiral es una forma geométrica compleja**: la original, no estar ni centrada ni concéntrica, distorsiona el crecimiento de los casos y su estacionalidad.
+
+]
+
+---
+
+# Líneas rojas
+
+* Entender el contexto
+* Distorsión mínima posible de la realidad
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://pbs.twimg.com/media/FIgZcF4X0AAzLnC?format=jpg&amp;name=medium" alt="Infografía extraída de https://twitter.com/storywithdata" width="55%" /&gt;
+&lt;p class="caption"&gt;Infografía extraída de https://twitter.com/storywithdata&lt;/p&gt;
+&lt;/div&gt;
+
+(en lo de los diagramas de tartas discrepamos :P)
+
+---
+
+# Contexto
+
+Una **buena idea** puede estar mejor o peor ejecutada, y la forma de llevaro a cabo es importante
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/semaforo.jpg" alt="Un semáforo no es una mala idea, la forma de instalarlo sí puede serlo. Imagen extraída del manual de Joaquín Sevilla" width="30%" /&gt;
+&lt;p class="caption"&gt;Un semáforo no es una mala idea, la forma de instalarlo sí puede serlo. Imagen extraída del manual de Joaquín Sevilla&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+
+## ggplot2: grammar of graphics (gg)
+
 
 ---
 
