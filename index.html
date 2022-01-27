@@ -20,6 +20,15 @@
     <link href="libs/animate.css-xaringan/animate.fade.css" rel="stylesheet" />
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/jquery/jquery.min.js"></script>
+    <link href="libs/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="libs/datatables-binding/datatables.js"></script>
+    <link href="libs/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="libs/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="libs/dt-core/js/jquery.dataTables.min.js"></script>
+    <link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk/js/crosstalk.min.js"></script>
     <link rel="stylesheet" href="style.css" type="text/css" />
   </head>
   <body>
@@ -30,7 +39,7 @@ class: center, middle, inverse, title-slide
 ## Curso de la ECI 2022
 ### Autores: Javier Álvarez Liébana y Gabriel Valverde Castilla
 ### Facultad de Estudios Estadísticos (UCM)
-### 31/01/2022 - 04/02/2022 (actualizado: 2022-01-26)
+### 31/01/2022 - 04/02/2022 (actualizado: 2022-01-27)
 
 ---
 
@@ -467,6 +476,12 @@ Excel es una **hoja de cálculo**, ni más ni menos, y el propio **Microsoft des
 
 
 ]
+
+---
+
+# Incel vs excel
+
+&lt;img src="./img/incel.jpg" width="85%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1090,7 +1105,7 @@ Sys.Date()
 ```
 
 ```
-&gt; [1] "2022-01-26"
+&gt; [1] "2022-01-27"
 ```
 
 &amp;nbsp;
@@ -1136,7 +1151,7 @@ today()
 ```
 
 ```
-&gt; [1] "2022-01-26"
+&gt; [1] "2022-01-27"
 ```
 
 ```r
@@ -1257,7 +1272,7 @@ days(today() - fecha_nacimiento)
 ```
 
 ```
-&gt; [1] "11826d 0H 0M 0S"
+&gt; [1] "11827d 0H 0M 0S"
 ```
 ]
 
@@ -3999,6 +4014,15 @@ dim(gapminder)
 
 ---
 
+# Listado de paquetes útiles usados (en manual o diapos)
+
+
+<div id="htmlwidget-5ad77d2a938d3a9dd813" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5ad77d2a938d3a9dd813">{"x":{"filter":"none","caption":"<caption>Tabla (editable en cada celda)<\/caption>","editable":{"target":"cell","disable":{"columns":null}},"data":[["glue, stringr","tibble, tidyr, dplyr","readr, readxl, rvest","purrr","ggplot2","lubridate","rmarkdown, knitr","DT","xaringan","microbenchmark","devtools","eurostat","gapminder","datasets","owidR","ropenspain/climaemet","ropenspain/infoelectoral","JaseZiv/chessR"],["Manejo de textos","Manejo de datos (tidyverse)","Importación de archivos (tidyverse)","Manejo de listas (tidyverse)","Dataviz (tidyverse)","Manejo de fechas (tidyverse)","Generación de informes/docs","Tablas interactivas en .Rmd","Generación de diapositivas","Comparación de tiempos","Instalar paquetes desde Github","Datos del Eurostat","Datos socioeconómicos de países","Paquete con datos","Datos de Our World in Data","Datos del AEMET","Datos electorales (España)","Datos de partidas de ajedrez"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Paquete<\/th>\n      <th>Detalles<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":7,"hover":true,"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[7,10,25,50,100],"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(row).css({'background-color':'white'});\nvar value=data[1]; $(row).css({'background-color':'white'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+
+
+---
+
 name: rmarkdown
 class: center, middle
 
@@ -5474,11 +5498,11 @@ starwars %&gt;% slice_sample(n = 3) # 3 al azar
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name     height  mass hair_color skin_color eye_color birth_year sex   gender 
-&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  
-&gt; 1 IG-88       200   140 none       metal      red               15 none  mascul…
-&gt; 2 Rugor N…    206    NA none       green      orange            NA male  mascul…
-&gt; 3 Dormé       165    NA brown      light      brown             NA fema… femini…
+&gt;   name    height  mass hair_color skin_color   eye_color birth_year sex   gender
+&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt; 1 Shaak …    178    57 none       red, blue, … black             NA fema… femin…
+&gt; 2 Arvel …     NA    NA brown      fair         brown             NA male  mascu…
+&gt; 3 Poe Da…     NA    NA brown      light        brown             NA male  mascu…
 &gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
@@ -5489,11 +5513,11 @@ starwars %&gt;% slice_sample(n = 3) # 3 al azar nuevas
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name     height  mass hair_color  skin_color eye_color birth_year sex   gender
-&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Jar Jar…    196    66 none        orange     orange            52 male  mascu…
-&gt; 2 Wilhuff…    180    NA auburn, gr… fair       blue              64 male  mascu…
-&gt; 3 Finn         NA    NA black       dark       dark              NA male  mascu…
+&gt;   name     height  mass hair_color skin_color eye_color birth_year sex   gender 
+&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  
+&gt; 1 Eeth Ko…    171    NA black      brown      brown             NA male  mascul…
+&gt; 2 Jar Jar…    196    66 none       orange     orange            52 male  mascul…
+&gt; 3 Mace Wi…    188    84 none       dark       brown             72 male  mascul…
 &gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
@@ -7493,6 +7517,30 @@ Walker también fue el autor del **primera gráfico de mosaico** en 1874, visual
 
 # El boom de la estadística: epidemiología y bioestadística
 
+.pull-left[
+
+#### F. Galton
+
+Primo de Charles Darwin, inventor de los **silbatos para perretes**, de los mapas de predicción meteorológica y la persona que acuñó el concepto de **regresión** (y el de eugenesia :/).
+
+&lt;img src="https://www.bogleheads.org/w/images/thumb/9/95/Screen_Shot_2012-01-03_at_7.36.29_AM.png/600px-Screen_Shot_2012-01-03_at_7.36.29_AM.png" width="93%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+.pull-right[
+
+&lt;img src="./img/galton_1.jpg" width="58%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="./img/galton_2.png" width="58%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+
+---
+
+# El boom de la estadística: epidemiología y bioestadística
 
 .pull-left[
 
@@ -7747,19 +7795,18 @@ El **uso de colores** no es solo algo estético: es una variable más, y la pale
 
 .pull-right[
 
-✖️ La **espiral es una forma geométrica compleja**: la original, no estar ni centrada ni concéntrica, distorsiona el crecimiento de los casos y su estacionalidad.
+✖️ La **espiral es una forma geométrica compleja**: la original, al no estar ni centrada ni ser concéntrica, distorsiona (aún más) el crecimiento de los casos y su estacionalidad.
 
 ]
 
 ---
 
-# Líneas rojas
+# Líneas rojas (opinión personal)
 
-* Entender el contexto
-* Distorsión mínima posible de la realidad
+* Entender el contexto y respetar el dato
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="https://pbs.twimg.com/media/FIgZcF4X0AAzLnC?format=jpg&amp;name=medium" alt="Infografía extraída de https://twitter.com/storywithdata" width="55%" /&gt;
+&lt;img src="https://pbs.twimg.com/media/FIgZcF4X0AAzLnC?format=jpg&amp;name=medium" alt="Infografía extraída de https://twitter.com/storywithdata" width="60%" /&gt;
 &lt;p class="caption"&gt;Infografía extraída de https://twitter.com/storywithdata&lt;/p&gt;
 &lt;/div&gt;
 
@@ -7769,18 +7816,52 @@ El **uso de colores** no es solo algo estético: es una variable más, y la pale
 
 # Contexto
 
-Una **buena idea** puede estar mejor o peor ejecutada, y la forma de llevaro a cabo es importante
+Una **buena idea** puede estar mejor o peor ejecutada, y la forma de llevarla a cabo es importante
 
 &lt;div class="figure" style="text-align: center"&gt;
 &lt;img src="./img/semaforo.jpg" alt="Un semáforo no es una mala idea, la forma de instalarlo sí puede serlo. Imagen extraída del manual de Joaquín Sevilla" width="30%" /&gt;
 &lt;p class="caption"&gt;Un semáforo no es una mala idea, la forma de instalarlo sí puede serlo. Imagen extraída del manual de Joaquín Sevilla&lt;/p&gt;
 &lt;/div&gt;
 
+---
+
+# Fundamentos de la visualización de datos estadísticos
+
+## **Recomendaciones**
+
+[«The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo](https://www.amazon.es/Functional-Art-Voices-That-Matter/dp/0321834739)
+
+---
+
+
+# Fundamentos de la visualización de datos estadísticos
+
+## **Recomendaciones**
+
+
+[«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](https://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+
+[«A Brief History of Visualization» de Friendly et al. (2008)](https://www.researchgate.net/publication/226400313_A_Brief_History_of_Data_Visualization)
+
+[«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+[«Presentation Graphics» de Leland Wilkinson. International Encyclopedia of the Social &amp; Behavioral Sciences](https://www.cs.uic.edu/~wilkinson/Publications/iesbs.pdf)
+
+[«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448)
+
+
+[«The Minard System: The Graphical Works of Charles-Joseph Minard» de Sandra Rendgen](https://www.amazon.es/gp/product/1616896337/ref=sw_img_1?smid=A1AT7YVPFBWXBL&amp;psc=1)
+
+
+[«The Visual Display of Quantitative Information» de E. W. Tufte](https://www.amazon.es/Visual-Display-Quantitative-Information/dp/0961392142)
 
 ---
 
 ## ggplot2: grammar of graphics (gg)
 
+
+[«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448)
 
 ---
 

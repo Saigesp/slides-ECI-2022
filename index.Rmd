@@ -474,6 +474,14 @@ Excel es una **hoja de cálculo**, ni más ni menos, y el propio **Microsoft des
 
 ---
 
+# Incel vs excel
+
+```{r echo = FALSE, out.width = '85%', fig.align = "center"}
+knitr::include_graphics("./img/incel.jpg")
+```
+
+---
+
 # Primeros pasos en R: calculadora
 
 Empecemos por lo sencillo: **¿cómo usar R como una calculadora?** Si escribimos `2 + 1` en la consola y pulsamos ENTER, la consola nos mostrará el resultado de la suma.
@@ -2459,6 +2467,56 @@ dim(gapminder)
 ]
 
 ]
+
+
+---
+
+# Listado de paquetes útiles usados (en manual o diapos)
+
+
+```{r echo = FALSE}
+DT::datatable(tibble("Paquete" = c("glue, stringr",
+                                   "tibble, tidyr, dplyr",
+                                   "readr, readxl, rvest",
+                                   "purrr", 
+                                   "ggplot2", "lubridate",
+                                   "rmarkdown, knitr",
+                                   "DT",
+                                   "xaringan",
+                                   "microbenchmark",
+                                   "devtools",
+                                   "eurostat", "gapminder",
+                                   "datasets",
+                                   "owidR",
+                                   "ropenspain/climaemet",
+                                   "ropenspain/infoelectoral",
+                                   "JaseZiv/chessR"),
+                     "Detalles" =
+                       c("Manejo de textos",
+                         "Manejo de datos (tidyverse)",
+                         "Importación de archivos (tidyverse)",
+                         "Manejo de listas (tidyverse)",
+                         "Dataviz (tidyverse)",
+                         "Manejo de fechas (tidyverse)",
+                         "Generación de informes/docs",
+                         "Tablas interactivas en .Rmd",
+                         "Generación de diapositivas",
+                         "Comparación de tiempos",
+                         "Instalar paquetes desde Github",
+                         "Datos del Eurostat",
+                         "Datos socioeconómicos de países",
+                         "Paquete con datos",
+                         "Datos de Our World in Data",
+                         "Datos del AEMET",
+                         "Datos electorales (España)",
+                         "Datos de partidas de ajedrez")),
+              options = list(pageLength = 8,
+                             hover = TRUE),
+              rownames = FALSE, editable = 'cell',
+              caption = "Tabla (editable en cada celda)") %>%
+  DT::formatStyle(c("Paquete", "Detalles"),
+                  target = 'row', backgroundColor = "white")
+```
 
 
 ---
@@ -4586,6 +4644,36 @@ knitr::include_graphics("./img/walker_mosaico.jpg")
 
 # El boom de la estadística: epidemiología y bioestadística
 
+.pull-left[
+
+#### F. Galton
+
+Primo de Charles Darwin, inventor de los **silbatos para perretes**, de los mapas de predicción meteorológica y la persona que acuñó el concepto de **regresión** (y el de eugenesia :/).
+
+```{r echo = FALSE, out.width = "93%", fig.align = "center"}
+knitr::include_graphics("https://www.bogleheads.org/w/images/thumb/9/95/Screen_Shot_2012-01-03_at_7.36.29_AM.png/600px-Screen_Shot_2012-01-03_at_7.36.29_AM.png")
+``` 
+
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "58%", fig.align = "center"}
+knitr::include_graphics("./img/galton_1.jpg")
+``` 
+
+```{r echo = FALSE, out.width = "58%", fig.align = "center"}
+knitr::include_graphics("./img/galton_2.png")
+``` 
+
+]
+
+
+
+---
+
+# El boom de la estadística: epidemiología y bioestadística
 
 .pull-left[
 
@@ -4840,18 +4928,17 @@ knitr::include_graphics("https://pbs.twimg.com/media/FIg4FiIXIAITUq6?format=jpg&
 
 .pull-right[
 
-✖️ La **espiral es una forma geométrica compleja**: la original, no estar ni centrada ni concéntrica, distorsiona el crecimiento de los casos y su estacionalidad.
+✖️ La **espiral es una forma geométrica compleja**: la original, al no estar ni centrada ni ser concéntrica, distorsiona (aún más) el crecimiento de los casos y su estacionalidad.
 
 ]
 
 ---
 
-# Líneas rojas
+# Líneas rojas (opinión personal)
 
-* Entender el contexto
-* Distorsión mínima posible de la realidad
+* Entender el contexto y respetar el dato
 
-```{r echo = FALSE, out.width = "55%", fig.align = "center", fig.cap = "Infografía extraída de https://twitter.com/storywithdata"}
+```{r echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Infografía extraída de https://twitter.com/storywithdata"}
 knitr::include_graphics("https://pbs.twimg.com/media/FIgZcF4X0AAzLnC?format=jpg&name=medium")
 ``` 
 
@@ -4861,17 +4948,51 @@ knitr::include_graphics("https://pbs.twimg.com/media/FIgZcF4X0AAzLnC?format=jpg&
 
 # Contexto
 
-Una **buena idea** puede estar mejor o peor ejecutada, y la forma de llevaro a cabo es importante
+Una **buena idea** puede estar mejor o peor ejecutada, y la forma de llevarla a cabo es importante
 
 ```{r echo = FALSE, out.width = "30%", fig.align = "center", fig.cap = "Un semáforo no es una mala idea, la forma de instalarlo sí puede serlo. Imagen extraída del manual de Joaquín Sevilla"}
 knitr::include_graphics("./img/semaforo.jpg")
 ``` 
 
+---
+
+# Fundamentos de la visualización de datos estadísticos
+
+## **Recomendaciones**
+
+[«The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo](https://www.amazon.es/Functional-Art-Voices-That-Matter/dp/0321834739)
+
+---
+
+
+# Fundamentos de la visualización de datos estadísticos
+
+## **Recomendaciones**
+
+
+[«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](https://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+
+[«A Brief History of Visualization» de Friendly et al. (2008)](https://www.researchgate.net/publication/226400313_A_Brief_History_of_Data_Visualization)
+
+[«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+[«Presentation Graphics» de Leland Wilkinson. International Encyclopedia of the Social & Behavioral Sciences](https://www.cs.uic.edu/~wilkinson/Publications/iesbs.pdf)
+
+[«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448)
+
+
+[«The Minard System: The Graphical Works of Charles-Joseph Minard» de Sandra Rendgen](https://www.amazon.es/gp/product/1616896337/ref=sw_img_1?smid=A1AT7YVPFBWXBL&psc=1)
+
+
+[«The Visual Display of Quantitative Information» de E. W. Tufte](https://www.amazon.es/Visual-Display-Quantitative-Information/dp/0961392142)
 
 ---
 
 ## ggplot2: grammar of graphics (gg)
 
+
+[«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448)
 
 ---
 
