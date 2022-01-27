@@ -87,9 +87,7 @@ $$\\[2.7in]$$
 
 &nbsp;
 
-- **Grupo de Telegram** para dudas, preguntas y demás cosicas:
-
-<https://t.me/curso_dataviz_ECI>
+- **Canal de Teams** para dudas, preguntas y demás cosicas
 
 ---
 
