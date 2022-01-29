@@ -6166,7 +6166,7 @@ ggplot(gapminder_1997,
 
 * 📝 **Ejercicio 1**: del conjunto `starwars` filtra solo los registros que no tenga ausente las columnas `mass, height, eye_color`. Dibuja un diagrama de puntos enfrentando `x = height` en el eje X e `y = mass` en el eje Y.
  
-* 📝 **Ejercicio 2**: modifica el código del gráfico anterior para asignar el tamaño de los puntos en función de la variable `mass`.
+* 📝 **Ejercicio 2**: modifica el código  anterior para asignar el tamaño en función de `mass`.
 
 * 📝 **Ejercicio 3**: modifica el código del gráfico anterior para asignar el color en función de su color de ojos guardado en `eye_color`. Antes procesa la variable para quedarte con colores reales: si hay dos colores, quédate con el primero; el color `"hazel"` pásalo a `"brown"`; los colores `"unknown"` pásalo a gris.
 
@@ -6174,46 +6174,325 @@ ggplot(gapminder_1997,
 
 * 📝 **Ejercicio 5**: repite el gráfico anterior eliminando la leyenda del tamaño del punto y cambia el título de la leyenda del color de ojos a castellano. Añade además transparencia alpha = 0.6 a los puntos.
 
-* 📝 **Ejercicio 6**: repite el gráfico modificando los títulos de los ejes (a castellano) y escribiendo título, subtítulo y caption.
+* 📝 **Ejercicio 6**: repite el gráfico modificando títulos de ejes (a castellano) con título, subtítulo y caption.
  
-* 📝 **Ejercicio 7**: repite el gráfico anterior explicitando los cortes en los ejes con scale_x_continuous() y scale_y_continuous(): el eje X de 60 a 240 (de 30 en 30 cada marca), el eje Y de 20 a 160 (de 20 en 20 cada marca).
+* 📝 **Ejercicio 7**: explicita los cortes en los ejes con `scale_x_continuous()` y `scale_y_continuous()`: el eje X de 60 a 240 (de 30 en 30 cada marca), el eje Y de 20 a 160 (de 20 en 2).
  
 ]
 
 .panel[.panel-name[Sol. 1]
 
+.pull-left[
+
+```{r eval = FALSE}
+# Eliminamos NA
+starwars_filtro <-
+  starwars %>%
+  drop_na(c(mass, height, eye_color))
+
+# Visualizamos
+ggplot(starwars_filtro,
+       aes(x = height, y = mass)) +
+  geom_point()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Eliminamos NA
+starwars_filtro <- starwars %>% drop_na(c(mass, height, eye_color))
+
+# Visualizamos
+ggplot(starwars_filtro, aes(x = height, y = mass)) +
+  geom_point()
+```
+
+]
+
 ]
 
 .panel[.panel-name[Sol. 2]
 
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass, size = mass)) +
+  geom_point()
+```
+
 ]
 
-.panel[.panel-name[Sol. 3]
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars_filtro, aes(x = height, y = mass, size = mass)) +
+  geom_point()
+```
 
 ]
 
-.panel[.panel-name[Sol. 4]
+]
+
+.panel[.panel-name[Sol. 3a]
+
+```{r}
+# Transformar colores
+starwars_filtro <-
+   starwars_filtro %>%
+    mutate(eye_color =
+             case_when(eye_color == "blue-gray" ~ "blue",
+                       eye_color == "hazel" ~ "brown",
+                       eye_color == "unknown" ~ "gray",
+                       eye_color == "green, yellow" ~ "green",
+                       TRUE ~ eye_color))
+```
+
+]
+
+.panel[.panel-name[Sol. 3b]
+
+.pull-left[
+
+```{r eval = FALSE}
+# Visualizamos
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point() +
+  scale_color_manual(values =
+                       c("black", "blue",
+                         "brown", "gray",
+                         "green", "orange",
+                         "red", "white",
+                         "yellow"))
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Visualizamos
+ggplot(starwars_filtro,
+       aes(x = height, y = mass, size = mass, color = eye_color)) +
+  geom_point() +
+  scale_color_manual(values =
+                       c("black", "blue", "brown", "gray", "green",
+                         "orange", "red", "white", "yellow"))
+```
+
+]
+
+]
+
+.panel[.panel-name[Sol. 4a]
+
+```{r}
+# Localizamos el valor y su nombre
+starwars_filtro %>% slice_max(mass, n = 5) %>% pull(name)
+
+# Filtramos
+starwars_filtro <- starwars_filtro %>%
+  filter(name != "Jabba Desilijic Tiure")
+```
+
+]
+
+.panel[.panel-name[Sol. 4b]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point() +
+  scale_color_manual(values =
+                       c("black", "blue",
+                         "brown", "gray",
+                         "green", "orange",
+                         "red", "white",
+                         "yellow"))
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point() +
+  scale_color_manual(values =
+                       c("black", "blue", "brown", "gray", "green",
+                         "orange", "red", "white", "yellow"))
+```
+
+]
 
 ]
 
 .panel[.panel-name[Sol. 5]
 
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point(alpha = 0.6) +
+  guides(size = "none") +
+  scale_color_manual(values =
+                       c("black", "blue",
+                         "brown", "gray",
+                         "green", "orange",
+                         "red", "white",
+                         "yellow")) +
+  labs(color = "color de ojos")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point(alpha = 0.6) +
+  guides(size = "none") +
+  scale_color_manual(values =
+                       c("black", "blue", "brown", "gray", "green",
+                         "orange", "red", "white", "yellow")) +
+  labs(color = "color de ojos")
+```
+
+]
 ]
 
 .panel[.panel-name[Sol. 6]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point(alpha = 0.6) +
+  guides(size = "none") +
+  scale_color_manual(values =
+                       c("black", "blue",
+                         "brown", "gray",
+                         "green", "orange",
+                         "red", "white",
+                         "yellow")) +
+  labs(color = "color de ojos",
+       x = "altura (cm)",
+       y = "peso (kg)",
+       title = "STARWARS",
+       subtitle = "Diagrama de puntos altura vs peso",
+       caption = "J. Álvarez Liébana | Datos: starwars")
+```
+
+]
+
+.pull-left[
+
+```{r echo = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point(alpha = 0.6) +
+  guides(size = "none") +
+  scale_color_manual(values =
+                       c("black", "blue", "brown", "gray", "green",
+                         "orange", "red", "white", "yellow")) +
+  labs(color = "color de ojos",
+       x = "altura (cm)", y = "peso (kg)",
+       title = "STARWARS",
+       subtitle = "Diagrama de puntos altura vs peso",
+       caption = "Autor: Javier Álvarez Liébana | Datos: starwars")
+```
+
+]
 
 ]
 
 .panel[.panel-name[Sol. 7]
 
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+    geom_point(alpha = 0.6) +
+    guides(size = "none") +
+    scale_color_manual(values =
+                           c("black", "blue",
+                             "brown", "gray",
+                             "green", "orange",
+                             "red", "white",
+                             "yellow")) +
+  scale_y_continuous(breaks =
+                       seq(20, 160, by = 20)) +
+  scale_x_continuous(breaks =
+                       seq(60, 240, by = 30)) +
+  labs(color = "color de ojos",
+       x = "altura (cm)",
+       y = "peso (kg)",
+       title = "STARWARS",
+       subtitle = "Diagrama de puntos altura vs peso",
+       caption = "J. Álvarez Liébana | Datos: starwars")
+```
+
 ]
 
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+    geom_point(alpha = 0.6) +
+    guides(size = "none") +
+    scale_color_manual(values =
+                           c("black", "blue", "brown", "gray", "green",
+                             "orange", "red", "white", "yellow")) +
+  scale_y_continuous(breaks = seq(20, 160, by = 20)) +
+  scale_x_continuous(breaks = seq(60, 240, by = 30)) +
+  labs(color = "color de ojos",
+       x = "altura (cm)", y = "peso (kg)",
+       title = "STARWARS",
+       subtitle = "Diagrama de puntos altura vs peso",
+       caption = "Autor: Javier Álvarez Liébana | Datos: starwars")
+```
 
 ]
 
+]
+
+]
 
 ---
 
+
+name: stats
+class: center, middle
+
+# Introducción a la estadística
+
+## **Algunos conceptos necesarios**
+
+&nbsp;
+
+La **estadística descriptiva** es la rama de la estadística que se dedica al preprocesamiento, análisis preliminar de las muestras, resumen y visualización.
+
+---
 
 # Segundo intento: diagrama de barras
 
@@ -6407,6 +6686,99 @@ notas %>% rowwise() %>%
 ---
 
 # Medidas de centralización
+
+Hemos hablado de **tipos de variables** y algunas medidas como la media. En estadística llamamos **medidas de centralización** a aquellas medidas que nos indican en torno a qué **valores se concentran los datos**
+
+* **Media**: medida de centralización basada en el valor que nos **minimiza el promedio de desviaciones al cuadrado**. La media es el valor que está más «cerca» de todos los puntos a la vez.
+
+```{r}
+starwars %>% drop_na(height) %>% summarise(mean(height))
+```
+
+**IMPORTANTE**: la media **SOLO se puede calcular para variables cuantitativas**: solo podemos calcular medias de números, no podemos hacer la media de rojo y azul.
+
+---
+
+# Medidas de centralización
+
+* **Mediana**: medida de centralización definida como el **valor que ocupa el centro de los datos** cuando los **ordenamos de menor a mayor**, un valor que nos deja por debajo al menos el 50% y por encima al menos el 50%.
+
+```{r}
+starwars %>% drop_na(height) %>%
+  summarise(mean(height), median(height))
+```
+
+**IMPORTANTE**: la medina **SOLO se puede calcular para variables cuantitativas** o **variables cualitatives ordinales**: solo podemos calcular el valor de en medio en datos que permitan ser ordenados.
+
+---
+
+# Medidas de centralización
+
+* **Moda**: medida de centralización definida como el **valor más repetido**. Al contrario que la media y la mediana, la moda **no tiene porque ser única**: podemos tener un empate. Si todos se repiten por igual, al no destacar ninguno, se dice que es **amodal**.
+
+La ventaja es que se puede **calcular para todo tipo de variables**. El incoveniente es que la moda tenemos algún problema mayor ya que no hay un función en los paquetes `{base}` para su cálculo directo. Para calcularla podemos usar el paquete `{modeest}` la función `mfv()` nos calcula la moda exacta de una variable numérica discreta o cuantitativa, la función `mlv()` nos calcula la moda estimada de una variable numérica continua.
+
+```{r}
+library(modeest)
+starwars %>% drop_na(height) %>%
+  summarise(mean(height), median(height), mlv(height))
+```
+
+---
+
+# Medidas de centralización
+
+Es importante saber las **diferencias entre las medidas de centralización** respecto a lo que en estadística se llama **robustez**
+
+* La **media es muy poco robusta**: valores extremos la perturban muy fácil. Piensa en una baraja de cartas: si extraemos 10 ases, la media será 1. Si cambiamos uno por un 10, solo por cambiar el 10% de los datos la media casi se duplica.
+
+```{r}
+mean(c(1, 1, 1, 1, 1, 1, 1, 1, 1, 10))
+```
+
+* La **mediana es algo más robusta**: para que cambie en el ejemplo se necesitarían cambiar al menos la mitad de los elementos.
+
+```{r}
+median(c(1, 1, 1, 1, 2, 3, 4, 5, 6, 7))
+```
+
+* La **moda es la más robusta**: para que cambie en el ejemplo se necesitarían cambiar más de la mitad de los datos Y ADEMÁS que los nuevos sean todos repetidos.
+
+---
+
+# Robustez
+
+![](https://www.bankinter.com/file_source/blog/Contents/A-Imagenes/Interior%20noticias/salario-medio-mas-frecuente.jpg)
+
+---
+
+# Medidas de dispersión
+
+De la misma manera podemosLa **falta de robustez** de la media es la razón por la que, a la hora de analizar por ejemplo datos tan desiguales como los salarios en España, el **salario medio** no nos aporta realmente información útil sobre la centralidad de los datos, ya que personas extremadamente ricas hacen que la media sea bastante más elevada que el **salario más frecuente**.
+
+ pedirle que nos calcule **medidas de dispersión** (varianza, desv. típica y cv), que nos indican cómo de **dispersos están los datos respecto a un centro**, normalmente la media, y **medidas de localización (percentiles)**, valores que nos parten los datos en trozos iguales)
+
+```{r}
+starwars %>% drop_na(mass) %>%
+  summarise(media = mean(mass), mediana = median(mass),
+            moda = mlv(mass), var = var(mass),
+            sd = sd(mass), cv = sd / abs(media),
+            p13 = quantile(mass, probs = c(0.13)),
+            p87 = quantile(mass, probs = c(0.87)))
+```
+
+El **coeficiente de variación (CV)** es una medida de dispersión adimensional: nos permita comparar entre variables para saber cuál es más dispersa.
+
+```{r}
+starwars %>% drop_na(mass, height) %>%
+  summarise(media = across(c(mass, height), mean),
+            var = across(c(mass, height), var),
+            cv = sqrt(var) / abs(media))
+```
+
+---
+
+# Volvemos a ggplot: diagrama de barras
 
 ---
 
