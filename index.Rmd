@@ -7321,7 +7321,7 @@ class: center, middle
 
 &nbsp;
 
-En la carpeta [EVALUACIÓN](https://github.com/dadosdelaplace/courses-ECI-2022/tree/main/EVALUACI%C3%93N), accede al fichero `Evaluacion_2.Rmd` en la carpeta `PRÁCTICA II`...
+En la carpeta [EVALUACIÓN](https://github.com/dadosdelaplace/courses-ECI-2022/tree/main/EVALUACI%C3%93N), accede al fichero `Evaluacion_2.Rmd` en la carpeta `PRÁCTICA II`. La práctica consistirá en obtener 3 visualizaciones distintas siguiendo los pasos indicados. Se podrá añadir cualquier otro elemento o visualización que consideres adecuado si quieres experimentar, al margen de lo propuesto.
 
 &nbsp;
 
