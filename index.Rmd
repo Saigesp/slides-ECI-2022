@@ -4028,26 +4028,6 @@ Parte de esta introducción está basada en
 
 # Breve historia de la estadística
 
-## ¿Qué es la estadística?
-
-### Según la RAE:
-
-1. f. Estudio de los datos cuantitativos de la población, de los recursos naturales e industriales, del tráfico o de cualquier otra manifestación de las sociedades humanas.
-
-2. f. Rama de la matemática que utiliza grandes conjuntos de datos numéricos para obtener inferencias basadas en el cálculo de probabilidades.
-
-&nbsp;
-
-### Según Stanford<sup>1</sup>:
-
-Disciplina encargada del estudio, la recolección, la organización, el análisis, la interpretación y **la presentación** de los datos.
-
-.footnote[[1] [Stanford Encyclopedia of Philosophy](https://plato.stanford.edu/entries/statistics/)]
-
----
-
-# Breve historia de la estadística
-
 .pull-left[
 * Del (neo)latín «statisticum collegium»: consejo de **Estado**.
 * Del alemán «statistik» (ciencia del **Estado**, intoducido por G. Achenwall).
@@ -4866,11 +4846,11 @@ knitr::include_graphics("https://pbs.twimg.com/media/FIg4FiIXIAITUq6?format=jpg&
 
 ✖️ La **inclusión de colores** codificando los datos hubiese mejorado el gráfico, máxime cuando no se añade ningún tipo de escala al gráfico (aunque mida la estacionalidad, para visualizar algo estacional es fundamental que precisamente los periodos puedan ser comparables para percibir ese patrón periódico)
 
-&nbsp;
+]
+
 
 El **uso de colores** no es solo algo estético: es una variable más, y la paleta elegida así como su uso es fundamental (por ejemplo, la inclusión de colores nos permite centrarnos en los oscuros, y comparar entre tonalidades).
 
-]
 
 ---
 
@@ -4960,13 +4940,6 @@ knitr::include_graphics("./img/semaforo.jpg")
 
 [«The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo](https://www.amazon.es/Functional-Art-Voices-That-Matter/dp/0321834739)
 
----
-
-
-# Fundamentos de la visualización de datos estadísticos
-
-## **Recomendaciones**
-
 
 [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](https://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
 
@@ -4989,10 +4962,915 @@ knitr::include_graphics("./img/semaforo.jpg")
 
 ## ggplot2: grammar of graphics (gg)
 
+.pull-left[
 
-[«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448)
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Imagen extraída de Reddit"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/telling-dataviz")
+``` 
+
+]
+
+.pull-right[
+
+Una de las **principales fortalezas** de `R` no solo es el manejo de datos con `{tidyverse}`, también la visualización con uno de sus paquetes: el paquete `{ggplot2}`.
+
+La **visualización de datos** debería ser una parte fundamental de todo análisis de datos. No es solo una cuestión estética. La visualización de datos es fundamental para convertir el dato en información.
+
+]
+
 
 ---
+
+## ggplot2: grammar of graphics (gg)
+
+.pull-left[
+
+La idea de la filosofía detrás de `{ggplot2}` es entender los **gráficos como parte integrada del flujo de datos**, dotándoles de una **gramática**, basándose en la idea de 
+[«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448).
+
+El objetivo es empezar con un lienzo en blanco e ir **añadiendo capas a tu gráfico**, como harías por ejemplo en Photoshop, con la diferencia de que nuestras capas podemos **ligarlas al conjunto de datos**.
+
+La ventaja de `{ggplot2}` es poder **mapear atributos estéticos** (color, forma, tamaño) de **objetos geométricos** (puntos, barras, líneas) en **función de los datos**, añadiendo transformaciones de los datos, resúmenes estadísticos y transformaciones de las coordenadas.
+
+
+La **documentación** del paquete puedes consultarla en <https://ggplot2-book.org/introduction.html> 
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Idea detrás de la «Grammar of graphics» de Wilkinson"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/grammar.jpg")
+``` 
+]
+
+
+---
+
+## ggplot2: grammar of graphics (gg)
+
+.pull-left[
+
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Idea detrás de la «Grammar of graphics» de Wilkinson"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/grammar.jpg")
+``` 
+
+]
+
+.pull-right[
+
+Un gráfico se podrá componer de las siguientes **capas**
+
+* **Datos**
+* **Mapeado de elementos estéticos (aesthetics)**: ejes, color, forma, tamaño, etc (en función de los datos)
+* **Elementos geométricos (geom)**: puntos, líneas, barras, polígonos, etc.
+* **Componer gráficas (facet)**: visualizar varias gráficas a la vez.
+* **Transformaciones estadísticas (stat)**: ordenar, resumir, agrupar, etc.
+* **Sistema de coordenadas (coord)**: coordenadas, grids, etc.
+* **Temas (theme)**: fuente, tamaño de letra, subtítulos, captions, leyenda, ejes, etc.
+
+]
+
+---
+
+# Primer intento: scatter plot
+
+Veamos un **primer intento** para entender la filosofía. Imagina que queremos dibujar un **scatter plot** o **diagrama de (dispersión) de puntos**.
+
+&nbsp;
+
+Para ello vamos a usar el **conjunto de datos** `gapminder`, del paquete homónimo: un fichero con **datos de esperanzas de vida, poblaciones y renta per cápita** de distintos países en distintos momentos temporales.
+
+```{r}
+library(gapminder)
+gapminder
+```
+
+---
+
+# Primer intento: scatter plot
+
+El fichero consta de 1704 registros y 6 variables: `country`, `continent`, `year`, `lifeExp` (esperanza de vida), `pop` (población)  y `gdpPercap` (renta per cápita).
+
+```{r}
+glimpse(gapminder)
+```
+
+Para empezar con algo sencillo **filtraremos solo los datos de 1997**
+
+--
+
+```{r}
+gapminder_1997 <- gapminder %>% filter(year == 1997)
+gapminder_1997
+```
+
+---
+
+# Primer intento: scatter plot
+
+.pull-left[
+
+Vamos a realizar un **diagrama de puntos**:
+
+* **Eje X**: renta per cápita (variable `gdpPercap`)
+* **Eje Y**: población (variable `pop`)
+
+**¿Qué necesitamos?**
+
+* **Datos**: el conjunto filtrado `gapminder_1997`.
+* **Mapeado**: indicarle dentro de `aes()` (aesthetics) las variables a pintar en cada coordenada. Todo lo que esté **dentro de aes() dependerá de los datos** (en este caso `aes(x = gdpPercap, y = pop)`).
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997, aes(x = gdpPercap, y = pop)) #<<
+```
+
+* **Elegir una geometría**: optaremos por **puntos** con `geom_point()`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(x = gdpPercap, y = pop)) +
+  geom_point() #<< Geometría
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(x = gdpPercap, y = pop)) +
+  geom_point()
+```
+]
+
+---
+
+
+# Primer intento: scatter plot
+
+.pull-left[
+
+Vamos a profundizar en ese mapeado, cambiando el rol de los ejes:
+
+* **Eje X**: población (variable `pop`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = pop)) + #<<
+  geom_point() 
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = pop)) +
+  geom_point() 
+```
+]
+
+---
+
+
+# Primer intento: scatter plot
+
+.pull-left[
+
+La idea podemos repetirla enfrentando ahora la **esperanza de vida** frente a **la renta per cápita**.
+
+* **Eje X**: esperanza de vida (variable `lifeExp`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) + #<<
+  geom_point()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point()
+```
+]
+
+---
+
+# Colores, tamaños y formas (constantes)
+
+.pull-left[
+
+Para **cambiar el color de los puntos**, indicaremos dentro de `geom_point()` el color de la geometría con `color = ...` (en este caso, el color del punto). Empezaremos por un **color fijo**, por ejemplo `"red"` (existen otros como `"blue"`, `"black"`, `"yellow"`, etc)
+
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red") #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red")
+```
+
+]
+
+---
+
+# Colores, tamaños y formas (constantes)
+
+.pull-left[
+
+Los colores también podemos asignárselos por su **código hexadecimal**, consultando en la página <https://htmlcolorcodes.com/es/>, eligiendo el color que queramos. El código hexadecimal siempre comenzará con `#`
+
+
+```{r eval = FALSE}
+# Color en hexadecimal
+# https://htmlcolorcodes.com/es/
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#2EA2D8") #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#2EA2D8")
+```
+
+]
+
+
+---
+
+# Colores, tamaños y formas (constantes)
+
+.pull-left[
+  
+De la misma manera podemos **indicarle el tamaño de la geometría** (en este caso el **tamaño de los punto**) con `size = ...` (cuanto mayor sea el número, mayor será el tamaño de la geometría).
+
+```{r eval = FALSE}
+# Color y tamaño
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#A02B85", size = 5) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#A02B85", size = 5)
+```
+
+]
+  
+  
+
+---
+
+# Colores, tamaños y formas (constantes)
+
+.pull-left[
+  
+También podemos jugar con la **transparencia del color** con `alpha = ...`: si `alpha = 1`, el color será totalmente opaco (por defecto); si `alpha = 0` será totalmente transparente.
+
+
+```{r eval = FALSE}
+# Color, tamaño y transparencia
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#A02B85", size = 9,
+             alpha = 0.4) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#A02B85", size = 9,
+             alpha = 0.4)
+```
+
+]
+  
+  
+---
+
+# Mapear aesthetics
+
+.pull-left[
+  
+Hasta ahora los **parámetros estéticos** se los hemos pasado fijos y **constantes**. Pero la verdadera potencia y versatilidad de `ggplot` es entender todos esos parámetros como entendemos el mapeado coordenadas: podemos **mapear los atributos estéticos** en `aes()` para que dependan de variables de los datos
+
+&nbsp;
+
+Por ejemplo, vamos a **asignar un color a cada dato en función de su continente**.
+
+```{r eval = FALSE}
+# Tamaño fijo
+# Color por continentes
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) + #<<
+  geom_point(size = 5)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(size = 5)
+```
+
+]
+  
+  
+---
+
+
+# Mapear aesthetics
+
+.pull-left[
+  
+Podemos combinarlo con lo que hemos hecho anteriormente:
+
+
+* **color** en función del **continente**.
+* **tamaño** en función de la **población**
+* **transparencia** fija del 70%
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) + #<<
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+]
+  
+  
+---
+
+# Mapear aesthetics
+
+.pull-left[
+  
+En lugar de jugar con el color, también podríamos añadir las variables en función de la **forma de la geometría** (en este caso la forma de los «puntos») con `shape = ...`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           shape = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           shape = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+]
+  
+
+---
+
+# Gráfico multidimensional en 2D
+
+.pull-left[
+  
+Reflexionemos sobre el gráfico anterior:
+
+* **color** en función del **continente**.
+* **tamaño** en función de la **población**
+* **transparencia** fija del 70%
+
+Usando los datos hemos conseguido **dibujar en un gráfico bidimensional 4 variables** (`lifeExp` y `gdpPercap` en los ejes $(X, Y)$), `continent` como color y `pop` como tamaño de la geometría) con muy pocas líneas de código.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+]
+  
+---
+
+# Escala de los ejes
+
+.pull-left[
+  
+A veces nos puede ser más conveniente **representar alguna de las variables** en otras escalas, por ejemplo en **escala logarítmica** (importante indicarlo en el gráfico), lo que podemos hacer facilmente con `scale_x_log10()` y/o `scale_y_log10()`.
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  # Eje Y con escala logarítmica
+  scale_y_log10() #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  # Eje Y con escala logarítmica
+  scale_y_log10()
+```
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+Si no indicamos nada, `R` selecciona automáticamente una **paleta de colores**, pero podemos indicarle alguna paleta concreta de varias maneras.
+
+&nbsp;
+
+La primera y más inmediata es indicarle los **colores manualmente**: con `scale_color_manual` le podemos indicar un **vector de colores**.
+
+```{r eval = FALSE}
+pal <- c("#A02B85", "#2DE86B", "#4FB2CA",
+         "#E8DA2D", "#E84C2D")
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  scale_y_log10() +
+  # Escala manual de colores
+  scale_color_manual(values = pal) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+pal <- c("#A02B85", "#2DE86B", "#4FB2CA",
+         "#E8DA2D", "#E84C2D")
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  scale_y_log10() +
+  scale_color_manual(values = pal)
+```
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+Otra opción es elegir alguna de las **paletas de colores disponibles** en el paquete `{ggthemes}`:
+
+* `scale_color_economist()`: paleta de colores basada en los colores de The Economist.
+
+```{r eval = FALSE}
+library(ggthemes)
+
+# scale_color_economist()
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_economist()
+```
+  
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_economist()
+```
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+Otra opción es elegir alguna de las **paletas de colores disponibles** en el paquete `{ggthemes}`:
+
+* `scale_color_excel()`: paleta de colores basada en los colores del Excel.
+
+```{r eval = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_excel()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_excel()
+```
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+Otra opción es elegir alguna de las **paletas de colores disponibles** en el paquete `{ggthemes}`:
+
+* `scale_color_tableau()`: paleta de colores basada en los colores de Tableau.
+
+```{r eval = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau()
+```
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+También existen **múltiples paquetes** que nos proporcionan **paletas de colores** basados en:
+
+* **películas**: paquete `{harrypotter}` (repositorio de Github `aljrico/harrypotter`) usando `scale_color_hp_d()`.
+
+```{r eval = FALSE}
+library(devtools)
+
+install_github(repo = "https://github.com/aljrico/harrypotter")
+library(harrypotter)
+
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_hp_d(option = "ravenclaw")
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "21%", fig.align = "center", fig.cap = "Paleta basada en la casa Ravenclaw"}
+knitr::include_graphics("https://raw.githubusercontent.com/aljrico/harrypotter/master/readme_raw_files/palettes/ravenclaw.png")
+``` 
+
+```{r echo = FALSE}
+library(harrypotter)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_hp_d(option = "ravenclaw")
+```
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+También existen **múltiples paquetes** que nos proporcionan **paletas de colores** basados en:
+
+
+* **cuadros**(paquete `{MetBrewer}` descargado desde el repositorio de Github `BlakeRMills/MetBrewer`).
+
+```{r eval = FALSE}
+devtools::install_github("BlakeRMills/MetBrewer") 
+library(MetBrewer)
+MetBrewer::met.brewer("Renoir")
+```
+
+```{r echo = FALSE, out.width = "60%"}
+library(MetBrewer)
+MetBrewer::met.brewer("Renoir")
+```
+
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE}
+library(MetBrewer)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_colour_manual(values = met.brewer("Renoir"))
+```
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+También existen **múltiples paquetes** que nos proporcionan **paletas de colores** basados en:
+
+
+* **cuadros**(paquete `{MetBrewer}` descargado desde el repositorio de Github `BlakeRMills/MetBrewer`).
+
+```{r eval = FALSE}
+devtools::install_github("BlakeRMills/MetBrewer") 
+library(MetBrewer)
+MetBrewer::met.brewer("Klimt")
+```
+
+```{r echo = FALSE, out.width = "60%"}
+library(MetBrewer)
+MetBrewer::met.brewer("Klimt")
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE}
+library(MetBrewer)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_colour_manual(values = met.brewer("Klimt"))
+```
+
+]
+
+---
+
+
+# Geometrías (geom)
+
+.pull-left[
+
+Hemos jugado un poco con las formas, tamaños y colores, pero siempre ha sido un diagrama de dispersión con puntos. Al igual que hemos usado `geom_point()`, podríamos usar otras geometrías como **líneas** con `geom_line()`.
+
+```{r eval = FALSE }
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_line(alpha = 0.8) + #<<
+  scale_y_log10() +
+  scale_color_tableau()
+```
+  
+]
+
+.pull-right[
+
+```{r echo = FALSE }
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_line(alpha = 0.8) + 
+  scale_y_log10() +
+  scale_color_tableau()
+```
+]
+
+---
+
+# Geometrías (geom)
+
+.pull-left[
+
+Asignado los colores a la variable `continent`, automáticamente obtenemos cada curva separada por continente.
+
+```{r eval = FALSE}
+# Separando por continente
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) +
+  geom_line(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau()
+```
+  
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) +
+  geom_line(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau()
+```
+]
+
+---
+
+# Geometrías (geom)
+
+.pull-left[
+
+La **filosofía es siempre la misma**: dado que cada elemento lo podemos tratar de forma individual, pasar de un gráfico a otro es relativamente sencillo, sin más que cambiar `geom_point()` por `geom_line()`.
+
+De la misma manera podemos dibujar un diagrama de dispersión con **formas hexagonales** con `geom_hex()`. Dado que ahora nuestra geometría **tiene volumen** tendremos dos parámetros: `color` para el contorno y `fill` para el **relleno**  (fíjate que también cambiamos `scale_color_tableau()` por `scale_fill_tableau()`)
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           fill = continent, size = pop)) +
+  geom_hex(alpha = 0.8) + #<<
+  scale_y_log10() +
+  scale_fill_tableau() #<<
+```
+  
+]
+
+.pull-right[
+
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           fill = continent, size = pop)) +
+  geom_hex(alpha = 0.8) +
+  scale_y_log10() +
+  scale_fill_tableau()
+```
+
+]
+
+---
+
+# Geometrías (geom)
+
+.pull-left[
+
+Tenemos varias funciones de este tipo, como `geom_tile()`, que nos visualiza los datos con «mosaicos» (como baldosas), o `geom_text()`, con la podemos hacer que en lugar de una forma geométrica aparezcan **textos que tengamos en alguna variable**, que la pasaremos en `aes()` por el **parámetro label** (en este caso, la variable de la que tomará los nombres será `country`).
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop, label = country)) +
+  geom_text(alpha = 0.8) + #<<
+  scale_y_log10() +
+  scale_color_tableau()
+```
+  
+]
+
+.pull-right[
+
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop, label = country)) +
+  geom_text(alpha = 0.8) + #<<
+  scale_y_log10() +
+  scale_color_tableau()
+```
+
+]
+
+---
+
+# Componer (facet)
+
+---
+
+# Componer (facet)
+
+---
+
+# Componer (facet)
+
+---
+
+# Componer (facet)
+
+---
+
+# Coordenadas y tema
+
+---
+
+# Coordenadas y tema
+
+---
+
+# Coordenadas y tema
+
+---
+
+# Coordenadas y tema
+
+---
+
 
 # Ejercicios
 
@@ -5003,7 +5881,7 @@ class: center, middle
 
 # EVALUACIÓN
 
-## **Práctica evaluable II: primeras visualizaciones**
+## **Práctica evaluable II: nuestras primeras visualizaciones**
 
 &nbsp;
 
@@ -5018,7 +5896,7 @@ La **entrega de las cinco prácticas** deberán ser enviadas por mail antes de l
 
 class: center, middle
 
-# Mañana más y mejor. ¡Muchísimas gracias a todos/as!
+# Mañana más y mejor. ¡Muchísimas gracias a todos/as/es!
 
 Las diapositivas han sido generadas con el paquete [**{xaringan}**](https://github.com/yihui/xaringan).
 

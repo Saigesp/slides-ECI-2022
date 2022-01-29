@@ -39,7 +39,7 @@ class: center, middle, inverse, title-slide
 ## Curso de la ECI 2022
 ### Autores: Javier Álvarez Liébana y Gabriel Valverde Castilla
 ### Facultad de Estudios Estadísticos (UCM)
-### 31/01/2022 - 04/02/2022 (actualizado: 2022-01-27)
+### 31/01/2022 - 04/02/2022 (actualizado: 2022-01-29)
 
 ---
 
@@ -90,9 +90,7 @@ class: inverse center middle
 
 &amp;nbsp;
 
-- **Grupo de Telegram** para dudas, preguntas y demás cosicas:
-
-&lt;https://t.me/curso_dataviz_ECI&gt;
+- **Canal de Teams** para dudas, preguntas y demás cosicas
 
 ---
 
@@ -1105,7 +1103,7 @@ Sys.Date()
 ```
 
 ```
-&gt; [1] "2022-01-27"
+&gt; [1] "2022-01-29"
 ```
 
 &amp;nbsp;
@@ -1151,7 +1149,7 @@ today()
 ```
 
 ```
-&gt; [1] "2022-01-27"
+&gt; [1] "2022-01-29"
 ```
 
 ```r
@@ -1272,7 +1270,7 @@ days(today() - fecha_nacimiento)
 ```
 
 ```
-&gt; [1] "11827d 0H 0M 0S"
+&gt; [1] "11829d 0H 0M 0S"
 ```
 ]
 
@@ -4017,8 +4015,8 @@ dim(gapminder)
 # Listado de paquetes útiles usados (en manual o diapos)
 
 
-<div id="htmlwidget-5ad77d2a938d3a9dd813" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5ad77d2a938d3a9dd813">{"x":{"filter":"none","caption":"<caption>Tabla (editable en cada celda)<\/caption>","editable":{"target":"cell","disable":{"columns":null}},"data":[["glue, stringr","tibble, tidyr, dplyr","readr, readxl, rvest","purrr","ggplot2","lubridate","rmarkdown, knitr","DT","xaringan","microbenchmark","devtools","eurostat","gapminder","datasets","owidR","ropenspain/climaemet","ropenspain/infoelectoral","JaseZiv/chessR"],["Manejo de textos","Manejo de datos (tidyverse)","Importación de archivos (tidyverse)","Manejo de listas (tidyverse)","Dataviz (tidyverse)","Manejo de fechas (tidyverse)","Generación de informes/docs","Tablas interactivas en .Rmd","Generación de diapositivas","Comparación de tiempos","Instalar paquetes desde Github","Datos del Eurostat","Datos socioeconómicos de países","Paquete con datos","Datos de Our World in Data","Datos del AEMET","Datos electorales (España)","Datos de partidas de ajedrez"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Paquete<\/th>\n      <th>Detalles<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":7,"hover":true,"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[7,10,25,50,100],"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(row).css({'background-color':'white'});\nvar value=data[1]; $(row).css({'background-color':'white'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div id="htmlwidget-3ba1439085c3ac6f6c45" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3ba1439085c3ac6f6c45">{"x":{"filter":"none","caption":"<caption>Tabla (editable en cada celda)<\/caption>","editable":{"target":"cell","disable":{"columns":null}},"data":[["glue, stringr","tibble, tidyr, dplyr","readr, readxl, rvest","purrr","ggplot2","lubridate","rmarkdown, knitr","DT","xaringan","microbenchmark","devtools","eurostat","gapminder","datasets","owidR","ropenspain/climaemet","ropenspain/infoelectoral","JaseZiv/chessR"],["Manejo de textos","Manejo de datos (tidyverse)","Importación de archivos (tidyverse)","Manejo de listas (tidyverse)","Dataviz (tidyverse)","Manejo de fechas (tidyverse)","Generación de informes/docs","Tablas interactivas en .Rmd","Generación de diapositivas","Comparación de tiempos","Instalar paquetes desde Github","Datos del Eurostat","Datos socioeconómicos de países","Paquete con datos","Datos de Our World in Data","Datos del AEMET","Datos electorales (España)","Datos de partidas de ajedrez"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Paquete<\/th>\n      <th>Detalles<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"hover":true,"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100],"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(row).css({'background-color':'white'});\nvar value=data[1]; $(row).css({'background-color':'white'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 
 
 ---
@@ -5498,11 +5496,11 @@ starwars %&gt;% slice_sample(n = 3) # 3 al azar
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name    height  mass hair_color skin_color   eye_color birth_year sex   gender
-&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Shaak …    178    57 none       red, blue, … black             NA fema… femin…
-&gt; 2 Arvel …     NA    NA brown      fair         brown             NA male  mascu…
-&gt; 3 Poe Da…     NA    NA brown      light        brown             NA male  mascu…
+&gt;   name     height  mass hair_color skin_color eye_color birth_year sex   gender 
+&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  
+&gt; 1 Saesee …    188    NA none       pale       orange            NA male  mascul…
+&gt; 2 Darth M…    175    80 none       red        yellow            54 male  mascul…
+&gt; 3 Qui-Gon…    193    89 brown      fair       blue              92 male  mascul…
 &gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
@@ -5513,11 +5511,11 @@ starwars %&gt;% slice_sample(n = 3) # 3 al azar nuevas
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name     height  mass hair_color skin_color eye_color birth_year sex   gender 
-&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  
-&gt; 1 Eeth Ko…    171    NA black      brown      brown             NA male  mascul…
-&gt; 2 Jar Jar…    196    66 none       orange     orange            52 male  mascul…
-&gt; 3 Mace Wi…    188    84 none       dark       brown             72 male  mascul…
+&gt;   name     height  mass hair_color skin_color  eye_color birth_year sex   gender
+&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt; 1 San Hill    191    NA none       grey        gold              NA male  mascu…
+&gt; 2 Grievous    216   159 none       brown, whi… green, y…         NA male  mascu…
+&gt; 3 Poggle …    183    80 none       green       yellow            NA male  mascu…
 &gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
@@ -6881,26 +6879,6 @@ Parte de esta introducción está basada en
 
 # Breve historia de la estadística
 
-## ¿Qué es la estadística?
-
-### Según la RAE:
-
-1. f. Estudio de los datos cuantitativos de la población, de los recursos naturales e industriales, del tráfico o de cualquier otra manifestación de las sociedades humanas.
-
-2. f. Rama de la matemática que utiliza grandes conjuntos de datos numéricos para obtener inferencias basadas en el cálculo de probabilidades.
-
-&amp;nbsp;
-
-### Según Stanford&lt;sup&gt;1&lt;/sup&gt;:
-
-Disciplina encargada del estudio, la recolección, la organización, el análisis, la interpretación y **la presentación** de los datos.
-
-.footnote[[1] [Stanford Encyclopedia of Philosophy](https://plato.stanford.edu/entries/statistics/)]
-
----
-
-# Breve historia de la estadística
-
 .pull-left[
 * Del (neo)latín «statisticum collegium»: consejo de **Estado**.
 * Del alemán «statistik» (ciencia del **Estado**, intoducido por G. Achenwall).
@@ -7732,11 +7710,11 @@ Fue también Farr al que se le atribuye el primer **diagrama de área polar o ra
 
 ✖️ La **inclusión de colores** codificando los datos hubiese mejorado el gráfico, máxime cuando no se añade ningún tipo de escala al gráfico (aunque mida la estacionalidad, para visualizar algo estacional es fundamental que precisamente los periodos puedan ser comparables para percibir ese patrón periódico)
 
-&amp;nbsp;
+]
+
 
 El **uso de colores** no es solo algo estético: es una variable más, y la paleta elegida así como su uso es fundamental (por ejemplo, la inclusión de colores nos permite centrarnos en los oscuros, y comparar entre tonalidades).
 
-]
 
 ---
 
@@ -7831,13 +7809,6 @@ Una **buena idea** puede estar mejor o peor ejecutada, y la forma de llevarla a 
 
 [«The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo](https://www.amazon.es/Functional-Art-Voices-That-Matter/dp/0321834739)
 
----
-
-
-# Fundamentos de la visualización de datos estadísticos
-
-## **Recomendaciones**
-
 
 [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](https://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
 
@@ -7860,10 +7831,757 @@ Una **buena idea** puede estar mejor o peor ejecutada, y la forma de llevarla a 
 
 ## ggplot2: grammar of graphics (gg)
 
+.pull-left[
 
-[«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448)
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://dadosdelaplace.github.io/courses-ECI-2022/img/telling-dataviz" alt="Imagen extraída de Reddit" width="100%" /&gt;
+&lt;p class="caption"&gt;Imagen extraída de Reddit&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+Una de las **principales fortalezas** de `R` no solo es el manejo de datos con `{tidyverse}`, también la visualización con uno de sus paquetes: el paquete `{ggplot2}`.
+
+La **visualización de datos** debería ser una parte fundamental de todo análisis de datos. No es solo una cuestión estética. La visualización de datos es fundamental para convertir el dato en información.
+
+]
+
 
 ---
+
+## ggplot2: grammar of graphics (gg)
+
+.pull-left[
+
+La idea de la filosofía detrás de `{ggplot2}` es entender los **gráficos como parte integrada del flujo de datos**, dotándoles de una **gramática**, basándose en la idea de 
+[«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448).
+
+El objetivo es empezar con un lienzo en blanco e ir **añadiendo capas a tu gráfico**, como harías por ejemplo en Photoshop, con la diferencia de que nuestras capas podemos **ligarlas al conjunto de datos**.
+
+La ventaja de `{ggplot2}` es poder **mapear atributos estéticos** (color, forma, tamaño) de **objetos geométricos** (puntos, barras, líneas) en **función de los datos**, añadiendo transformaciones de los datos, resúmenes estadísticos y transformaciones de las coordenadas.
+
+
+La **documentación** del paquete puedes consultarla en &lt;https://ggplot2-book.org/introduction.html&gt; 
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://dadosdelaplace.github.io/courses-ECI-2022/img/grammar.jpg" alt="Idea detrás de la «Grammar of graphics» de Wilkinson" width="100%" /&gt;
+&lt;p class="caption"&gt;Idea detrás de la «Grammar of graphics» de Wilkinson&lt;/p&gt;
+&lt;/div&gt;
+]
+
+
+---
+
+## ggplot2: grammar of graphics (gg)
+
+.pull-left[
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://dadosdelaplace.github.io/courses-ECI-2022/img/grammar.jpg" alt="Idea detrás de la «Grammar of graphics» de Wilkinson" width="100%" /&gt;
+&lt;p class="caption"&gt;Idea detrás de la «Grammar of graphics» de Wilkinson&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+Un gráfico se podrá componer de las siguientes **capas**
+
+* **Datos**
+* **Mapeado de elementos estéticos (aesthetics)**: ejes, color, forma, tamaño, etc (en función de los datos)
+* **Elementos geométricos (geom)**: puntos, líneas, barras, polígonos, etc.
+* **Componer gráficas (facet)**: visualizar varias gráficas a la vez.
+* **Transformaciones estadísticas (stat)**: ordenar, resumir, agrupar, etc.
+* **Sistema de coordenadas (coord)**: coordenadas, grids, etc.
+* **Temas (theme)**: fuente, tamaño de letra, subtítulos, captions, leyenda, ejes, etc.
+
+]
+
+---
+
+# Primer intento: scatter plot
+
+Veamos un **primer intento** para entender la filosofía. Imagina que queremos dibujar un **scatter plot** o **diagrama de (dispersión) de puntos**.
+
+&amp;nbsp;
+
+Para ello vamos a usar el **conjunto de datos** `gapminder`, del paquete homónimo: un fichero con **datos de esperanzas de vida, poblaciones y renta per cápita** de distintos países en distintos momentos temporales.
+
+
+```r
+library(gapminder)
+gapminder
+```
+
+```
+&gt; # A tibble: 1,704 × 6
+&gt;    country     continent  year lifeExp      pop gdpPercap
+&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+&gt;  1 Afghanistan Asia       1952    28.8  8425333      779.
+&gt;  2 Afghanistan Asia       1957    30.3  9240934      821.
+&gt;  3 Afghanistan Asia       1962    32.0 10267083      853.
+&gt;  4 Afghanistan Asia       1967    34.0 11537966      836.
+&gt;  5 Afghanistan Asia       1972    36.1 13079460      740.
+&gt;  6 Afghanistan Asia       1977    38.4 14880372      786.
+&gt;  7 Afghanistan Asia       1982    39.9 12881816      978.
+&gt;  8 Afghanistan Asia       1987    40.8 13867957      852.
+&gt;  9 Afghanistan Asia       1992    41.7 16317921      649.
+&gt; 10 Afghanistan Asia       1997    41.8 22227415      635.
+&gt; # … with 1,694 more rows
+```
+
+---
+
+# Primer intento: scatter plot
+
+El fichero consta de 1704 registros y 6 variables: `country`, `continent`, `year`, `lifeExp` (esperanza de vida), `pop` (población)  y `gdpPercap` (renta per cápita).
+
+
+```r
+glimpse(gapminder)
+```
+
+```
+&gt; Rows: 1,704
+&gt; Columns: 6
+&gt; $ country   &lt;fct&gt; "Afghanistan", "Afghanistan", "Afghanistan", "Afghanistan", …
+&gt; $ continent &lt;fct&gt; Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, …
+&gt; $ year      &lt;int&gt; 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, …
+&gt; $ lifeExp   &lt;dbl&gt; 28.801, 30.332, 31.997, 34.020, 36.088, 38.438, 39.854, 40.8…
+&gt; $ pop       &lt;int&gt; 8425333, 9240934, 10267083, 11537966, 13079460, 14880372, 12…
+&gt; $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, 853.1007, 836.1971, 739.9811, 786.1134, …
+```
+
+Para empezar con algo sencillo **filtraremos solo los datos de 1997**
+
+--
+
+
+```r
+gapminder_1997 &lt;- gapminder %&gt;% filter(year == 1997)
+gapminder_1997
+```
+
+```
+&gt; # A tibble: 142 × 6
+&gt;    country     continent  year lifeExp       pop gdpPercap
+&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;     &lt;int&gt;     &lt;dbl&gt;
+&gt;  1 Afghanistan Asia       1997    41.8  22227415      635.
+&gt;  2 Albania     Europe     1997    73.0   3428038     3193.
+&gt;  3 Algeria     Africa     1997    69.2  29072015     4797.
+&gt;  4 Angola      Africa     1997    41.0   9875024     2277.
+&gt;  5 Argentina   Americas   1997    73.3  36203463    10967.
+&gt;  6 Australia   Oceania    1997    78.8  18565243    26998.
+&gt;  7 Austria     Europe     1997    77.5   8069876    29096.
+&gt;  8 Bahrain     Asia       1997    73.9    598561    20292.
+&gt;  9 Bangladesh  Asia       1997    59.4 123315288      973.
+&gt; 10 Belgium     Europe     1997    77.5  10199787    27561.
+&gt; # … with 132 more rows
+```
+
+---
+
+# Primer intento: scatter plot
+
+.pull-left[
+
+Vamos a realizar un **diagrama de puntos**:
+
+* **Eje X**: renta per cápita (variable `gdpPercap`)
+* **Eje Y**: población (variable `pop`)
+
+**¿Qué necesitamos?**
+
+* **Datos**: el conjunto filtrado `gapminder_1997`.
+* **Mapeado**: indicarle dentro de `aes()` (aesthetics) las variables a pintar en cada coordenada. Todo lo que esté **dentro de aes() dependerá de los datos** (en este caso `aes(x = gdpPercap, y = pop)`).
+
+
+
+```r
+*ggplot(gapminder_1997, aes(x = gdpPercap, y = pop))
+```
+
+* **Elegir una geometría**: optaremos por **puntos** con `geom_point()`.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(x = gdpPercap, y = pop)) +
+  geom_point() #&lt;&lt; Geometría
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-311-1.png" width="100%" /&gt;
+]
+
+---
+
+
+# Primer intento: scatter plot
+
+.pull-left[
+
+Vamos a profundizar en ese mapeado, cambiando el rol de los ejes:
+
+* **Eje X**: población (variable `pop`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+
+
+```r
+ggplot(gapminder_1997,
+*      aes(y = gdpPercap, x = pop)) +
+  geom_point() 
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-313-1.png" width="100%" /&gt;
+]
+
+---
+
+
+# Primer intento: scatter plot
+
+.pull-left[
+
+La idea podemos repetirla enfrentando ahora la **esperanza de vida** frente a **la renta per cápita**.
+
+* **Eje X**: esperanza de vida (variable `lifeExp`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+
+
+```r
+ggplot(gapminder_1997,
+*      aes(y = gdpPercap, x = lifeExp)) +
+  geom_point()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-315-1.png" width="100%" /&gt;
+]
+
+---
+
+# Colores, tamaños y formas (constantes)
+
+.pull-left[
+
+Para **cambiar el color de los puntos**, indicaremos dentro de `geom_point()` el color de la geometría con `color = ...` (en este caso, el color del punto). Empezaremos por un **color fijo**, por ejemplo `"red"` (existen otros como `"blue"`, `"black"`, `"yellow"`, etc)
+
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+* geom_point(color = "red")
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-317-1.png" width="100%" /&gt;
+
+]
+
+---
+
+# Colores, tamaños y formas (constantes)
+
+.pull-left[
+
+Los colores también podemos asignárselos por su **código hexadecimal**, consultando en la página &lt;https://htmlcolorcodes.com/es/&gt;, eligiendo el color que queramos. El código hexadecimal siempre comenzará con `#`
+
+
+
+```r
+# Color en hexadecimal
+# https://htmlcolorcodes.com/es/
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+* geom_point(color = "#2EA2D8")
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-319-1.png" width="100%" /&gt;
+
+]
+
+
+---
+
+# Colores, tamaños y formas (constantes)
+
+.pull-left[
+  
+De la misma manera podemos **indicarle el tamaño de la geometría** (en este caso el **tamaño de los punto**) con `size = ...` (cuanto mayor sea el número, mayor será el tamaño de la geometría).
+
+
+```r
+# Color y tamaño
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+* geom_point(color = "#A02B85", size = 5)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-321-1.png" width="100%" /&gt;
+
+]
+  
+  
+
+---
+
+# Colores, tamaños y formas (constantes)
+
+.pull-left[
+  
+También podemos jugar con la **transparencia del color** con `alpha = ...`: si `alpha = 1`, el color será totalmente opaco (por defecto); si `alpha = 0` será totalmente transparente.
+
+
+
+```r
+# Color, tamaño y transparencia
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#A02B85", size = 9,
+*            alpha = 0.4)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-323-1.png" width="100%" /&gt;
+
+]
+  
+  
+---
+
+# Mapear aesthetics
+
+.pull-left[
+  
+Hasta ahora los **parámetros estéticos** se los hemos pasado fijos y **constantes**. Pero la verdadera potencia y versatilidad de `ggplot` es entender todos esos parámetros como entendemos el mapeado coordenadas: podemos **mapear los atributos estéticos** en `aes()` para que dependan de variables de los datos
+
+&amp;nbsp;
+
+Por ejemplo, vamos a **asignar un color a cada dato en función de su continente**.
+
+
+```r
+# Tamaño fijo
+# Color por continentes
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+*          color = continent)) +
+  geom_point(size = 5)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-325-1.png" width="100%" /&gt;
+
+]
+  
+  
+---
+
+
+# Mapear aesthetics
+
+.pull-left[
+  
+Podemos combinarlo con lo que hemos hecho anteriormente:
+
+
+* **color** en función del **continente**.
+* **tamaño** en función de la **población**
+* **transparencia** fija del 70%
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+*          color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-327-1.png" width="100%" /&gt;
+
+]
+  
+  
+---
+
+# Mapear aesthetics
+
+.pull-left[
+  
+En lugar de jugar con el color, también podríamos añadir las variables en función de la **forma de la geometría** (en este caso la forma de los «puntos») con `shape = ...`.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           shape = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-329-1.png" width="100%" /&gt;
+
+]
+  
+
+---
+
+# Gráfico multidimensional en 2D
+
+.pull-left[
+  
+Reflexionemos sobre el gráfico anterior:
+
+* **color** en función del **continente**.
+* **tamaño** en función de la **población**
+* **transparencia** fija del 70%
+
+Usando los datos hemos conseguido **dibujar en un gráfico bidimensional 4 variables** (`lifeExp` y `gdpPercap` en los ejes `\((X, Y)\)`), `continent` como color y `pop` como tamaño de la geometría) con muy pocas líneas de código.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-331-1.png" width="100%" /&gt;
+
+]
+  
+---
+
+# Escala de los ejes
+
+.pull-left[
+  
+A veces nos puede ser más conveniente **representar alguna de las variables** en otras escalas, por ejemplo en **escala logarítmica** (importante indicarlo en el gráfico), lo que podemos hacer facilmente con `scale_x_log10()` y/o `scale_y_log10()`.
+
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  # Eje Y con escala logarítmica
+* scale_y_log10()
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-333-1.png" width="100%" /&gt;
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+Si no indicamos nada, `R` selecciona automáticamente una **paleta de colores**, pero podemos indicarle alguna paleta concreta de varias maneras.
+
+&amp;nbsp;
+
+La primera y más inmediata es indicarle los **colores manualmente**: con `scale_color_manual` le podemos indicar un **vector de colores**.
+
+
+```r
+pal &lt;- c("#A02B85", "#2DE86B", "#4FB2CA",
+         "#E8DA2D", "#E84C2D")
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  scale_y_log10() +
+  # Escala manual de colores
+* scale_color_manual(values = pal)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-335-1.png" width="100%" /&gt;
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+Otra opción es elegir alguna de las **paletas de colores disponibles** en el paquete `{ggthemes}`:
+
+* `scale_color_economist()`: paleta de colores basada en los colores de The Economist.
+
+
+```r
+library(ggthemes)
+
+# scale_color_economist()
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_economist()
+```
+  
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-337-1.png" width="100%" /&gt;
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+Otra opción es elegir alguna de las **paletas de colores disponibles** en el paquete `{ggthemes}`:
+
+* `scale_color_excel()`: paleta de colores basada en los colores del Excel.
+
+
+```r
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_excel()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-339-1.png" width="100%" /&gt;
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+Otra opción es elegir alguna de las **paletas de colores disponibles** en el paquete `{ggthemes}`:
+
+* `scale_color_tableau()`: paleta de colores basada en los colores de Tableau.
+
+
+```r
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-341-1.png" width="100%" /&gt;
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+También existen **múltiples paquetes** que nos proporcionan **paletas de colores** basados en:
+
+* **películas**: paquete `{harrypotter}` descargado desde el repositorio de Github `aljrico/harrypotter`, usando `scale_color_hp_d()`.
+
+
+```r
+library(devtools)
+
+install_github(repo = "https://github.com/aljrico/harrypotter")
+library(harrypotter)
+
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_hp_d(option = "ravenclaw")
+```
+
+]
+
+.pull-right[
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://raw.githubusercontent.com/aljrico/harrypotter/master/readme_raw_files/palettes/ravenclaw.png" alt="Paleta basada en la casa Ravenclaw" width="25%" /&gt;
+&lt;p class="caption"&gt;Paleta basada en la casa Ravenclaw&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;img src="index_files/figure-html/unnamed-chunk-344-1.png" width="100%" /&gt;
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+También existen **múltiples paquetes** que nos proporcionan **paletas de colores** basados en:
+
+
+* **cuadros**(paquete `{MetBrewer}` descargado desde el repositorio de Github `BlakeRMills/MetBrewer`).
+
+
+```r
+devtools::install_github("BlakeRMills/MetBrewer") 
+library(MetBrewer)
+MetBrewer::met.brewer("Renoir")
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-346-1.png" width="50%" /&gt;
+
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-347-1.png" width="100%" /&gt;
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+También existen **múltiples paquetes** que nos proporcionan **paletas de colores** basados en:
+
+
+* **cuadros**(paquete `{MetBrewer}` descargado desde el repositorio de Github `BlakeRMills/MetBrewer`).
+
+
+```r
+devtools::install_github("BlakeRMills/MetBrewer") 
+library(MetBrewer)
+MetBrewer::met.brewer("Klimt")
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-349-1.png" width="50%" /&gt;
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-350-1.png" width="100%" /&gt;
+
+]
+
+---
+
+
+# Geometrías (geom)
+
+---
+
+# Geometrías (geom)
+
+---
+
+# Geometrías (geom)
+
+---
+
+# Componer (facet)
+
+---
+
+# Componer (facet)
+
+---
+
+# Componer (facet)
+
+---
+
+# Componer (facet)
+
+---
+
+# Coordenadas y tema
+
+---
+
+# Coordenadas y tema
+
+---
+
+# Coordenadas y tema
+
+---
+
+# Coordenadas y tema
+
+---
+
 
 # Ejercicios
 
@@ -7874,7 +8592,7 @@ class: center, middle
 
 # EVALUACIÓN
 
-## **Práctica evaluable II: primeras visualizaciones**
+## **Práctica evaluable II: nuestras primeras visualizaciones**
 
 &amp;nbsp;
 
@@ -7889,7 +8607,7 @@ La **entrega de las cinco prácticas** deberán ser enviadas por mail antes de l
 
 class: center, middle
 
-# Mañana más y mejor. ¡Muchísimas gracias a todos/as!
+# Mañana más y mejor. ¡Muchísimas gracias a todos/as/es!
 
 Las diapositivas han sido generadas con el paquete [**{xaringan}**](https://github.com/yihui/xaringan).
 
