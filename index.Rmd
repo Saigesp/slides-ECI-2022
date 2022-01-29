@@ -6750,13 +6750,13 @@ median(c(1, 1, 1, 1, 2, 3, 4, 5, 6, 7))
 
 ![](https://www.bankinter.com/file_source/blog/Contents/A-Imagenes/Interior%20noticias/salario-medio-mas-frecuente.jpg)
 
+La **falta de robustez** de la media es la razón por la que, a la hora de analizar por ejemplo datos tan desiguales como los salarios en España, el **salario medio** no nos aporta realmente información útil sobre la centralidad de los datos, ya que personas extremadamente ricas hacen que la media sea bastante más elevada que el **salario más frecuente**.
+
 ---
 
 # Medidas de dispersión
 
-De la misma manera podemosLa **falta de robustez** de la media es la razón por la que, a la hora de analizar por ejemplo datos tan desiguales como los salarios en España, el **salario medio** no nos aporta realmente información útil sobre la centralidad de los datos, ya que personas extremadamente ricas hacen que la media sea bastante más elevada que el **salario más frecuente**.
-
- pedirle que nos calcule **medidas de dispersión** (varianza, desv. típica y cv), que nos indican cómo de **dispersos están los datos respecto a un centro**, normalmente la media, y **medidas de localización (percentiles)**, valores que nos parten los datos en trozos iguales)
+De la misma manera podemos pedirle que nos calcule **medidas de dispersión** (varianza, desv. típica y cv), que nos indican cómo de **dispersos están los datos respecto a un centro**, normalmente la media, y **medidas de localización (percentiles)**, valores que nos parten los datos en trozos iguales)
 
 ```{r}
 starwars %>% drop_na(mass) %>%
@@ -6780,11 +6780,537 @@ starwars %>% drop_na(mass, height) %>%
 
 # Volvemos a ggplot: diagrama de barras
 
+Vamos a visualizar en un **diagrama de barras* la **variable cualitativa** `species`, calculando primero el número de personajes de cada especie con `count()`  (filtrando primero los ausentes).
+
+```{r}
+starwars %>%
+  filter(!is.na(species)) %>%
+  count(species)
+```
+  
 ---
 
-# Ejercicios
+# Diagrama de barras
+
+.pull-left[
+
+Para visualizar un **diagrama de barras** usaremos `geom_col()` en lugar de `geom_point()`, con `y = species` y `x = n` (las frecuencias)
+
+```{r eval = FALSE}
+ggplot(starwars %>%
+         filter(!is.na(species)) %>%
+         count(species),
+       aes(y = species, x = n)) +
+  geom_col() #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars %>%
+         filter(!is.na(species)) %>%
+         count(species),
+       aes(y = species, x = n)) +
+  geom_col()
+```
+
+]
 
 ---
+
+# Diagrama de barras
+
+.pull-left[
+
+Podemos usar las **frecuencias** $n$ también para codificar el color de las barras, añadiendo un **degradado de colores continuo**.
+
+```{r eval = FALSE}
+ggplot(starwars %>%
+         filter(!is.na(species)) %>%
+         count(species),
+       aes(y = species, x = n,
+           fill = n)) +
+  geom_col() +
+  scale_fill_continuous_tableau() + #<<
+  labs(fill = "Frecuencia absoluta",
+       x = "Número de personajes",
+       y = "Especies")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars %>%
+         filter(!is.na(species)) %>%
+         count(species),
+       aes(y = species, x = n, fill = n)) +
+  geom_col() +
+  scale_fill_continuous_tableau() +
+  labs(fill = "Frecuencia absoluta",
+       x = "Número de personajes",
+       y = "Especies")
+```
+
+]
+
+---
+
+# Factores
+
+Al tener **muchas categorías** en `species` con muy pocos elementos, tenemos un **gráfico poco claro**, así que vamos a preprocesar antes la variable. En `R` las **variables cualitativas** se conoce como **factores**, y las posibles modalidades como **niveles**.
+
+El paquete `{forcats}` de `{tidyverse}` contienen multitud de herramientas para su manejo. Veamos un **ejemplo sencillo** definiendo una variable estado que tome los valores `"sano"`, `"leve"` y `"grave"`:
+
+```{r}
+estado <-
+  c("grave", "leve", "sano", "sano", "sano", "grave",
+    "grave", "leve", "grave", "sano", "sano")
+estado
+```
+
+La variable `estado` actualmente es de tipo `character`.
+
+```{r}
+class(estado)
+```
+
+---
+
+# Factores
+
+**¿Cómo indicarle que es  cualitativa (factor?)** Haciendo uso de la función `as_factor` en `{forcats}`.
+
+```{r}
+library(tidyverse)
+estado_fct <- as_factor(estado)
+estado_fct
+class(estado_fct)
+```
+
+No solo ha cambiado la clase de la variable sino que ahora, debajo del valor guardado, nos aparece la frase `Levels: grave leve sano`: son las **modalidades o niveles de nuestra cualitativa**.
+
+Imagina que ese día en el hospital no tuviésemos a nadie en estado grave: aunque ese día nuestra variable no tome dicho valor, el estado grave es un nivel permitido, así que aunque lo eliminemos, el nivel permanece.
+
+```{r}
+estado_fct[estado_fct %in% c("sano", "leve")]
+```
+
+--- 
+
+# Factores
+
+Si queremos indicarle que **elimine un nivel no usado** en ese momento podemos hacerlo con `fct_drop()`
+
+```{r}
+fct_drop(estado_fct[estado_fct %in% c("sano", "leve")])
+```
+
+Al igual que podemos eliminar niveles podemos **ampliar los niveles** existentes (aunque no existan datos de ese nivel en ese momento) con `fct_expand()`
+
+```{r}
+fct_expand(estado_fct, c("UCI", "fallecido"))
+```
+
+Para variables de tipo factor podemos contar los elementos de cada nivel de una manera sencilla con `fct_count()` (similar al `count()`).
+
+```{r}
+fct_count(estado_fct)
+```
+
+---
+
+# Factores
+
+Si te fijas el **orden de los niveles** es por **orden de aparición** en la variable, pero podemos **ordenarlos por frecuencia** con `fct_infreq()`
+
+```{r}
+fct_infreq(estado_fct)
+```
+
+A veces queremos **agrupar niveles**, por ejemplo, **no permitiendo niveles que no sucedan un mínimo de veces**. Con `fct_lump_min(estado_fct, min = 5)` le indicaremos que para que **exista el nivel debe de suceder al menos 3 veces** (las observaciones que no lo cumplan irán al nivel indicado en `other_level`; podemos hacer algo equivalente en función de su frecuencia relativa con `fct_lump_prop()`).
+
+```{r}
+fct_lump_min(estado_fct, min = 5, other_level = "otros")
+```
+
+---
+
+# Diagrama de barras
+
+.pull-left[
+
+Vamos a repetir el diagrama de barras anterior pero indicándole que nos convierta `species`* a factor, y que nos **agrupe aquellas niveles que tengan menos de 2 personajes**.
+
+```{r eval = FALSE}
+ggplot(starwars %>%
+         filter(!is.na(species)) %>%
+         mutate(species =
+                  fct_lump_min(species, min = 3,
+                               other_level =
+                                 "Otras especies")) %>%
+         count(species),
+       aes(y = species, x = n, fill = n)) +
+  geom_col() +
+  scale_fill_continuous_tableau() +
+  labs(fill = "Frecuencia absoluta",
+       x = "Número de personajes", y = "Especies")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars %>%
+         filter(!is.na(species)) %>%
+         mutate(species =
+                  fct_lump_min(species, min = 3,
+                               other_level =
+                                 "Otras especies")) %>%
+         count(species),
+       aes(y = species, x = n, fill = n)) +
+  geom_col() +
+  scale_fill_continuous_tableau() +
+  labs(fill = "Frecuencia absoluta",
+       x = "Número de personajes", y = "Especies")
+```
+
+]
+
+---
+
+# Nubes de palabras
+
+.pull-left[
+
+Otra opción con **variables cualitativas**, en especial para visualizar palabras en textos y documentos, son precisamente las **word cloud o nubes de palabras**. Con el paquete `{wordcloud2}` podremos **visualizar las nubes de términos**, por ejemplo de las **especies de starwars**, en un tamaño relativo al número de veces que aparece.
+
+```{r eval = FALSE}
+library(wordcloud2)
+wordcloud2(starwars %>% drop_na(species) %>%
+             mutate(species =
+                      fct_lump_min(species, min = 2,
+                                   other_level = "otras")) %>% 
+             count(species),
+           size = 0.8, color= 'random-dark')
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(wordcloud2)
+wordcloud2(starwars %>% drop_na(species) %>%
+             mutate(species =
+                      fct_lump_min(species, min = 2,
+                                   other_level = "otras")) %>% 
+             count(species),
+           size = 0.8, color= 'random-dark')
+```
+
+]
+
+---
+
+# Mosaicos o treemaps
+
+.pull-left[
+
+Otra opción habitual son los **mosaicos o treemaps**, representando en una **cuadrícula cada una de las categorías**, cuya **área sea proprocional a las veces que aparece**. Lo haremos con `{treemapify}`: los parámetros dentro de `aes()` serán `area` (asociado a la frecuencia absoluta), `fill` (color del relleno) y `label` (nombre). Usaremos una de las paletas de colores de cuadros vistas, en este caso `MetBrewer::met.brewer("Renoir")`.
+
+```{r eval = FALSE}
+library(treemapify)
+library(MetBrewer)
+ggplot(starwars %>% drop_na(species) %>%
+         mutate(species =
+                      fct_lump_min(species, min = 2,
+                                   other_level = "otras")) %>%
+         count(species),
+       aes(area = n, fill = species, label = species)) +
+  geom_treemap() + #<<
+  scale_fill_manual(values =
+                      met.brewer("Renoir")) +
+  labs(fill = "Especies")
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE}
+library(treemapify)
+library(MetBrewer)
+ggplot(starwars %>% drop_na(species) %>%
+         mutate(species =
+                      fct_lump_min(species, min = 2,
+                                   other_level = "otras")) %>%
+         count(species),
+       aes(area = n, fill = species, label = species)) +
+  geom_treemap() +
+  scale_fill_manual(values =
+                      met.brewer("Renoir")) +
+  labs(fill = "Especies")
+```
+
+]
+
+---
+
+# Mosaicos o treemaps
+
+.pull-left[
+
+Con `geom_treemap_text()` podemos además escribir el **nombre de los niveles**, pudiendo **eliminar la leyenda**.
+
+```{r eval = FALSE}
+library(treemapify)
+library(MetBrewer)
+ggplot(starwars %>% drop_na(species) %>%
+         mutate(species =
+                      fct_lump_min(species, min = 2,
+                                   other_level = "otras")) %>%
+         count(species),
+       aes(area = n, fill = species, label = species)) +
+  geom_treemap() +
+  geom_treemap_text(colour = "white", 
+                    place = "centre",
+                    size = 17) +
+  scale_fill_manual(values = met.brewer("Renoir")) +
+  labs(fill = "Especies") +
+  guides(fill = "none")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(treemapify)
+library(MetBrewer)
+ggplot(starwars %>% drop_na(species) %>%
+         mutate(species =
+                      fct_lump_min(species, min = 2,
+                                   other_level = "otras")) %>%
+         count(species),
+       aes(area = n, fill = species, label = species)) +
+  geom_treemap() +
+  geom_treemap_text(colour = "white", 
+                    place = "centre",
+                    size = 17) +
+  scale_fill_manual(values = met.brewer("Renoir")) +
+  labs(fill = "Especies") +
+  guides(fill = "none")
+```
+
+]
+
+---
+
+# Ejercicio
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: visualiza un **diagrama de barras vertical** con `gapminder`, al que le pasaremos la variable `gdpPercap` a representar en el eje Y (la altura de las barras) y `year` en el eje X (tendremos una barra por año, con la altura del total mundial para ese año).
+
+* 📝 **Ejercicio 2**: calcula la media de renta per cápita agrupada por continente y año, y guárdalo en `gapminder_por_continente`.
+
+* 📝 **Ejercicio 3**: con `gapminder_por_continente` realiza un diagrama de barras, de forma que el color del relleno `fill` dependa del continente.
+
+* 📝 **Ejercicio 4**: repite el gráfico anterior con `position = "dodge2"` dentro de la función `geom_col()`.
+
+* 📝 **Ejercicio 5**: repite el gráfico anterio con `position = "fill"`,` que hará cada barra de igual longitud, permitiéndonos visualizar los datos en relativo.
+
+* 📝 **Ejercicio 6**: añade `coord_flip()` para un **diagrama de barras horizontales**. Dale además un título, subtítulo y caption, y nombre en leyenda.
+
+]
+
+.panel[.panel-name[Sol. 1]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder,
+     aes(y = gdpPercap, x = year)) +
+  geom_col()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder,
+     aes(y = gdpPercap, x = year)) +
+  geom_col()
+```
+
+]
+
+]
+
+.panel[.panel-name[Sol. 2]
+
+```{r}
+gapminder_por_continente <-
+  gapminder %>% group_by(year, continent) %>%
+  summarise(sum_gdpPercap = mean(gdpPercap))
+gapminder_por_continente
+```
+
+]
+
+.panel[.panel-name[Sol. 3]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col() +
+  scale_fill_tableau()
+```
+
+Si te fijas, por defecto nos ha construido las **barras apiladas**
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col() +
+  scale_fill_tableau()
+```
+
+]
+  
+]
+
+.panel[.panel-name[Sol. 4]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col(position = "dodge2") +
+  scale_fill_tableau()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col(position = "dodge2") +
+  scale_fill_tableau()
+```
+
+]
+]
+
+.panel[.panel-name[Sol. 5]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col(position = "fill") +
+  scale_fill_tableau()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col(position = "fill") +
+  scale_fill_tableau()
+```
+
+]
+
+]
+
+.panel[.panel-name[Sol. 5]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col() +
+  coord_flip() + #<<
+  scale_fill_tableau() +
+  labs(x = "Renta per cápita",
+       y = "Año",
+       color = "Continente",
+       title = "EJEMPLO DE DIAGRAMA DE BARRAS",
+       subtitle =
+         "Barras horizontales (agrupadas por continente y año)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col() + coord_flip() +
+  scale_fill_tableau() +
+  labs(x = "Renta per cápita",
+       y = "Año", color = "Continente",
+       title = "EJEMPLO DE DIAGRAMA DE BARRAS",
+       subtitle =
+         "Barras horizontales (agrupadas por continente y año)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+
+]
+
+]
+
+---
+
+más casos prácticos, evaluación
+
+netflix
+
+anscombe
+
+nightingale
+
+emmys
+
+breaking bad
+
+---
+
 
 name: evaluacion-2
 class: center, middle
