@@ -6994,15 +6994,6 @@ wordcloud2(starwars %>% drop_na(species) %>%
 
 .pull-right[
 
-```{r echo = FALSE}
-library(wordcloud2)
-wordcloud2(starwars %>% drop_na(species) %>%
-             mutate(species =
-                      fct_lump_min(species, min = 2,
-                                   other_level = "otras")) %>% 
-             count(species),
-           size = 0.8, color= 'random-dark')
-```
 
 ]
 
