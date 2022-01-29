@@ -124,15 +124,6 @@ El **objetivo** del curso no es ser un/a sesudo/a programador/a de `R`, sino adq
 📚 Estas **diapositivas** han sido elaboradas con el propio `R` haciendo uso del paquete `{xaringan}`
 y `{xaringanExtra}`.
 
----
-
-# A programar se aprende programando
-
-&lt;video width = "1000" height = "480" align = "middle" controls&gt;
-  &lt;source src = "./img/programming_skills.mp4" type = "video/mp4"&gt;
-&lt;/video&gt;
-
-**Desmitifiquemos** la programación: es cuestión de práctica, de tiempo, de pruebas y de muchos errores. **Desdramaticemos** equivocarnos con un ordenador.
 
 ---
 
@@ -4019,8 +4010,8 @@ dim(gapminder)
 # Listado de paquetes útiles usados (en manual o diapos)
 
 
-<div id="htmlwidget-5304fb615cb79af0d3cb" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5304fb615cb79af0d3cb">{"x":{"filter":"none","caption":"<caption>Tabla (editable en cada celda)<\/caption>","editable":{"target":"cell","disable":{"columns":null}},"data":[["glue, stringr","tibble, tidyr, dplyr","readr, readxl, rvest","purrr","ggplot2","lubridate","rmarkdown, knitr","DT","xaringan","microbenchmark","devtools","eurostat","gapminder","datasets","owidR","ropenspain/climaemet","ropenspain/infoelectoral","JaseZiv/chessR"],["Manejo de textos","Manejo de datos (tidyverse)","Importación de archivos (tidyverse)","Manejo de listas (tidyverse)","Dataviz (tidyverse)","Manejo de fechas (tidyverse)","Generación de informes/docs","Tablas interactivas en .Rmd","Generación de diapositivas","Comparación de tiempos","Instalar paquetes desde Github","Datos del Eurostat","Datos socioeconómicos de países","Paquete con datos","Datos de Our World in Data","Datos del AEMET","Datos electorales (España)","Datos de partidas de ajedrez"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Paquete<\/th>\n      <th>Detalles<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"hover":true,"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100],"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(row).css({'background-color':'white'});\nvar value=data[1]; $(row).css({'background-color':'white'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div id="htmlwidget-3a9a1549d2c49cf74afb" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3a9a1549d2c49cf74afb">{"x":{"filter":"none","caption":"<caption>Tabla (editable en cada celda)<\/caption>","editable":{"target":"cell","disable":{"columns":null}},"data":[["glue, stringr","tibble, tidyr, dplyr","readr, readxl, rvest","purrr","ggplot2","lubridate","rmarkdown, knitr","DT","xaringan","microbenchmark","devtools","eurostat","gapminder","datasets","owidR","ropenspain/climaemet","ropenspain/infoelectoral","JaseZiv/chessR"],["Manejo de textos","Manejo de datos (tidyverse)","Importación de archivos (tidyverse)","Manejo de listas (tidyverse)","Dataviz (tidyverse)","Manejo de fechas (tidyverse)","Generación de informes/docs","Tablas interactivas en .Rmd","Generación de diapositivas","Comparación de tiempos","Instalar paquetes desde Github","Datos del Eurostat","Datos socioeconómicos de países","Paquete con datos","Datos de Our World in Data","Datos del AEMET","Datos electorales (España)","Datos de partidas de ajedrez"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Paquete<\/th>\n      <th>Detalles<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"hover":true,"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100],"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(row).css({'background-color':'white'});\nvar value=data[1]; $(row).css({'background-color':'white'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 
 
 ---
@@ -5500,11 +5491,11 @@ starwars %&gt;% slice_sample(n = 3) # 3 al azar
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name     height  mass hair_color skin_color eye_color birth_year sex   gender 
-&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  
-&gt; 1 Sly Moo…    178    48 none       pale       white             NA &lt;NA&gt;  &lt;NA&gt;   
-&gt; 2 Jocasta…    167    NA white      fair       blue              NA fema… femini…
-&gt; 3 Mas Ame…    196    NA none       blue       blue              NA male  mascul…
+&gt;   name     height  mass hair_color skin_color eye_color birth_year sex    gender
+&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; 
+&gt; 1 Mace Wi…    188    84 none       dark       brown             72 male   mascu…
+&gt; 2 Shmi Sk…    163    NA black      fair       brown             72 female femin…
+&gt; 3 Ratts T…     79    15 none       grey, blue unknown           NA male   mascu…
 &gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
@@ -5515,11 +5506,11 @@ starwars %&gt;% slice_sample(n = 3) # 3 al azar nuevas
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name     height  mass hair_color  skin_color eye_color birth_year sex   gender
-&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Obi-Wan…    182    77 auburn, wh… fair       blue-gray         57 male  mascu…
-&gt; 2 Poe Dam…     NA    NA brown       light      brown             NA male  mascu…
-&gt; 3 Bib For…    180    NA none        pale       pink              NA male  mascu…
+&gt;   name     height  mass hair_color skin_color eye_color birth_year sex   gender 
+&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  
+&gt; 1 Arvel C…     NA    NA brown      fair       brown             NA male  mascul…
+&gt; 2 Owen La…    178   120 brown, gr… light      blue              52 male  mascul…
+&gt; 3 Qui-Gon…    193    89 brown      fair       blue              92 male  mascul…
 &gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
@@ -9474,16 +9465,16 @@ notas
 &gt; # A tibble: 50 × 3
 &gt;    mates lengua dibujo
 &gt;    &lt;int&gt;  &lt;int&gt;  &lt;int&gt;
-&gt;  1    10      7     10
-&gt;  2     4      5      6
-&gt;  3     8      0      7
-&gt;  4     3      6      9
-&gt;  5     6      7      3
-&gt;  6     8      2      7
-&gt;  7     5     10      2
-&gt;  8     3      1      6
-&gt;  9     6      0      1
-&gt; 10     1      3      1
+&gt;  1     1      7      8
+&gt;  2     6      5     10
+&gt;  3     7      0      1
+&gt;  4     6      3      2
+&gt;  5     7      4      6
+&gt;  6    10      2     10
+&gt;  7     3      7      4
+&gt;  8    10      0      4
+&gt;  9     2      2     10
+&gt; 10     7     10      1
 &gt; # … with 40 more rows
 ```
 
@@ -9503,16 +9494,16 @@ notas %&gt;%
 &gt; # A tibble: 50 × 4
 &gt;    mates lengua dibujo media_curso
 &gt;    &lt;int&gt;  &lt;int&gt;  &lt;int&gt;       &lt;dbl&gt;
-&gt;  1    10      7     10        5.26
-&gt;  2     4      5      6        5.26
-&gt;  3     8      0      7        5.26
-&gt;  4     3      6      9        5.26
-&gt;  5     6      7      3        5.26
-&gt;  6     8      2      7        5.26
-&gt;  7     5     10      2        5.26
-&gt;  8     3      1      6        5.26
-&gt;  9     6      0      1        5.26
-&gt; 10     1      3      1        5.26
+&gt;  1     1      7      8        4.76
+&gt;  2     6      5     10        4.76
+&gt;  3     7      0      1        4.76
+&gt;  4     6      3      2        4.76
+&gt;  5     7      4      6        4.76
+&gt;  6    10      2     10        4.76
+&gt;  7     3      7      4        4.76
+&gt;  8    10      0      4        4.76
+&gt;  9     2      2     10        4.76
+&gt; 10     7     10      1        4.76
 &gt; # … with 40 more rows
 ```
 
@@ -9536,16 +9527,16 @@ notas %&gt;% rowwise() %&gt;%
 &gt; # Rowwise: 
 &gt;    mates lengua dibujo media_curso
 &gt;    &lt;int&gt;  &lt;int&gt;  &lt;int&gt;       &lt;dbl&gt;
-&gt;  1    10      7     10        9   
-&gt;  2     4      5      6        5   
-&gt;  3     8      0      7        5   
-&gt;  4     3      6      9        6   
-&gt;  5     6      7      3        5.33
-&gt;  6     8      2      7        5.67
-&gt;  7     5     10      2        5.67
-&gt;  8     3      1      6        3.33
-&gt;  9     6      0      1        2.33
-&gt; 10     1      3      1        1.67
+&gt;  1     1      7      8        5.33
+&gt;  2     6      5     10        7   
+&gt;  3     7      0      1        2.67
+&gt;  4     6      3      2        3.67
+&gt;  5     7      4      6        5.67
+&gt;  6    10      2     10        7.33
+&gt;  7     3      7      4        4.67
+&gt;  8    10      0      4        4.67
+&gt;  9     2      2     10        4.67
+&gt; 10     7     10      1        6   
 &gt; # … with 40 more rows
 ```
 
@@ -9976,8 +9967,8 @@ wordcloud2(starwars %&gt;% drop_na(species) %&gt;%
 
 .pull-right[
 
-<div id="htmlwidget-45ed01646e988210f174" style="width:100%;height:2100px;" class="wordcloud2 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-45ed01646e988210f174">{"x":{"word":["Droid","Gungan","Human","Kaminoan","Mirialan","Twi'lek","Wookiee","Zabrak","otras"],"freq":[6,3,35,2,2,2,2,2,29],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":4.11428571428571,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+<div id="htmlwidget-3464cf8c9dda84faf1f9" style="width:100%;height:2100px;" class="wordcloud2 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3464cf8c9dda84faf1f9">{"x":{"word":["Droid","Gungan","Human","Kaminoan","Mirialan","Twi'lek","Wookiee","Zabrak","otras"],"freq":[6,3,35,2,2,2,2,2,29],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":4.11428571428571,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
 
 ]
 
@@ -10250,7 +10241,7 @@ class: center, middle
 
 &amp;nbsp;
 
-En la carpeta [EVALUACIÓN](https://github.com/dadosdelaplace/courses-ECI-2022/tree/main/EVALUACI%C3%93N), accede al fichero `Evaluacion_2.Rmd` en la carpeta `PRÁCTICA II`...
+En la carpeta [EVALUACIÓN](https://github.com/dadosdelaplace/courses-ECI-2022/tree/main/EVALUACI%C3%93N), accede al fichero `Evaluacion_2.Rmd` en la carpeta `PRÁCTICA II`. La práctica consistirá en obtener 3 visualizaciones distintas siguiendo los pasos indicados. Se podrá añadir cualquier otro elemento o visualización que consideres adecuado si quieres experimentar, al margen de lo propuesto.
 
 &amp;nbsp;
 

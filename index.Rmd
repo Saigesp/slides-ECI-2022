@@ -117,15 +117,6 @@ El **objetivo** del curso no es ser un/a sesudo/a programador/a de `R`, sino adq
 📚 Estas **diapositivas** han sido elaboradas con el propio `R` haciendo uso del paquete `{xaringan}`
 y `{xaringanExtra}`.
 
----
-
-# A programar se aprende programando
-
-<video width = "1000" height = "480" align = "middle" controls>
-  <source src = "./img/programming_skills.mp4" type = "video/mp4">
-</video>
-
-**Desmitifiquemos** la programación: es cuestión de práctica, de tiempo, de pruebas y de muchos errores. **Desdramaticemos** equivocarnos con un ordenador.
 
 ---
 
