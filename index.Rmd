@@ -4955,7 +4955,7 @@ knitr::include_graphics("./img/semaforo.jpg")
 
 .pull-left[
 
-```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Imagen extraída de Reddit"}
+```{r echo = FALSE,  out.width = "70%", fig.align = "center", fig.cap = "Imagen extraída de Reddit"}
 knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/telling-dataviz")
 ``` 
 
@@ -6771,7 +6771,7 @@ starwars %>% drop_na(mass, height) %>%
 
 # Volvemos a ggplot: diagrama de barras
 
-Vamos a visualizar en un **diagrama de barras* la **variable cualitativa** `species`, calculando primero el número de personajes de cada especie con `count()`  (filtrando primero los ausentes).
+Vamos a visualizar en un **diagrama de barras** la **variable cualitativa** `species`, calculando primero el número de personajes de cada especie con `count()`  (filtrando primero los ausentes).
 
 ```{r}
 starwars %>%
@@ -6934,7 +6934,7 @@ fct_lump_min(estado_fct, min = 5, other_level = "otros")
 
 .pull-left[
 
-Vamos a repetir el diagrama de barras anterior pero indicándole que nos convierta `species`* a factor, y que nos **agrupe aquellas niveles que tengan menos de 2 personajes**.
+Vamos a repetir el diagrama de barras anterior pero indicándole que nos convierta `species` a **factor**, y que nos **agrupe aquellas niveles que tengan menos de 2 personajes**.
 
 ```{r eval = FALSE}
 ggplot(starwars %>%
@@ -6993,6 +6993,18 @@ wordcloud2(starwars %>% drop_na(species) %>%
 ]
 
 .pull-right[
+
+```{r echo = FALSE, out.width = 65%}
+library(wordcloud2)
+gg <- 
+  wordcloud2(starwars %>% drop_na(species) %>%
+             mutate(species =
+                      fct_lump_min(species, min = 2,
+                                   other_level = "otras")) %>% 
+             count(species),
+           size = 0.8, color= 'random-dark')
+htmltools::tagList(list(gg))
+```
 
 
 ]

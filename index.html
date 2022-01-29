@@ -29,6 +29,10 @@
     <script src="libs/dt-core/js/jquery.dataTables.min.js"></script>
     <link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
     <script src="libs/crosstalk/js/crosstalk.min.js"></script>
+    <link href="libs/wordcloud2/wordcloud.css" rel="stylesheet" />
+    <script src="libs/wordcloud2/wordcloud2-all.js"></script>
+    <script src="libs/wordcloud2/hover.js"></script>
+    <script src="libs/wordcloud2-binding/wordcloud2.js"></script>
     <link rel="stylesheet" href="style.css" type="text/css" />
   </head>
   <body>
@@ -4006,8 +4010,8 @@ dim(gapminder)
 # Listado de paquetes útiles usados (en manual o diapos)
 
 
-<div id="htmlwidget-7c24f5861cf0288f4d77" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-7c24f5861cf0288f4d77">{"x":{"filter":"none","caption":"<caption>Tabla (editable en cada celda)<\/caption>","editable":{"target":"cell","disable":{"columns":null}},"data":[["glue, stringr","tibble, tidyr, dplyr","readr, readxl, rvest","purrr","ggplot2","lubridate","rmarkdown, knitr","DT","xaringan","microbenchmark","devtools","eurostat","gapminder","datasets","owidR","ropenspain/climaemet","ropenspain/infoelectoral","JaseZiv/chessR"],["Manejo de textos","Manejo de datos (tidyverse)","Importación de archivos (tidyverse)","Manejo de listas (tidyverse)","Dataviz (tidyverse)","Manejo de fechas (tidyverse)","Generación de informes/docs","Tablas interactivas en .Rmd","Generación de diapositivas","Comparación de tiempos","Instalar paquetes desde Github","Datos del Eurostat","Datos socioeconómicos de países","Paquete con datos","Datos de Our World in Data","Datos del AEMET","Datos electorales (España)","Datos de partidas de ajedrez"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Paquete<\/th>\n      <th>Detalles<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"hover":true,"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100],"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(row).css({'background-color':'white'});\nvar value=data[1]; $(row).css({'background-color':'white'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div id="htmlwidget-d0450ab285ec661b7871" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d0450ab285ec661b7871">{"x":{"filter":"none","caption":"<caption>Tabla (editable en cada celda)<\/caption>","editable":{"target":"cell","disable":{"columns":null}},"data":[["glue, stringr","tibble, tidyr, dplyr","readr, readxl, rvest","purrr","ggplot2","lubridate","rmarkdown, knitr","DT","xaringan","microbenchmark","devtools","eurostat","gapminder","datasets","owidR","ropenspain/climaemet","ropenspain/infoelectoral","JaseZiv/chessR"],["Manejo de textos","Manejo de datos (tidyverse)","Importación de archivos (tidyverse)","Manejo de listas (tidyverse)","Dataviz (tidyverse)","Manejo de fechas (tidyverse)","Generación de informes/docs","Tablas interactivas en .Rmd","Generación de diapositivas","Comparación de tiempos","Instalar paquetes desde Github","Datos del Eurostat","Datos socioeconómicos de países","Paquete con datos","Datos de Our World in Data","Datos del AEMET","Datos electorales (España)","Datos de partidas de ajedrez"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Paquete<\/th>\n      <th>Detalles<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"hover":true,"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100],"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(row).css({'background-color':'white'});\nvar value=data[1]; $(row).css({'background-color':'white'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 
 
 ---
@@ -5487,11 +5491,11 @@ starwars %&gt;% slice_sample(n = 3) # 3 al azar
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name     height  mass hair_color skin_color eye_color birth_year sex    gender
-&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; 
-&gt; 1 Biggs D…    183    84 black      light      brown             24 male   mascu…
-&gt; 2 Sly Moo…    178    48 none       pale       white             NA &lt;NA&gt;   &lt;NA&gt;  
-&gt; 3 Barriss…    166    50 black      yellow     blue              40 female femin…
+&gt;   name    height  mass hair_color  skin_color  eye_color birth_year sex   gender
+&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt; 1 Ben Qu…    163    65 none        grey, gree… orange            NA male  mascu…
+&gt; 2 Owen L…    178   120 brown, grey light       blue              52 male  mascu…
+&gt; 3 Tarfful    234   136 brown       brown       blue              NA male  mascu…
 &gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
@@ -5502,11 +5506,11 @@ starwars %&gt;% slice_sample(n = 3) # 3 al azar nuevas
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name     height  mass hair_color skin_color eye_color birth_year sex   gender 
-&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  
-&gt; 1 Tarfful     234   136 brown      brown      blue              NA male  mascul…
-&gt; 2 Mas Ame…    196    NA none       blue       blue              NA male  mascul…
-&gt; 3 Barriss…    166    50 black      yellow     blue              40 fema… femini…
+&gt;   name     height  mass hair_color  skin_color eye_color birth_year sex   gender
+&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt; 1 Bossk       190   113 none        green      red             53   male  mascu…
+&gt; 2 Wilhuff…    180    NA auburn, gr… fair       blue            64   male  mascu…
+&gt; 3 Darth V…    202   136 none        white      yellow          41.9 male  mascu…
 &gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
@@ -7825,7 +7829,7 @@ Una **buena idea** puede estar mejor o peor ejecutada, y la forma de llevarla a 
 .pull-left[
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="https://dadosdelaplace.github.io/courses-ECI-2022/img/telling-dataviz" alt="Imagen extraída de Reddit" width="100%" /&gt;
+&lt;img src="https://dadosdelaplace.github.io/courses-ECI-2022/img/telling-dataviz" alt="Imagen extraída de Reddit" width="70%" /&gt;
 &lt;p class="caption"&gt;Imagen extraída de Reddit&lt;/p&gt;
 &lt;/div&gt;
 
@@ -9461,16 +9465,16 @@ notas
 &gt; # A tibble: 50 × 3
 &gt;    mates lengua dibujo
 &gt;    &lt;int&gt;  &lt;int&gt;  &lt;int&gt;
-&gt;  1     3      2      6
-&gt;  2     9      7      3
-&gt;  3     8      7      9
-&gt;  4     5      8      2
-&gt;  5     8      9      6
-&gt;  6     3      4      5
-&gt;  7     2      8      0
-&gt;  8     5      0      7
-&gt;  9     2      6      3
-&gt; 10     1      9      7
+&gt;  1    10      5      4
+&gt;  2     9      6      1
+&gt;  3     9      7      5
+&gt;  4     1      6      3
+&gt;  5     6      4      4
+&gt;  6     2      5      2
+&gt;  7     0      0      5
+&gt;  8    10      1      4
+&gt;  9     5      3      1
+&gt; 10     8      3      5
 &gt; # … with 40 more rows
 ```
 
@@ -9490,16 +9494,16 @@ notas %&gt;%
 &gt; # A tibble: 50 × 4
 &gt;    mates lengua dibujo media_curso
 &gt;    &lt;int&gt;  &lt;int&gt;  &lt;int&gt;       &lt;dbl&gt;
-&gt;  1     3      2      6        5.24
-&gt;  2     9      7      3        5.24
-&gt;  3     8      7      9        5.24
-&gt;  4     5      8      2        5.24
-&gt;  5     8      9      6        5.24
-&gt;  6     3      4      5        5.24
-&gt;  7     2      8      0        5.24
-&gt;  8     5      0      7        5.24
-&gt;  9     2      6      3        5.24
-&gt; 10     1      9      7        5.24
+&gt;  1    10      5      4         4.8
+&gt;  2     9      6      1         4.8
+&gt;  3     9      7      5         4.8
+&gt;  4     1      6      3         4.8
+&gt;  5     6      4      4         4.8
+&gt;  6     2      5      2         4.8
+&gt;  7     0      0      5         4.8
+&gt;  8    10      1      4         4.8
+&gt;  9     5      3      1         4.8
+&gt; 10     8      3      5         4.8
 &gt; # … with 40 more rows
 ```
 
@@ -9523,16 +9527,16 @@ notas %&gt;% rowwise() %&gt;%
 &gt; # Rowwise: 
 &gt;    mates lengua dibujo media_curso
 &gt;    &lt;int&gt;  &lt;int&gt;  &lt;int&gt;       &lt;dbl&gt;
-&gt;  1     3      2      6        3.67
-&gt;  2     9      7      3        6.33
-&gt;  3     8      7      9        8   
-&gt;  4     5      8      2        5   
-&gt;  5     8      9      6        7.67
-&gt;  6     3      4      5        4   
-&gt;  7     2      8      0        3.33
-&gt;  8     5      0      7        4   
-&gt;  9     2      6      3        3.67
-&gt; 10     1      9      7        5.67
+&gt;  1    10      5      4        6.33
+&gt;  2     9      6      1        5.33
+&gt;  3     9      7      5        7   
+&gt;  4     1      6      3        3.33
+&gt;  5     6      4      4        4.67
+&gt;  6     2      5      2        3   
+&gt;  7     0      0      5        1.67
+&gt;  8    10      1      4        5   
+&gt;  9     5      3      1        3   
+&gt; 10     8      3      5        5.33
 &gt; # … with 40 more rows
 ```
 
@@ -9683,7 +9687,7 @@ starwars %&gt;% drop_na(mass, height) %&gt;%
 
 # Volvemos a ggplot: diagrama de barras
 
-Vamos a visualizar en un **diagrama de barras* la **variable cualitativa** `species`, calculando primero el número de personajes de cada especie con `count()`  (filtrando primero los ausentes).
+Vamos a visualizar en un **diagrama de barras** la **variable cualitativa** `species`, calculando primero el número de personajes de cada especie con `count()`  (filtrando primero los ausentes).
 
 
 ```r
@@ -9914,7 +9918,7 @@ fct_lump_min(estado_fct, min = 5, other_level = "otros")
 
 .pull-left[
 
-Vamos a repetir el diagrama de barras anterior pero indicándole que nos convierta `species`* a factor, y que nos **agrupe aquellas niveles que tengan menos de 2 personajes**.
+Vamos a repetir el diagrama de barras anterior pero indicándole que nos convierta `species` a **factor**, y que nos **agrupe aquellas niveles que tengan menos de 2 personajes**.
 
 
 ```r
@@ -9963,6 +9967,9 @@ wordcloud2(starwars %&gt;% drop_na(species) %&gt;%
 
 .pull-right[
 
+<div id="htmlwidget-3655b379f580523afcea" style="width:960px;height:500px;" class="wordcloud2 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3655b379f580523afcea">{"x":{"word":["Droid","Gungan","Human","Kaminoan","Mirialan","Twi'lek","Wookiee","Zabrak","otras"],"freq":[6,3,35,2,2,2,2,2,29],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":4.11428571428571,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+
 
 ]
 
@@ -9995,7 +10002,7 @@ ggplot(starwars %&gt;% drop_na(species) %&gt;%
 .pull-right[
 
 
-&lt;img src="index_files/figure-html/unnamed-chunk-430-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-431-1.png" width="100%" /&gt;
 
 ]
 
@@ -10030,7 +10037,7 @@ ggplot(starwars %&gt;% drop_na(species) %&gt;%
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-432-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-433-1.png" width="100%" /&gt;
 
 ]
 
@@ -10070,7 +10077,7 @@ ggplot(gapminder,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-434-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-435-1.png" width="100%" /&gt;
 
 ]
 
@@ -10124,7 +10131,7 @@ Si te fijas, por defecto nos ha construido las **barras apiladas**
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-437-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-438-1.png" width="100%" /&gt;
 
 ]
   
@@ -10147,7 +10154,7 @@ ggplot(gapminder_por_continente,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-439-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-440-1.png" width="100%" /&gt;
 
 ]
 ]
@@ -10169,7 +10176,7 @@ ggplot(gapminder_por_continente,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-441-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-442-1.png" width="100%" /&gt;
 
 ]
 
@@ -10200,7 +10207,7 @@ ggplot(gapminder_por_continente,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-443-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-444-1.png" width="100%" /&gt;
 
 ]
 
