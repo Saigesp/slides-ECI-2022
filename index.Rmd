@@ -4312,7 +4312,7 @@ knitr::include_graphics("./img/sectores_3D_sevilla.jpg")
 Además, dado que un diagrama de sectores solo permite una **visualización relativa** de los datos, no son comparables con otros diagramas de tartas.
 
 ```{r echo = FALSE,  out.width = "78%", fig.align = "center"}
-knitr::include_graphics("./img/medals_race.jpg")
+knitr::include_graphics("https://pbs.twimg.com/media/BgDR4urIMAAnHmG?format=jpg&name=medium")
 ``` 
 
 Gráfica extraída de <https://twitter.com/Dave_Andrade/status/432576336872624129?t=FGjLtxE8V1BJR_QdXdtZgQ&s=19>
@@ -6994,7 +6994,7 @@ wordcloud2(starwars %>% drop_na(species) %>%
 
 .pull-right[
 
-```{r echo = FALSE, out.width = 65%}
+```{r echo = FALSE, out.width = "65%"}
 library(wordcloud2)
 gg <- 
   wordcloud2(starwars %>% drop_na(species) %>%
