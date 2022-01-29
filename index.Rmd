@@ -6159,6 +6159,256 @@ ggplot(gapminder_1997,
 
 ---
 
+# Ejercicio
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: del conjunto `starwars` filtra solo los registros que no tenga ausente las columnas `mass, height, eye_color`. Dibuja un diagrama de puntos enfrentando `x = height` en el eje X e `y = mass` en el eje Y.
+ 
+* 📝 **Ejercicio 2**: modifica el código del gráfico anterior para asignar el tamaño de los puntos en función de la variable `mass`.
+
+* 📝 **Ejercicio 3**: modifica el código del gráfico anterior para asignar el color en función de su color de ojos guardado en `eye_color`. Antes procesa la variable para quedarte con colores reales: si hay dos colores, quédate con el primero; el color `"hazel"` pásalo a `"brown"`; los colores `"unknown"` pásalo a gris.
+
+* 📝 **Ejercicio 4**: repite el gráfico anterior localizando ese dato con un peso extremadamente elevado (outlier), elimínalo y vuelve a repetir la visualización.
+
+* 📝 **Ejercicio 5**: repite el gráfico anterior eliminando la leyenda del tamaño del punto y cambia el título de la leyenda del color de ojos a castellano. Añade además transparencia alpha = 0.6 a los puntos.
+
+* 📝 **Ejercicio 6**: repite el gráfico modificando los títulos de los ejes (a castellano) y escribiendo título, subtítulo y caption.
+ 
+* 📝 **Ejercicio 7**: repite el gráfico anterior explicitando los cortes en los ejes con scale_x_continuous() y scale_y_continuous(): el eje X de 60 a 240 (de 30 en 30 cada marca), el eje Y de 20 a 160 (de 20 en 20 cada marca).
+ 
+]
+
+.panel[.panel-name[Sol. 1]
+
+]
+
+.panel[.panel-name[Sol. 2]
+
+]
+
+.panel[.panel-name[Sol. 3]
+
+]
+
+.panel[.panel-name[Sol. 4]
+
+]
+
+.panel[.panel-name[Sol. 5]
+
+]
+
+.panel[.panel-name[Sol. 6]
+
+]
+
+.panel[.panel-name[Sol. 7]
+
+]
+
+
+]
+
+
+---
+
+
+# Segundo intento: diagrama de barras
+
+Antes de aprender a visualizar un diagrama de barras, veamos algunos **conceptos clave en estadística descriptiva**
+
+* **Población**: es la posible **colección de individuos o elementos** a estudiar (por ejemplo, los cientos de miles de habitantes de los mundos de Star Wars). Normalmente esa población es **inaccesible** en su totalidad.
+
+* **Muestra**: una **selección «representativa»** de individuos de la población total (teórica). En nuestro caso, de los miles de habitantes de los mundos de Star Wars hemos extraído una muestra de 87 personas. 
+
+* **Tamaño muestral**: comunmente denotado como $n$, es el número de individuos seleccionados de nuestra población.
+
+```{r}
+library(tidyverse)
+nrow(starwars) # tamaño muestral
+starwars
+```
+
+
+---
+
+# Estadística descriptiva
+
+En estadística llamamos **caracteres** a cada una de las variables, cada una de las **características  que se miden/estudian** para cada uno de los individuos seleccionados. 
+
+```{r}
+# Características
+names(starwars)
+```
+
+Y para cada una de ellas llamaremos **modalidades** a los **diferentes valores que puede adoptar** una característica o variable. En el caso por ejemplo del fichero de `starwars` tenemos distintas opciones:
+
+* `sex`: tiene 4 modalidades `female, hermaphroditic, male, none` (podemos extraerlas con `unique()`, que nos dará los valores únicos de una variable).
+
+```{r}
+unique(starwars$sex)
+```
+
+---
+
+# Estadística descriptiva
+
+En estadística, como en probabilidad, podemos distinguir las variables en función de las modalidades permitidas en dos grandes categorías:
+
+* **Variables categóricas (nominales o cualitativas)**. Son variables que representan categorías o cualidades. Ejemplos: color, forma, estado civil, religión, etc. Estas variables las podemos **subdividir en función de si admiten o no un orden**:
+  - **Cualitativas ordinales**: aunque representen cualidades, tienen una jerarquía de orden. Ejemplos: suspenso-aprobado-notable, sano - herido leve - grave, etc.
+  - **Cualitativas nominales**: no admiten (salvo problemas nuestros) una jerarquía de orden. Ejemplos: ateo-católico-musulmán, soltero-casado, homber-mujer, etc.
+
+&nbsp;
+
+* **Variables cuantitativas**:  representan una **cantidad numérica** medible, una característica cuantificable matemáticamente. A su vez se pueden subdividir en dos grupos.
+  - **Cuantitativas discretas**: se pueden **contar** y **enumerar (aunque sean infinitos)**, detrás de un valor puedo saber cuál viene después (personas, granos de arena, etc).
+  - **Cuantitativas continuas**: no solo toman infinitos valores sino que entre dos valores cualesquiera, también hay infinitos términos, no se puede determinar el siguiente valor a uno dado (estaturas, pesos, temperatura, etc).
+
+---
+
+# Frecuencias: contando los datos
+
+El **diagrama de barras** es uno de los gráficos más utilizados para visualizar las **frecuencias** (número de veces que aparece) de **variables cualitativas o cuantitativas discretas**
+
+Vamos a **calcular las frecuencias** de la variable `sex` de `starwars`. Y lo primero es contar: **¿cuántos registros hay de cada una de las clases?** Para ello usaremos la función `count()` aplicada a `sex`
+
+
+```{r}
+starwars %>%
+  count(sex) #<<
+```
+
+---
+
+# Frecuencias: contando los datos
+
+Esa columna $n$ es lo que conocemos como **frecuencias absolutas**: el número de veces que la variable toma dicha valor. Algunas veces nos interesa obtener las **frecuencias relativas**: la **proporción del total** que representa dicha cantidad, denotada como $f_i$, para cada nivel $n_i$. Añadimos también  esas **frecuencias relativas en porcentaje**
+
+```{r}
+starwars %>%
+  count(sex) %>%
+  mutate(f = n / sum(n), #<<
+         f_proc = 100 * f) 
+```
+
+
+---
+
+# Agrupando con group_by()
+
+Las frecuencias también podemos obtenerlas de forma **bidimensional**, agrupando los datos por dos variables con `group_by()`: esta orden no modificada nada de los datos, lo que haces **modificar las acciones** que vengan después, de forma **desagregada por los grupos creados**
+
+```{r}
+starwars %>%
+  group_by(sex, gender) %>% #<< 
+  count()
+```
+
+Ahora $n$ es en realidad un $n_ij$, la frecuencia de cada par $(i, j)$, para las posibles modalidades $i$ de $X$ y $j$ de $Y$ (en este caso, `sex` y `gender`).
+
+---
+
+# Resumiendo los datos
+
+La función `group_by()` es de las más útiles de `{tidyverse}`, en especial con la orden `summarise()`, orden que nos permite sumarizar o resumir nuestros datos. Por ejemplo, vamos a calcular la media de la altura de los personajes.
+
+```{r}
+starwars %>%
+  summarise(media_altura = mean(height)) #<<
+```
+
+Dado que tenemos alturas ausentes, o bien las eliminamos y o bien al aplicar `mean()` le indicamos el argumento `na.rm = TRUE` para que nos los elimine.
+
+```{r}
+starwars %>%
+  drop_na(height) %>% #<<
+  summarise(media_altura = mean(height)) #<<
+```
+
+---
+
+# Resumiendo los datos
+
+Si la misma acción la realizamos con un `group_by()` previo, la media de las alturas ya no lo hará en global sino que calculará una **media por grupos**, desagregada por las variables que le indiquemos en `group_by()`
+
+```{r}
+starwars %>% 
+  drop_na(height, mass) %>%
+  group_by(sex) %>% #<<
+  summarise(media = mean(height)) %>%
+  ungroup() #<<
+```
+
+---
+
+# Resumiendo los datos
+
+Podemos calcular varias estadísticas a la vez, combinándolo con algunas de las opciones que ya hemos visto, como `across()` (primer variables, luego función)
+
+```{r}
+starwars %>% drop_na(height, mass) %>% group_by(sex) %>% 
+  summarise(medias = across(c(height, mass), mean)) %>% #<<
+  ungroup()
+```
+
+---
+
+# Resumiendo los datos
+
+Un **ejemplo más complejo en pocas líneas**: las medias de todas las variables cuantitativas (numéricas), desgregadas por sexo y género.
+
+```{r}
+starwars %>% drop_na(height, mass) %>% group_by(sex, gender) %>%
+  summarise(across(where(is.numeric), mean)) %>%
+  ungroup()
+```
+
+---
+
+# Resumiendo los datos
+
+Una opción muy útil usada antes de una operación también es `rowwise()`: toda operación que venga después se aplicará **en cada fila por separado**. Por ejemplo, vamos a definir un conjunto dummy de notas en mates, lengua y dibujo de 50 alumnos. Para ello usamos la función `sample()`: le decimos que seleccione aleatoriamente `size = 50` notas de un conjunto de notas posibles, y que lo haga con reemplazamiento (`replace = TRUE`, es decir, que dos alumnos puedan tener la misma nota).
+
+```{r}
+notas <- tibble("mates" = sample(0:10, size = 50, replace = TRUE),
+                "lengua" = sample(0:10, size = 50, replace = TRUE),
+                "dibujo" = sample(0:10, size = 50, replace = TRUE))
+notas
+```
+
+---
+
+# Resumiendo los datos
+
+Una vez que tenemos 3 notas por cada uno de los 50 alumnos, **¿qué sucede si yo quiero calcular la nota media del curso?**
+
+```{r}
+notas %>%
+  mutate(media_curso = mean(c(mates, lengua, dibujo)))
+```
+
+Si aplicamos la media directamente, en cada fila el valor `media_curso` es **idéntico ya que nos ha hecho la media global** de las 50 filas y 3 columnas (la media de 150 datos). 
+
+---
+
+# Resumiendo los datos
+
+En realidad a nosotros nos gustaría **sacar una media por registro, por alumno**, que para cada alumno tengamos la media de las asignaturas. Para eso usaremos `rowwise()` antes del cálculo.
+
+```{r}
+# Aplicado por fila
+notas %>% rowwise() %>%
+  mutate(media_curso = mean(c(mates, lengua, dibujo)))
+```
+
+---
+
+# Medidas de centralización
+
+---
 
 # Ejercicios
 

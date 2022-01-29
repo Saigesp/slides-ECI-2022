@@ -4015,8 +4015,8 @@ dim(gapminder)
 # Listado de paquetes útiles usados (en manual o diapos)
 
 
-<div id="htmlwidget-f68ecd7a6d539cc512a2" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f68ecd7a6d539cc512a2">{"x":{"filter":"none","caption":"<caption>Tabla (editable en cada celda)<\/caption>","editable":{"target":"cell","disable":{"columns":null}},"data":[["glue, stringr","tibble, tidyr, dplyr","readr, readxl, rvest","purrr","ggplot2","lubridate","rmarkdown, knitr","DT","xaringan","microbenchmark","devtools","eurostat","gapminder","datasets","owidR","ropenspain/climaemet","ropenspain/infoelectoral","JaseZiv/chessR"],["Manejo de textos","Manejo de datos (tidyverse)","Importación de archivos (tidyverse)","Manejo de listas (tidyverse)","Dataviz (tidyverse)","Manejo de fechas (tidyverse)","Generación de informes/docs","Tablas interactivas en .Rmd","Generación de diapositivas","Comparación de tiempos","Instalar paquetes desde Github","Datos del Eurostat","Datos socioeconómicos de países","Paquete con datos","Datos de Our World in Data","Datos del AEMET","Datos electorales (España)","Datos de partidas de ajedrez"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Paquete<\/th>\n      <th>Detalles<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"hover":true,"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100],"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(row).css({'background-color':'white'});\nvar value=data[1]; $(row).css({'background-color':'white'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div id="htmlwidget-6dd68211ffcacc4da078" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6dd68211ffcacc4da078">{"x":{"filter":"none","caption":"<caption>Tabla (editable en cada celda)<\/caption>","editable":{"target":"cell","disable":{"columns":null}},"data":[["glue, stringr","tibble, tidyr, dplyr","readr, readxl, rvest","purrr","ggplot2","lubridate","rmarkdown, knitr","DT","xaringan","microbenchmark","devtools","eurostat","gapminder","datasets","owidR","ropenspain/climaemet","ropenspain/infoelectoral","JaseZiv/chessR"],["Manejo de textos","Manejo de datos (tidyverse)","Importación de archivos (tidyverse)","Manejo de listas (tidyverse)","Dataviz (tidyverse)","Manejo de fechas (tidyverse)","Generación de informes/docs","Tablas interactivas en .Rmd","Generación de diapositivas","Comparación de tiempos","Instalar paquetes desde Github","Datos del Eurostat","Datos socioeconómicos de países","Paquete con datos","Datos de Our World in Data","Datos del AEMET","Datos electorales (España)","Datos de partidas de ajedrez"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Paquete<\/th>\n      <th>Detalles<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"hover":true,"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100],"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(row).css({'background-color':'white'});\nvar value=data[1]; $(row).css({'background-color':'white'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 
 
 ---
@@ -5496,11 +5496,11 @@ starwars %&gt;% slice_sample(n = 3) # 3 al azar
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name     height  mass hair_color skin_color eye_color birth_year sex   gender 
-&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  
-&gt; 1 Bib For…    180    NA none       pale       pink              NA male  mascul…
-&gt; 2 Finn         NA    NA black      dark       dark              NA male  mascul…
-&gt; 3 Finis V…    170    NA blond      fair       blue              91 male  mascul…
+&gt;   name     height  mass hair_color  skin_color eye_color birth_year sex   gender
+&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt; 1 Luminar…    170  56.2 black       yellow     blue              58 fema… femin…
+&gt; 2 Owen La…    178 120   brown, grey light      blue              52 male  mascu…
+&gt; 3 Nien Nu…    160  68   none        grey       black             NA male  mascu…
 &gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
@@ -5511,11 +5511,11 @@ starwars %&gt;% slice_sample(n = 3) # 3 al azar nuevas
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name     height  mass hair_color  skin_color eye_color birth_year sex   gender
-&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Owen La…    178   120 brown, grey light      blue              52 male  mascu…
-&gt; 2 Finis V…    170    NA blond       fair       blue              91 male  mascu…
-&gt; 3 Wedge A…    170    77 brown       fair       hazel             21 male  mascu…
+&gt;   name      height  mass hair_color skin_color eye_color birth_year sex   gender
+&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt; 1 Tarfful      234   136 brown      brown      blue              NA male  mascu…
+&gt; 2 Plo Koon     188    80 none       orange     black             22 male  mascu…
+&gt; 3 Dexter J…    198   102 none       brown      yellow            NA male  mascu…
 &gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
@@ -8887,6 +8887,384 @@ ggplot(gapminder_1997,
 
 ---
 
+# Segundo intento: diagrama de barras
+
+Antes de aprender a visualizar un diagrama de barras, veamos algunos **conceptos clave en estadística descriptiva**
+
+* **Población**: es la posible **colección de individuos o elementos** a estudiar (por ejemplo, los cientos de miles de habitantes de los mundos de Star Wars). Normalmente esa población es **inaccesible** en su totalidad.
+
+* **Muestra**: una **selección «representativa»** de individuos de la población total (teórica). En nuestro caso, de los miles de habitantes de los mundos de Star Wars hemos extraído una muestra de 87 personas. 
+
+* **Tamaño muestral**: comunmente denotado como `\(n\)`, es el número de individuos seleccionados de nuestra población.
+
+
+```r
+library(tidyverse)
+nrow(starwars) # tamaño muestral
+```
+
+```
+&gt; [1] 87
+```
+
+```r
+starwars
+```
+
+```
+&gt; # A tibble: 87 × 14
+&gt;    name    height  mass hair_color  skin_color eye_color birth_year sex   gender
+&gt;    &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt;  1 Luke S…    172    77 blond       fair       blue            19   male  mascu…
+&gt;  2 C-3PO      167    75 &lt;NA&gt;        gold       yellow         112   none  mascu…
+&gt;  3 R2-D2       96    32 &lt;NA&gt;        white, bl… red             33   none  mascu…
+&gt;  4 Darth …    202   136 none        white      yellow          41.9 male  mascu…
+&gt;  5 Leia O…    150    49 brown       light      brown           19   fema… femin…
+&gt;  6 Owen L…    178   120 brown, grey light      blue            52   male  mascu…
+&gt;  7 Beru W…    165    75 brown       light      blue            47   fema… femin…
+&gt;  8 R5-D4       97    32 &lt;NA&gt;        white, red red             NA   none  mascu…
+&gt;  9 Biggs …    183    84 black       light      brown           24   male  mascu…
+&gt; 10 Obi-Wa…    182    77 auburn, wh… fair       blue-gray       57   male  mascu…
+&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+
+
+---
+
+# Estadística descriptiva
+
+En estadística llamamos **caracteres** a cada una de las variables, cada una de las **características  que se miden/estudian** para cada uno de los individuos seleccionados. 
+
+
+```r
+# Características
+names(starwars)
+```
+
+```
+&gt;  [1] "name"       "height"     "mass"       "hair_color" "skin_color"
+&gt;  [6] "eye_color"  "birth_year" "sex"        "gender"     "homeworld" 
+&gt; [11] "species"    "films"      "vehicles"   "starships"
+```
+
+Y para cada una de ellas llamaremos **modalidades** a los **diferentes valores que puede adoptar** una característica o variable. En el caso por ejemplo del fichero de `starwars` tenemos distintas opciones:
+
+* `sex`: tiene 4 modalidades `female, hermaphroditic, male, none` (podemos extraerlas con `unique()`, que nos dará los valores únicos de una variable).
+
+
+```r
+unique(starwars$sex)
+```
+
+```
+&gt; [1] "male"           "none"           "female"         "hermaphroditic"
+&gt; [5] NA
+```
+
+---
+
+# Estadística descriptiva
+
+En estadística, como en probabilidad, podemos distinguir las variables en función de las modalidades permitidas en dos grandes categorías:
+
+* **Variables categóricas (nominales o cualitativas)**. Son variables que representan categorías o cualidades. Ejemplos: color, forma, estado civil, religión, etc. Estas variables las podemos **subdividir en función de si admiten o no un orden**:
+  - **Cualitativas ordinales**: aunque representen cualidades, tienen una jerarquía de orden. Ejemplos: suspenso-aprobado-notable, sano - herido leve - grave, etc.
+  - **Cualitativas nominales**: no admiten (salvo problemas nuestros) una jerarquía de orden. Ejemplos: ateo-católico-musulmán, soltero-casado, homber-mujer, etc.
+
+&amp;nbsp;
+
+* **Variables cuantitativas**:  representan una **cantidad numérica** medible, una característica cuantificable matemáticamente. A su vez se pueden subdividir en dos grupos.
+  - **Cuantitativas discretas**: se pueden **contar** y **enumerar (aunque sean infinitos)**, detrás de un valor puedo saber cuál viene después (personas, granos de arena, etc).
+  - **Cuantitativas continuas**: no solo toman infinitos valores sino que entre dos valores cualesquiera, también hay infinitos términos, no se puede determinar el siguiente valor a uno dado (estaturas, pesos, temperatura, etc).
+
+---
+
+# Frecuencias: contando los datos
+
+El **diagrama de barras** es uno de los gráficos más utilizados para visualizar las **frecuencias** (número de veces que aparece) de **variables cualitativas o cuantitativas discretas**
+
+Vamos a **calcular las frecuencias** de la variable `sex` de `starwars`. Y lo primero es contar: **¿cuántos registros hay de cada una de las clases?** Para ello usaremos la función `count()` aplicada a `sex`
+
+
+
+```r
+starwars %&gt;%
+* count(sex)
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   sex                n
+&gt;   &lt;chr&gt;          &lt;int&gt;
+&gt; 1 female            16
+&gt; 2 hermaphroditic     1
+&gt; 3 male              60
+&gt; 4 none               6
+&gt; 5 &lt;NA&gt;               4
+```
+
+---
+
+# Frecuencias: contando los datos
+
+Esa columna `\(n\)` es lo que conocemos como **frecuencias absolutas**: el número de veces que la variable toma dicha valor. Algunas veces nos interesa obtener las **frecuencias relativas**: la **proporción del total** que representa dicha cantidad, denotada como `\(f_i\)`, para cada nivel `\(n_i\)`. Añadimos también  esas **frecuencias relativas en porcentaje**
+
+
+```r
+starwars %&gt;%
+  count(sex) %&gt;%
+* mutate(f = n / sum(n),
+         f_proc = 100 * f) 
+```
+
+```
+&gt; # A tibble: 5 × 4
+&gt;   sex                n      f f_proc
+&gt;   &lt;chr&gt;          &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+&gt; 1 female            16 0.184   18.4 
+&gt; 2 hermaphroditic     1 0.0115   1.15
+&gt; 3 male              60 0.690   69.0 
+&gt; 4 none               6 0.0690   6.90
+&gt; 5 &lt;NA&gt;               4 0.0460   4.60
+```
+
+
+---
+
+# Agrupando con group_by()
+
+Las frecuencias también podemos obtenerlas de forma **bidimensional**, agrupando los datos por dos variables con `group_by()`: esta orden no modificada nada de los datos, lo que haces **modificar las acciones** que vengan después, de forma **desagregada por los grupos creados**
+
+
+```r
+starwars %&gt;%
+* group_by(sex, gender) %&gt;%
+  count()
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt; # Groups:   sex, gender [6]
+&gt;   sex            gender        n
+&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;int&gt;
+&gt; 1 female         feminine     16
+&gt; 2 hermaphroditic masculine     1
+&gt; 3 male           masculine    60
+&gt; 4 none           feminine      1
+&gt; 5 none           masculine     5
+&gt; 6 &lt;NA&gt;           &lt;NA&gt;          4
+```
+
+Ahora `\(n\)` es en realidad un `\(n_ij\)`, la frecuencia de cada par `\((i, j)\)`, para las posibles modalidades `\(i\)` de `\(X\)` y `\(j\)` de `\(Y\)` (en este caso, `sex` y `gender`).
+
+---
+
+# Resumiendo los datos
+
+La función `group_by()` es de las más útiles de `{tidyverse}`, en especial con la orden `summarise()`, orden que nos permite sumarizar o resumir nuestros datos. Por ejemplo, vamos a calcular la media de la altura de los personajes.
+
+
+```r
+starwars %&gt;%
+* summarise(media_altura = mean(height))
+```
+
+```
+&gt; # A tibble: 1 × 1
+&gt;   media_altura
+&gt;          &lt;dbl&gt;
+&gt; 1           NA
+```
+
+Dado que tenemos alturas ausentes, o bien las eliminamos y o bien al aplicar `mean()` le indicamos el argumento `na.rm = TRUE` para que nos los elimine.
+
+
+```r
+starwars %&gt;%
+* drop_na(height) %&gt;%
+* summarise(media_altura = mean(height))
+```
+
+```
+&gt; # A tibble: 1 × 1
+&gt;   media_altura
+&gt;          &lt;dbl&gt;
+&gt; 1         174.
+```
+
+---
+
+# Resumiendo los datos
+
+Si la misma acción la realizamos con un `group_by()` previo, la media de las alturas ya no lo hará en global sino que calculará una **media por grupos**, desagregada por las variables que le indiquemos en `group_by()`
+
+
+```r
+starwars %&gt;% 
+  drop_na(height, mass) %&gt;%
+* group_by(sex) %&gt;%
+  summarise(media = mean(height)) %&gt;%
+* ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   sex            media
+&gt;   &lt;chr&gt;          &lt;dbl&gt;
+&gt; 1 female          169.
+&gt; 2 hermaphroditic  175 
+&gt; 3 male            178.
+&gt; 4 none            140 
+&gt; 5 &lt;NA&gt;            178
+```
+
+---
+
+# Resumiendo los datos
+
+Podemos calcular varias estadísticas a la vez, combinándolo con algunas de las opciones que ya hemos visto, como `across()` (primer variables, luego función)
+
+
+```r
+starwars %&gt;% drop_na(height, mass) %&gt;% group_by(sex) %&gt;% 
+* summarise(medias = across(c(height, mass), mean)) %&gt;%
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   sex            medias$height  $mass
+&gt;   &lt;chr&gt;                  &lt;dbl&gt;  &lt;dbl&gt;
+&gt; 1 female                  169.   54.7
+&gt; 2 hermaphroditic          175  1358  
+&gt; 3 male                    178.   81.0
+&gt; 4 none                    140    69.8
+&gt; 5 &lt;NA&gt;                    178    48
+```
+
+---
+
+# Resumiendo los datos
+
+Un **ejemplo más complejo en pocas líneas**: las medias de todas las variables cuantitativas (numéricas), desgregadas por sexo y género.
+
+
+```r
+starwars %&gt;% drop_na(height, mass) %&gt;% group_by(sex, gender) %&gt;%
+  summarise(across(where(is.numeric), mean)) %&gt;%
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 5
+&gt;   sex            gender    height   mass birth_year
+&gt;   &lt;chr&gt;          &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+&gt; 1 female         feminine    169.   54.7         NA
+&gt; 2 hermaphroditic masculine   175  1358          600
+&gt; 3 male           masculine   178.   81.0         NA
+&gt; 4 none           masculine   140    69.8         NA
+&gt; 5 &lt;NA&gt;           &lt;NA&gt;        178    48           NA
+```
+
+---
+
+# Resumiendo los datos
+
+Una opción muy útil usada antes de una operación también es `rowwise()`: toda operación que venga después se aplicará **en cada fila por separado**. Por ejemplo, vamos a definir un conjunto dummy de notas en mates, lengua y dibujo de 50 alumnos. Para ello usamos la función `sample()`: le decimos que seleccione aleatoriamente `size = 50` notas de un conjunto de notas posibles, y que lo haga con reemplazamiento (`replace = TRUE`, es decir, que dos alumnos puedan tener la misma nota).
+
+
+```r
+notas &lt;- tibble("mates" = sample(0:10, size = 50, replace = TRUE),
+                "lengua" = sample(0:10, size = 50, replace = TRUE),
+                "dibujo" = sample(0:10, size = 50, replace = TRUE))
+notas
+```
+
+```
+&gt; # A tibble: 50 × 3
+&gt;    mates lengua dibujo
+&gt;    &lt;int&gt;  &lt;int&gt;  &lt;int&gt;
+&gt;  1     0      5     10
+&gt;  2     0      4      9
+&gt;  3     1      4      6
+&gt;  4     3      6     10
+&gt;  5     8      0      2
+&gt;  6     6      3      7
+&gt;  7     6      9      4
+&gt;  8     9      0      3
+&gt;  9     5      8      2
+&gt; 10     7      5      5
+&gt; # … with 40 more rows
+```
+
+---
+
+# Resumiendo los datos
+
+Una vez que tenemos 3 notas por cada uno de los 50 alumnos, **¿qué sucede si yo quiero calcular la nota media del curso?**
+
+
+```r
+notas %&gt;%
+  mutate(media_curso = mean(c(mates, lengua, dibujo)))
+```
+
+```
+&gt; # A tibble: 50 × 4
+&gt;    mates lengua dibujo media_curso
+&gt;    &lt;int&gt;  &lt;int&gt;  &lt;int&gt;       &lt;dbl&gt;
+&gt;  1     0      5     10        4.83
+&gt;  2     0      4      9        4.83
+&gt;  3     1      4      6        4.83
+&gt;  4     3      6     10        4.83
+&gt;  5     8      0      2        4.83
+&gt;  6     6      3      7        4.83
+&gt;  7     6      9      4        4.83
+&gt;  8     9      0      3        4.83
+&gt;  9     5      8      2        4.83
+&gt; 10     7      5      5        4.83
+&gt; # … with 40 more rows
+```
+
+Si aplicamos la media directamente, en cada fila el valor `media_curso` es **idéntico ya que nos ha hecho la media global** de las 50 filas y 3 columnas (la media de 150 datos). 
+
+---
+
+# Resumiendo los datos
+
+En realidad a nosotros nos gustaría **sacar una media por registro, por alumno**, que para cada alumno tengamos la media de las asignaturas. Para eso usaremos `rowwise()` antes del cálculo.
+
+
+```r
+# Aplicado por fila
+notas %&gt;% rowwise() %&gt;%
+  mutate(media_curso = mean(c(mates, lengua, dibujo)))
+```
+
+```
+&gt; # A tibble: 50 × 4
+&gt; # Rowwise: 
+&gt;    mates lengua dibujo media_curso
+&gt;    &lt;int&gt;  &lt;int&gt;  &lt;int&gt;       &lt;dbl&gt;
+&gt;  1     0      5     10        5   
+&gt;  2     0      4      9        4.33
+&gt;  3     1      4      6        3.67
+&gt;  4     3      6     10        6.33
+&gt;  5     8      0      2        3.33
+&gt;  6     6      3      7        5.33
+&gt;  7     6      9      4        6.33
+&gt;  8     9      0      3        4   
+&gt;  9     5      8      2        5   
+&gt; 10     7      5      5        5.67
+&gt; # … with 40 more rows
+```
+
+---
+
+# Medidas de centralización
+
+---
 
 # Ejercicios
 
