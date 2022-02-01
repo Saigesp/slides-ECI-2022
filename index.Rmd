@@ -1855,116 +1855,6 @@ data.frame(airquality, fechas)
 
 ]
 
----
-
-# Primer análisis: datos de arrestos de EE.UU.
-
-
-.panelset[
-.panel[.panel-name[Carga]
-
-El paquete llamado `{datasets}` contiene distintos conjuntos de datos reales
-
-```{r}
-# install.packages("datasets") # Descomentar si nunca se ha instalado
-library(datasets)
-```
-
-Tras instalarlo, si escribimos `datasets::` y pulsamos tabulador, se nos abre un **desplegable con distintos conjuntos**. Vamos a practicar lo aprendido con `datasets::USArrests`, que contiene **estadísticas de arrestos en 1973 (por cada 100 000 habitantes)**  en cada uno de los 50 estados de Estaods Unidos.
-
-```{r}
-datasets::USArrests
-```
-
-]
-
-.panel[.panel-name[Detalles de datos]
-
-**¿Qué tipo de objeto es?**
-
-```{r}
-class(datasets::USArrests)
-```
-
-**¿Cómo buscar información de los datos?**
-
-```{r eval = FALSE}
-? datasets::USArrests
-```
-
-**¿Qué variables tenemos?**
-
-```{r}
-names(datasets::USArrests)
-```
-
-]
-
-.panel[.panel-name[Dimensiones]
-
-**¿Qué dimensiones tiene nuestro objeto?**
-```{r}
-dim(datasets::USArrests)
-```
-
-**¿Cuántos estados tenemos con estadísticas?**
-```{r}
-nrow(datasets::USArrests)
-```
-
-**¿Cuántas variables se han medido en cada uno?**
-```{r}
-ncol(datasets::USArrests)
-```
-]
-
-
-.panel[.panel-name[Añadir columna]
-
-En el conjunto de datos tenemos las **filas nombradas** (pero sin ser una variable).
-
-```{r}
-row.names(datasets::USArrests)[1:5] # los 5 primeros
-```
-
-**¿Cómo podemos incluir dicho nombre como nueva columna?**
-
-```{r}
-tabla_nueva <- data.frame("estado" = row.names(datasets::USArrests),
-                          datasets::USArrests)
-row.names(tabla_nueva) <- NULL # ya no necesitamos los nombres de las filas
-head(tabla_nueva) # Cabecera de la tabla
-```
-
-]
-
-.panel[.panel-name[Selección «clásica»]
-
-**¿Cómo seleccionar solo las columnas `Murder` y `Assault` para el segundo y el décimo estado?**
-
-```{r}
-USArrests[c(2, 10), c("Murder", "Assault")]
-```
-
-]
-
-.panel[.panel-name[Subset]
-
-Tenemos además a nuestro disposición una **herramienta muy potente**: la función `subset()`. Dicha función nos va a permitir **seleccionar filas y columnas a la vez** con argumentos:
-
-* `x`: un `data.frame` de entrada.
-* `subset`: **condición lógica** para **seleccionar registros (filas)**.
-* `select`: un vector que contenga el **nombre de las columnas que queremos seleccionar**.
-
-Por ejemplo, vamos a seleccionar solo los **delitos de asesinato y agresión** de aquellos **estados** cuyo porcentaje de **población urbana sea superior al 80%**.
-
-```{r}
-subset(USArrests, subset = UrbanPop > 80, select = c("Murder", "Assault"))
-```
-
-
-]
-]
 
 ---
 
@@ -2038,31 +1928,855 @@ while(ciclos <= 3) { #<<
 
 ---
 
+class: inverse center middle
+
+# Bloque II: introducción al dataviz en R.
+
+&nbsp;
+
+### [Repaso](#repaso-1)
+
+### [Introducción a Tidyverse](#tidyverse)
+
+### [Funciones](#proyecto-funciones)
+
+### [Objetos tibble](#tibble)
+
+### [Tidy data: ordenando los datos](#tidy-data)
+
+### [Dataviz e introducción a ggplot2](#dataviz)
+
+### [Caso práctico](#caso-practico-2)
+
+### [🏅Evaluación](#evaluacion-2)
+
+---
+
+name: repaso-1
+class: center, middle
+
+# Repaso
+
+Previously on Breaking Bad...
+
+![](https://occ-0-1722-1723.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABeq9Fg04r6qPCr1dq7VKOglPPuluLbGBoyy60tgKnh9KsXWh5Y2VaY7jDWhrl4QQV1NhshZxCtLJrM_3V_WJc5J0p-eW.jpg?r=776)
+
+---
+
+# Repaso: tipos de datos
+
+
+.pull-left[<img src = "https://miro.medium.com/max/727/0*MgEQsDgZZ7fJcdhZ.png" alt = "course-ECI" align = "left" width = "450" style = "margin-top: -5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+Imagen de https://medium.com/@tiwarigaurav2512
+]
+
+.pull-right[
+
+* **Celdas**: numéricas, texto, lógicas, fecha, etc.
+
+```{r}
+numero <- 1
+texto <- "hola"
+var_logica <- texto == "adios"
+var_logica
+```
+
+]
+
+---
+
+# Repaso: tipos de datos
+
+
+.pull-left[<img src = "https://miro.medium.com/max/727/0*MgEQsDgZZ7fJcdhZ.png" alt = "course-ECI" align = "left" width = "450" style = "margin-top: -5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+Imagen de https://medium.com/@tiwarigaurav2512
+]
+
+.pull-right[
+* **Vectores**: variables, colección de celdas del mismo tipo.
+
+```{r}
+vector_num <- 1:3 # vector numérico
+
+glue("variable_{vector_num}") # vector de texto
+
+vector_num < 3 # vector lógico
+
+length(vector_num) # Longitud vector
+
+sum(vector_num) # Sumar vector numérico
+```
+
+]
+
+---
+
+# Repaso: tipos de datos
+
+
+<img src = "https://miro.medium.com/max/727/0*MgEQsDgZZ7fJcdhZ.png" alt = "course-ECI" align = "left" width = "450" style = "margin-top: -5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+* **Matrices**: colección de variables, del mismo tipo e igual longitud.
+
+```{r}
+mat <- cbind("a" = 1:3, "b" = c(-1, 5, 6)) # construir matriz
+mat
+
+apply(mat, MARGIN = 2, FUN = mean) # media por columnas
+```
+
+---
+
+# Repaso: tipos de datos
+
+
+* **data.frame**: colección de variables, de igual longitud pero cualquier tipo.
+
+```{r}
+df <- data.frame("nombre" = c("javi", "mar", "carlos"),
+                 "hermanos" = 1:3, "soltero" = c(TRUE, NA, FALSE),
+                 "fecha_nac" = as.Date(c("1989-01-01", "1989-02-02",
+                                         "1989-03-03")))
+df
+df$nombre
+```
+
+---
+
+class: center, middle
+
+# **¿DUDAS?**
+
+![](https://elsitioderuife.files.wordpress.com/2012/10/lenny-simpsons.jpg)
+
+
+---
+
+name: tidyverse
+class: center, middle
+
+# Introducción a tidyverse
+
+## **Manipulando (para bien) los datos**
+
+&nbsp;
+
+El conjunto de paquetes de `{tidyverse}` supuso un antes y un después en el preprocesamiento de los datos en `R`
+
+---
+
+# Entorno tidyverse
+
+Aunque conocemos ya un formato «excelizado» de almacenar los datos, muchas veces los **datos no los tenemos en el formato deseado**, o directamente queremos realizar algunas **transformaciones en los mismos**. Para trabajar con los datos vamos a cargar `{tidyverse}`, un **entorno de paquetes para el manejo de datos**.
+
+```{r eval = FALSE}
+install.packages("tidyverse") # SOLO la primera vez
+library(tidyverse)
+```
+
+```{r include = FALSE}
+library(tidyverse)
+```
+
+```{r flujo-tidyverse, echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Imagen extraída de https://sporella.github.io/datos_espaciales_presentacion/#30"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/flujo_tidyverse.png")
+``` 
+
+---
+
+# Entorno tidyverse
+
+El **entorno tidyverse** es una de las **herramientas más importantes en el manejo de datos en R**, una **colección de paquetes** pensada para el manejo, la exploración, el análisis y la visualización de datos, **compartiendo una misma filosofía y gramática**.
+
+```{r flujo-tidyverse-2, echo = FALSE,  out.width = "90%", fig.align = "center", fig.cap = "Imagen extraída de https://www.storybench.org/getting-started-with-tidyverse-in-r/"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/flujo_tidyverse_1.png")
+``` 
+
+---
+
+# Paquetes de tidyverse
+
+* `{tidyr}`: para **adecuar los datos a tidy data**
+
+* `{tibble}`: **mejorando los data.frame** para un manejo más eficiente.
+
+* Paquetes `{readr}` para una **carga rápida y eficaz de datos rectangulares** (formatos .csv, .tsv, etc). Paquete `{readxl}` para **importar archivos .xls y .xlsx**. Paquete `{haven}` para importar archivos desde **SPSS, Stata y SAS**. Paquete `{httr}` para **importar desde web**. Paquete `{rvest}` para **web scraping**.
+
+* `{dplyr}`: una **gramática de manipulación de datos** para facilitar su procesamiento.
+
+* `{ggplot2}`: una **gramática para la visualización** de datos.
+
+* Paquete `{stringr}` para un manejo sencillo de **cadenas de texto**. Paquete `{forcast}` para un manejo de **variables cualitativas** (en R conocidas como factores).
+
+* `{purrr}`: manejo de **listas**.
+
+* `{lubridate}` para el **manejo de fechas**.
+
+&nbsp;
+
+Puedes ver su **documentación completa** en <https://www.tidyverse.org/>.
+
+---
+
+# Intro a tidyverse: conjunto starwars
+
+Para nuestra **introducción de tidyverse** vamos a trastear con el conjunto de datos `starwars` del paquete `{dplyr}` (incluido en `{tidyverse}`).
+
+
+.pull-left[
+
+```{r luke-starwars, echo = FALSE,  out.width = "90%", fig.align = "left", fig.cap = "Imagen extraída de https://rstudio-education.github.io/"}
+knitr::include_graphics("https://rstudio-education.github.io/bootcamper/slides/02-visualize-data/img/luke-skywalker.png")
+``` 
+]
+
+.pull-right[
+
+```{r}
+starwars
+```
+
+]
+
+---
+
+# Intro a tidyverse: conjunto starwars
+
+
+```{r}
+glimpse(starwars) #<<
+```
+
+Dicho conjunto de datos, extraído de la [Star Wars API](https://swapi.dev/), recopila **14 variables para 87 personajes de Star Wars**. 
+
+```{r}
+dim(starwars)
+```
+
+---
+
+# Intro a tidyverse: conjunto starwars
+
+```{r}
+print(starwars, n = 3, width = Inf)
+```
+
+* `int`: números enteros (`height`).
+* `dbl`: números reales (`mass`, `birth_year`).
+* `chr`: cadenas de texto (`name`, `hair_color`, `skin_color`, `eye_color`, `sex`, `gender`, `homeworld`, `species`).
+* `list`: listas (`films`, `vehicles`, `starships`).
+
+---
+
+# Intro a tidyverse: conjunto starwars
+
+Para los **datos de tipo lista** tenemos guardados las películas de cada personaje, los vehículos de cada uno y las naves de cada personaje. Por ejemplo, con `starwars$films` podemos extraer las películas en las que aparecen los tres primeros personajes, basta con ejecutar (del conjunto starwars –> accedemos a la variable films con `$`)
+
+```{r}
+starwars$films[1:3]
+```
+
+---
+
+# dplyr: manipulando datos
+
+```{r dplyr, echo = FALSE,  out.width = "63%", fig.align = "center", fig.cap = "Cheet sheet de las opciones del paquete dplyr para la manipulación de datos extraída de https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/dplyr.png")
+``` 
+
+---
+
+# Pipeline %>%
+
+En este entorno de trabajo tendremos un **operador clave**: el **operador pipeline (%>%)**, el cual lo debemos interpretar como una **flecha que une nodos**, y nos servirá para **concatenar operaciones sobre un conjunto de datos de forma legible**. Por ejemplo, si tuviésemos tres funciones `first()`, `second()` y `third()`, la opción más inmediata sería anidar las tres funciones.
+
+```{r eval = FALSE}
+third(second(first(x)))
+```
+
+Con el **pipeline %>%** podremos escribir (y leer) la concetanción de izquierda a derecha
+
+```{r eval = FALSE}
+first(x) %>% second(x) %>% third(x)
+```
+
+&nbsp;
+
+Dicho operador depende del paquete `{magrittr}`: para evitar esta dependencia (cuantos menos paquetes tengamos que cargar, mejor), desde la **versión 4.1.0 de R** disponemos de un operador pipeline nativo de R, el **operador |>** (disponible además fuera del entorno tidyverse).
+
+---
+
+# Operaciones con filas: seleccionar
+
+Una de las **operaciones más comunes** es **filtrar registros**: de todos los individuos de nuestro conjunto de datos, seleccionaremos parte de ellos. Para hacerlo tenemos principalmente **tres opciones**:
+
+* **Seleccionar en base a algún filtro lógico**: con `filter()`, se seleccionarán solo individuos que cumplan ciertas condiciones (por ejemplo, solo los mayores de tal edad). Dentro de `filter()` se incluirán las condiciones lógicas a cumplir.
+
+
+Por ejemplo, vamos a **filtrar solo aquellos personajes con ojos marrones**, es decir, con la condición `eye_color == "brown"`.
+
+```{r}
+starwars %>% filter(eye_color == "brown") #<<
+```
+
+---
+
+# Operaciones con filas: filter()
+
+Con `%>% filter()`, en **tan solo una línea**, hemos hecho más de lo que parece: `R` ha «recorrido» (algo similar a un bucle) cada una de las filas y ha ido comprobando que filas cumplen la condición y cuales no.
+
+El operador de comparación `==` puede ser **cambiado por `!=`** (seleccionamos los que **NO TIENEN ojos marrones**).
+
+```{r}
+starwars %>% filter(eye_color != "brown")
+```
+
+
+---
+
+# Operaciones con filas: filter()
+
+También se pueden **seleccionar los personajes** que tienen los **ojos de una serie de colores** permitidos: con `%in%` le indicaremos que seleccione solo aquellas filas cuyo valor de la variable `eye_color` esté **dentro de un conjunto de candidatos**.
+
+```{r}
+starwars %>% # con ojos marrones, azules o rojos
+  filter(eye_color %in% c("brown", "blue", "red"))
+```
+  
+---
+
+# Operaciones con filas: filter()
+
+Si es una variable numérica también podemos **seleccionar por rango** con `between()`, por ejemplo, los personajes cuya altura está **entre** 120 y 160 cm.
+
+```{r}
+# Con between filtramos por rango
+starwars %>% filter(between(height, 120, 160))
+```
+
+---
+
+# Operaciones con filas: filter()
+
+Las condiciones se pueden **concatenar** todo lo que queramos, pudiendo en pocas líneas realizar un filtro complejo, por ejemplo, seleccionando los **personajes con ojos marrones Y ADEMÁS NO humanos**.
+
+```{r}
+starwars %>% filter(eye_color == "brown" & species != "Human")
+```
+
+Otro ejemplo: ojos azules o rojos, que no sean humanos, y con menos de 50 años.
+
+```{r}
+starwars %>%  filter(eye_color %in% c("blue", "red") & species != "Human" & birth_year < 50)
+```
+
+---
+
+# Operaciones con filas: seleccionar
+
+Una de las **operaciones más comunes** es **filtrar registros**: de todos los individuos de nuestro conjunto de datos, seleccionaremos parte de ellos. Para hacerlo tenemos principalmente **tres opciones**:
+
+
+* **Seleccionar por su índice de fila**: con `[]` o `slice()`, se seleccionarán los individuos que ocupen cierta posición en la tabla (la fila que ocupa tal personaje).
+
+
+```{r}
+# slice: extramos filas por índice de fila.
+starwars %>% slice(1) #<<
+starwars[1, ]
+```
+
+---
+
+# Operaciones con filas: slice()
+
+
+Podemos **extraer varias a la vez**, por ejemplo, filtrando las filas quinta, séptima y novena.
+
+```{r}
+# slice: extramos filas por índice de fila.
+starwars %>% slice(c(5, 7, 9))
+```
+
+También podemos **usar una secuencia de índices a extraer**, por ejemplo solo las filas pares.
+
+```{r}
+starwars %>% slice(seq(2, 8, by = 2)) # filas pares hasta la octava
+```
+
+---
+
+# Operaciones con filas: slice()
+
+Disponemos además de opciones por defecto para directamente **extraer las m primeras o últimas filas** con `slice_head()` y `slice_tail()`.
+
+```{r}
+# Podemos extraer directamente las primeras o últimas filas
+starwars %>% slice_head(n = 3) # 3 primeras filas 
+```
+
+```{r}
+starwars %>% slice_tail(n = 2) # 2 últimas filas 
+```
+
+---
+
+# Operaciones con filas: seleccionar
+
+Una de las **operaciones más comunes** es **filtrar registros**: de todos los individuos de nuestro conjunto de datos, seleccionaremos parte de ellos. Para hacerlo tenemos principalmente **tres opciones**:
+
+* **Seleccionar aleatoriamente**: con `slice()`, se seleccionarán los individuos aleatoriamente.
+ 
+```{r}
+# También podemos hacer una extracción al azar de filas
+starwars %>% slice_sample(n = 3) # 3 al azar
+starwars %>% slice_sample(n = 3) # 3 al azar nuevas
+```
+
+---
+
+# Operaciones con filas: slice_min()
+
+También tenemos `slice_min()` y `slice_max()` que nos permite **extraer filas en función del mínimo y máximo de una variable** (si hay empate, mostrará todas las filas aunque supere el número indicado, salvo que `with_ties = FALSE`). Por ejemplo, vamos a filtrar con `slice_min(height, n = 2)` los 2 personasjes más bajitos, y con `slice_max(mass, n = 3)` los 2 personajes más pesados.
+
+```{r}
+# Podemos extraer filas en función del mín/máx de una variable
+starwars %>% slice_min(height, n = 2) # los 2 más bajitos
+starwars %>% slice_max(mass, n = 2) # los 3 más pesados
+```
+
+---
+
+# Operaciones con filas: reordenar
+
+Otra operación habitual en las filas es **ordenarlas en función del valor de alguna de las variables** con `arrange()`,  pasándole como argumento el nombre de la variable que usaremos para la ordenación. Por ejemplo, vamos a ordenar nuestra **tabla de personajes por altura, de bajitos a altos**.
+
+```{r}
+# Con arrange ordenamos en base al orden de la variable que introduzcamos
+starwars %>% arrange(height) #<<
+```
+
+---
+
+# Operaciones con filas: reordenar
+
+Por defecto la ordenación es de menor a mayor pero podemos invertirlo usando `desc()`.
+
+```{r}
+# Por defecto lo hace ascendente pero podemos cambiarlo
+starwars %>% arrange(desc(height))
+```
+
+---
+
+# Operaciones con filas: reordenar
+
+La ordenación también puede **realizarse en base al valor de dos o más variables**: ordenará las filas en base a la primera, en caso de empate usará la segunda, en caso de empate la tercera, y así sucesivamente. Vamos a ordenar los personajes por altura y, luego, por peso.
+
+```{r}
+# Un dato NA va siempre al final
+starwars %>% arrange(height, desc(mass))
+```
+
+---
+
+# Ejercicio
+
+Como estarás imaginando podemos combinar varias acciones en pocas líneas, filtrando a la vez que ordenamos el filtro resultante. 
+
+.panelset[
+.panel[.panel-name[Ejercicio]
+
+
+* 📝 Selecciona solo los personajes que sean humanos, hombres y de ojos marrones, para después ordernarlos en altura descendente y peso ascendente.
+
+]
+
+.panel[.panel-name[Solución]
+
+```{r}
+# Podemos combinar varias acciones en pocas líneas
+starwars %>%
+  filter(eye_color == "brown",
+         species == "Human", sex == "male") %>%
+  arrange(height, desc(mass))
+```
+
+]
+]
+
+---
+
+# Operaciones con filas: eliminar
+
+La misma lógica que hemos usado para seleccionar filas podemos usarla para **eliminar filas** con `slice()`, simplemente **negando** la condición de filtrado. Por ejemplo, vamos a eliminar las 5 primeras filas.
+
+```{r}
+# Eliminamos por índices
+starwars %>% slice(-(1:5)) # eliminamos las 5 primeras filas
+```
+
+---
+
+# Datos ausentes (NA)
+
+Podemos también **eliminar los registros ausentes** en alguna de sus variables con `drop_na()`.
+
+```{r}
+starwars %>% drop_na()
+```
+
+Podemos indicarle que nos elimine con datos ausentes solo en algunos campos en concreto.
+
+```{r}
+starwars %>% drop_na(mass, height, sex, gender, birth_year)
+```
+
+---
+
+# Operaciones con filas: duplicados
+
+Otra opción es **eliminar filas duplicadas** con `distinct()`, pasándole como argumentos el nombre de las variables que usaremos para quitar duplicados, por ejemplo, personajes con igual par de color de pelo y ojos.
+
+Por defecto, solo extrae las columnas en base a las cuales hemos eliminado duplicados. Si queremos que nos mantenga todas deberemos explicitarlo con `.keep_all = TRUE`.
+
+```{r}
+# Eliminamos registros con igual par (color_pelo, color_ojos)
+starwars %>%
+  distinct(hair_color, eye_color)
+```
+  
+---
+
+# Operaciones con filas: añadir
+
+No suele ser habitual pero si quisiéramos añadir un nuevo registro manualmente, podremos hacerlo con `bind_rows()`, asegurándonos que las **variables en el nuevo registro son las mismas que en el original**. Por ejemplo, vamos a añadir al fichero original los 3 primeros registros (al final).
+
+```{r}
+starwars_nuevo <- bind_rows(starwars, starwars[1:3, ]) #<<
+dim(starwars)
+dim(starwars_nuevo)
+```
+
+---
+
+# Operaciones con columnas: seleccionar
+
+La opción más sencilla para **seleccionar variables/columnas** es usar `select()`, pasándole como argumentos los nombres de columnas (¡SIN COMILLAS!) que queremos seleccionar, por ejemplo, color de pelo.
+
+```{r}
+# seleccionamos solo 1 columna: color de pelo
+starwars %>% select(hair_color) #<<
+```
+
+---
+
+# Operaciones con columnas: seleccionar
+
+Podemos **seleccionar varias a la vez concatenando sus nombres**, por ejemplo, seleccionando las variables de color de pelo, piel y ojos.
+
+```{r}
+# seleccionamos solo 3 columnas: pelo, piel y ojos
+starwars %>% select(c(hair_color, skin_color, eye_color))
+```
+
+---
+
+# Operaciones con columnas: seleccionar
+
+La misma lógica podemos aplicar para **deseleccionar**, excluyendo columnas
+
+```{r}
+# sin 3 columnas: pelo, piel y ojos
+starwars %>% select(-c(hair_color, skin_color, eye_color))
+```
+
+---
+
+# Operaciones con columnas: seleccionar
+
+Las columnas también las podemos **seleccionar a través de expresiones regulares**, por ejemplo, seleccionando solo aquellas columnas que compartan un **sufijo común** en el nombre, con `ends_with()` dentro de órdenes como `select()`
+
+```{r}
+# Podemos seleccionar columnas por sufijo y prefijo
+starwars %>% select(ends_with("color")) # acaban en "color"
+```
+
+
+---
+
+# Operaciones con columnas: seleccionar
+
+De una manera similar podemos seleccionar columnas cuyo **nombre empiecen o contengan alguna cadena de texto concreta**, con `starts_with()` o `contains()`.
+
+```{r}
+starwars %>% select(starts_with("h")) # empiezan por h
+```
+
+---
+
+# Operaciones con columnas: seleccionar
+
+Incluso nos permite **seleccionar aquellas columnas que son del mismo tipo** (imagina que necesitamos solo las columnas numéricas para calcular ciertas estadísticas) con `where()`.
+
+```{r}
+# Seleccionamos solo la columnas numéricas
+starwars %>% select(where(is.numeric))
+```
+
+---
+
+# Operaciones con columnas: renombrar
+
+A veces también podemos querer **modificar la «metainformación» renombrando el orden** de las columnas. Para ello debremos usar la función `rename()` poniendo **primero el nombre nuevo y luego el antiguo**. Como ejemplo, vamos a traducir el nombre de las columnas `name, height, mass` a castellano.
+
+```{r}
+# rename: renombrar columnas, primero el nuevo y luego el antiguo
+starwars %>% rename(nombre = name, altura = height, peso = mass)
+```
+
+---
+
+# Operaciones con columnas: renombrar
+
+Muchas de las funciones pueden ir acompañadas de `at` o `if`, como `rename_if`, que nos permite hacer operaciones más personalizadas. Por ejemplo, vamos a renombrar las columnas, pasándolas a mayúscula con toupper, pero solo aquellas que sean de tipo numérico.
+
+```{r}
+starwars %>% rename_if(is.numeric, toupper)
+```
+
+---
+
+# Operaciones con columnas: reordenar
+
+De la misma manera podemos **reordenar las columnas**, indicando el nombre de columnas que queremos mover, y con `.after` o `.before` para indicar antes o después de que columnas queremos moverlas.
+
+```{r}
+starwars %>% # altura y masa detrás de color de piel
+  relocate(height, mass, .after = skin_color) 
+```
+
+---
+
+# Ejercicio
+
+Como estarás imaginando podemos combinar varias acciones en pocas líneas, filtrando a la vez que ordenamos el filtro resultante. 
+
+.panelset[
+.panel[.panel-name[Ejercicio]
+
+
+* 📝 Filtra el conjunto de personajes y quédate solo con aquellos que en la variable `height` no tengan un dato ausente.
+
+* 📝 Después selecciona solo las variables `name`, `height` y todas aquellas variables que CONTENGAN la palabra `color` en su nombre.
+
+* 📝 Del conjunto resultante comprueba que modalidades (y cuántos registros hay en cada una) de la variable `hair_color`
+
+* 📝 Después selecciona solo aquellos registros con el pelo (`hair_color`) negro
+
+* 📝 Del conjunto resultante, ordena los personajes de menor a mayor altura (`height`).
+
+* 📝 Por último renombra las columnas a castellano.
+
+]
+
+.panel[.panel-name[Paso 1]
+
+**IMPORTANTE**: todo lo que hagas en la tabla original, si el resultado final no se lo asignas `<-` a otra variable, lo verás en consola pero no se guardará en ningún sitio. Lo que no guardes, no existe.
+
+* 📝 Filtra el conjunto de personajes y quédate solo con aquellos que en la variable `height` no tengan un dato ausente.
+
+```{r}
+starwars_NA <- starwars %>% drop_na(height)
+dim(starwars_NA)
+```
+
+]
+
+.panel[.panel-name[Paso 2]
+
+* 📝 Después selecciona solo las variables `name`, `height` y todas aquellas variables que CONTENGAN la palabra `color` en su nombre.
+
+```{r}
+starwars %>% drop_na(height) %>%
+  select(c(name, height, contains("color")))
+```
+
+]
+
+.panel[.panel-name[Paso 3]
+
+* 📝 Del conjunto resultante comprueba que modalidades (y cuántos registros hay en cada una) de la variable `hair_color`
+
+
+```{r}
+starwars %>% drop_na(height) %>%
+  select(c(name, height, contains("color"))) %>%
+  count(hair_color)
+```
+
+]
+
+.panel[.panel-name[Paso 4]
+
+* 📝 Selecciona solo aquellos registros con el pelo (`hair_color`) negro
+
+```{r}
+starwars %>% drop_na(height) %>%
+  select(c(name, height, contains("color"))) %>%
+  filter(hair_color == "black")
+```
+
+]
+
+.panel[.panel-name[Paso 5]
+
+* 📝 Del conjunto resultante, ordena los personajes de menor a mayor altura (`height`).
+
+```{r}
+starwars %>% drop_na(height) %>%
+  select(c(name, height, contains("color"))) %>%
+  filter(hair_color == "black") %>%
+  arrange(height)
+```
+
+]
+
+.panel[.panel-name[Paso 6]
+
+* 📝 Por último renombra las columnas a castellano.
+
+```{r}
+starwars %>% drop_na(height) %>%
+  select(c(name, height, contains("color"))) %>%
+  filter(hair_color == "black") %>%
+  arrange(height) %>%
+  rename(nombre = name,
+         altura = height,
+         color_pelo = hair_color,
+         piel = skin_color,
+         color_ojos = eye_color)
+```
+
+]
+
+]
+
+---
+
+# Visualizar el flujo de datos
+
+Existe una **reciente herramienta** que nos va a permitir **entender mejor y visualizar el flujo de trabajo** en `{tidyverse}`: <https://tidydatatutor.com/>. 
+Basta con poner el código que queremos ejecutar, y nos **muestra visualmente las operaciones en los datos**.
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tidytutor3.jpg" alt = "course-ECI" align = "right" width = "450" style = "margin-top: 1vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tidytutor4.jpg" alt = "course-ECI" align = "right" width = "450" style = "margin-top: 1vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tidytutor5.jpg" alt = "course-ECI" align = "right" width = "400" style = "margin-top: 1vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+---
+
+# Crear nuevas variables (mutate)
+
+A veces no queremos modificar variables ya existentes sino **crear nuevas variables** en base a las ya existentes. Para ello tenemos `mutate()`. Para empezar, vamos a crear una **nueva variable** `height_m` con la altura en centímetros.
+
+```{r}
+# altura en metros
+starwars %>% mutate(height_m = height / 100) %>%
+  relocate(height_m, .after = height)
+```
+
+---
+
+# Crear nuevas variables (mutate)
+
+Otra opción es **quedarnos solo con las columnas nuevas** creadas con `transmute()`
+
+```{r}
+starwars %>% transmute(height_m = height / 100)
+```
+
+---
+
+# Crear nuevas variables (mutate)
+
+También se pueden aplicar **funciones más complejas** como `map()` del paquete `{purrr}` para el manejo de **listas** (no se pueden vectorizar, esta función nos permite aplicar operaciones a listas elemento a elemento). Imagina que queremos **calcular el número de películas** en las que sale cada personaje.
+
+&nbsp;
+
+Las películas de cada personaje están en una lista: para saber la **cantidad de películas** en las que ha participado el primer personaje basta con usar el comando `length()` (nos dará el número de elementos de cada lista).
+
+```{r}
+length(starwars$films[1])
+length(starwars$films[2])
+```
+
+---
+
+# Crear nuevas variables (mutate)
+
+**¿Cómo aplicar dicha a función a cada personaje?** Con `map_int()` (para que nos devuelva un vector de `int`) y la función a aplicar en cada elemento.
+
+```{r}
+# Mapeamos la lista con length pero devolvemos un vector de números enteros
+starwars$films %>% map_int(length)
+```
+
+
+&nbsp;
+
+Tenemos también otras funciones como `map_chr()`, `map_dfr()`, etc, que nos definen como será la salida (con `map` a secas lo devuelve en una lista).
+
+```{r}
+starwars$films %>% map_chr(length)
+```
+
+---
+
+# Crear nuevas variables (mutate)
+
+Una vez que tenemos una forma de calcular la variable que queremos, lo añadimos con `mutate()`
+
+```{r}
+starwars %>%
+  mutate("n_peliculas" = map_int(films, length)) %>%
+  select(c(name, homeworld, n_peliculas))
+```
+
+  
+---
+
+# Recategorizar variables
+
+Una operación también muy habitual es querer **recategorizar nuestras variables**. Supongamos por ejemplo que queremos crear una **categoría en función de su altura**. Para ello podemos podemos usar  `case_when`, en el que le podemos indicar que valores asignamos en función de condiciones. Vamos a crear una variable nueva de altura
+
+* Si `height > 180` –> serán `"altos"`.
+* Si `height <= 180` y `height > 120` –> serán `"bajos"`
+* Si `height <= 120` y `height > 0` –> serán `"enanos"`
+* Si no se cumple lo anterior –> serán `"ausentes"`
+
+```{r}
+starwars %>%
+  transmute(altura = case_when(height > 180 ~ "altos",
+                               height > 120 ~ "bajos",
+                               height > 0 ~ "enanos",
+                               TRUE ~ "ausentes"))
+```
+  
+---
 name: proyecto-funciones
 class: center, middle
 
-# Primer proyecto. Uso de funciones
+# Uso de funciones
 
 ## **encapsulando y ordenando nuestro código**
 
 &nbsp;
 
-Un proyecto será una «carpeta» dentro de `RStudio`. Las funciones nos servirán para encapsular nuestro código.
-
----
-
-# Proyecto
-
-Cuando se empieza a programar para un trabajo concreto de `R` es recomendable crearnos lo que se conoce como un **proyecto de trabajo**: en lugar de ir abriendo ventanas sueltas para programar, podemos agruparlos en proyectos, de forma que podamos acceder a ellos de forma **ordenada**
-
-<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/crear_proyecto1.jpg" alt = "course-ECI" align = "left" width = "220" style = "margin-top: 5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
-
-<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/crear_proyecto2.jpg" alt = "course-ECI" align = "middle" width = "220" style = "margin-top: 5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
-
-<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/crear_proyecto3.jpg" alt = "course-ECI" align = "right" width = "250" style = "margin-top: 5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
-
-<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/crear_proyecto4.jpg" alt = "course-ECI" align = "right" width = "250" style = "margin-top: 5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
-
+Las funciones nos servirán para encapsular nuestro código.
 
 ---
 
@@ -2164,7 +2878,7 @@ salida["area"]
 
 ---
 
-# Ejercicios
+# Ejercicios de funciones
 
 
 .panelset[
@@ -2269,6 +2983,128 @@ igualdad_nombres("Javi", "Lucía")
 ]
 
 ]
+
+---
+
+# Ejercicios tidyverse
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: del conjunto `starwars` encuentra todos los personajes cuyo peso esté entre 60kg y 90kg y que además tengan los ojos que no sean azules.
+ 
+* 📝 **Ejercicio 2**: añadido al anterior, encuentra todos los personajes que además tengan menos de 100 años.
+ 
+* 📝 **Ejercicio 3**: selecciona además solo  `name, mass, height, eye_color, birth_year`.
+ 
+* 📝 **Ejercicio 4**: añadido al filtro anterior, ordena los registros por altura (en orden ascendente) y peso (en orden descendente).
+ 
+* 📝 **Ejercicio 5**: selecciona solo las columnas que contengan variables numéricas, coloca los años de nacimiento como primera columna y cambia los nombres a castellano.
+ 
+* 📝 **Ejercicio 6**: calcula una nueva columna que indique el IMC de cada personaje (define antes una función que lo calcule).
+
+* 📝 **Ejercicio 7**: selecciona los 3 personajes que en más películas han salido y los 3 que menos.
+
+]
+
+.panel[.panel-name[Sol. 1]
+
+```{r}
+# todas columnas
+filtro <-
+  starwars %>% filter(between(mass, 60, 90) & eye_color != "blue")
+print(filtro, width = Inf)
+```
+
+]
+
+.panel[.panel-name[Sol. 2]
+
+```{r}
+filtro <-
+  starwars %>%
+  filter(between(mass, 60, 90) & eye_color != "blue" &
+           birth_year < 100)
+print(filtro, width = Inf)
+```
+
+]
+
+.panel[.panel-name[Sol. 3]
+
+```{r}
+# Solo name, mass, height, eye_color, birth_year
+filtro %>% select(c(name, mass, height, eye_color, birth_year))
+```
+
+]
+
+
+.panel[.panel-name[Sol. 4]
+
+```{r}
+filtro %>% select(c(name, mass, height, eye_color, birth_year)) %>%
+  arrange(height, mass)
+```
+
+]
+
+.panel[.panel-name[Sol. 5]
+
+```{r}
+starwars %>%
+  select(where(is.numeric)) %>%
+  relocate(height, mass, .after = birth_year) %>%
+  rename(edad = birth_year, altura = height, peso = mass)
+```
+
+]
+
+.panel[.panel-name[Sol. 6]
+
+Primero definimos la función `IMC_fun` (calcula el IMC dada estatura y peso).
+
+```{r}
+IMC_fun <- function(m, h) {
+  
+  return(m / h^2)
+}
+IMC_fun(90, 1.6)
+```
+
+La función definida como `IMC_fun()` podemos ahora aplicarla dentro del `mutate()`.
+
+```{r}
+starwars %>%
+  mutate(height_m = height / 100,
+         IMC = IMC_fun(mass, height_m)) %>%
+  # Las movemos al inicio (por defecto las mete al final)
+  relocate(height_m, IMC, .after = name)
+```
+
+]
+
+.panel[.panel-name[Sol. 7]
+
+ 
+```{r}
+starwars  %>%
+  mutate(n_films = map_int(films, length)) %>%
+  slice_max(n_films, n = 3)
+```
+
+```{r}
+starwars  %>%
+  mutate(n_films = map_int(films, length)) %>%
+  slice_min(n_films, n = 3)
+```
+
+]
+
+]
+
 ---
 
 name: tibble
@@ -2286,35 +3122,9 @@ Un **dato de tipo tibble** será un `data.frame` mejorado: más ágil, más ráp
 
 ---
 
-# Resumen de datos
-
-.pull-left[<img src = "https://miro.medium.com/max/727/0*MgEQsDgZZ7fJcdhZ.png" alt = "course-ECI" align = "left" width = "450" style = "margin-top: -5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
-
-Imagen de https://medium.com/@tiwarigaurav2512
-]
-
-.pull-right[
-
-* **Celdas**: numéricas, texto, lógicas, fecha, etc.
-* **Vectores**: variables, colección de celdas del mismo tipo.
-* **Matrices**: colección de variables, del mismo tipo e igual longitud.
-* **data.frame**: colección de variables, de igual longitud pero cualquier tipo.
-
-
-* `if-else`, bucles, funciones
-]
-
-Un dato que no hemos comentado son las **listas**: una colección de variables de cualquier tipo y longitud.
-
-```{r}
-list("a" = 1:2, "b" = data.frame("d1" = 1:2, "d2" = 3:4))
-```
-
----
-
 # Tibble
 
-Los **datos en formato tibble** (del paquete `{tibble}`) son un tipo de `data.frame` mejorado, para una **gestión más ágil, eficiente y coherente**. Las tablas en formato `tibble` tienen **4 ventajas principales**:
+Los **datos en formato tibble** (del paquete `{tibble}` incluido ya en `{tidyverse}`) son un tipo de `data.frame` mejorado, para una **gestión más ágil, eficiente y coherente**. Las tablas en formato `tibble` tienen **4 ventajas principales**:
 
 * Imprime **mayor información de las variables**, y solo **imprime por defecto las primeras filas**.
 
@@ -2375,82 +3185,3649 @@ Si ya tienes un `data.frame` es altamente recomendable **convertirlo a tibble** 
 
 ---
 
+name: tidy-data
+class: center, middle
+
+# Tidy data
+
+## **Ordenando los datos**
+
+&nbsp;
+
+> Tidy datasets are all alike, but every messy dataset is messy in its own way (Hadley Wickham, Chief Scientist en RStudio).
+
+---
+
+# Tidy data: filosofía de trabajo
+
+Hasta ahora solo le hemos dado importancia al «qué» pero no al **«cómo» manejamos los datos**.
+
+```{r flujo-tidy-data2, echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Flujo deseable de datos según Hadley Wickham, extraída de https://r4ds.had.co.nz/wrangle-intro.html"}
+knitr::include_graphics("./img/flujo_tidy_data.jpg")
+``` 
+
+La **organización de nuestros datos** es fundamental para que su preparación y explotación sea lo más eficiente posible.
+
+&nbsp;
+
+El concepto **tidy data** fue introducido por **Hadley Wickham** como el primer paso a realizar del entorno de paquetes que posteriormente se fueron desarrollando bajo el nombre de `{tidyverse}`, desarrollando un flujo de trabajo desde la carga hasta la visualización
+
+
+---
+
+# Tidy data
+
+Los **conjuntos tidy o datos ordenados** tienen tres objetivos principales:
+
+1. **Estandarización** en su estructura.
+2. **Sencillez** en su manipulación.
+3. Listos para ser **modelizados y visualizados**.
+
+Para ello, los **datos ordenados o tidy data** deben cumplir:
+
+* Cada **variable en una columna**.
+* Cada **observación/registro/individuo en una fila** diferente.
+* Cada **celda con un único valor**.
+* Cada **conjunto** o unidad observacional conforma una **tabla**.
+
+```{r tidy-data, echo = FALSE,  out.width = "67%", fig.align = "center", fig.cap = "Infografía con datos ordenados (tidy data) extraída de https://r4ds.had.co.nz/tidy-data.html"}
+knitr::include_graphics("./img/tidy_data.png")
+``` 
+
+Lo contrario lo llamaremos **datos desordenados** o _messy data_. 
+
+---
+
+
+# Messy data: valores en el nombre
+
+Veamos un primer ejemplo con el conjunto `table4a` del paquete `{tidyr}`.
+
+```{r}
+library(tidyr)
+table4a
+```
+
+En este ejemplo de 3 filas y 3 columnas, tenemos dos columnas `1999` y `2000` que **no están representando cada una a una sola variable**: ambas son la misma variable, solo que medida en años distintos, **cada fila está representando dos observaciones (1999, 2000) en lugar de un solo registro**.
+
+Lo que haremos será **incluir una nueva columna llamada `year`** que nos marque el año y otra `values` que nos diga el valor de la variable de interés en cada uno de esos años.
+
+---
+
+# pivot_longer: pivotando tablas
+
+
+Con la función `pivot_longer` del mencionado paquete le indicaremos lo siguiente:
+
+* `cols`: el **nombre de las columnas a pivotar** (con comillas porque son números, no texto como nombre).
+* `names_to`: el nombre de la columna a la que vamos a mandar los valores que figuran ahora en los nombres de las columnas.
+* `values_to`: el nombre de la columna a la que vamos a mandar los valores.
+
+```{r}
+table4a %>% pivot_longer(cols = c("1999", "2000"), names_to = "year",
+                         values_to = "values") #<<
+```
+
+Ahora tenemos **un registro por fila, una variable por columna y cada celda representa un único valor**. Lo que hacemos con `pivot_longer()` es **«ampliar» la tabla haciéndola más larga (más filas)** pero con menos columnas.
+
+---
+
+# Segundo ejemplo: relig_income
+
+```{r}
+relig_income[1:3, ]
+```
+
+Salvo la primera, el **resto de columnas tienen como nombre los valores de una variable en sí misma (ingresos)**. Ahora en lugar de indicarle el nombre de todas vamos a indicarle **la columna que NO queremos pivotar**.
+
+```{r}
+# No necesitamos comillas en el nombre salvo que tengan caracteres que no sean letras
+relig_income %>% pivot_longer(-religion, names_to = "ingresos", values_to = "frec") #<<
+```
+
+---
+
+# Messy data: un registro en varias filas
+
+Otro caso puede ser tener un mismo registro (datos de un mismo individuo) pero dividido en varias filas.
+
+```{r}
+table2[1:3, ]
+```
+
+Los registros con el mismo año deberían ser el mismo, es la misma información, pero están divididos en dos filas. Lo que haremos será lo opuesto a antes: con `pivot_wider()` **«ampliaremos» la tabla a lo ancho**
+
+```{r}
+table2 %>% pivot_wider(names_from = type, values_from = count) #<<
+```
+
+---
+
+# Messy data: múltiples valores en celda
+
+```{r}
+table3
+```
+
+En la columna `rate` hay **guardados dos valores, separados por /**, lo que hace que en **una celda no tenga un único valor**. La función `separate()` nos permitirá **separar los múltiples valores de la columna** (por defecto **localiza como separador cualquier caracter que no sea alfa-numérico**)
+
+```{r}
+table3 %>% separate(rate, into = c("cases", "population")) #<<
+```
+
+---
+
+# Messy data: múltiples valores en celda
+
+Si **queremos un caracter concreto para dividir** podemos indicárselo explícitamente
+
+```{r}
+table3 %>% separate(rate, into = c("cases", "population"), sep = "/")
+```
+
+De la misma manera que **podemos separar columnas también podemos unirlas**. Para ello vamos a usar la tabla `table5`: con la función `unite()` vamos a **unir el siglo (en century) y el año (en year)**.
+
+```{r}
+table5 %>% unite(date, century, year) #<<
+```
+
+---
+
+# Convertir al tipo adecuado
+
+Una opción muy útil que podemos usar al **aplicar la separación de los múltiples valores** es **convertir los datos al tipo adecuado**. Los datos unidos en `rate` eran **caracteres** (no podían ser numéricos). Al separarlos, por defecto, aunque ahora ya son solo números, **los separa como si fueran textos**. Con `convert = TRUE` podemos indicarle que identifique el tipo de dato y lo convierta.
+
+```{r}
+table3 %>%
+  separate(rate, into = c("cases", "population"), convert = TRUE)
+```
+
+---
+
 # Ejercicios
 
 .panelset[
 .panel[.panel-name[Ejercicios]
 
+* 📝 **Ejercicio 1**: convierte en _tidy data_ el siguiente _data.frame_.
 
-* 📝 **Ejercicio 1**: ¿es el conjunto de datos `airquality` (del paquete `{datasets}`) de tipo tibble?
- 
+```{r}
+tabla_tb <- tibble("trimestre" = c("T1", "T2", "T3"),
+                   "2020" = c(10, 12, 7.5),
+                   "2021" = c(8, 0, 9))
+```
 
-* 📝 **Ejercicio 2**: convierte el conjunto `airquality` de `data.frame` a `tibble`.
+* 📝 **Ejercicio 2**: convierte en _tidy data_ el siguiente _data.frame_.
  
-* 📝 **Ejercicio 3**: define un tibble con tres variables numéricas `a, b, c`, tal que la tercera sea el producto de las dos primeras `c = a * b`.
- 
+```{r}
+tabla_tb <- tibble("año" = c(2019, 2019, 2020, 2020, 2021, 2021),
+                   "variable" = c("A", "B", "A", "B", "A", "B"),
+                   "valor" = c(10, 9383, 7.58, 10839, 9, 32949))
+```
 
-* 📝 **Ejercicio 4**: define un `tibble` con tres variables de nombres variable, 2, tercera :), e intenta acceder a ellas.
- 
+* 📝 **Ejercicio 3**: convierte en _tidydata_ la tabla `table5` del paquete `{tidyr}`.
 
-* 📝 **Ejercicio 5**: obten de los paquetes `{dplyr}` y `{gapminder}` los conjuntos de datos `starwars` y `gapminder`. Comprueba el número de variables, de registros e imprime los datos.
 ]
-
 
 .panel[.panel-name[Solución Ej. 1]
 
+El problema es que las dos columnas con nombres de año son en realidad valores que deberían pasar a ser variables, así que deberíamos disminuir aplicar `pivot_longer()`.
+
 ```{r}
-library(datasets)
-head(airquality)
-class(airquality)
+library(tidyr)
+tabla_tb <- tibble("trimestre" = c("T1", "T2", "T3"),
+                   "2020" = c(10, 12, 7.5),
+                   "2021" = c(8, 0, 9))
+
+# Aplicamos pivot_longer
+tabla_tb %>% pivot_longer(cols = c("2020", "2021"),
+                          names_to = "año", values_to = "valores")
 ```
+
+
 ]
+
 
 .panel[.panel-name[Solución Ej. 2]
 
+El problema es que las filas que comparten año son el mismo registro (pero con dos características que tenemos divididas en dos filas), así que deberíamos disminuir aplicar `pivot_wider()`.
+
 ```{r}
-as_tibble(airquality)
-class(as_tibble(airquality))
-glimpse(as_tibble(airquality))
+tabla_tb <- tibble("año" = c(2019, 2019, 2020, 2020, 2021, 2021),
+                   "variable" = c("A", "B", "A", "B", "A", "B"),
+                   "valor" = c(10, 9383, 7.58, 10839, 9, 32949))
+
+# Aplicamos pivot_wider
+tabla_tb %>% pivot_wider(names_from = "variable",
+                         values_from = "valor")
 ```
 
 ]
 
 .panel[.panel-name[Solución Ej. 3]
 
+Primero uniremos el siglo y las dos últimas cifras del año para obtener el año completo (guardado en año). Tras ello deberemos separar el valor del ratio en denominador y numerador (ya que ahora hay dos valores en una celda), y convertiremos el tipo de dato en la salida para que sea número.
+
 ```{r}
-tibble("a" = 1:5, "b" = 11:15, "c" = a * b)
+table5 %>%
+  unite(año, century, year, sep = "") %>%
+  separate(rate, c("numerador", "denominador"), convert = TRUE)
 ```
 
 ]
 
-.panel[.panel-name[Solución Ej. 4]
+]
 
-```{r}
-# Definimos el tibble
-datos_tb <- tibble("variable" = 1:7, "tercera falsa :)" = 0, "2" = 11:17)
-# Accedemos a sus columnas
-datos_tb$variable
-datos_tb$`tercera falsa :)`
-datos_tb$`2`
+---
+
+# Dataviz e introducción a ggplot2
+
+## **La gramática de los gráficos**
+
+&nbsp;
+
+El paquete `{ggplot2}` se basa en la idea propuesta en «Grammar of graphics» del recién fallecido Wilkinson.
+
+---
+
+# Breve historia del dataviz
+
+
+## Punto de partida: los mapas
+
+<img src = "https://images-na.ssl-images-amazon.com/images/I/713JiiOHrEL.jpg" alt = "atlas" align = "right" width = "230" style = "margin-top: 0.1vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+Podríamos considerar a los **mapas** como las primeras **visualización de datos**, con la representación de nuestra realidad en **superficies bidimensionales** <sup>1</sup>, usando sistemas de coordenadas para resumir o proyectar la realidad.
+
+&nbsp;
+
+Las propias palabras _chart_ y _cartography_ derivan del mismo origen latino, _charta_, así como otros términos matemáticos relacionados como contornos, niveles, curvas, escalas o dominios <sup>2</sup>, aunque el primer uso datado de coordenadas parece venir de los egipcios. <sup>3</sup>
+
+.footnote[[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+[2] [«Presentation Graphics» de Leland Wilkinson. International Encyclopedia of the Social & Behavioral Sciences](https://www.cs.uic.edu/~wilkinson/Publications/iesbs.pdf)
+
+[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+
+---
+
+# Breve historia del dataviz
+
+La **visualización de datos** o _dataviz_ está muy ligada a la evolución de ramas que han acabado convergiendo en paralelo:
+
+* La **producción de los datos**: hasta no hace mucho, el dato no era usado ni generado para explicar a la población sino para «uso interno».
+
+* La **estadística** (convertir el dato en información).
+
+* La **tecnología**: cómo cualquier acto de comunicación visual, está tremendamente condicionado a los medios técnicos.
+
+* La **comunicación**: no es lo mismo producir una visualización para un periódico en papel (no editable) que para un formato digital.
+
+&nbsp;
+
+Parte de esta introducción está basada en
+
+[«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](https://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+«The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo.
+
+[«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+
+---
+
+# Breve historia de la estadística
+
+.pull-left[
+* Del (neo)latín «statisticum collegium»: consejo de **Estado**.
+* Del alemán «statistik» (ciencia del **Estado**, intoducido por G. Achenwall).
+
+&nbsp;
+
+**Origen**: una herramienta para la **administración** eficiente del Estado
+
+&nbsp;
+
+Hasta no hace tanto, la mayoría de usos de la Estadística eran para una gestión de los recursos públicos, pero **sin intención de comunicar ni de convertir el dato en información**.
+
+]
+
+
+.pull-right[
+```{r echo = FALSE, out.width = "90%", fig.align = "center"}
+knitr::include_graphics("./img/biblia.jpg")
+```
+]
+
+---
+
+# Breve historia de la estadística
+
+## Primeros usos: elaboración de censos
+
+Los **primeros usos** documentados de la estadística fueron la elaboración de **censos** por parte de **mesopotámicos, chinos y egipcios**, con tres fines:
+
+* Cobrar **impuestos** (un saludo, Willyrex).
+* Reparto de **tierras** y optimización de su uso.
+* **Reclutamiento de soldados**.
+
+## Estadística en la guerra
+
+.pull-left[Según Tucídides, conceptos estadísticos como la **moda** datan del **siglo V a.C.**: para asaltar la muralla de la ciudad de Platea, ponían a contar a varios soldados el número de ladrillos vistos en la muralla, quedándose con el **conteo más repetido (la moda, el más frecuente)**, permitiendo el cálculo de la altura de la muralla.]
+
+.pull-right[
+```{r echo = FALSE, out.width = "70%", fig.align = "center"}
+knitr::include_graphics("./img/peloponeso.jpg")
+```
+]
+
+---
+
+# ¿Qué han hecho los romanos por nosotros?
+
+
+
+.pull-left[
+
+Precisamente por el tamaño de su Imperio, fueron los **romanos** quienes hicieron un uso más intenso de la estadística:
+
+* **Censos** (elaborados por la censura, que elaboraba no solo el censo sino la supervisión de la moralidad pública).
+* Primeras **tablas de natalidad/mortalidad**
+* Primeros **catastros** (registros oficiales de propiedades, primeros impuestos)
+
+```{r echo = FALSE, out.width = "60%", fig.align = "center"}
+knitr::include_graphics("./img/catastro.jpg")
 ```
 
 ]
 
-.panel[.panel-name[5a]
+.pull-right[
 
-```{r}
-dplyr::starwars
-dim(dplyr::starwars)
+```{r echo = FALSE, out.width = "95%", fig.align = "left"}
+knitr::include_graphics("https://www.publico.es/tremending/wp-content/uploads/2019/02/lifeofbrian3.jpg")
 ```
 
 ]
 
-.panel[.panel-name[5b]
+---
+
+# Breve historia de la estadística
+
+.pull-left[
+
+## **ÁRABES**
+
+Autores de los **primeros tratados de estadística**, como el manuscrito de **Al-Kindi (801-873)**, que usó la distribución de **frecuencias de palabras** para el desarrollo de métodos de cifrado y descifrado de **mensajes encriptados**.
+
+]
+
+.pull-right[
+
+## **MÉXICO**
+
+Ya en el **año 1116, el rey Xólotl** implementó un **censo** que consistía en la **estimación de piedras**, tirando cada súbdito una a un montón (Nepohualco).
+]
+
+
+&nbsp;
+
+.pull-left[
+
+## **INGLATERRA**
+
+Desde el siglo XII se realiza la **Prueba del Pyx**, considerado uno de los **primeros controles de calidad**: se extre una de las monedas acuñadas y se deposita en una caja, para un año después comprobar su calidad y pureza.
+
+]
+
+.pull-right[
+
+## **ITALIA**
+
+En paralelo al **auge de los primeros «sistemas financieros» en Italia**, «La Nuova Crónica» de G. Villani fue considerado durante mucho tiempo el primer tratado de estadística (hasta el descubrimiento de los trabajos de Al-Kindi).
+
+]
+
+---
+
+# Navegación y astronomía
+
+Y es de aquella época medieval, en la que la navegación y la astronomía empezaban a tomar relevancia científica, cuando aparece la que se considera la primera gráfica (aunque no propiamente estadística) <sup>3</sup>, representando el **movimiento cíclico de los planetas** (entre los siglos X y XI)
+
+```{r echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Gráfica extraída de Beniger y Robyn (1978)"}
+knitr::include_graphics("./img/dataviz_historico_1.png")
+``` 
+
+[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)
+
+ 
+---
+
+# Navegación y astronomía
+
+Con una motivación similar, en torno a 1360 el matemático **Nicole Oresme** diseñó el **primer gráfico de barras** (no estadístico), con la idea de **visualizar a la vez dos magnitudes físicas teóricas**.
+
+
+```{r echo = FALSE,  out.width = "30%", fig.align = "center", fig.cap = "Gráfica extraída de Friendly y Valero-Mora (2010), de «Tractatus De Latitudinibus Formarum»"}
+knitr::include_graphics("./img/dataviz_historico_2.jpeg")
+``` 
+
+[5] [«The First (Known) Statistical Graph: Michael Florent van Langren and the 'Secret' of Longitude» de M. Friendly y P. M. Valero-Mora. The American Statistician (2010)](https://www.researchgate.net/publication/227369016_The_First_Known_Statistical_Graph_Michael_Florent_van_Langren_and_the_Secret_of_Longitude)
+
+ 
+---
+
+# Primer gráfico estadístico
+
+La mayoría de expertos, como Tufte <sup>6,7</sup>, consideran **este gráfico** casi longitudinal como la **primera visualización de datos** de la historia, hecha por **van Langren** en 1644, representando la **distancia (en longitud) entre Toledo y Roma** (un poco mal medida ya que la distancia real es de 16.5º).
+
+```{r echo = FALSE,  out.width = "45%", fig.align = "center", fig.cap = "Gráfica original extraída de Friendly y Valero-Mora (2010)"}
+knitr::include_graphics("./img/longitud_dataviz.jpg")
+``` 
+
+```{r echo = FALSE,  out.width = "45%", fig.align = "center", fig.cap = "Adaptación extraída de Friendly y Valero-Mora (2010)"}
+knitr::include_graphics("./img/dataviz_historico_3.jpeg")
+``` 
+
+[6] [«Visual explanations: images and quantities, evidence and narrative» de E. Tufte](https://archive.org/details/visualexplanatio00tuft)
+
+[7] [«PowerPoint is evil» de E. Tufte](https://www.wired.com/2003/09/ppt2/)
+
+---
+
+# ¿Qué es una gráfica estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística? **¿Cuál es la frontera entre una ilustración y una gráfica (de datos)?**
+
+&nbsp;
+
+Esas mismas preguntas se hizo **Joaquín Sevilla** en su manual <sup>1</sup>, argumentando que deben cumplir **3 requisitos**:
+
+1. Que se base en el esquema de composición de **eje métrico** (proceso de medida): **no cualquier dibujo que incluya números** lo podemos denominar «gráfica estadística». 
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "55%", fig.align = "center", fig.cap = "INFOGRAFÍA extraída del manual de Joaquín Sevilla"}
+knitr::include_graphics("./img/mapa_sevilla.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "53%", fig.align = "center", fig.cap = "GRÁFICA extraída del manual de Joaquín Sevilla"}
+knitr::include_graphics("./img/grafica_dinero_sevilla.jpg")
+``` 
+
+]
+
+[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+
+---
+
+# Vizfail
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center", fig.cap = "Ejemplo de metáfora visual mal ejecutada"}
+knitr::include_graphics("./img/persona_dataviz.jpg")
+``` 
+
+]
+
+.pull-right[
+
+* La figura elegida (una persona caminando) no guarda relación alguna con lo que se pretende representar.
+
+* Los sectores señalados no tienen relación con el ítem a representar, lo que dificulta su interpretación
+
+* Los colores no dan información de ningún tipo.
+
+* La forma hace imposible la comparación entre áreas (salvo que leas el % adjunto).
+
+* La suma total supera el 100% ¿?
+
+* **Sin la fuente de los datos**.
+
+]
+
+---
+
+# ¿Qué es una gráfica estadística?
+
+Ese **proceso de medida** en el que una gráfica se debe apoyar lo ilustra muy bien Alberto Cairo <sup>8</sup> con esta **infografía**.
+
+
+* ¿Sabrías decir en 5 segundos en que región el empleo ha crecido más? ¿Y menos?
+* ¿Sabrías decir en 5 segundos si la variación ha sido mayor en Madrid, La Rioja o Canarias?
+
+```{r echo = FALSE,  out.width = "65%", fig.align = "center", fig.cap = "INFOGRAFÍA extraída de Alberto Cairo"}
+knitr::include_graphics("./img/mapa_cairo_esp.jpg")
+``` 
+
+[8] «The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo.
+
+---
+
+# ¿Qué es una gráfica estadística?
+
+
+```{r echo = FALSE,  out.width = "90%", fig.align = "center", fig.cap = "GRÁFICA extraída de Alberto Cairo"}
+knitr::include_graphics("./img/mapa_cairo_2.jpg")
+``` 
+
+La principal diferencia entre otro tipo de comunicación visual y una **gráfica estadística** radica en proporcionar **herramientas de medida**.
+
+---
+
+# ¿Qué es una gráfica estadística?
+
+1. Que se base en el esquema de composición de **eje métrico**
+
+2. Debe incluir **información cuantitativa** (debe visualizar datos)
+
+3. La relación de representatividad debería **ser reversible**: los **datos deberían poder «recuperarse»** a partir de la gráfica (una gráfica estadística es un tipo particular de **aplicación** matemática).
+
+
+```{r echo = FALSE,  out.width = "50%", fig.align = "center", fig.cap = "Gráfica extraída del manual de Joaquín Sevilla"}
+knitr::include_graphics("./img/sevilla_densidad.jpg")
+``` 
+
+[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+
+---
+
+# ¿Qué es una gráfica estadística?
+
+Hay muchas formas de hacer una gráfica estadística, y **no suele pasar** por hacer un gráfico de tartas. Los **diagramas de tartas o sectores** tiene un problema de reversibilidad:
+
+* Si hay **muchas variables**: salvo que conozcas el montante total y tengas un transportador de ángulos a mano, es muy complicado que obtengas información.
+
+* Si hay **pocas variables**: ¿aporta algo distinto (y/o mejor) que una tabla?
+
+
+```{r echo = FALSE,  out.width = "40%", fig.align = "center", fig.cap = "Gráfica extraída del manual de Joaquín Sevilla"}
+knitr::include_graphics("./img/sectores_sevilla.jpg")
+``` 
+
+---
+
+# ¿Qué es una gráfica estadística?
+
+El principal problema de un **diagrama de sectores** es que la posible información está contenido en los **ángulos**, pero nuestra interpretación la realizamos a través de la **comparación de áreas** (nuestros ojos no miden bien ángulos), las cuales dependen no solo del ángulo sino del radio.
+
+Algo similar sucede con los mal llamados **gráficos tridimensionales** (son bidimensionales con perspectiva en realidad): los valores más cercanos aparecen sobredimensionados, siendo prácticamente imposible la reversibilidad.
+
+
+```{r echo = FALSE,  out.width = "70%", fig.align = "center", fig.cap = "Gráfica extraída del manual de Joaquín Sevilla"}
+knitr::include_graphics("./img/sectores_3D_sevilla.jpg")
+``` 
+
+---
+
+# Vizfail
+
+Además, dado que un diagrama de sectores solo permite una **visualización relativa** de los datos, no son comparables con otros diagramas de tartas.
+
+```{r echo = FALSE,  out.width = "78%", fig.align = "center"}
+knitr::include_graphics("https://pbs.twimg.com/media/BgDR4urIMAAnHmG?format=jpg&name=medium")
+``` 
+
+Gráfica extraída de <https://twitter.com/Dave_Andrade/status/432576336872624129?t=FGjLtxE8V1BJR_QdXdtZgQ&s=19>
+
+---
+
+# Vizfail
+
+```{r echo = FALSE,  out.width = "50%", fig.align = "center", fig.cap = "Ejemplo de un desastre"}
+knitr::include_graphics("./img/gijon_psoe.jpg")
+``` 
+
+---
+
+# Historia de la estadística: navegación y astronomía
+
+.pull-left[
+
+### T. Brahe
+
+Uno de los primeros usos «modernos» de la estadística fue en la **navegación y la astronomía**, siendo Tycho Brahe de los primeros en utilizar la estadística para **reducir los errores** observacionales.
+]
+
+.pull-right[
+
+### E. Wright
+
+Fue el primero en usar en 1599 lo que hoy llamamos **mediana** en su libro «Certaine errors in navigation», aplicada a la navegación.
+
+]
+
+.pull-left[
+
+### G. Galileo
+
+Aunque la fama se la llevó **Gauss**, fue el primero en plantear una idea similar a la que hoy llamamos **método de mínimos cuadrados**: los valores más probables serían aquellos que minimizaran los errores.
+
+]
+
+.pull-right[
+### C. F. Gauss y A. M. Legendre
+
+El **método de los mínimos cuadrados**, en el que basan modelos actuales como la regresión, fue desarrollado por **Legendre y Gauss** (el último lo aplicó a la detección más probable del planeta enano Ceres).
+
+]
+
+---
+
+# Historia de la estadística: demografía, epidemiología y fisiología
+
+.pull-left[
+
+#### J. Graunt
+
+Autor de «Natural and Political Observations Made upon the Bills of Mortality» (1662), uno de los primeros trabajos en los que ya se hablaba de **exceso de mortalidad** a partir de las primeras tablas de natalidad y mortalidad, **estimando la población de Londres**.
+]
+
+.pull-right[
+
+#### G. Neumann
+
+Las **fakes news** ya existían en el siglo XVII: Gaspar Neumann también un precursor en el **análisis estadístico de tablas de mortalidad**, para desmentir bulos (ejemplo: desmontó la creencia de que en los años acabados en siete morían más personas).
+]
+
+
+Son precisamente las tablas de Graunt las que usó **Christiaan Huygens** (pionero en teoría de probabilidad con su «De ratiociniis in ludo aleae» en 1656) para generar la **primera gráfica de densidad** de una distribución continua, visualizando la **esperanza de vida** (en función de la edad).
+
+
+---
+
+# Primer gráfico de densidad
+
+Son precisamente las tablas de Graunt las que usó **Christiaan Huygens** (pionero en teoría de probabilidad con su «De ratiociniis in ludo aleae» en 1656) para generar la **primera gráfica de densidad** de una distribución continua, visualizando la **esperanza de vida** (en función de la edad).
+
+
+```{r echo = FALSE,  out.width = "50%", fig.align = "center", fig.cap = "Primera función de densidad, extraída de https://omeka.lehigh.edu/exhibits/show/data_visualization/vital_statistics/huygen"}
+knitr::include_graphics("https://omeka.lehigh.edu/files/fullsize/65fc32c11a768f1d3263a99caca28dff.jpg")
+``` 
+
+---
+
+# Edmond Halley
+
+El astrónomo **Edmond Halley** fue uno de los primeros científicos en usar la visualización de datos para sus trabajos, publicando en 1686 un gráfico relacionando la presión barométrica en función de la altitud, y se le atribuye el primer mapa no geográfico: un mapa representando datos meteorológicos (direcciones de viento)
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "center", fig.cap = "Gráfico bivariante de Halley, extraída de https://friendly.github.io/HistDataVis"}
+knitr::include_graphics("https://friendly.github.io/HistDataVis/figs-web/06_2-halleygraph2.png")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "80%", fig.align = "center", fig.cap = "Mapa meteorológico, extraído de Thrower (1969)"}
+knitr::include_graphics("./img/mapa_halley.jpg")
+``` 
+
+]
+
+[9] [«Edmond Halley as a Thematic Geo-Cartographer» de Norman J. W. Thrower (1969)](https://www.jstor.org/stable/2561832)
+
+
+---
+
+# El gran boom: los gráficos de Playfair
+
+La figura que cambió el dataviz fue, sin lugar a dudas, el economista y político **William Playfair (1759-1823)**. En 1786 publicó el **«Atlas político y comercial»** con 44 gráficas (43 series temporales y el **diagrama de barras más famoso**, aunque no el primero).
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "85%", fig.align = "center", fig.cap = "Gráficas de Playfair, extraídas de Funkhouser y Walker (1935)"}
+knitr::include_graphics("./img/playfair_1.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "35%", fig.align = "center", fig.cap = "Gráficas de Playfair, extraídas de Funkhouser y Walker (1935)"}
+knitr::include_graphics("./img/playfair_2.jpg")
+``` 
+
+]
+
+[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
+
+[11] [«Playfair and his charts» de H. Gray Funkhouser and  Helen M. Walker (1935)](https://www.jstor.org/stable/45366440)
+
+---
+
+# El gran boom: los gráficos de Playfair
+
+Playfair no solo fue el primero en usar el dataviz para entender (y no solo describir) la realidad: fue el primero en usar **conceptos modernos** como el _grid_ o el color como un elemento no solo estético.
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "99%", fig.align = "center", fig.cap = "Gráficas de Playfair, extraídas de https://friendly.github.io/HistDataVis"}
+knitr::include_graphics("./img/playfair_3.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "99%", fig.align = "center", fig.cap = "Gráficas de Playfair, extraídas de la wikipedia."}
+knitr::include_graphics("./img/playfair_4.png")
+``` 
+
+]
+
+[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
+
+---
+
+# Primer gráfico de barras
+
+Playfair es además el **autor del gráfico de barras más famoso** (aunque no fue el primero, pero sí el que sentó un precedente, quien lo hizo _mainstream_).
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "95%", fig.align = "center", fig.cap = "Gráficas de Playfair de importaciones (barras grises) y exportaciones (negras) de Escocia en 1781, extraídas de la wikipedia."}
+knitr::include_graphics("./img/playfair_5.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "95%", fig.align = "center", fig.cap = "Primer diagrama de barras (Philippe Buache y Guillaume de L’Isle), visualizando los niveles del Sena desde 1732 hasta 1766, extraída de https://friendly.github.io/HistDataVis"}
+knitr::include_graphics("./img/playfair_6.jpg")
+``` 
+
+]
+
+[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
+
+---
+
+# El gran boom: los gráficos de Playfair
+
+
+Playfair además fue el primero en **combinar gráficos en la misma visualización**
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "92%", fig.align = "center", fig.cap = "Gráfica de Playfair, visualizando 3 series temporales: precios (barras)f a quarter of wheat (the histogram bars), salarios (línea) y time-line con reinados, extraída de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/playfair_7.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "92%", fig.align = "center", fig.cap = "Gráfica de Playfair, visualizando un time-line histórico, extraída de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/playfair_8.jpg")
+``` 
+]
+
+[12] [«A Letter on Our Agricultural Distresses, Their Causes and Remedies» de William Playfair (1821)](http://onlinebooks.library.upenn.edu/webbin/book/lookupid?key=ha009726110)
+
+[13] [«An Inquiry Into the Permanent Causes of the Decline and Fall of Powerful and Wealthy Nations» de William Playfair (1821)](https://www.amazon.com/Permanent-Powerful-Nations-Prosperity-Prolonged/dp/140691830X)
+
+
+---
+
+# Primeros gráficos de tarta
+
+Junto a **J.H. Lambert** (sí, el de la proyección cartográfica), Playfair inventó las gráficas circulares y los **diagramas de tartas**.
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "85%", fig.align = "center", fig.cap = "Gráfica de Lambert visualizando la temperatura de la tierra (eje horizontal: tiempo; eje vertical: latitud)."}
+knitr::include_graphics("https://www.researchgate.net/profile/Ian-Spence-7/publication/228091928/figure/fig18/AS:668617855234069@1536422327601/Lamberts-chart-of-soil-temperatures-1779.ppm")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Gráfica de Playfair, considerada el primer diagrama de tartas, visualizando el tamaño, localización y población de 5 países, extraída de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/playfair_9.png")
+``` 
+
+]
+
+[14] [«The Statistical Breviary» de William Playfair (1801)](https://www.amazon.es/Statistical-Breviary-Shewing-Resources-Kingdom/dp/1293282693)
+
+---
+
+# Gráficos combinados en mapas
+
+**Minard** fue además el primero en 1858 que se atrevió a **incorporar gráficas en mapas**, mostrando la proporción de consumo de carne (ternera, cerdo, cordero) proporcionado por el mercado central de París.
+
+```{r echo = FALSE, out.width = "43%", fig.align = "center", fig.cap = "Mapa con diagramas de sectores de Minard, extraída de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/minard.png")
+``` 
+
+
+---
+
+# Mapas figurativos de Minard
+
+Minard fue el autor del famoso «Carte figurative des pertes successives en hommes de l'Armée Française dans la campagne de Russie 1812-1813», según Tufte «el mejor gráfico estadístico jamás dibujado», publicado en 1869 sobre la **desastrosa campaña rusa de las tropas de Napoleón en 1812**, mostrando 3 variables en un gráfico bidimensional
+
+```{r echo = FALSE, out.width = "73%", fig.align = "center", fig.cap = "Gráfico de Minard sobre el avance de las tropas de Napoleón hacia Rusia, extraída de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/minard_2.png")
+``` 
+
+
+---
+
+# Primera función de distribución
+
+Años antes, en  1821, el **matemático J. B. J. Fourier** publicó  el primer **gráfico de una distribución acumulada** (la población de Paris en 1817 por grupos de edad), aunque nacieron para ser leídas al revés de lo usual actualmente (de derecha a izquierda).
+
+```{r echo = FALSE, out.width = "57%", fig.align = "center", fig.cap = "Primera función de distribución acumulada, extraída de Beniger y Robyn (1978)."}
+knitr::include_graphics("./img/fourier_dataviz.jpg")
+``` 
+
+---
+
+# Primer diagrama de dispersión
+
+Según Sevilla <sup>1</sup>, se considera al astrónomo británico **John Frederick William Herschel** el primero que publicó un **diagrama de dispersión o scatterplot** en 1833, visualizando el movimiento de la estrella doble Virginis (tiempo en el eje horizontal, posición angular en el eje vertical)
+
+
+```{r echo = FALSE, out.width = "36%", fig.align = "center", fig.cap = "Primer scatterplot, extraído de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/herschel.jpg")
+``` 
+
+[15] [«On the investigation of the orbits of revolving double stars: being a supplement to a paper entitled micrometrical measures of 364 double stars», de John F. W. Herschel (1833)](https://adsabs.harvard.edu/full/1833MmRAS...5..171H)
+
+---
+
+# Primera pirámide poblacional
+
+La **primera pirámide de población** (en realidad es un doble histograma de población, en función de dos variables, edad y sexo), fue publicada por **Francis Amasa Walker**, superintendente del censo de EE.UU., en 1874.
+
+```{r echo = FALSE, out.width = "55%", fig.align = "center", fig.cap = "Primera pirámide de población, extraída de https://www.depauw.edu/learn/dew/wpaper/workingpapers/DePauw2016-02-Barreto-DemographyEconomics.pdf"}
+knitr::include_graphics("./img/walker_piramide.jpg")
+``` 
+
+
+---
+
+# Primer gráfico de mosaico
+
+Walker también fue el autor del **primera gráfico de mosaico** en 1874, visualizando la población de Missouri por origen racial, según el censo de 1870
+
+```{r echo = FALSE, out.width = "75%", fig.align = "center", fig.cap = "Primer gráfico de mosaico, extraído de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/walker_mosaico.jpg")
+``` 
+
+---
+
+# El boom de la estadística: epidemiología y bioestadística
+
+.pull-left[
+
+#### F. Galton
+
+Primo de Charles Darwin, inventor de los **silbatos para perretes**, de los mapas de predicción meteorológica y la persona que acuñó el concepto de **regresión** (y el de eugenesia :/).
+
+```{r echo = FALSE, out.width = "93%", fig.align = "center"}
+knitr::include_graphics("https://www.bogleheads.org/w/images/thumb/9/95/Screen_Shot_2012-01-03_at_7.36.29_AM.png/600px-Screen_Shot_2012-01-03_at_7.36.29_AM.png")
+``` 
+
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "58%", fig.align = "center"}
+knitr::include_graphics("./img/galton_1.jpg")
+``` 
+
+```{r echo = FALSE, out.width = "58%", fig.align = "center"}
+knitr::include_graphics("./img/galton_2.png")
+``` 
+
+]
+
+
+
+---
+
+# El boom de la estadística: epidemiología y bioestadística
+
+.pull-left[
+
+#### John Snow
+
+Se le considera uno de los pioneros de la **epidemiología moderna** y la **estadística espacial**: aunque los **diagramas de Voronoi** tardarían años en ser formalizados, John Snow aplicó el mismo concepto para mitigar la **epidemia de cólera en Londres**, con su **mapa con diagrama de barras**, localizando el foco en la conocida fuente de Broad Street.
+
+]
+
+--
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "100%", fig.align = "center"}
+knitr::include_graphics("https://media.revistagq.com/photos/5cc84a91c46d3a2b7435d7cf/2:3/w_1799,h_2699,c_limit/pelo%20jon%20snow.jpg")
+``` 
+
+]
+
+---
+
+
+# El boom de la estadística: epidemiología y bioestadística
+
+
+.pull-left[
+
+#### John Snow
+
+Se le considera uno de los pioneros de la **epidemiología moderna** y la **estadística espacial**: aunque los **diagramas de Voronoi** tardarían años en ser formalizados, John Snow aplicó el mismo concepto para mitigar la **epidemia de cólera en Londres**, con su **mapa con diagrama de barras**, localizando el foco en la conocida fuente de Broad Street.
+
+
+[📚 «El mapa fantasma», Steven Johnson, sobre la historia de John Snow](https://capitanswing.com/libros/el-mapa-fantasma/)
+
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "John Snow, el epidemiólogo"}
+knitr::include_graphics("https://s1.eestatic.com/2016/04/22/reportajes/reportajes_119248513_3987143_854x640.jpg")
+``` 
+
+]
+
+---
+
+# Nacimiento de la estadística espacial
+
+```{r echo = FALSE, out.width = "77%", fig.align = "center", fig.cap = "Mapa de Londres, mostrando los casos de cólera del 19 de agosto al 30 de septiembre de 1854, extraído de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/snow_mapa.jpg")
+``` 
+
+---
+
+# Cólera en Londres
+
+Esa **epidemia de cólera** en Londres fue una catástrofe en términos humanos pero supuso un verdadero auge de la **bioestadística y visualización de datos**. Unos años antes que Snow, **William Farr** ya usaba el dataviz para **monitorizar las muertes diarias** de cólera (abajo, cólera en azul, diarre en amarillo), en función del tiempo meteorológico (arriba)
+
+
+```{r echo = FALSE, out.width = "48%", fig.align = "center"}
+knitr::include_graphics("./img/farr_colera.png")
+``` 
+
+[16] [«General Register Office, Report on the Mortality of Cholera in England, 1848–49» publicado en 1852](https://wellcomecollection.org/works/pajtrpez/items?canvas=9)
+
+
+---
+
+# Primer diagrama de área polar
+
+Fue también Farr al que se le atribuye el primer **diagrama de área polar o radial**, cambiando por completo el **paradigma cartesiano** de la época: para visualizar la estacionalidad de la mortalidad en función de la temperatura, Farr decidió visualizarlo con coordenadas polares o esféricas.
+
+```{r echo = FALSE, out.width = "48%", fig.align = "center"}
+knitr::include_graphics("./img/farr_colera_2.png")
+``` 
+
+[16] [«General Register Office, Report on the Mortality of Cholera in England, 1848–49» publicado en 1852](https://wellcomecollection.org/works/pajtrpez/items?canvas=9)
+
+
+---
+
+# Florence Nigthingale: una revolución
+
+.pull-left[
+
+
+* El 21 de octubre de 1854 **Florence Nigthingale** fue enviada para mejorar las **condiciones sanitarias** de los **soldados británicos en la guerra de Crimea**. 
+
+* A su regreso se dedicó a demostrar que los **soldados fallecían por las condiciones sanitarias**: eran **muertes evitables**. Nigthingale es la creadora del famoso **diagrama de rosa**, permitiendo pintar tres variables a la vez y su estacionalidad.
+
+* El 8 de febrero de 1955, The Times la describió como la **«ángel guardián» de los hospitales**, y al finalizar la contienda, fue recibida como una heroína, conocida como **«The Lady with the Lamp»** tras un poema de H. W. Longfellow publicado en 1857.
+
+* Años después se convirtió en la **primera mujer en la Royal Statistical Society** y renunció a su puesto para crear las primeras escuelas de enfermería
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "90%", fig.align = "center"}
+knitr::include_graphics("https://www.researchgate.net/profile/Miguel-Guevara-4/publication/325622727/figure/fig1/AS:635977265582080@1528640204506/FIGURA-2-La-dama-con-la-lampara-1891-en-ingles-The-lady-with-the-lamp.png")
+``` 
+
+]
+
+---
+
+# Los gráficos en espiral no son novedosos
+
+**Florence Nigthingale** es la creadora del famoso **diagrama de rosa**, permitiendo pintar tres variables a la vez y su estacionalidad: **tiempo** (cada **gajo** es un mes), **nº de muertes** (**área** del gajo) y **causa** de la muerte (**color** del gajo: azules enfermedades infecciosas, rojas por heridas, negras otras causas).
+
+
+```{r echo = FALSE, out.width = "75%", fig.align = "center"}
+knitr::include_graphics("./img/rosa_nightingale.jpg")
+``` 
+
+---
+
+# La espiral de la polémica
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Gráfica en espiral del New York Times"}
+knitr::include_graphics("https://www.memo.com.ar/files/image/30/30306/61e162fc784b3_715_896!.jpg?s=8418d87978ab79e1a76da127f6b37bb2&d=1642160894")
+``` 
+
+]
+
+
+
+.pull-right[
+
+**¿A favor? ¿En contra?**
+
+✖️ No es novedosa (la novedad tampoco debería ser un argumento a favor per se)
+
+✔️ Las **coordenadas polares** son un **acierto**: los datos estacionales como los datos epidemiológicos o las temperaturas son precisamente los casos en los que está más justificado representar los datos en coordenadas polares o en espiral.
+
+✖️ **No respeta la reversibilidad**: es más una ilustración que una gráfica estadística. La forma de llevarlo a cabo **infraestima los datos** actuales y, por su **distorsión de la realidad**, no permite **medir** precisamente el patrón estacional que se propone visualizar.
+
+✔️ **Metáfora visual** de la pandemia.
+
+✖️ Opinión personal: buena idea, buena como ilustración, error como gráfica estadística en su ejecución.
+]
+
+---
+
+# La espiral de la polémica
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Gráfica en espiral del New York Times"}
+knitr::include_graphics("https://www.memo.com.ar/files/image/30/30306/61e162fc784b3_715_896!.jpg?s=8418d87978ab79e1a76da127f6b37bb2&d=1642160894")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Mejora de la espiral realizada por Paula Casado https://elartedeldato.com/blog/the-new-york-times-spiral-graph-en-r/"}
+knitr::include_graphics("https://elartedeldato.com/blog/the-new-york-times-spiral-graph-en-r/featured-the_nyt_spiral_hu8f42fa4590b2c04399b29318317fd771_501398_720x0_resize_lanczos_3.png")
+``` 
+
+]
+
+✖️ El **eje que recorre la espiral no aporta**, distrae de los datos a representar, **aumenta la distorsión producida** por la no linealidad de la espiral y duplica información, dificultando la comparación estacional.
+
+
+---
+
+# La espiral de la polémica
+
+
+```{r echo = FALSE, out.width = "90%", fig.align = "center", fig.cap = "Misma idea, distinta ejecución, de https://twitter.com/abmakulec/status/1479496579040034822"}
+knitr::include_graphics("https://pbs.twimg.com/media/FIgzfW4XMAsWYMs?format=jpg&name=large")
+``` 
+
+---
+
+# La espiral de la polémica
+
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Mejora de https://twitter.com/abmakulec/status/1479496581439238152"}
+knitr::include_graphics("https://pbs.twimg.com/media/FIg4FiIXIAITUq6?format=jpg&name=medium")
+``` 
+
+]
+
+.pull-right[
+
+✖️ La **inclusión de colores** codificando los datos hubiese mejorado el gráfico, máxime cuando no se añade ningún tipo de escala al gráfico (aunque mida la estacionalidad, para visualizar algo estacional es fundamental que precisamente los periodos puedan ser comparables para percibir ese patrón periódico)
+
+]
+
+
+El **uso de colores** no es solo algo estético: es una variable más, y la paleta elegida así como su uso es fundamental (por ejemplo, la inclusión de colores nos permite centrarnos en los oscuros, y comparar entre tonalidades).
+
+
+---
+
+
+# La espiral de la polémica
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Mejora de https://twitter.com/abmakulec/status/1479496581439238152"}
+knitr::include_graphics("https://pbs.twimg.com/media/FIg4PXhXoAU7C2P?format=jpg&name=medium")
+``` 
+
+]
+
+.pull-right[
+
+✖️ No hay ninguna codificación de ningún tipo, ni en ejes ni en colores: añadir **barras con tamaños** codifica de nuevo los datos (ya estaban con colores), y su solapamiento en algunos periodos nos permiten calibrar mejor la colosal magnitud de ómicron en ese momento. El **tamaño de las barras** no solo nos permite medir, per se, sino facilitar aún más la comparación, sin ejes centrales sin significado en base a los datos.
+
+]
+
+
+---
+
+
+# La espiral de la polémica
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Mejora de https://twitter.com/abmakulec/status/1479496581439238152"}
+knitr::include_graphics("https://pbs.twimg.com/media/FIg4bLWX0AgHuBT?format=jpg&name=medium")
+``` 
+
+]
+
+.pull-right[
+
+✖️ La forma de llevarlo a cabo, **incluyendo solo algunos meses** (¿por qué esos y no otros?), hace más complicado obtener información sin recorrer la espiral (que quizás sea en parte un acierto, por darte la sensación de mareo). Además el **grid que se incluye no aporta escala ni información** por lo que distrae de la verdadera información.
+
+]
+
+---
+
+# La espiral de la polémica
+
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Mejora de https://twitter.com/abmakulec/status/1479496581439238152"}
+knitr::include_graphics("https://pbs.twimg.com/media/FIg4FiIXIAITUq6?format=jpg&name=medium")
+``` 
+
+]
+
+.pull-right[
+
+✖️ La **espiral es una forma geométrica compleja**: la original, al no estar ni centrada ni ser concéntrica, distorsiona (aún más) el crecimiento de los casos y su estacionalidad.
+
+]
+
+---
+
+# Líneas rojas (opinión personal)
+
+* Entender el contexto y respetar el dato
+
+```{r echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Infografía extraída de https://twitter.com/storywithdata"}
+knitr::include_graphics("https://pbs.twimg.com/media/FIgZcF4X0AAzLnC?format=jpg&name=medium")
+``` 
+
+(en lo de los diagramas de tartas discrepamos :P)
+
+---
+
+# Contexto
+
+Una **buena idea** puede estar mejor o peor ejecutada, y la forma de llevarla a cabo es importante
+
+```{r echo = FALSE, out.width = "30%", fig.align = "center", fig.cap = "Un semáforo no es una mala idea, la forma de instalarlo sí puede serlo. Imagen extraída del manual de Joaquín Sevilla"}
+knitr::include_graphics("./img/semaforo.jpg")
+``` 
+
+---
+
+# Fundamentos de la visualización de datos estadísticos
+
+## **Recomendaciones**
+
+[«The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo](https://www.amazon.es/Functional-Art-Voices-That-Matter/dp/0321834739)
+
+
+[«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](https://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+
+[«A Brief History of Visualization» de Friendly et al. (2008)](https://www.researchgate.net/publication/226400313_A_Brief_History_of_Data_Visualization)
+
+[«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+[«Presentation Graphics» de Leland Wilkinson. International Encyclopedia of the Social & Behavioral Sciences](https://www.cs.uic.edu/~wilkinson/Publications/iesbs.pdf)
+
+[«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448)
+
+
+[«The Minard System: The Graphical Works of Charles-Joseph Minard» de Sandra Rendgen](https://www.amazon.es/gp/product/1616896337/ref=sw_img_1?smid=A1AT7YVPFBWXBL&psc=1)
+
+
+[«The Visual Display of Quantitative Information» de E. W. Tufte](https://www.amazon.es/Visual-Display-Quantitative-Information/dp/0961392142)
+
+---
+
+## ggplot2: grammar of graphics (gg)
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "70%", fig.align = "center", fig.cap = "Imagen extraída de Reddit"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/telling-dataviz")
+``` 
+
+]
+
+.pull-right[
+
+Una de las **principales fortalezas** de `R` no solo es el manejo de datos con `{tidyverse}`, también la visualización con uno de sus paquetes: el paquete `{ggplot2}`.
+
+La **visualización de datos** debería ser una parte fundamental de todo análisis de datos. No es solo una cuestión estética. La visualización de datos es fundamental para convertir el dato en información.
+
+]
+
+
+---
+
+## ggplot2: grammar of graphics (gg)
+
+.pull-left[
+
+La idea de la filosofía detrás de `{ggplot2}` es entender los **gráficos como parte integrada del flujo de datos**, dotándoles de una **gramática**, basándose en la idea de 
+[«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448).
+
+El objetivo es empezar con un lienzo en blanco e ir **añadiendo capas a tu gráfico**, como harías por ejemplo en Photoshop, con la diferencia de que nuestras capas podemos **ligarlas al conjunto de datos**.
+
+La ventaja de `{ggplot2}` es poder **mapear atributos estéticos** (color, forma, tamaño) de **objetos geométricos** (puntos, barras, líneas) en **función de los datos**, añadiendo transformaciones de los datos, resúmenes estadísticos y transformaciones de las coordenadas.
+
+
+La **documentación** del paquete puedes consultarla en <https://ggplot2-book.org/introduction.html> 
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Idea detrás de la «Grammar of graphics» de Wilkinson"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/grammar.jpg")
+``` 
+]
+
+
+---
+
+## ggplot2: grammar of graphics (gg)
+
+.pull-left[
+
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Idea detrás de la «Grammar of graphics» de Wilkinson"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/grammar.jpg")
+``` 
+
+]
+
+.pull-right[
+
+Un gráfico se podrá componer de las siguientes **capas**
+
+* **Datos**
+* **Mapeado de elementos estéticos (aesthetics)**: ejes, color, forma, tamaño, etc (en función de los datos)
+* **Elementos geométricos (geom)**: puntos, líneas, barras, polígonos, etc.
+* **Componer gráficas (facet)**: visualizar varias gráficas a la vez.
+* **Transformaciones estadísticas (stat)**: ordenar, resumir, agrupar, etc.
+* **Sistema de coordenadas (coord)**: coordenadas, grids, etc.
+* **Temas (theme)**: fuente, tamaño de letra, subtítulos, captions, leyenda, ejes, etc.
+
+]
+
+---
+
+# Primer intento: scatter plot
+
+Veamos un **primer intento** para entender la filosofía. Imagina que queremos dibujar un **scatter plot** o **diagrama de (dispersión) de puntos**.
+
+&nbsp;
+
+Para ello vamos a usar el **conjunto de datos** `gapminder`, del paquete homónimo: un fichero con **datos de esperanzas de vida, poblaciones y renta per cápita** de distintos países en distintos momentos temporales.
 
 ```{r}
 library(gapminder)
 gapminder
-dim(gapminder)
+```
+
+---
+
+# Primer intento: scatter plot
+
+El fichero consta de 1704 registros y 6 variables: `country`, `continent`, `year`, `lifeExp` (esperanza de vida), `pop` (población)  y `gdpPercap` (renta per cápita).
+
+```{r}
+glimpse(gapminder)
+```
+
+Para empezar con algo sencillo **filtraremos solo los datos de 1997**
+
+--
+
+```{r}
+gapminder_1997 <- gapminder %>% filter(year == 1997)
+gapminder_1997
+```
+
+---
+
+# Primer intento: scatter plot
+
+.pull-left[
+
+Vamos a realizar un **diagrama de puntos**:
+
+* **Eje X**: renta per cápita (variable `gdpPercap`)
+* **Eje Y**: población (variable `pop`)
+
+**¿Qué necesitamos?**
+
+* **Datos**: el conjunto filtrado `gapminder_1997`.
+* **Mapeado**: indicarle dentro de `aes()` (aesthetics) las variables a pintar en cada coordenada. Todo lo que esté **dentro de aes() dependerá de los datos** (en este caso `aes(x = gdpPercap, y = pop)`).
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997, aes(x = gdpPercap, y = pop)) #<<
+```
+
+* **Elegir una geometría**: optaremos por **puntos** con `geom_point()`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(x = gdpPercap, y = pop)) +
+  geom_point() #<< Geometría
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(x = gdpPercap, y = pop)) +
+  geom_point()
+```
+]
+
+---
+
+
+# Primer intento: scatter plot
+
+.pull-left[
+
+Vamos a profundizar en ese mapeado, cambiando el rol de los ejes:
+
+* **Eje X**: población (variable `pop`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = pop)) + #<<
+  geom_point() 
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = pop)) +
+  geom_point() 
+```
+]
+
+---
+
+
+# Primer intento: scatter plot
+
+.pull-left[
+
+La idea podemos repetirla enfrentando ahora la **esperanza de vida** frente a **la renta per cápita**.
+
+* **Eje X**: esperanza de vida (variable `lifeExp`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) + #<<
+  geom_point()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point()
+```
+]
+
+---
+
+# Colores, tamaños y formas (constantes)
+
+.pull-left[
+
+Para **cambiar el color de los puntos**, indicaremos dentro de `geom_point()` el color de la geometría con `color = ...` (en este caso, el color del punto). Empezaremos por un **color fijo**, por ejemplo `"red"` (existen otros como `"blue"`, `"black"`, `"yellow"`, etc)
+
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red") #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red")
+```
+
+]
+
+---
+
+# Colores, tamaños y formas (constantes)
+
+.pull-left[
+
+Los colores también podemos asignárselos por su **código hexadecimal**, consultando en la página <https://htmlcolorcodes.com/es/>, eligiendo el color que queramos. El código hexadecimal siempre comenzará con `#`
+
+
+```{r eval = FALSE}
+# Color en hexadecimal
+# https://htmlcolorcodes.com/es/
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#2EA2D8") #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#2EA2D8")
+```
+
+]
+
+
+---
+
+# Colores, tamaños y formas (constantes)
+
+.pull-left[
+  
+De la misma manera podemos **indicarle el tamaño de la geometría** (en este caso el **tamaño de los punto**) con `size = ...` (cuanto mayor sea el número, mayor será el tamaño de la geometría).
+
+```{r eval = FALSE}
+# Color y tamaño
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#A02B85", size = 5) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#A02B85", size = 5)
+```
+
+]
+  
+  
+
+---
+
+# Colores, tamaños y formas (constantes)
+
+.pull-left[
+  
+También podemos jugar con la **transparencia del color** con `alpha = ...`: si `alpha = 1`, el color será totalmente opaco (por defecto); si `alpha = 0` será totalmente transparente.
+
+
+```{r eval = FALSE}
+# Color, tamaño y transparencia
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#A02B85", size = 9,
+             alpha = 0.4) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#A02B85", size = 9,
+             alpha = 0.4)
+```
+
+]
+  
+  
+---
+
+# Mapear aesthetics
+
+.pull-left[
+  
+Hasta ahora los **parámetros estéticos** se los hemos pasado fijos y **constantes**. Pero la verdadera potencia y versatilidad de `ggplot` es entender todos esos parámetros como entendemos el mapeado coordenadas: podemos **mapear los atributos estéticos** en `aes()` para que dependan de variables de los datos
+
+&nbsp;
+
+Por ejemplo, vamos a **asignar un color a cada dato en función de su continente**.
+
+```{r eval = FALSE}
+# Tamaño fijo
+# Color por continentes
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) + #<<
+  geom_point(size = 5)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(size = 5)
+```
+
+]
+  
+  
+---
+
+
+# Mapear aesthetics
+
+.pull-left[
+  
+Podemos combinarlo con lo que hemos hecho anteriormente:
+
+
+* **color** en función del **continente**.
+* **tamaño** en función de la **población**
+* **transparencia** fija del 70%
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) + #<<
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+]
+  
+  
+---
+
+# Mapear aesthetics
+
+.pull-left[
+  
+En lugar de jugar con el color, también podríamos añadir las variables en función de la **forma de la geometría** (en este caso la forma de los «puntos») con `shape = ...`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           shape = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           shape = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+]
+  
+
+---
+
+# Gráfico multidimensional en 2D
+
+.pull-left[
+  
+Reflexionemos sobre el gráfico anterior:
+
+* **color** en función del **continente**.
+* **tamaño** en función de la **población**
+* **transparencia** fija del 70%
+
+Usando los datos hemos conseguido **dibujar en un gráfico bidimensional 4 variables** (`lifeExp` y `gdpPercap` en los ejes $(X, Y)$), `continent` como color y `pop` como tamaño de la geometría) con muy pocas líneas de código.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+]
+  
+---
+
+# Escala de los ejes
+
+.pull-left[
+  
+A veces nos puede ser más conveniente **representar alguna de las variables** en otras escalas, por ejemplo en **escala logarítmica** (importante indicarlo en el gráfico), lo que podemos hacer facilmente con `scale_x_log10()` y/o `scale_y_log10()`.
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  # Eje Y con escala logarítmica
+  scale_y_log10() #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  # Eje Y con escala logarítmica
+  scale_y_log10()
+```
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+Si no indicamos nada, `R` selecciona automáticamente una **paleta de colores**, pero podemos indicarle alguna paleta concreta de varias maneras.
+
+&nbsp;
+
+La primera y más inmediata es indicarle los **colores manualmente**: con `scale_color_manual` le podemos indicar un **vector de colores**.
+
+```{r eval = FALSE}
+pal <- c("#A02B85", "#2DE86B", "#4FB2CA",
+         "#E8DA2D", "#E84C2D")
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  scale_y_log10() +
+  # Escala manual de colores
+  scale_color_manual(values = pal) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+pal <- c("#A02B85", "#2DE86B", "#4FB2CA",
+         "#E8DA2D", "#E84C2D")
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  scale_y_log10() +
+  scale_color_manual(values = pal)
+```
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+Otra opción es elegir alguna de las **paletas de colores disponibles** en el paquete `{ggthemes}`:
+
+* `scale_color_economist()`: paleta de colores basada en los colores de The Economist.
+
+```{r eval = FALSE}
+library(ggthemes)
+
+# scale_color_economist()
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_economist()
+```
+  
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_economist()
+```
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+Otra opción es elegir alguna de las **paletas de colores disponibles** en el paquete `{ggthemes}`:
+
+* `scale_color_excel()`: paleta de colores basada en los colores del Excel.
+
+```{r eval = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_excel()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_excel()
+```
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+Otra opción es elegir alguna de las **paletas de colores disponibles** en el paquete `{ggthemes}`:
+
+* `scale_color_tableau()`: paleta de colores basada en los colores de Tableau.
+
+```{r eval = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau()
+```
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+También existen **múltiples paquetes** que nos proporcionan **paletas de colores** basados en:
+
+* **películas**: paquete `{harrypotter}` (repositorio de Github `aljrico/harrypotter`) usando `scale_color_hp_d()`.
+
+```{r eval = FALSE}
+library(devtools)
+
+install_github(repo = "https://github.com/aljrico/harrypotter")
+library(harrypotter)
+
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_hp_d(option = "ravenclaw")
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "21%", fig.align = "center", fig.cap = "Paleta basada en la casa Ravenclaw"}
+knitr::include_graphics("https://raw.githubusercontent.com/aljrico/harrypotter/master/readme_raw_files/palettes/ravenclaw.png")
+``` 
+
+```{r echo = FALSE}
+library(harrypotter)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_hp_d(option = "ravenclaw")
+```
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+También existen **múltiples paquetes** que nos proporcionan **paletas de colores** basados en:
+
+
+* **cuadros**(paquete `{MetBrewer}` descargado desde el repositorio de Github `BlakeRMills/MetBrewer`).
+
+```{r eval = FALSE}
+devtools::install_github("BlakeRMills/MetBrewer") 
+library(MetBrewer)
+MetBrewer::met.brewer("Renoir")
+```
+
+```{r echo = FALSE, out.width = "60%"}
+library(MetBrewer)
+MetBrewer::met.brewer("Renoir")
+```
+
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE}
+library(MetBrewer)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_colour_manual(values = met.brewer("Renoir"))
+```
+
+]
+
+---
+
+# Paletas de colores
+
+.pull-left[
+
+También existen **múltiples paquetes** que nos proporcionan **paletas de colores** basados en:
+
+
+* **cuadros**(paquete `{MetBrewer}` descargado desde el repositorio de Github `BlakeRMills/MetBrewer`).
+
+```{r eval = FALSE}
+devtools::install_github("BlakeRMills/MetBrewer") 
+library(MetBrewer)
+MetBrewer::met.brewer("Klimt")
+```
+
+```{r echo = FALSE, out.width = "60%"}
+library(MetBrewer)
+MetBrewer::met.brewer("Klimt")
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE}
+library(MetBrewer)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_colour_manual(values = met.brewer("Klimt"))
+```
+
+]
+
+---
+
+
+# Geometrías (geom)
+
+.pull-left[
+
+Hemos jugado un poco con las formas, tamaños y colores, pero siempre ha sido un diagrama de dispersión con puntos. Al igual que hemos usado `geom_point()`, podríamos usar otras geometrías como **líneas** con `geom_line()`.
+
+```{r eval = FALSE }
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_line(alpha = 0.8) + #<<
+  scale_y_log10() +
+  scale_color_tableau()
+```
+  
+]
+
+.pull-right[
+
+```{r echo = FALSE }
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_line(alpha = 0.8) + 
+  scale_y_log10() +
+  scale_color_tableau()
+```
+]
+
+---
+
+# Geometrías (geom)
+
+.pull-left[
+
+Asignado los colores a la variable `continent`, automáticamente obtenemos cada curva separada por continente.
+
+```{r eval = FALSE}
+# Separando por continente
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) +
+  geom_line(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau()
+```
+  
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) +
+  geom_line(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau()
+```
+]
+
+---
+
+# Geometrías (geom)
+
+.pull-left[
+
+La **filosofía es siempre la misma**: dado que cada elemento lo podemos tratar de forma individual, pasar de un gráfico a otro es relativamente sencillo, sin más que cambiar `geom_point()` por `geom_line()`.
+
+De la misma manera podemos dibujar un diagrama de dispersión con **formas hexagonales** con `geom_hex()`. Dado que ahora nuestra geometría **tiene volumen** tendremos dos parámetros: `color` para el contorno y `fill` para el **relleno**  (fíjate que también cambiamos `scale_color_tableau()` por `scale_fill_tableau()`)
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           fill = continent, size = pop)) +
+  geom_hex(alpha = 0.8) + #<<
+  scale_y_log10() +
+  scale_fill_tableau() #<<
+```
+  
+]
+
+.pull-right[
+
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           fill = continent, size = pop)) +
+  geom_hex(alpha = 0.8) +
+  scale_y_log10() +
+  scale_fill_tableau()
+```
+
+]
+
+---
+
+# Geometrías (geom)
+
+.pull-left[
+
+Tenemos varias funciones de este tipo, como `geom_tile()`, que nos visualiza los datos con «mosaicos» (como baldosas), o `geom_text()`, con la podemos hacer que en lugar de una forma geométrica aparezcan **textos que tengamos en alguna variable**, que la pasaremos en `aes()` por el **parámetro label** (en este caso, la variable de la que tomará los nombres será `country`).
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop, label = country)) +
+  geom_text(alpha = 0.8) + #<<
+  scale_y_log10() +
+  scale_color_tableau()
+```
+  
+]
+
+.pull-right[
+
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop, label = country)) +
+  geom_text(alpha = 0.8) + #<<
+  scale_y_log10() +
+  scale_color_tableau()
+```
+
+]
+
+---
+
+# Componer (facet)
+
+.pull-left[
+
+Hasta ahora hemos pintado una sola gráfica, **codificando información en colores y formas**. Pero también podemos **dividir/desagregar los gráficos (facetar) por variables**, pintando por ejemplo un **gráfico por continente**, mostrando todos los gráficos a la vez pero por separado, con `facet_wrap()`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_wrap(~ continent) #<<
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_wrap(~ continent)
+``` 
+
+]
+
+---
+
+# Componer (facet)
+
+.pull-left[
+
+También le podemos pasar **argumentos opcionales** para indicarle el **número de columnas o de filas** que queremos.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_wrap(~ continent, nrow = 3) #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_wrap(~ continent, nrow = 3) #<<
+```
+
+]
+
+---
+
+# Componer (facet)
+
+.pull-left[
+
+De esta manera podríamos incluso **visualizar el fichero de datos originales incluye hasta 5 variables** en un gráfico bidimensional:
+
+* las variables `pop` y `lifeExp` en los **ejes**.
+* la variable `gdpPercap` en el **tamaño**.
+* la variable `continent` en el **color**.
+* la variable `year` en la composición de `facet_wrap()`.
+
+```{r eval = FALSE}
+library(MetBrewer)
+ggplot(gapminder,
+       aes(y = lifeExp, x = pop,
+           size = gdpPercap, color = continent)) +
+  geom_point(alpha = 0.6) +
+  scale_x_log10() +
+  scale_colour_manual(values =
+                        met.brewer("Klimt")) +
+  facet_wrap(~ year)
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(MetBrewer)
+ggplot(gapminder,
+       aes(y = lifeExp, x = pop,
+           size = gdpPercap, color = continent)) +
+  geom_point(alpha = 0.6) +
+  scale_x_log10() +
+  scale_colour_manual(values =
+                        met.brewer("Klimt")) +
+  facet_wrap(~ year)
+```
+
+]
+
+---
+
+# Componer (facet)
+
+.pull-left[
+
+Con `facet_grid()` podemos incluso **organizar una cuadrícula en base a dos variables**, por ejemplo que haya una **fila por año** (vamos a usar la tabla original en los **años 1952, 1972, 1982 y 2002**) y una **columna por continente**.
+
+```{r eval = FALSE}
+ggplot(gapminder %>%
+         filter(year %in% c(1952,  1972, 1982,  2002)),
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_grid(year ~ continent)
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder %>%
+         filter(year %in% c(1952,  1972, 1982,  2002)),
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_grid(year ~ continent)
+```
+
+]
+
+---
+
+# Coordenadas y tema
+
+.pull-left[
+
+Los gráficos pueden además **personalizarse añadiendo**, por ejemplo, *títulos y subtítulos** de la gráfica con `labs()`, asignando textos a `title, subtitle y caption`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+---
+
+# Coordenadas y tema
+
+.pull-left[
+
+También podemos **personalizar algunos aspectos extras**, como el **título que vamos a dar a los ejes** o el **título de las leyendas**.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  # Eje Y con escala logarítmica
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida", #<<
+       y = "Renta per cápita", #<<
+       color = "Continente", #<<
+       size = "Población", #<<
+       title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  # Eje Y con escala logarítmica
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida", #<<
+       y = "Renta per cápita", #<<
+       color = "Continente", #<<
+       size = "Población", #<<
+       title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+---
+
+# Coordenadas y tema
+
+.pull-left[
+
+También podemos **ocultar algún nombre de las leyendas** (o ambos) si ya es explícito de lo que se está hablando. Por ejemplo, vamos a indicarle que no queremos el nombre de la leyenda en continentes, haciendo `color = NULL` (la variable que codifica los continentes a `NULL`).
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida",
+       y = "Renta per cápita",
+       color = NULL, #<<
+       size = "Población",
+       title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida",
+       y = "Renta per cápita",
+       color = NULL, #<<
+       size = "Población",
+       title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+---
+
+# Coordenadas y tema
+
+.pull-left[
+
+Incluso podemos **ocultar la leyenda en sí de alguna de alguna de las variables** con `guides(size = "none")` (en este caso, `size = "none"` nos elimina la leyenda que codifica el tamaño de los puntos).
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + #<<
+  labs(x = "Esperanza de vida",
+       y = "Renta per cápita",
+       color = NULL, size = "Población",
+       title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + #<<
+  labs(x = "Esperanza de vida",
+       y = "Renta per cápita",
+       color = NULL, size = "Población",
+       title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+]
+
+---
+
+# Ejercicio
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: del conjunto `starwars` filtra solo los registros que no tenga ausente las columnas `mass, height, eye_color`. Dibuja un diagrama de puntos enfrentando `x = height` en el eje X e `y = mass` en el eje Y.
+ 
+* 📝 **Ejercicio 2**: modifica el código  anterior para asignar el tamaño en función de `mass`.
+
+* 📝 **Ejercicio 3**: modifica el código del gráfico anterior para asignar el color en función de su color de ojos guardado en `eye_color`. Antes procesa la variable para quedarte con colores reales: si hay dos colores, quédate con el primero; el color `"hazel"` pásalo a `"brown"`; los colores `"unknown"` pásalo a gris.
+
+* 📝 **Ejercicio 4**: repite el gráfico anterior localizando ese dato con un peso extremadamente elevado (outlier), elimínalo y vuelve a repetir la visualización.
+
+* 📝 **Ejercicio 5**: repite el gráfico anterior eliminando la leyenda del tamaño del punto y cambia el título de la leyenda del color de ojos a castellano. Añade además transparencia alpha = 0.6 a los puntos.
+
+* 📝 **Ejercicio 6**: repite el gráfico modificando títulos de ejes (a castellano) con título, subtítulo y caption.
+ 
+* 📝 **Ejercicio 7**: explicita los cortes en los ejes con `scale_x_continuous()` y `scale_y_continuous()`: el eje X de 60 a 240 (de 30 en 30 cada marca), el eje Y de 20 a 160 (de 20 en 2).
+ 
+]
+
+.panel[.panel-name[Sol. 1]
+
+.pull-left[
+
+```{r eval = FALSE}
+# Eliminamos NA
+starwars_filtro <-
+  starwars %>%
+  drop_na(c(mass, height, eye_color))
+
+# Visualizamos
+ggplot(starwars_filtro,
+       aes(x = height, y = mass)) +
+  geom_point()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Eliminamos NA
+starwars_filtro <- starwars %>% drop_na(c(mass, height, eye_color))
+
+# Visualizamos
+ggplot(starwars_filtro, aes(x = height, y = mass)) +
+  geom_point()
+```
+
+]
+
+]
+
+.panel[.panel-name[Sol. 2]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass, size = mass)) +
+  geom_point()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars_filtro, aes(x = height, y = mass, size = mass)) +
+  geom_point()
+```
+
+]
+
+]
+
+.panel[.panel-name[Sol. 3a]
+
+```{r}
+# Transformar colores
+starwars_filtro <-
+   starwars_filtro %>%
+    mutate(eye_color =
+             case_when(eye_color == "blue-gray" ~ "blue",
+                       eye_color == "hazel" ~ "brown",
+                       eye_color == "unknown" ~ "gray",
+                       eye_color == "green, yellow" ~ "green",
+                       TRUE ~ eye_color))
+```
+
+]
+
+.panel[.panel-name[Sol. 3b]
+
+.pull-left[
+
+```{r eval = FALSE}
+# Visualizamos
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point() +
+  scale_color_manual(values =
+                       c("black", "blue",
+                         "brown", "gray",
+                         "green", "orange",
+                         "red", "white",
+                         "yellow"))
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Visualizamos
+ggplot(starwars_filtro,
+       aes(x = height, y = mass, size = mass, color = eye_color)) +
+  geom_point() +
+  scale_color_manual(values =
+                       c("black", "blue", "brown", "gray", "green",
+                         "orange", "red", "white", "yellow"))
+```
+
+]
+
+]
+
+.panel[.panel-name[Sol. 4a]
+
+```{r}
+# Localizamos el valor y su nombre
+starwars_filtro %>% slice_max(mass, n = 5) %>% pull(name)
+
+# Filtramos
+starwars_filtro <- starwars_filtro %>%
+  filter(name != "Jabba Desilijic Tiure")
+```
+
+]
+
+.panel[.panel-name[Sol. 4b]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point() +
+  scale_color_manual(values =
+                       c("black", "blue",
+                         "brown", "gray",
+                         "green", "orange",
+                         "red", "white",
+                         "yellow"))
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point() +
+  scale_color_manual(values =
+                       c("black", "blue", "brown", "gray", "green",
+                         "orange", "red", "white", "yellow"))
+```
+
+]
+
+]
+
+.panel[.panel-name[Sol. 5]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point(alpha = 0.6) +
+  guides(size = "none") +
+  scale_color_manual(values =
+                       c("black", "blue",
+                         "brown", "gray",
+                         "green", "orange",
+                         "red", "white",
+                         "yellow")) +
+  labs(color = "color de ojos")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point(alpha = 0.6) +
+  guides(size = "none") +
+  scale_color_manual(values =
+                       c("black", "blue", "brown", "gray", "green",
+                         "orange", "red", "white", "yellow")) +
+  labs(color = "color de ojos")
+```
+
+]
+]
+
+.panel[.panel-name[Sol. 6]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point(alpha = 0.6) +
+  guides(size = "none") +
+  scale_color_manual(values =
+                       c("black", "blue",
+                         "brown", "gray",
+                         "green", "orange",
+                         "red", "white",
+                         "yellow")) +
+  labs(color = "color de ojos",
+       x = "altura (cm)",
+       y = "peso (kg)",
+       title = "STARWARS",
+       subtitle = "Diagrama de puntos altura vs peso",
+       caption = "J. Álvarez Liébana | Datos: starwars")
+```
+
+]
+
+.pull-left[
+
+```{r echo = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point(alpha = 0.6) +
+  guides(size = "none") +
+  scale_color_manual(values =
+                       c("black", "blue", "brown", "gray", "green",
+                         "orange", "red", "white", "yellow")) +
+  labs(color = "color de ojos",
+       x = "altura (cm)", y = "peso (kg)",
+       title = "STARWARS",
+       subtitle = "Diagrama de puntos altura vs peso",
+       caption = "Autor: Javier Álvarez Liébana | Datos: starwars")
+```
+
+]
+
+]
+
+.panel[.panel-name[Sol. 7]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+    geom_point(alpha = 0.6) +
+    guides(size = "none") +
+    scale_color_manual(values =
+                           c("black", "blue",
+                             "brown", "gray",
+                             "green", "orange",
+                             "red", "white",
+                             "yellow")) +
+  scale_y_continuous(breaks =
+                       seq(20, 160, by = 20)) +
+  scale_x_continuous(breaks =
+                       seq(60, 240, by = 30)) +
+  labs(color = "color de ojos",
+       x = "altura (cm)",
+       y = "peso (kg)",
+       title = "STARWARS",
+       subtitle = "Diagrama de puntos altura vs peso",
+       caption = "J. Álvarez Liébana | Datos: starwars")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+    geom_point(alpha = 0.6) +
+    guides(size = "none") +
+    scale_color_manual(values =
+                           c("black", "blue", "brown", "gray", "green",
+                             "orange", "red", "white", "yellow")) +
+  scale_y_continuous(breaks = seq(20, 160, by = 20)) +
+  scale_x_continuous(breaks = seq(60, 240, by = 30)) +
+  labs(color = "color de ojos",
+       x = "altura (cm)", y = "peso (kg)",
+       title = "STARWARS",
+       subtitle = "Diagrama de puntos altura vs peso",
+       caption = "Autor: Javier Álvarez Liébana | Datos: starwars")
+```
+
+]
+
+]
+
+]
+
+---
+
+
+name: stats
+class: center, middle
+
+# Introducción a la estadística
+
+## **Algunos conceptos necesarios**
+
+&nbsp;
+
+La **estadística descriptiva** es la rama de la estadística que se dedica al preprocesamiento, análisis preliminar de las muestras, resumen y visualización.
+
+---
+
+# Segundo intento: diagrama de barras
+
+Antes de aprender a visualizar un diagrama de barras, veamos algunos **conceptos clave en estadística descriptiva**
+
+* **Población**: es la posible **colección de individuos o elementos** a estudiar (por ejemplo, los cientos de miles de habitantes de los mundos de Star Wars). Normalmente esa población es **inaccesible** en su totalidad.
+
+* **Muestra**: una **selección «representativa»** de individuos de la población total (teórica). En nuestro caso, de los miles de habitantes de los mundos de Star Wars hemos extraído una muestra de 87 personas. 
+
+* **Tamaño muestral**: comunmente denotado como $n$, es el número de individuos seleccionados de nuestra población.
+
+```{r}
+library(tidyverse)
+nrow(starwars) # tamaño muestral
+starwars
+```
+
+
+---
+
+# Estadística descriptiva
+
+En estadística llamamos **caracteres** a cada una de las variables, cada una de las **características  que se miden/estudian** para cada uno de los individuos seleccionados. 
+
+```{r}
+# Características
+names(starwars)
+```
+
+Y para cada una de ellas llamaremos **modalidades** a los **diferentes valores que puede adoptar** una característica o variable. En el caso por ejemplo del fichero de `starwars` tenemos distintas opciones:
+
+* `sex`: tiene 4 modalidades `female, hermaphroditic, male, none` (podemos extraerlas con `unique()`, que nos dará los valores únicos de una variable).
+
+```{r}
+unique(starwars$sex)
+```
+
+---
+
+# Estadística descriptiva
+
+En estadística, como en probabilidad, podemos distinguir las variables en función de las modalidades permitidas en dos grandes categorías:
+
+* **Variables categóricas (nominales o cualitativas)**. Son variables que representan categorías o cualidades. Ejemplos: color, forma, estado civil, religión, etc. Estas variables las podemos **subdividir en función de si admiten o no un orden**:
+  - **Cualitativas ordinales**: aunque representen cualidades, tienen una jerarquía de orden. Ejemplos: suspenso-aprobado-notable, sano - herido leve - grave, etc.
+  - **Cualitativas nominales**: no admiten (salvo problemas nuestros) una jerarquía de orden. Ejemplos: ateo-católico-musulmán, soltero-casado, homber-mujer, etc.
+
+&nbsp;
+
+* **Variables cuantitativas**:  representan una **cantidad numérica** medible, una característica cuantificable matemáticamente. A su vez se pueden subdividir en dos grupos.
+  - **Cuantitativas discretas**: se pueden **contar** y **enumerar (aunque sean infinitos)**, detrás de un valor puedo saber cuál viene después (personas, granos de arena, etc).
+  - **Cuantitativas continuas**: no solo toman infinitos valores sino que entre dos valores cualesquiera, también hay infinitos términos, no se puede determinar el siguiente valor a uno dado (estaturas, pesos, temperatura, etc).
+
+---
+
+# Frecuencias: contando los datos
+
+El **diagrama de barras** es uno de los gráficos más utilizados para visualizar las **frecuencias** (número de veces que aparece) de **variables cualitativas o cuantitativas discretas**
+
+Vamos a **calcular las frecuencias** de la variable `sex` de `starwars`. Y lo primero es contar: **¿cuántos registros hay de cada una de las clases?** Para ello usaremos la función `count()` aplicada a `sex`
+
+
+```{r}
+starwars %>%
+  count(sex) #<<
+```
+
+---
+
+# Frecuencias: contando los datos
+
+Esa columna $n$ es lo que conocemos como **frecuencias absolutas**: el número de veces que la variable toma dicha valor. Algunas veces nos interesa obtener las **frecuencias relativas**: la **proporción del total** que representa dicha cantidad, denotada como $f_i$, para cada nivel $n_i$. Añadimos también  esas **frecuencias relativas en porcentaje**
+
+```{r}
+starwars %>%
+  count(sex) %>%
+  mutate(f = n / sum(n), #<<
+         f_proc = 100 * f) 
+```
+
+
+---
+
+# Agrupando con group_by()
+
+Las frecuencias también podemos obtenerlas de forma **bidimensional**, agrupando los datos por dos variables con `group_by()`: esta orden no modificada nada de los datos, lo que haces **modificar las acciones** que vengan después, de forma **desagregada por los grupos creados**
+
+```{r}
+starwars %>%
+  group_by(sex, gender) %>% #<< 
+  count()
+```
+
+Ahora $n$ es en realidad un $n_ij$, la frecuencia de cada par $(i, j)$, para las posibles modalidades $i$ de $X$ y $j$ de $Y$ (en este caso, `sex` y `gender`).
+
+---
+
+# Resumiendo los datos
+
+La función `group_by()` es de las más útiles de `{tidyverse}`, en especial con la orden `summarise()`, orden que nos permite sumarizar o resumir nuestros datos. Por ejemplo, vamos a calcular la media de la altura de los personajes.
+
+```{r}
+starwars %>%
+  summarise(media_altura = mean(height)) #<<
+```
+
+Dado que tenemos alturas ausentes, o bien las eliminamos y o bien al aplicar `mean()` le indicamos el argumento `na.rm = TRUE` para que nos los elimine.
+
+```{r}
+starwars %>%
+  drop_na(height) %>% #<<
+  summarise(media_altura = mean(height)) #<<
+```
+
+---
+
+# Resumiendo los datos
+
+Si la misma acción la realizamos con un `group_by()` previo, la media de las alturas ya no lo hará en global sino que calculará una **media por grupos**, desagregada por las variables que le indiquemos en `group_by()`
+
+```{r}
+starwars %>% 
+  drop_na(height, mass) %>%
+  group_by(sex) %>% #<<
+  summarise(media = mean(height)) %>%
+  ungroup() #<<
+```
+
+---
+
+# Resumiendo los datos
+
+Podemos calcular varias estadísticas a la vez, combinándolo con algunas de las opciones que ya hemos visto, como `across()` (primer variables, luego función)
+
+```{r}
+starwars %>% drop_na(height, mass) %>% group_by(sex) %>% 
+  summarise(medias = across(c(height, mass), mean)) %>% #<<
+  ungroup()
+```
+
+---
+
+# Resumiendo los datos
+
+Un **ejemplo más complejo en pocas líneas**: las medias de todas las variables cuantitativas (numéricas), desgregadas por sexo y género.
+
+```{r}
+starwars %>% drop_na(height, mass) %>% group_by(sex, gender) %>%
+  summarise(across(where(is.numeric), mean)) %>%
+  ungroup()
+```
+
+---
+
+# Resumiendo los datos
+
+Una opción muy útil usada antes de una operación también es `rowwise()`: toda operación que venga después se aplicará **en cada fila por separado**. Por ejemplo, vamos a definir un conjunto dummy de notas en mates, lengua y dibujo de 50 alumnos. Para ello usamos la función `sample()`: le decimos que seleccione aleatoriamente `size = 50` notas de un conjunto de notas posibles, y que lo haga con reemplazamiento (`replace = TRUE`, es decir, que dos alumnos puedan tener la misma nota).
+
+```{r}
+notas <- tibble("mates" = sample(0:10, size = 50, replace = TRUE),
+                "lengua" = sample(0:10, size = 50, replace = TRUE),
+                "dibujo" = sample(0:10, size = 50, replace = TRUE))
+notas
+```
+
+---
+
+# Resumiendo los datos
+
+Una vez que tenemos 3 notas por cada uno de los 50 alumnos, **¿qué sucede si yo quiero calcular la nota media del curso?**
+
+```{r}
+notas %>%
+  mutate(media_curso = mean(c(mates, lengua, dibujo)))
+```
+
+Si aplicamos la media directamente, en cada fila el valor `media_curso` es **idéntico ya que nos ha hecho la media global** de las 50 filas y 3 columnas (la media de 150 datos). 
+
+---
+
+# Resumiendo los datos
+
+En realidad a nosotros nos gustaría **sacar una media por registro, por alumno**, que para cada alumno tengamos la media de las asignaturas. Para eso usaremos `rowwise()` antes del cálculo.
+
+```{r}
+# Aplicado por fila
+notas %>% rowwise() %>%
+  mutate(media_curso = mean(c(mates, lengua, dibujo)))
+```
+
+---
+
+# Medidas de centralización
+
+Hemos hablado de **tipos de variables** y algunas medidas como la media. En estadística llamamos **medidas de centralización** a aquellas medidas que nos indican en torno a qué **valores se concentran los datos**
+
+* **Media**: medida de centralización basada en el valor que nos **minimiza el promedio de desviaciones al cuadrado**. La media es el valor que está más «cerca» de todos los puntos a la vez.
+
+```{r}
+starwars %>% drop_na(height) %>% summarise(mean(height))
+```
+
+**IMPORTANTE**: la media **SOLO se puede calcular para variables cuantitativas**: solo podemos calcular medias de números, no podemos hacer la media de rojo y azul.
+
+---
+
+# Medidas de centralización
+
+* **Mediana**: medida de centralización definida como el **valor que ocupa el centro de los datos** cuando los **ordenamos de menor a mayor**, un valor que nos deja por debajo al menos el 50% y por encima al menos el 50%.
+
+```{r}
+starwars %>% drop_na(height) %>%
+  summarise(mean(height), median(height))
+```
+
+**IMPORTANTE**: la medina **SOLO se puede calcular para variables cuantitativas** o **variables cualitatives ordinales**: solo podemos calcular el valor de en medio en datos que permitan ser ordenados.
+
+---
+
+# Medidas de centralización
+
+* **Moda**: medida de centralización definida como el **valor más repetido**. Al contrario que la media y la mediana, la moda **no tiene porque ser única**: podemos tener un empate. Si todos se repiten por igual, al no destacar ninguno, se dice que es **amodal**.
+
+La ventaja es que se puede **calcular para todo tipo de variables**. El incoveniente es que la moda tenemos algún problema mayor ya que no hay un función en los paquetes `{base}` para su cálculo directo. Para calcularla podemos usar el paquete `{modeest}` la función `mfv()` nos calcula la moda exacta de una variable numérica discreta o cuantitativa, la función `mlv()` nos calcula la moda estimada de una variable numérica continua.
+
+```{r}
+library(modeest)
+starwars %>% drop_na(height) %>%
+  summarise(mean(height), median(height), mlv(height))
+```
+
+---
+
+# Medidas de centralización
+
+Es importante saber las **diferencias entre las medidas de centralización** respecto a lo que en estadística se llama **robustez**
+
+* La **media es muy poco robusta**: valores extremos la perturban muy fácil. Piensa en una baraja de cartas: si extraemos 10 ases, la media será 1. Si cambiamos uno por un 10, solo por cambiar el 10% de los datos la media casi se duplica.
+
+```{r}
+mean(c(1, 1, 1, 1, 1, 1, 1, 1, 1, 10))
+```
+
+* La **mediana es algo más robusta**: para que cambie en el ejemplo se necesitarían cambiar al menos la mitad de los elementos.
+
+```{r}
+median(c(1, 1, 1, 1, 2, 3, 4, 5, 6, 7))
+```
+
+* La **moda es la más robusta**: para que cambie en el ejemplo se necesitarían cambiar más de la mitad de los datos Y ADEMÁS que los nuevos sean todos repetidos.
+
+---
+
+# Robustez
+
+![](https://www.bankinter.com/file_source/blog/Contents/A-Imagenes/Interior%20noticias/salario-medio-mas-frecuente.jpg)
+
+La **falta de robustez** de la media es la razón por la que, a la hora de analizar por ejemplo datos tan desiguales como los salarios en España, el **salario medio** no nos aporta realmente información útil sobre la centralidad de los datos, ya que personas extremadamente ricas hacen que la media sea bastante más elevada que el **salario más frecuente**.
+
+---
+
+# Medidas de dispersión
+
+De la misma manera podemos pedirle que nos calcule **medidas de dispersión** (varianza, desv. típica y cv), que nos indican cómo de **dispersos están los datos respecto a un centro**, normalmente la media, y **medidas de localización (percentiles)**, valores que nos parten los datos en trozos iguales)
+
+```{r}
+starwars %>% drop_na(mass) %>%
+  summarise(media = mean(mass), mediana = median(mass),
+            var = var(mass), sd = sd(mass),
+            p13 = quantile(mass, probs = c(0.13)),
+            p87 = quantile(mass, probs = c(0.87)))
+```
+
+El **coeficiente de variación (CV)** es una medida de dispersión adimensional: nos permita comparar entre variables para saber cuál es más dispersa.
+
+```{r}
+starwars %>% drop_na(mass, height) %>%
+  summarise(media = across(c(mass, height), mean),
+            var = across(c(mass, height), var),
+            cv = sqrt(var) / abs(media))
+```
+
+---
+
+# Volvemos a ggplot: diagrama de barras
+
+Vamos a visualizar en un **diagrama de barras** la **variable cualitativa** `species`, calculando primero el número de personajes de cada especie con `count()`  (filtrando primero los ausentes).
+
+```{r}
+starwars %>%
+  filter(!is.na(species)) %>%
+  count(species)
+```
+  
+---
+
+# Diagrama de barras
+
+.pull-left[
+
+Para visualizar un **diagrama de barras** usaremos `geom_col()` en lugar de `geom_point()`, con `y = species` y `x = n` (las frecuencias)
+
+```{r eval = FALSE}
+ggplot(starwars %>%
+         filter(!is.na(species)) %>%
+         count(species),
+       aes(y = species, x = n)) +
+  geom_col() #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars %>%
+         filter(!is.na(species)) %>%
+         count(species),
+       aes(y = species, x = n)) +
+  geom_col()
+```
+
+]
+
+---
+
+# Diagrama de barras
+
+.pull-left[
+
+Podemos usar las **frecuencias** $n$ también para codificar el color de las barras, añadiendo un **degradado de colores continuo**.
+
+```{r eval = FALSE}
+ggplot(starwars %>%
+         filter(!is.na(species)) %>%
+         count(species),
+       aes(y = species, x = n,
+           fill = n)) +
+  geom_col() +
+  scale_fill_continuous_tableau() + #<<
+  labs(fill = "Frecuencia absoluta",
+       x = "Número de personajes",
+       y = "Especies")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars %>%
+         filter(!is.na(species)) %>%
+         count(species),
+       aes(y = species, x = n, fill = n)) +
+  geom_col() +
+  scale_fill_continuous_tableau() +
+  labs(fill = "Frecuencia absoluta",
+       x = "Número de personajes",
+       y = "Especies")
+```
+
+]
+
+---
+
+# Factores
+
+Al tener **muchas categorías** en `species` con muy pocos elementos, tenemos un **gráfico poco claro**, así que vamos a preprocesar antes la variable. En `R` las **variables cualitativas** se conoce como **factores**, y las posibles modalidades como **niveles**.
+
+El paquete `{forcats}` de `{tidyverse}` contienen multitud de herramientas para su manejo. Veamos un **ejemplo sencillo** definiendo una variable estado que tome los valores `"sano"`, `"leve"` y `"grave"`:
+
+```{r}
+estado <-
+  c("grave", "leve", "sano", "sano", "sano", "grave",
+    "grave", "leve", "grave", "sano", "sano")
+estado
+```
+
+La variable `estado` actualmente es de tipo `character`.
+
+```{r}
+class(estado)
+```
+
+---
+
+# Factores
+
+**¿Cómo indicarle que es  cualitativa (factor?)** Haciendo uso de la función `as_factor` en `{forcats}`.
+
+```{r}
+library(tidyverse)
+estado_fct <- as_factor(estado)
+estado_fct
+class(estado_fct)
+```
+
+No solo ha cambiado la clase de la variable sino que ahora, debajo del valor guardado, nos aparece la frase `Levels: grave leve sano`: son las **modalidades o niveles de nuestra cualitativa**.
+
+Imagina que ese día en el hospital no tuviésemos a nadie en estado grave: aunque ese día nuestra variable no tome dicho valor, el estado grave es un nivel permitido, así que aunque lo eliminemos, el nivel permanece.
+
+```{r}
+estado_fct[estado_fct %in% c("sano", "leve")]
+```
+
+--- 
+
+# Factores
+
+Si queremos indicarle que **elimine un nivel no usado** en ese momento podemos hacerlo con `fct_drop()`
+
+```{r}
+fct_drop(estado_fct[estado_fct %in% c("sano", "leve")])
+```
+
+Al igual que podemos eliminar niveles podemos **ampliar los niveles** existentes (aunque no existan datos de ese nivel en ese momento) con `fct_expand()`
+
+```{r}
+fct_expand(estado_fct, c("UCI", "fallecido"))
+```
+
+Para variables de tipo factor podemos contar los elementos de cada nivel de una manera sencilla con `fct_count()` (similar al `count()`).
+
+```{r}
+fct_count(estado_fct)
+```
+
+---
+
+# Factores
+
+Si te fijas el **orden de los niveles** es por **orden de aparición** en la variable, pero podemos **ordenarlos por frecuencia** con `fct_infreq()`
+
+```{r}
+fct_infreq(estado_fct)
+```
+
+A veces queremos **agrupar niveles**, por ejemplo, **no permitiendo niveles que no sucedan un mínimo de veces**. Con `fct_lump_min(estado_fct, min = 5)` le indicaremos que para que **exista el nivel debe de suceder al menos 3 veces** (las observaciones que no lo cumplan irán al nivel indicado en `other_level`; podemos hacer algo equivalente en función de su frecuencia relativa con `fct_lump_prop()`).
+
+```{r}
+fct_lump_min(estado_fct, min = 5, other_level = "otros")
+```
+
+---
+
+# Diagrama de barras
+
+.pull-left[
+
+Vamos a repetir el diagrama de barras anterior pero indicándole que nos convierta `species` a **factor**, y que nos **agrupe aquellas niveles que tengan menos de 2 personajes**.
+
+```{r eval = FALSE}
+ggplot(starwars %>%
+         filter(!is.na(species)) %>%
+         mutate(species =
+                  fct_lump_min(species, min = 3,
+                               other_level =
+                                 "Otras especies")) %>%
+         count(species),
+       aes(y = species, x = n, fill = n)) +
+  geom_col() +
+  scale_fill_continuous_tableau() +
+  labs(fill = "Frecuencia absoluta",
+       x = "Número de personajes", y = "Especies")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars %>%
+         filter(!is.na(species)) %>%
+         mutate(species =
+                  fct_lump_min(species, min = 3,
+                               other_level =
+                                 "Otras especies")) %>%
+         count(species),
+       aes(y = species, x = n, fill = n)) +
+  geom_col() +
+  scale_fill_continuous_tableau() +
+  labs(fill = "Frecuencia absoluta",
+       x = "Número de personajes", y = "Especies")
+```
+
+]
+
+---
+
+# Nubes de palabras
+
+.pull-left[
+
+Otra opción con **variables cualitativas**, en especial para visualizar palabras en textos y documentos, son precisamente las **word cloud o nubes de palabras**. Con el paquete `{wordcloud2}` podremos **visualizar las nubes de términos**, por ejemplo de las **especies de starwars**, en un tamaño relativo al número de veces que aparece.
+
+```{r eval = FALSE}
+library(wordcloud2)
+wordcloud2(starwars %>% drop_na(species) %>%
+             mutate(species =
+                      fct_lump_min(species, min = 2,
+                                   other_level = "otras")) %>% 
+             count(species),
+           size = 0.8, color= 'random-dark')
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "25%"}
+library(wordcloud2)
+gg <- 
+  wordcloud2(starwars %>% drop_na(species) %>%
+             mutate(species =
+                      fct_lump_min(species, min = 2,
+                                   other_level = "otras")) %>% 
+             count(species),
+           size = 0.8, color= 'random-dark')
+htmltools::tagList(list(gg))
+```
+
+
+]
+
+---
+
+# Mosaicos o treemaps
+
+.pull-left[
+
+Otra opción habitual son los **mosaicos o treemaps**, representando en una **cuadrícula cada una de las categorías**, cuya **área sea proprocional a las veces que aparece**. Lo haremos con `{treemapify}`: los parámetros dentro de `aes()` serán `area` (asociado a la frecuencia absoluta), `fill` (color del relleno) y `label` (nombre). Usaremos una de las paletas de colores de cuadros vistas, en este caso `MetBrewer::met.brewer("Renoir")`.
+
+```{r eval = FALSE}
+library(treemapify)
+library(MetBrewer)
+ggplot(starwars %>% drop_na(species) %>%
+         mutate(species =
+                      fct_lump_min(species, min = 2,
+                                   other_level = "otras")) %>%
+         count(species),
+       aes(area = n, fill = species, label = species)) +
+  geom_treemap() + #<<
+  scale_fill_manual(values =
+                      met.brewer("Renoir")) +
+  labs(fill = "Especies")
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE}
+library(treemapify)
+library(MetBrewer)
+ggplot(starwars %>% drop_na(species) %>%
+         mutate(species =
+                      fct_lump_min(species, min = 2,
+                                   other_level = "otras")) %>%
+         count(species),
+       aes(area = n, fill = species, label = species)) +
+  geom_treemap() +
+  scale_fill_manual(values =
+                      met.brewer("Renoir")) +
+  labs(fill = "Especies")
+```
+
+]
+
+---
+
+# Mosaicos o treemaps
+
+.pull-left[
+
+Con `geom_treemap_text()` podemos además escribir el **nombre de los niveles**, pudiendo **eliminar la leyenda**.
+
+```{r eval = FALSE}
+library(treemapify)
+library(MetBrewer)
+ggplot(starwars %>% drop_na(species) %>%
+         mutate(species =
+                      fct_lump_min(species, min = 2,
+                                   other_level = "otras")) %>%
+         count(species),
+       aes(area = n, fill = species, label = species)) +
+  geom_treemap() +
+  geom_treemap_text(colour = "white", 
+                    place = "centre",
+                    size = 17) +
+  scale_fill_manual(values = met.brewer("Renoir")) +
+  labs(fill = "Especies") +
+  guides(fill = "none")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(treemapify)
+library(MetBrewer)
+ggplot(starwars %>% drop_na(species) %>%
+         mutate(species =
+                      fct_lump_min(species, min = 2,
+                                   other_level = "otras")) %>%
+         count(species),
+       aes(area = n, fill = species, label = species)) +
+  geom_treemap() +
+  geom_treemap_text(colour = "white", 
+                    place = "centre",
+                    size = 17) +
+  scale_fill_manual(values = met.brewer("Renoir")) +
+  labs(fill = "Especies") +
+  guides(fill = "none")
+```
+
+]
+
+---
+
+# Ejercicio
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: visualiza un **diagrama de barras vertical** con `gapminder`, al que le pasaremos la variable `gdpPercap` a representar en el eje Y (la altura de las barras) y `year` en el eje X (tendremos una barra por año, con la altura del total mundial para ese año).
+
+* 📝 **Ejercicio 2**: calcula la media de renta per cápita agrupada por continente y año, y guárdalo en `gapminder_por_continente`.
+
+* 📝 **Ejercicio 3**: con `gapminder_por_continente` realiza un diagrama de barras, de forma que el color del relleno `fill` dependa del continente.
+
+* 📝 **Ejercicio 4**: repite el gráfico anterior con `position = "dodge2"` dentro de la función `geom_col()`.
+
+* 📝 **Ejercicio 5**: repite el gráfico anterio con `position = "fill"`,` que hará cada barra de igual longitud, permitiéndonos visualizar los datos en relativo.
+
+* 📝 **Ejercicio 6**: añade `coord_flip()` para un **diagrama de barras horizontales**. Dale además un título, subtítulo y caption, y nombre en leyenda.
+
+]
+
+.panel[.panel-name[Sol. 1]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder,
+     aes(y = gdpPercap, x = year)) +
+  geom_col()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder,
+     aes(y = gdpPercap, x = year)) +
+  geom_col()
+```
+
+]
+
+]
+
+.panel[.panel-name[Sol. 2]
+
+```{r}
+gapminder_por_continente <-
+  gapminder %>% group_by(year, continent) %>%
+  summarise(sum_gdpPercap = mean(gdpPercap))
+gapminder_por_continente
+```
+
+]
+
+.panel[.panel-name[Sol. 3]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col() +
+  scale_fill_tableau()
+```
+
+Si te fijas, por defecto nos ha construido las **barras apiladas**
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col() +
+  scale_fill_tableau()
+```
+
+]
+  
+]
+
+.panel[.panel-name[Sol. 4]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col(position = "dodge2") +
+  scale_fill_tableau()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col(position = "dodge2") +
+  scale_fill_tableau()
+```
+
+]
+]
+
+.panel[.panel-name[Sol. 5]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col(position = "fill") +
+  scale_fill_tableau()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col(position = "fill") +
+  scale_fill_tableau()
+```
+
+]
+
+]
+
+.panel[.panel-name[Sol. 5]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col() +
+  coord_flip() + #<<
+  scale_fill_tableau() +
+  labs(x = "Renta per cápita",
+       y = "Año",
+       color = "Continente",
+       title = "EJEMPLO DE DIAGRAMA DE BARRAS",
+       subtitle =
+         "Barras horizontales (agrupadas por continente y año)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_por_continente,
+     aes(y = sum_gdpPercap, x = year,
+         fill = continent)) +
+  geom_col() + coord_flip() +
+  scale_fill_tableau() +
+  labs(x = "Renta per cápita",
+       y = "Año", color = "Continente",
+       title = "EJEMPLO DE DIAGRAMA DE BARRAS",
+       subtitle =
+         "Barras horizontales (agrupadas por continente y año)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+
+]
+
+]
+
+---
+
+class: center, middle
+
+# CASO PRÁCTICO
+
+## Visualización de datos continuos
+
+&nbsp;
+
+Hasta ahora hemos visualizado variables cuantitaivas discretas o cualitativas: ¿cómo visualizar datos continuos?
+
+---
+
+# Ejemplo: percepción de la probabilidad
+
+Vamos a analizar un **conjunto de datos** interesante, que contiene las respuestas a las preguntas...
+
+**«¿Qué probabilidad (%) asignarías al término ...?**
+
+&nbsp;
+
+Dicha pregunta se realizó para distintos términos como «almost no chance», «about even», «probable» o «almost certainly», con el objetivo de comprender **cómo la gente percibe el vocabulario** relativo a la probabilidad.
+
+Los datos y gráficos están basados en el trabajo de [Zoni Nation](https://github.com/zonination/perceptions) y [data-to-viz.com](https://www.data-to-viz.com/story/OneNumOneCatSeveralObs.html)
+
+```{r}
+datos <-
+  read_csv("https://raw.githubusercontent.com/zonination/perceptions/master/probly.csv")
+datos
+```
+
+---
+
+# Convirtiendo a tidy data
+
+.panelset[
+.panel[.panel-name[Ejercicio]
+
+1. Vamos a visualizar con un diagrama de barras la **media de las probabilidades** que la gente ha asignado a cada término. Pero antes debemos de **transformar el dataset a tidydata** con `pivot_longer()`, para que tenga el formato adecuado para `ggplot2()`
+
+2. Tras la transformación a un formato adecuado para `ggplot2()`, vamos a **seleccionar los términos** `Almost No Chance`, `Chances Are Slight`, `Improbable`, `About Even`, `Probable` y `Almost Certainly`.
+
+3. Además vamos a **reordenar los niveles de factor** de la variable `termino` con `fct_reorder()` (del paquete `{forcats}`) en función de sus probabilidades.
+
+
+]
+
+.panel[.panel-name[Paso 1]
+
+```{r}
+datos_pivot <-
+  datos %>%
+  pivot_longer(cols = everything(),
+               names_to = "termino", values_to = "prob")
+datos_pivot
+```
+
+]
+
+.panel[.panel-name[Paso 2]
+
+```{r}
+datos_final <-
+  datos_pivot %>%
+  filter(termino %in% c("Almost No Chance", "Chances Are Slight",
+                        "Improbable", "About Even",
+                        "Probable", "Almost Certainly"))
+datos_final
+```
+
+]
+
+.panel[.panel-name[Paso 3]
+
+```{r}
+datos_final <-
+  datos_final %>%
+  mutate(termino = fct_reorder(termino, prob))
+datos_final
 ```
 
 ]
@@ -2460,60 +6837,1496 @@ dim(gapminder)
 
 ---
 
-# Listado de paquetes útiles usados (en manual o diapos)
+# Diagrama de barras de las medias
+
+
+.panelset[
+.panel[.panel-name[Ejercicio]
+
+
+1. Tras preprocesar los datos, calcula las medias de las probabilidades agrupadas por la variable `termino` (con `group_by()` y `summarise()`)
+
+2. Usamos `geom_col()` para visualizar dichas medias como un diagrama de barras.
+
+]
+
+.panel[.panel-name[Paso 1]
+
+```{r}
+datos_resumen <-
+  datos_final %>%
+  group_by(termino) %>%
+  summarise(media = mean(prob))
+datos_resumen
+```
+
+]
+
+.panel[.panel-name[Paso 2]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(datos_resumen,
+       aes(x = termino, y = media, fill = termino)) +
+  geom_col()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(datos_resumen,
+       aes(x = termino, y = media, fill = termino)) +
+  geom_col()
+```
+
+]
+
+]
+
+]
+
+---
+
+# Paleta de colores
+
+.pull-left[
+
+Con `scale_fill_brewer()` vamos a darle una **paleta de colores divergente** al relleno, de rojo (poca probabilidad) a azul (mucha probabilidad) con `scale_fill_brewer(palette = "RdBu")`. Además definiremos un tema para los siguientes gráficos.
+
+```{r eval = FALSE}
+library(showtext)
+font_add_google(family = "Roboto",
+                name = "Roboto")
+showtext_auto()
+
+theme_set(theme_minimal(base_family = "Roboto"))
+theme_update(
+plot.background =
+    element_rect(fill = "white",
+                 color = "white"),
+  plot.title =
+  element_text(color = "black",
+               face = "bold", size = 27))
+
+ggplot(datos_resumen,
+       aes(x = termino, y = media, fill = termino)) +
+  geom_col(alpha = 0.8) +
+  scale_fill_brewer(palette = "RdBu") +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de la probabilidad")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(sysfonts)
+library(showtext)
+font_add_google(family = "Roboto",
+                name = "Roboto")
+showtext_auto()
+
+theme_set(theme_minimal(base_family = "Roboto"))
+theme_update(
+  axis.line.x =
+    element_line(color = "black", size = 1),
+  plot.background =
+    element_rect(fill = "white", color = "white"),
+  plot.title = element_text(color = "black", face = "bold",
+                            size = 27),
+  plot.margin = margin(t = 15, r = 15, l = 15, b = 15))
+
+ggplot(datos_resumen,
+       aes(x = termino, y = media, fill = termino)) +
+  geom_col(alpha = 0.8) +
+  scale_fill_brewer(palette = "RdBu") +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de la probabilidad")
+```
+
+
+]
+
+]
+
+
+---
+
+# Visualizando puntos: geom_quasirandom
+
+.panelset[
+.panel[.panel-name[Ejercicio]
+
+1. Dado el conjunto sin resumir, el conjunto `datos_final`, define una cabecera de `ggplot()` con
+
+* `termino` en el eje x
+* `prob` en el eje y
+* `termino` en el color
+
+2. La función `geom_quasirandom()` del paquete `{ggbeeswarm}` nos permite visualizar los datos en puntos, desperdigados de forma «aleatoria» a lo ancho. A la cabecera anterior añade `geom_quasirandom()` con:
+
+* tamaño igual a 3.5
+* anchura igual a 0.5 (lo que se desperdigan respecto al centro los datos)
+* transparencia del 70%
+
+3. Añade con `scale_color_brewer(palette = "RdBu")` una paleta de colores divergente.
+
+4. Añade el título de la leyenda (de `color`), título y títulos de ejes, con `labs(...)`.
+
+]
+
+.panel[.panel-name[Paso 1]
+
+```{r}
+ggplot(datos_final,
+       aes(x = termino, y = prob,
+           color = termino))
+```
+
+]
+
+.panel[.panel-name[Paso 2]
+
+.pull-left[
+
+```{r eval = FALSE}
+library(ggbeeswarm)
+ggplot(datos_final,
+       aes(x = termino, y = prob,
+           color = termino)) +
+  geom_quasirandom(size = 3.5, width = 0.5,
+                   alpha = 0.7)
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE}
+library(ggbeeswarm)
+ggplot(datos_final,
+       aes(x = termino, y = prob,
+           color = termino,)) +
+  geom_quasirandom(size = 3.5, width = 0.5,
+                   alpha = 0.7)
+```
+
+]
+
+]
+
+.panel[.panel-name[Paso 3]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(datos_final,
+       aes(x = termino, y = prob,
+           color = termino)) +
+  geom_quasirandom(size = 3.5, width = 0.5,
+                   alpha = 0.7) +
+  scale_color_brewer(palette = "RdBu")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(datos_final,
+       aes(x = termino, y = prob,
+           color = termino)) +
+  geom_quasirandom(size = 3.5, width = 0.5,
+                   alpha = 0.7) +
+  scale_color_brewer(palette = "RdBu")
+```
+]
+
+]
+
+.panel[.panel-name[Paso 4]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(datos_final,
+       aes(x = termino, y = prob,
+           color = termino)) +
+  geom_quasirandom(size = 3.5, width = 0.5,
+                   alpha = 0.7) +
+  scale_color_brewer(palette = "RdBu") +
+  labs(color = "Términos", x = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de la probabilidad")
+```
+
+]
+  
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(datos_final,
+       aes(x = termino, y = prob,
+           color = termino)) +
+  geom_quasirandom(size = 3.5, width = 0.5,
+                   alpha = 0.7) +
+  scale_color_brewer(palette = "RdBu") +
+  labs(color = "Términos", x = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de la probabilidad")
+```
+
+]      
+ 
+]
+]
+
+
+---
+
+# Visualizando puntos: geom_quasirandom
+
+.panelset[
+.panel[.panel-name[Ejercicio]
+
+Repite el gráfico con el conjunto de `starwars`:
+
+1. Filtra los ausentes en `height` y `species`, y recategoriza la variable `species` en humanos o no humanos. 
+
+2. Tras el preprocesado visualiza con `geom_quasirandom()` la estatura (variable continua) de cada uno de los dos grupos.
+
+3. Además indica con `scale_x_discrete()` las etiquetas de nuestras categorías (que por defecto aparecen en inglés, `FALSE` vs `TRUE`)
+
+4. Elimina el título de las leyendas del color y el relleno. Añade además títulos para el eje X e Y, y título de la gráfica.
+
+]
+
+
+.panel[.panel-name[Paso 1]
+
+```{r}
+starwars_altura <-
+  starwars %>%
+  drop_na(height, species) %>%
+  mutate(human = as_factor(species == "Human"))
+starwars_altura
+```
+
+]
+
+.panel[.panel-name[Paso 2]
+
+.pull-left[
+
+```{r eval = FALSE}
+library(ggbeeswarm)
+ggplot(starwars_altura,
+       aes(x = human, y = height,
+           fill = human, color = human)) +
+  geom_quasirandom(size = 4.5, width = 0.5, alpha = 0.5)
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(ggbeeswarm)
+ggplot(starwars_altura,
+       aes(x = human, y = height,
+           fill = human, color = human)) +
+  geom_quasirandom(size = 4.5, width = 0.5, alpha = 0.5)
+```
+
+]
+
+]
+
+
+.panel[.panel-name[Paso 3]
+
+.pull-left[
+
+```{r eval = FALSE}
+library(ggbeeswarm)
+ggplot(starwars_altura,
+       aes(x = human, y = height,
+           fill = human, color = human)) +
+  geom_quasirandom(size = 4.5, width = 0.5, alpha = 0.5) +
+  scale_x_discrete(labels = c("NO", "SÍ"))
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(ggbeeswarm)
+ggplot(starwars_altura,
+       aes(x = human, y = height,
+           fill = human, color = human)) +
+  geom_quasirandom(size = 4.5, width = 0.5, alpha = 0.5) +
+  scale_x_discrete(labels = c("NO", "SÍ"))
+```
+
+]
+
+]
+
+.panel[.panel-name[Paso 4]
+
+
+.pull-left[
+
+```{r eval = FALSE}
+library(ggbeeswarm)
+ggplot(starwars_altura,
+       aes(x = human, y = height,
+           fill = human, color = human)) +
+  geom_quasirandom(size = 4.5, width = 0.5, alpha = 0.5) +
+  scale_x_discrete(labels = c("NO", "SÍ")) +
+  guides(color = "none", fill = "none") +
+  labs(x = "¿Son humanos?",
+       y = "Altura (cm)",
+       title = "ALTURA DE LOS PERSONAJES DE STARWARS")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(ggbeeswarm)
+ggplot(starwars_altura,
+       aes(x = human, y = height,
+           fill = human, color = human)) +
+  geom_quasirandom(size = 4.5, width = 0.5, alpha = 0.5) +
+  scale_x_discrete(labels = c("NO", "SÍ")) +
+  guides(color = "none", fill = "none") +
+  labs(x = "¿Son humanos?",
+       y = "Altura (cm)",
+       title = "ALTURA DE LOS PERSONAJES DE STARWARS")
+```
+]
+
+]
+]
+
+---
+
+# Gráficos de cajas y bigotes
+
+Otra opción para visualizar datos continuos son con los famosos **gráficos de cajas y bigotes** con `geom_boxplot()`
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(datos_final,
+       aes(x = termino, y = prob, fill = termino)) +
+  geom_boxplot(alpha = 0.8) +
+  scale_fill_brewer(palette = "RdBu") +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de la probabilidad")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(datos_final,
+       aes(x = termino, y = prob, fill = termino)) +
+  geom_boxplot(alpha = 0.8) +
+  scale_fill_brewer(palette = "RdBu") +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de la probabilidad")
+```
+
+]
+
+---
+
+# Gráficos de cajas y bigotes
+
+.pull-left[
+
+```{r echo = FALSE}
+ggplot(datos_final,
+       aes(x = termino, y = prob, fill = termino)) +
+  geom_boxplot(alpha = 0.8) +
+  scale_fill_brewer(palette = "RdBu") +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de la probabilidad")
+```
+
+]
+
+.pull-right[
+
+Un **diagrama de caja y bigotes o box plot** es un gráfico que resume algunos datos estadísticos en relación a la **mediana** y **medidas de posición** (percentiles)
+
+* Los **lados** inferior y superior de la caja representan el **primer y tercer cuartil**: la **altura de la caja** es igual al **rango intercuartílico** (dentro están el 50% de los datos centrales en torno a la mediana=.
+
+* La **línea gruesa** que divide la caja marca la **mediana**.
+
+* Las **líneas (bigotes)** que salen de las cajas llegan hasta el primer/último dato que no supere 1.5 veces el rango intercuartílico (diferencia entre tercer y primer cuartil). Los **puntos alejados** representan los **datos atípicos o outliers**.
+
+]
+
+---
+
+# Gráficos de cajas y bigotes
+
+.pull-left[
+
+Podemos añadir, además del gráfico resumido, los propios datos con `geom_jitter()`, que nos añadirá los puntos como una especie de «gotelé aleatorio» (la altura es la de los datos pero la anchura la disemina)
+
+```{r eval = FALSE}
+ggplot(datos_final,
+       aes(x = termino, y = prob,
+           color = termino, fill = termino)) +
+  geom_boxplot(alpha = 0.8) +
+  geom_jitter(alpha = 0.25, size = 1.5) +
+  scale_fill_brewer(palette = "RdBu") +
+  scale_color_brewer(palette = "RdBu") +
+  guides(color = "none", fill = "none")
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de la probabilidad")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(datos_final,
+       aes(x = termino, y = prob,
+           color = termino, fill = termino)) +
+  geom_boxplot(alpha = 0.8) +
+  geom_jitter(alpha = 0.25, size = 1.5) +
+  scale_fill_brewer(palette = "RdBu") +
+  scale_color_brewer(palette = "RdBu") +
+  guides(color = "none", fill = "none")
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de la probabilidad")
+```
+
+]
+
+---
+
+# Gráficos de cajas y bigotes
+
+.pull-left[
+
+Con `coord_flip()` podemos **invertir los ejes**
+
+```{r eval = FALSE}
+ggplot(datos_final,
+       aes(x = termino, y = prob,
+           color = termino, fill = termino)) +
+  geom_boxplot(alpha = 0.8) +
+  geom_jitter(alpha = 0.25, size = 1.5) +
+  coord_flip() +
+  scale_fill_brewer(palette = "RdBu") +
+  scale_color_brewer(palette = "RdBu") +
+  guides(color = "none", fill = "none") +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de la probabilidad")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(datos_final,
+       aes(x = termino, y = prob,
+           color = termino, fill = termino)) +
+  geom_boxplot(alpha = 0.8) +
+  geom_jitter(alpha = 0.25, size = 1.5) +
+  coord_flip() +
+  scale_fill_brewer(palette = "RdBu") +
+  scale_color_brewer(palette = "RdBu") +
+  guides(color = "none", fill = "none") +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de la probabilidad")
+```
+
+]
+
+
+]
+
+---
+
+# Histograma, densidad y violín
+
+.pull-left[
+
+Una opción también muy habitual son los **histogramas**  (que no diagrama de barras). El histograma **segmenta en tramos el conjunto de posibles valores** y representa la frecuencia de cada uno de esos segmentos. Para pintarlos podemos hacerlo con `geom_histogram()` (por ejemplo, para las probabilidades de `termino == "Probable"`)
+
+```{r eval = FALSE}
+ggplot(datos_pivot %>%
+         filter(termino == "Probable"),
+       aes(x = prob)) +
+  geom_histogram(alpha = 0.4) + #<<
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de probabilidad")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(datos_pivot %>%
+         filter(termino == "Probable"),
+       aes(x = prob)) +
+  geom_histogram(alpha = 0.4) +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de probabilidad")
+```
+
+]
+
+---
+
+# Histograma, densidad y violín
+
+.panelset[
+.panel[.panel-name[Ejercicio]
+
+1. Sin filtrer los datos, codifica el color y el relleno en función de la variable `termino`, componiendo con `facet_wrap()` en función de dicha variable.
+
+2. Añade `scale_fill_viridis_d()` y `scale_fill_viridis_d()` para las escalas de colores y rellenos. Elimina el nombre de las leyendas de `color` y `fill`.
+
+3. Modifica la variable `termino` con `fct_reorder` para reordenar los términos en función de sus probabilidades.
+
+4. Por defecto nos pinta 30 barras pero podemos indicarle que pinte más o menos, por ejemplo 10 barras con `bins = 10` dentro de `geom_histogram()`.
+
+]
+
+.panel[.panel-name[Paso 1]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(datos_pivot,
+       aes(x = prob, color = termino,
+           fill = termino)) +
+  geom_histogram(alpha = 0.4) +
+  facet_wrap(~ termino, #<<
+             scale = "free_y") +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de probabilidad")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(datos_pivot,
+       aes(x = prob, color = termino,
+           fill = termino)) +
+  geom_histogram(alpha = 0.4) +
+  facet_wrap(~ termino,
+             scale = "free_y") +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de probabilidad")
+```
+
+]
+
+]
+
+.panel[.panel-name[Paso 2]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(datos_pivot,
+       aes(x = prob, color = termino,
+           fill = termino)) +
+  geom_histogram(alpha = 0.4) +
+  scale_fill_viridis_d() + #<<
+  scale_color_viridis_d() + #<<
+  facet_wrap(~ termino,
+             scale = "free_y") +
+  guides(color = "none",
+         fill = "none") + #<<
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de probabilidad")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(datos_pivot,
+       aes(x = prob, color = termino,
+           fill = termino)) +
+  geom_histogram(alpha = 0.4) +
+  scale_fill_viridis_d() + 
+  scale_color_viridis_d() +
+  facet_wrap(~ termino,
+             scale = "free_y") +
+  guides(color = "none",
+         fill = "none") + 
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de probabilidad")
+```
+
+]
+]
+
+.panel[.panel-name[Paso 3]
+
+.pull-left[
+
+```{r eval = FALSE}
+datos_pivot <-
+  datos_pivot %>%
+  mutate(termino =
+           fct_reorder(termino, prob)) #<<
+
+ggplot(datos_pivot,
+       aes(x = prob, color = termino,
+           fill = termino)) +
+  geom_histogram(alpha = 0.4) +
+  scale_fill_viridis_d() + 
+  scale_color_viridis_d() + 
+  facet_wrap(~ termino,
+             scale = "free_y") +
+  guides(color = "none",
+         fill = "none") +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de probabilidad")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+datos_pivot <-
+  datos_pivot %>%
+  mutate(termino = fct_reorder(termino, prob))
+ggplot(datos_pivot,
+       aes(x = prob, color = termino,
+           fill = termino)) +
+  geom_histogram(alpha = 0.4) +
+  scale_fill_viridis_d() +
+  scale_color_viridis_d() + 
+  facet_wrap(~ termino,
+             scale = "free_y") +
+  guides(color = "none",
+         fill = "none") + 
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de probabilidad")
+```
+
+]
+
+]
+
+.panel[.panel-name[Paso 4]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(datos_pivot,
+       aes(x = prob, color = termino,
+           fill = termino)) +
+  geom_histogram(alpha = 0.4,
+                 bins = 10) + #<<
+  scale_fill_viridis_d() + 
+  scale_color_viridis_d() + 
+  facet_wrap(~ termino,
+             scale = "free_y") +
+  guides(color = "none",
+         fill = "none") + 
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de probabilidad")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(datos_pivot,
+       aes(x = prob, color = termino,
+           fill = termino)) +
+  geom_histogram(alpha = 0.4, bins = 10) +
+  scale_fill_viridis_d() +
+  scale_color_viridis_d() + 
+  facet_wrap(~ termino,
+             scale = "free_y") +
+  guides(color = "none",
+         fill = "none") +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de probabilidad")
+```
+
+]
+
+]
+
+]
+
+
+---
+
+# Histograma, densidad y violín
+
+.pull-left[
+
+Los **histogramas** en realidad son una **aproximación discreta** de los **gráficos de densidad** (asumiendo que los intervalos se pudieran ir haciendo tan pequeños como queramos, generado una curva continua). Las densidades mejoran la robustez al histograma que puede variar mucho en función de los tramos de agregación elegidos. 
+
+Basta cambiar `geom_histogram()` por `geom_density()`
+
+```{r eval = FALSE}
+ggplot(datos_final,
+       aes(x = prob, color = termino,
+           fill = termino)) +
+  geom_density(alpha = 0.4) + #<<
+  scale_fill_brewer(palette = "RdBu") +
+  scale_color_brewer(palette = "RdBu") +
+  guides(color = "none") +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de probabilidad")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(datos_final,
+       aes(x = prob, color = termino,
+           fill = termino)) +
+  geom_density(alpha = 0.4) +
+  scale_fill_brewer(palette = "RdBu") +
+  scale_color_brewer(palette = "RdBu") +
+  guides(color = "none") +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de probabilidad")
+```
+
+
+]
+
+---
+
+# Histograma, densidad y violín
+
+.pull-left[
+
+A veces puede ser interesante **superponer las densidades**, lo cual lo podemos hacer con `geom_density_ridges()`, del paquete `{ggridges}`.
+
+```{r eval = FALSE}
+library(ggridges)
+ggplot(datos_pivot %>%
+         mutate(termino =
+                  fct_reorder(termino, prob)),
+       aes(y = termino, x = prob,
+           fill = termino)) +
+  geom_density_ridges(alpha = 0.4) + #<<
+  scale_fill_viridis_d() +
+  scale_color_viridis_d() +
+  guides(color = "none", fill = "none")  +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de la probabilidad")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(ggridges)
+ggplot(datos_pivot %>%
+         mutate(termino = fct_reorder(termino, prob)),
+       aes(y = termino, x = prob, fill = termino)) +
+  geom_density_ridges(alpha = 0.4) +
+  scale_fill_viridis_d() +
+  scale_color_viridis_d() +
+  guides(color = "none", fill = "none")  +
+  labs(fill = "Términos",
+       y = "Probabilidad (%)",
+       title = "Percepción de la probabilidad")
+```
+
+
+]
+
+
+---
+
+class: center, middle
+
+# CASO PRÁCTICO
+
+## VISUALIZANDO DATOS DE NETFLIX
+
+&nbsp;
+
+Vamos a profundizar en la personalización de nuestro gráfico
+
+
+---
+
+# Datos
+
+En est ocasión vamos a usar los **datos de Netflix** proporcionados por **Paula Casado** en [El Arte del Dato](https://elartedeldato.com/blog/como-anadir-una-anotacion-en-ggplot/), página en la que se basará esta visualización: **visualizaremos** el **número de películas y series de instituto** que se han estrenado en **Netflix en cada año**. Los datos provienen originalmente de [Kaggle](https://www.kaggle.com/shivamb/netflix-shows),
+
+```{r}
+netflix <-
+  read_csv('https://raw.githubusercontent.com/elartedeldato/datasets/main/netflix_titles.csv')
+netflix
+```
+
+
+---
+
+# Proyecto
+
+Cuando se empieza a programar para un trabajo concreto de `R` es recomendable crearnos lo que se conoce como un **proyecto de trabajo**: en lugar de ir abriendo ventanas sueltas para programar, podemos agruparlos en proyectos, de forma que podamos acceder a ellos de forma **ordenada**
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/crear_proyecto1.jpg" alt = "course-ECI" align = "left" width = "220" style = "margin-top: 5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/crear_proyecto2.jpg" alt = "course-ECI" align = "middle" width = "220" style = "margin-top: 5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/crear_proyecto3.jpg" alt = "course-ECI" align = "right" width = "250" style = "margin-top: 5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/crear_proyecto4.jpg" alt = "course-ECI" align = "right" width = "250" style = "margin-top: 5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+---
+
+# Preprocesamiento
+
+Para visualizar vamos a filtrar las **películas y series de instituto**, usando la función `str_detect()` (del paquete `{stringr}`), que nos devolverá `TRUE` si detecta en la variable `description` (pasándola a mayúsculas por si acaso) el patrón de texto `"HIGH SCHOOL"`.
+
+```{r}
+netflix_hs <- netflix %>%
+  filter(str_detect(toupper(description), "HIGH SCHOOL"))
+netflix_hs 
+```
+
+---
+
+# Preprocesamiento
+
+📝 Del conjunto original **elimina** aquellos registros de los que no tengamos su año de estreno, aquellos registros cuyo campo `date_added` esté ausente.
+
+📝 Tras ello comprueba que efectivamente no queda ninguno ausente
+
+--
+
+
+```{r}
+netflix_filtro <- 
+  netflix_hs %>% filter(!is.na(date_added))
+
+netflix_filtro %>% filter(is.na(date_added))
+```
+
+---
+
+# Preprocesammiento
+
+Tras dicho filtro vamos a añadir el **año en el que se estrenó**, con la función `year()` de `{lubridate}`, que nos devuelve el año de una fecha concreta. Esa fecha concreta la vamos a construir con `mdy()`.
+
+```{r}
+library(lubridate)
+mdy("August 26, 2016")
+mdy("January 13, 2015")
+```
+
+---
+
+# Preprocesammiento
+
+📝 Añade una nueva columna a nuestros datos que contenga el año de estreno en Netflix (convirtiendo primero a fecha y luego extrayendo el año).
+
+--
+
+```{r}
+netflix_final <- 
+  netflix_filtro %>%
+  mutate(year = year(mdy(date_added)))
+```
+
+---
+
+# Análisis preliminar
+
+Tras la depuración 
+
+📝 Agrupa los datos por año (que tenemos en la nueva variable `year` creada)
+
+📝 Cuenta el número de elementos en cada año.
+
+--
+
+```{r}
+netflix_resumen <- 
+  netflix_final %>%
+  group_by(year) %>% #<<
+  count() %>%
+  ungroup() #<<
+netflix_resumen
+```
+
+---
+
+# Diagrama de barras
+
+.panelset[
+.panel[.panel-name[Ejercicio]
+
+📝 Con estos datos ya estamos condiciones de poder hacer nuestro diagrama de barras. Realiza un diagrama de barras con el año en el eje X, el número de películas en cada una en el eje Y.
+
+]
+
+.panel[.panel-name[Solución]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(netflix_resumen,
+       aes(x = year, y = n)) +
+  geom_col() #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(netflix_resumen,
+       aes(x = year, y = n)) +
+  geom_col()
+```
+
+]
+
+]
+
+]
+
+---
+
+# Diagrama de barras: color
+
+.panelset[
+.panel[.panel-name[Ejercicio]
+
+📝 Repite el gráfico indicándole el color del RELLENO de las barras sea rojo (`"red"`)
+
+]
+
+.panel[.panel-name[Solución]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(netflix_resumen,
+       aes(x = year, y = n)) +
+  geom_col(fill = "red") #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(netflix_resumen,
+       aes(x = year, y = n)) +
+  geom_col(fill = "red")
+```
+
+]
+
+]
+
+]
+
+
+---
+
+# Modificando la escala de los ejes
+
+.pull-left[
+
+Si te fijas solo nos ha mostrado algunos años en el eje X, así que le vamos a indicar la **escala concreta** que queremos en dicho eje con `scale_x_continuous()`, usando el argumento `breaks` en el que le indicaremos los valores donde queremos que «corte» el eje X (los corte serán los años guardados en `netflix_resumen$year`)
+
+```{r eval = FALSE}
+ggplot(netflix_resumen, aes(x = year, y = n)) +
+  geom_col(fill = "red") +
+  scale_x_continuous(breaks =
+                       netflix_resumen$year) #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(netflix_resumen, aes(x = year, y = n)) +
+  geom_col(fill = "red") +
+  scale_x_continuous(breaks = netflix_resumen$year)
+```
+
+]
+
+---
+
+# Fechas en los ejes 
+
+Cuando uno de los **ejes representa una fecha** podemos indicárselo con `scale_x_date()`, asigándole en `date_breaks` el lapso temporal que queremos en las marcas (por ejemplo, `date_breaks = '1 month'`). Como ejemplo, vamos a visualizar el número de películas y series generales estrenadas en Netflix desde el 1 de julio de 2020.
+
+📝 Antes filtra tu conjunto original `netflix` para quedarte solo con los registros posteriroes al 1 de julio de 2020, agrupalos por fecha
+
+--
+
+```{r}
+netflix_julio_2022 <-
+  netflix %>%
+  mutate(date_added = mdy(date_added)) %>%
+  filter(date_added > as.Date("2020-07-01")) #<<
+```
+  
+---
+
+# Fechas en los ejes 
+
+.panelset[
+.panel[.panel-name[Ejercicio]
+
+📝 Visualiza en un diagrama de barras las películas agrupadas por fecha de `netflix_julio_2022`, con `geom_col()`, y añade `scale_x_date(date_breaks = '1 month')`
+
+] 
+
+.panel[.panel-name[Solución]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(netflix_julio_2022 %>%
+         group_by(date_added) %>% count(),
+       aes(x = date_added, y = n)) +
+  geom_col(fill = "red") +
+  scale_x_date(date_breaks = '1 month') #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(netflix_julio_2022 %>%
+         group_by(date_added) %>% count(),
+       aes(x = date_added, y = n)) +
+  geom_col(fill = "red") +
+  scale_x_date(date_breaks = '1 month')  
+```
+
+]
+
+]
+
+]
+
+---
+
+# Personalizando tema
+
+.panelset[
+.panel[.panel-name[Ejercicio]
+
+📝 Lo primero que vamos a hacer para personalizar es **añadir título, subtítulo y caption**.
+
+]
+
+.panel[.panel-name[Solución]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(netflix_resumen,
+       aes(x = year, y = n)) +
+  geom_col(fill = "red") +
+  scale_x_continuous(breaks = netflix_resumen$year) +
+  labs(title = "NETFLIX", #<<
+       subtitle = "Películas y series de instituto",
+       caption =
+         "Basada en El Arte del Dato (https://elartedeldato.com) | Datos: Kaggle")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(netflix_resumen,
+       aes(x = year, y = n)) +
+  geom_col(fill = "red") +
+  scale_x_continuous(breaks = netflix_resumen$year) +
+  labs(title = "NETFLIX",
+       subtitle = "Películas y series de instituto",
+       caption =
+         "Basada en El Arte del Dato (https://elartedeldato.com) | Datos: Kaggle")
+```
+
+]
+
+]
+
+]
+
+---
+
+# Fuente propia
+
+En este caso, al ser datos de Netflix, la propia palabara de es una marca por sí misma, y quizás nos interese **usar alguna fuente de Google** para cambiar la fuente por defecto. En este caso vamos a usar la fuente de Netflix, la fuente `Bebas Neue`, y para poder usarla usaremos `font_add_google()`
+
+```{r}
+library(sysfonts)
+library(showtext)
+font_add_google(family = "Bebas Neue",
+                name = "Bebas Neue")
+showtext_auto()
+```
+
+---
+
+# Fuente propia
+
+Tras ello vamos a **personalizar totalmente nuestro tema**. Lo primero que haremos será «resetear» el tema que podamos tener por defecto  con `theme_minimal()`. Tras dicho reseteo, le indicaremos con `theme()`
+
+* `legend.position = "none"`: sin leyenda.
+* `plot.title = element_text(family = "Bebas Neue", color = "red", size = 50)`: le indicaremos la fuente, el color y el tamaño de nuestro título.
+
+```{r eval = FALSE}
+gg <- ggplot(netflix_resumen, aes(x = year, y = n)) +
+  geom_col(fill = "red") +
+  scale_x_continuous(breaks = netflix_resumen$year) +
+  theme_minimal() +
+  theme(legend.position = "none",
+        plot.title =
+          element_text(family = "Bebas Neue",
+                       color = "red", size = 80)) +
+  labs(title = "NETFLIX",
+       subtitle = "Películas y series de instituto",
+       caption = "Basada en El Arte del Dato (https://elartedeldato.com) | Datos: Kaggle")
+gg
+```
+
+---
+
+# Fuente propia
+
+```{r echo = FALSE}
+gg <- ggplot(netflix_resumen, aes(x = year, y = n)) +
+  geom_col(fill = "red") +
+  scale_x_continuous(breaks = netflix_resumen$year) +
+  theme_minimal() +
+  theme(legend.position = "none",
+        plot.title =
+          element_text(family = "Bebas Neue",
+                       color = "red", size = 80)) +
+  labs(title = "NETFLIX",
+       subtitle = "Películas y series de instituto",
+       caption = "Basada en El Arte del Dato (https://elartedeldato.com) | Datos: Kaggle")
+gg
+```
+
+---
+
+# Color de fondo
+
+.pull-left[
+
+Tras cambiar la fuente del título vamos a indicarle que el fondo del gráfico sea todo negro.
+
+```{r eval = FALSE}
+gg <- 
+  gg +
+  theme(panel.background =
+          element_rect(fill = "black"),
+        plot.background =
+          element_rect(fill = "black", 
+                       color = "black"))
+gg
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+gg <- 
+  gg +
+  theme(panel.background =
+          element_rect(fill = "black"),
+        plot.background =
+          element_rect(fill = "black", 
+                       color = "black"))
+gg
+```
+
+]
+
+---
+
+# Grid
+
+.pull-left[
+
+También vamos a personalizar el grid horizontal (el que marca las alturas del eje y), indicándole color y tamaño.
+
+```{r eval = FALSE}
+gg <- gg +
+  theme(panel.grid.major.y =
+          element_line(size = 0.1,
+                       color = "white"),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank())
+gg
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE}
+gg <- gg +
+  theme(panel.grid.major.y =
+          element_line(size = 0.1,
+                       color = "white"),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank())
+gg
+```
+
+]
+
+---
+
+# Fuentes de textos
+
+.pull-left[
+
+Vamos a personalizar también la **fuente del subtítulo y caption** y los textos de los ejes.
+
+```{r eval = FALSE}
+font_add_google(family = "Permanent Marker",
+                name = "Permanent Marker")
+showtext_auto()
+gg <- gg + 
+  theme(plot.subtitle =
+          element_text(family = "Permanent Marker",
+                       size = 21, color = "white"),
+        plot.caption =
+          element_text(family = "Permanent Marker",
+                       color = "white", size = 19),
+        axis.text = 
+          element_text(size = 15,
+                       family = "Permanent Marker",
+                       color = "white"))
+gg
+```
+
+]
+
+.pull-right[
 
 
 ```{r echo = FALSE}
-DT::datatable(tibble("Paquete" = c("glue, stringr",
-                                   "tibble, tidyr, dplyr",
-                                   "readr, readxl, rvest",
-                                   "purrr", 
-                                   "ggplot2", "lubridate",
-                                   "rmarkdown, knitr",
-                                   "DT",
-                                   "xaringan",
-                                   "microbenchmark",
-                                   "devtools",
-                                   "eurostat", "gapminder",
-                                   "datasets",
-                                   "owidR",
-                                   "ropenspain/climaemet",
-                                   "ropenspain/infoelectoral",
-                                   "JaseZiv/chessR"),
-                     "Detalles" =
-                       c("Manejo de textos",
-                         "Manejo de datos (tidyverse)",
-                         "Importación de archivos (tidyverse)",
-                         "Manejo de listas (tidyverse)",
-                         "Dataviz (tidyverse)",
-                         "Manejo de fechas (tidyverse)",
-                         "Generación de informes/docs",
-                         "Tablas interactivas en .Rmd",
-                         "Generación de diapositivas",
-                         "Comparación de tiempos",
-                         "Instalar paquetes desde Github",
-                         "Datos del Eurostat",
-                         "Datos socioeconómicos de países",
-                         "Paquete con datos",
-                         "Datos de Our World in Data",
-                         "Datos del AEMET",
-                         "Datos electorales (España)",
-                         "Datos de partidas de ajedrez")),
-              options = list(pageLength = 8,
-                             hover = TRUE),
-              rownames = FALSE, editable = 'cell',
-              caption = "Tabla (editable en cada celda)") %>%
-  DT::formatStyle(c("Paquete", "Detalles"),
-                  target = 'row', backgroundColor = "white")
+font_add_google(family = "Permanent Marker",
+                name = "Permanent Marker")
+showtext_auto()
+gg <- gg + 
+  theme(plot.subtitle =
+          element_text(family = "Permanent Marker",
+                       size = 21, color = "white"),
+        plot.caption =
+          element_text(family = "Permanent Marker",
+                       color = "white", size = 19),
+        axis.text = 
+          element_text(size = 15,
+                       family = "Permanent Marker",
+                       color = "white"))
+gg
 ```
 
+]
+
+---
+
+# Márgenes
+
+Vamos a darle un poco de aire **añadiendo márgenes**
+
+```{r eval = FALSE}
+gg <- gg +
+  theme(plot.margin =
+          margin(t = 4, r = 4,
+                 b = 4, l = 8, "pt"))
+gg
+```
+
+---
+
+# Gráfico casi final
+
+```{r echo = FALSE, out.width = "50%", fig.align = "center"}
+gg <- gg +
+  theme(plot.margin =
+          margin(t = 4, r = 4,
+                 b = 4, l = 8, "pt"))
+gg
+```
+
+---
+
+# Anotaciones
+
+Por último con `annotate()` podemos añadir anotaciones al gráfico, por ejemplo, escribiendo el mes de enero en la última barra para remarcar que solo llega hasta enero de 2021, con una fina curva como «flecha».
+
+```{r eval = FALSE}
+gg <- gg  +
+  annotate("text", label = "(hasta enero)", 
+           x = 2021, y = 11,
+           hjust = 0.3, vjust = 0,
+           family = "Permanent Marker",
+           size = 5, color='white', angle = 20) +
+  annotate("curve",
+           x = 2021, y = 9,
+           xend = 2021, yend = 5,
+           color = "white")
+gg
+```
+
+---
+
+# Tachán
+
+```{r echo = FALSE, out.width = "50%", fig.align = "center"}
+gg <- gg  +
+  annotate("text", label = "(hasta enero)", 
+           x = 2021, y = 11,
+           hjust = 0.3, vjust = 0,
+           family = "Permanent Marker",
+           size = 5, color='white', angle = 20) +
+  annotate("curve",
+           x = 2021, y = 9,
+           xend = 2021, yend = 5,
+           color = "white")
+gg
+```
+
+---
+
+class: center, middle
+
+# CASO PRÁCTICO
+
+## VISUALIZANDO EN COORDENADAS POLARES
+
+&nbsp;
+
+Vamos a imitar a Florence Nightingale
+
+
+---
+
+# Gráficos en coordenadas polares
+
+El gráfico de rosa o área polar fue una absoluta revolución ya que permitía representar tres variables a la vez: 
+
+* **tiempo** (cada gajo es un mes)
+* **nº de muertes** (área del gajo)
+* **causa de la muerte** (color del gajo): azules para enfermedades infecciosas, rojas para heridas, negras para otras causas.
+
+```{r fig.cap = "Gráfico original de Florence Nightingale", out.width = '50%'}
+knitr::include_graphics("img/rosa_nightingale.jpg")
+```
+
+---
+
+# Gráficos en coordenadas polares
+
+
+```{r florence, echo = FALSE, fig.align = 'center',  include = identical(knitr:::pandoc_to(), 'html'), fig.cap = "Gráfico original de Florence Nightingale", out.width = '50%'}
+knitr::include_graphics("img/rosa_nightingale.jpg")
+```
+
+Florence quería demostrar que el enorme nº de bajas debidas a enfermedades infecciosas era **evitable**y así lo hizo con el gráfico de la izquierda, comparado con el de la derecha: al margen de junio de 1855, el % de muertes por enfermedades (área azul) descendió tras sus medidas para mejorar las condiciones de los hospitales.
+
+---
+
+# Gráficos en coordenadas polares
+
+
+Vamos a intentar recrear su brillante visualización. Los datos los podemos obtener de un paquete muy interesante con datos relacionados con eventos de la **historia de la estadística y dataviz**, el paquete `{HistData}`, y el conjunto `Nightingale`
+
+```{r}
+library(HistData)
+Nightingale
+glimpse(Nightingale)
+```
+
+---
+
+class: center, middle
+
+# Mañana más y mejor. ¡Muchísimas gracias a todos/as/es!
+
+Las diapositivas han sido generadas con el paquete [**{xaringan}**](https://github.com/yihui/xaringan).
+
+
+Los estilos (.css y .js) de estas diapositivas están basados en las diapositivas del repositorio <https://github.com/dieghernan/rpubs>
 
 ---
 
 name: rmarkdown
 class: center, middle
 
-# Caso práctico: informe RMarkdown
+# Casos prácticos: informes RMarkdown
 
 ## **presentado nuestros análisis**
 
@@ -2730,52 +8543,3 @@ También podemos **incluir ecuaciones** haciendo uso de código latex (entre dol
 
 
 ---
-name: evaluacion
-class: center, middle
-
-# EVALUACIÓN
-
-## **Práctica evaluable I: informes en Rmarkdown**
-
-&nbsp;
-
-En la carpeta [EVALUACIÓN](https://github.com/dadosdelaplace/courses-ECI-2022/tree/main/EVALUACI%C3%93N), accede al fichero `Evaluacion_1.Rmd` en la carpeta `PRÁCTICA I`. Dicho archivo es una plantilla de archivo `.Rmd` en el que se te hacen diferentes preguntas sobre un conjunto de datos y debes responderlas dentro del propio fichero y estructura `.Rmd`.
-
-&nbsp;
-
-La **entrega de las cinco prácticas** deberán ser enviadas por mail antes de las 23:59h del 11 de febrero, todas en un archivo comprimido (`.zip`, `.rar`, etc), con el nombre de el/la alumno/a.
-
----
-
-class: center, middle
-
-# Mañana más y mejor. ¡Muchísimas gracias a todos/as!
-
-Las diapositivas han sido generadas con el paquete [**{xaringan}**](https://github.com/yihui/xaringan).
-
-
-Los estilos (.css y .js) de estas diapositivas están basados en las diapositivas del repositorio <https://github.com/dieghernan/rpubs>
-
----
-
-class: inverse center middle
-
-# Bloque II: introducción al dataviz en R.
-
-&nbsp;
-
-### [Repaso](#repaso-1)
-
-### [Tidy data: ordenando los datos](#tidy-data)
-
-### [Introducción a Tidyverse](#tidyverse)
-
-### [Dataviz e introducción a ggplot2](#dataviz)
-
-### [Introducción a la estadística](#stats)
-
-### [Caso práctico: análisis y dataviz de datos (cómics y chocolate)](#caso-practico-2)
-
-### [🏅Evaluación](#evaluacion-2)
-
-
