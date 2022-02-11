@@ -126,26 +126,28 @@ class: inverse middle
 
 * Instalación de R y RStudio. Primeros pasos. Tipos de datos.
 * Datos estructurados: matrices y data.frame
-* Extras: estructuras de control, proyectos, funciones y datos en formato tibble
+* Extras: estructuras de control, proyectos
 
 
-### BLOQUE II. Introducción a dataviz y  estadística con R
+### BLOQUE II. Introducción a tidyverse
 
-* Introducción a estadística básica: centralización y dispersión, conceptos de regresión e inferencia.
-* Tidy data. Introducción a Tidyverse
-* Dataviz: la importancia de visualizar datos. Introducción a ggplot2. Visualización en tablas
+* Funciones
+* Tibbles y tidy data
+* Introducción a tidyverse. Relacionando datos (joins).
 
-### BLOQUE III. Periodismo de datos
+### BLOQUE III. Introducción al dataviz en R
 
-Impartido por Borja Andrino, Javier Álvarez Liébana y Gabriel Valverde Castilla.
+* Dataviz: introducción histórica.
+* Introducción a ggplot2
+* Dataviz: la importancia de visualizar datos.
+* Profundizando en ggplot2
 
-### BLOQUE IV. Story Telling
+### BLOQUE IV. Comunicando resultados
 
-Impartido por Victòria Oliveres, Javier Álvarez Liébana y Gabriel Valverde Castilla.
+* Introducción a rmarkdown.
 
-### BLOQUE V. Visualización de datos en mapas
 
-Impartido por Dominic Royé, Javier Álvarez Liébana y Gabriel Valverde Castilla.
+En el curso se profundizó además en la visualización y análisis de datos electorales, aprendimos a conectar `R` con datawrapper, y visualizamos datos en mapas vectoriales y raster. 
 
 ---
 
@@ -165,15 +167,9 @@ class: inverse center middle
 
 ### [Extras: estructuras de control](#estructuras)
 
-### [Primer proyecto. Funciones](#proyecto-funciones)
-
-### [Mejorando los datos: tibble](#tibble)
-
-### [Caso práctico: informe RMarkdown](#rmarkdown)
-
-### [🏅Evaluación](#evaluacion)
 
 ---
+
 name: instalacion-primeros-pasos
 class: center, middle
 
@@ -313,11 +309,8 @@ El **Word**  que usaremos para trabajar y escribir en nuestro lenguaje será **R
 
 `R` es un **lenguaje estadístico**, creado por y para la estadística, con 4 ventajas fundamentales:
 
---
 
 * **Software libre** (como C++, Python, Fortran, y otros tantos lenguajes). El software libre no solo tiene una ventaja evidente (es gratis, ok) sino que permite **acceder libremente a código ajeno**.
-
---
 
 * **Lenguaje modular**: en la instalación que hemos realizado no se han instalado todas las funcionalidades, solo el mínimo para poder funcionar, de forma que se ahorra espacio en disco y en memoria. Al ser software libre, existen trozos de **código hechos por otras personas llamados paquetes**, que podemos ir instalando a nuestro gusto según los vayamos necesitando.
 
@@ -354,7 +347,7 @@ Como hemos mencionado, existen trozos de **código hechos por otras personas lla
 &nbsp;
 
 
-A lo largo del curso usaremos varios de esos paquetes, pero el más importante para nuestro objetivo es el paquete `{ggplot2}`, un paquete para la **elaboración de visualizaciones de datps**. Vamos a instalarlo (necesitamos internet para ello) con la orden `install.packages("ggplot")`
+A lo largo del curso usaremos varios de esos paquetes, pero el más importante para nuestro objetivo es el paquete `{ggplot2}`, un paquete para la **elaboración de visualizaciones de datos**. Vamos a instalarlo (necesitamos internet para ello) con la orden `install.packages("ggplot")`
 
 ```{r eval = FALSE}
 install.packages("ggplot2")
@@ -479,22 +472,23 @@ Empecemos por lo sencillo: **¿cómo usar R como una calculadora?** Si escribimo
 2 + 1
 ```
 
-&nbsp;
+--
 
-Si dicha suma la quisiéramos utilizar para un segundo cálculo: ¿y si la **almacenamos en alguna variable**?
+Si dicha suma la quisiéramos utilizar para un segundo cálculo: ¿y si la **almacenamos en alguna variable**? Por ejemplo, vamos a guardar la suma en una variable `x`
 
 ```{r}
 x <- 2 + 1 #<<
+```
+
+--
+
+Si te fijas ahora `x` aparece definida en nuestro **panel `environment`**, y puede ser usada de nuevo
+
+```{r}
 x + 3
 ```
 
 <img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/environment_1.jpg" alt = "environment" align = "right" width = "450">
-
-
-```{r}
-y <- 5
-x + y
-```
 
 ---
 
@@ -518,26 +512,18 @@ x^2
 abs(x)
 ```
 
-### Raíz cuadrada
+--
 
-```{r warning = TRUE}
-sqrt(-1)
-```
+##  Errores
 
----
-
-# Errores
-
-Durante tu aprendizaje va a ser **muy habitual que las cosas no salgan a la primera**, apareciendo en consola mensajes en un color rojo. Un miedo muy habitual cuando se empieza a programar es pensar que si haces algo mal o aparece algún mensaje de error, el **ordenador puede explotar en cualquier momento**. 
-
-A **programar se aprende programando**, así que haz las pruebas que quieras.
+Durante tu aprendizaje va a ser **muy habitual que las cosas no salgan a la primera**, ni siquiera a la décima, apareciendo en consola mensajes en un color rojo. A **programar se aprende programando**, así que haz las pruebas que quieras: lo peor que puede pasar es que tengas que reiniciar `R`.
 
 ---
 
 # Mensajes de «error»
 
 
-* **Mensajes de ERROR**: irán precedidos de la frase `«Error in…»`, y serán aquellos **fallos que impidan la ejecución del código** (un error muy habitual es intentar acceder a funciones de algún paquete sin tenerlo instalado: estás intentando leerte un libro de tu biblioteca pero ni siquiera has ido a la tienda a «comprarlo»). Veamos un ejemplo intentando sumar un número a un texto.
+* **Mensajes de ERROR**: irán precedidos de la frase **«Error in…»**, y serán aquellos **fallos que impidan la ejecución del código** (un error muy habitual es intentar acceder a funciones de algún paquete sin tenerlo instalado: estás intentando leerte un libro de tu biblioteca pero ni siquiera has ido a la tienda a «comprarlo»). Veamos un ejemplo intentando **sumar un número a un texto**.
 
 ```{r error = TRUE}
 "a" + 1
@@ -545,14 +531,14 @@ A **programar se aprende programando**, así que haz las pruebas que quieras.
 
 &nbsp;
 
-* Mensajes **WARNING**: irán precedidos de la frase `«Warning in…»`, y son los fallos más delicados ya que son posibles incoherencias pero que no van a hacer que tu código deje de ejecutarse.
+* Mensajes **WARNING**: irán precedidos de la frase **«Warning in…»**, y son los fallos más delicados ya que son posibles incoherencias pero que no van a hacer que tu código deje de ejecutarse.
 
 ```{r warning = TRUE}
 sqrt(-1)
 ```
 
 
-**¿Ha ejecutado la orden?** Sí, pero te advierte de que el resultado de la operación es un NaN, _Not A Number_, un valor que no existe (al menos dentro de los números reales).
+**¿Ha ejecutado la orden?** Sí, pero te advierte de que el resultado de la operación es un NaN, **Not A Number**, un valor que no existe (al menos dentro de los números reales).
 
 
 ---
@@ -580,9 +566,9 @@ Ahora tenemos una **cuarta ventana**: la ventana donde **escribiremos nuestros c
 
 &nbsp;
 
-### ¿Cómo ejecutar nuestro script?
+### **¿Cómo ejecutar nuestro script?**
 
-<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/inicio_rstudio_6.jpg" alt = "environment" align = "left" width = "550" style = "margin-top: 3vh;margin-right: 2rem;">
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/inicio_rstudio_6.jpg" alt = "environment" align = "left" width = "500" style = "margin-top: 3vh;margin-right: 2rem;">
 
 
 1. Escribimos el código que queremos ejecutar (en este caso, la suma de antes).
@@ -605,20 +591,20 @@ Ahora tenemos una **cuarta ventana**: la ventana donde **escribiremos nuestros c
 .panel[.panel-name[Ejercicios]
 
 
-* 📝 **Ejercicio 1**: en tu consola asigna los valores 2 y 5 a dos variables `a` y `b`. Tras asignarles valores, multiplica los números en consola.
+* 📝 **Ejercicio 1**: el código inferior define una variable `a` al que le asigna el valor `2`. Añade debajo otra línea para definir una variable `b` con el valor `5`. Tras asignarles valores, multiplica los números en consola.
 
-* 📝 **Ejercicio 2**: modifica el código inferior para definir dos variables `c` y `d`, con valores 3 y -1, y calcular la división `c/d`.
+```{r}
+a <- 2
+```
+
+* 📝 **Ejercicio 2**: modifica el código inferior para definir dos variables `c` y `d`, con valores 3 y -1.
 
 ```{r eval = FALSE}
 c <- # deberías asignarle el valor 3
 d <- # deberías asignarle el valor -1
-
-c ? d # modifica el código para realizar una división 
 ```
 
-* 📝 **Ejercicio 3**: repite el ejercicio 1 pero ahora guarda el resultado de la multiplicación final en una variable `c`. Para ver el resultado guardado en `c` escribe dicha variable en consola.
-
-* 📝 **Ejercicio 5**: repite el ejercicio 3 pero ahora escribe el código en un script (`script01.R`). Ejecuta el código.
+* 📝 **Ejercicio 3**: con las variables `a` y `b` del ejercicio 1, crea una nueva variable `e` guardando el resultado de su multiplicación `a * b`. Escribe `e` en consola para ver su resultado
 
 ]
 
@@ -642,9 +628,6 @@ a * b
 # Definición de variables
 c <- 3
 d <- -1
-
-# División
-a / b
 ```
 ]
 
@@ -656,17 +639,11 @@ a <- 2
 b <- 5
 
 # Resultado
-c <- a * b
+e <- a * b
 
 # Muestro en consola
-c
+e
 ```
-]
-
-.panel[.panel-name[Solución ej. 5]
-
-<img src = "
-https://dadosdelaplace.github.io/courses-ECI-2022/img/consola_multiplicacion_3.jpg" alt = "script01" align = "middle" width = "420" style = "margin-top: 1vh;">
 
 Tienes todos los scripts en <https://github.com/dadosdelaplace/courses-ECI-2022/blob/main/scripts/> (el  `script01.R` en concreto en <https://github.com/dadosdelaplace/courses-ECI-2022/blob/main/scripts/script01.R>
 
@@ -680,7 +657,7 @@ class: center, middle
 
 # Tipos de datos 
 
-## **Celdas: tipos de datos individuales**
+## **De la celda a la tabla**
 
 &nbsp;
 
@@ -693,10 +670,10 @@ class: center, middle
 <img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/celdas.jpg" alt = "celdas" align = "center" width = "850" style = "margin-top: 1vh;">
 
 
-* **Celda**: un dato de un tipo concreto.
-* **Variable**: concatenación de datos del mismo tipo.
-* **Matriz**: concatenación de variables del mismo tipo y longitud.
-* **Tabla**: concatenación de variables de distinto tipo pero igual longitud.
+* **Celda**: un **dato individual** de un tipo concreto.
+* **Variable**: **concatenación de datos** del mismo tipo.
+* **Matriz**: **concatenación de variables** del **mismo tipo** y longitud.
+* **Tabla**: **concatenación de variables** de **distinto tipo** pero igual longitud.
 
 ---
 
@@ -728,21 +705,17 @@ b <- 2
 a + b
 ```
 
-&nbsp;
-
-En el código anterior, tanto `a` como `b`, como la suma `a + b`**, son de tipo numérico**
+En el código anterior, tanto `a` como `b`, como la suma `a + b` **son de tipo numérico** (podemos comprobarlo con `class()`)
 
 ```{r}
 # Clase de las variables
-class(a)
-
-# Tipología interna
-typeof(a) #<<
+class(a) #<<
 ```
 
 **Operaciones**: con los datos numéricos podemos realizar todas las **operaciones aritméticas** que se nos ocurriría hacer en una **calculadora**.
 
 ```{r}
+b <- 5
 b^3
 ```
 
@@ -751,27 +724,28 @@ b^3
 
 # Variables de texto
 
-No solo de números viven los datos: imagina que además de la edad de una persona queremos guardar su nombre.
+No solo de números viven los datos: imagina que además de la edad de una persona queremos **guardar su nombre**.
 
 ```{r}
 edad <- 32
-nombre <- "Javier"
-
-class(nombre)
-typeof(nombre)
+nombre <- "Javier" #<<
 ```
 
 &nbsp;
 
-La variable `nombre` es de **tipo caracter**: una **cadena de texto** (conocido en otros lenguajes como string o char) entre **comillas**.
+La variable `nombre` es de **tipo caracter**: una **cadena de texto** (conocido en otros lenguajes como string o char) que va **SIEMPRE ENTRE comillas**.
 
-Las cadenas de texto son un **tipo especial de dato** con los que obviamente no podremos hacer operaciones aritméticas, pero si podemos hacer **otras operaciones**.
+```{r}
+class(nombre) #<<
+```
+
+Las cadenas de texto son un **tipo especial de dato** con los que obviamente no podremos hacer operaciones aritméticas, pero si podemos hacer **otras operaciones** como pegar cadenas de texto o localizar patrones de letras dentro de ellas.
 
 ---
 
 # Nuestra primera función: paste
 
-Una **función** es un **código encapsulado**: ejecuta un código en función de unos **argumentos de entrada**. Nuestra primera función será `paste()`: dadas **dos cadenas de texto como argumento de entrada** nos permite pegarlas, indicándole en el **argumento** `sep = ` el caracter que queremos entre medias.
+Una **función** es un **trozo de código encapsulado bajo un nombre**, en función de unos **argumentos de entrada**. Nuestra primera función será `paste()`: dadas **dos cadenas de texto como argumento de entrada** nos permite pegarlas, indicándole en el **argumento** `sep = ` el caracter que queremos entre medias.
 
 ```{r}
 # todo junto, sin espacios, igual a paste0("Javier", "Álvarez")
@@ -786,7 +760,9 @@ paste("Javier", "Álvarez") # separados por un espacio
 paste("Javier", "Álvarez", sep = ".") # separados por un punto .
 ```
 
-**Argumentos por defecto**: `paste(nombre, apellido)` es equivalente a `paste(nombre, apellido, sep = " ")`. El argumento `sep` tiene un **valor por defecto** `sep = " "`: si no se le asigna otro, tomará ese por defecto
+&nbsp;
+
+**Argumentos por defecto**: `paste(nombre, apellido)` es equivalente a `paste(nombre, apellido, sep = " ")`. El argumento `sep` tiene un **valor por defecto** `sep = " "`: si no se le asigna otro, tomará ese por defecto.
 
 ---
 
@@ -819,10 +795,10 @@ glue("La edad es de {edad} años")
 
 # Variables lógicas
 
-Una **variable lógica, binaria o booleana** es aquella que **solo puede tomar dos valores (en realidad pueden tomar un tercer valor, ausente):
+Una **variable lógica, binaria o booleana** es aquella que **solo puede tomar dos valores** (en realidad pueden tomar un tercer valor, ausente):
 
-* `TRUE`, verdadero, guardado internamente como un 1.
-* `FALSE`, verdadero, guardado internamente como un 1.
+* `TRUE`, **verdadero**, guardado internamente como un 1.
+* `FALSE`, **falso**, guardado internamente como un 0.
 
 ```{r}
 soltero <- TRUE # ¿Es soltero? --> SÍ
@@ -851,11 +827,27 @@ soltero != TRUE # ¿no está soltero?
 ```
 
 
-Por el mismo razonamiento podemos **comparar si una variable numérica** cumple una condición. ¿Tiene la persona menos de 32 años? Además de las comparaciones «igual a»  frente «distinto», también comparaciones de orden como `<, <=, > o >=`.
+Es importante **distinguir** una asignación con `<-` (una variable pasará a tener almacenado dicho valor) a una **comparación lógica** con `==` (no estamos asignando nada, estamos preguntando si la parte de la izquierda es igual a la de la derecha).
+
+---
+
+# Condiciones lógicas
+
+
+Por el mismo razonamiento podemos **comparar si una variable numérica** cumple una condición.
+
+**¿Tiene la persona menos de 32 años?**
 
 ```{r}
-edad <- 38
-edad < 32
+edad <- 38 #<<
+edad < 32 # ¿Es la edad menor de 32 años?
+```
+
+Además de las comparaciones «igual a»  frente «distinto», también comparaciones de orden como `<, <=, > o >=`.
+
+```{r}
+edad <= 38
+edad > 38
 ```
 
 ---
@@ -932,8 +924,9 @@ Dentro del **paquete `{lubridate}` tenemos bastantes **funciones útiles** para 
 
 ---
 
-# Paquete lubridate
+# Paquete lubridate: fechas
 
+En `R` tenemos un paquete muy útil para el manejo de fechas, el paquete `{lubridate}`
 
 ```{r eval = FALSE}
 install.packages("lubridate") # solo la primera vez
@@ -944,21 +937,56 @@ library(lubridate)
 library(lubridate)
 ```
 
+Con `today()` por ejemplo podemos obtener directamente la fecha actual.
+
 ```{r}
 today()
-fecha <- now()
-year(fecha)
-month(fecha)
-fecha > ymd(20170131)
+```
+
+Con `now()` puedes obtener la fecha y hora actual.
+
+```{r}
+now()
 ```
 
 ---
 
-# Tips
+# Paquete lubridate: fechas
 
-El **paquete `{stringr}`** permite un **manejo más complejo de cadenas de texto** (como el uso de expresiones regulares).
+Con `year()`, `month()` o `day()` podemos extraer el año, mes y día de un dato en tipo fecha.
 
-<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/stringr.png" alt = "stringr" align = "right" width = "900">
+```{r}
+fecha <- today()
+year(fecha)
+month(fecha)
+day(fecha)
+```
+
+También tenemos funciones como `ymd()` o `my()` para **convertir texto o números** a datos de tipo **fecha**.
+
+```{r}
+ymd(20170131)
+my("jan-2021")
+```
+
+---
+
+# Paquete lubridate: fechas
+
+```{r lubridate-cht, echo = FALSE,  out.width = "97%", fig.align = "center", fig.cap = "Imagen extraída de https://lubridate.tidyverse.org/"}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/lubridate-cheatsheet-thumbs.png")
+``` 
+
+
+---
+
+# Paquete stringr
+
+El **paquete `{stringr}`** permite un **manejo más complejo de cadenas de texto** (como el uso de **expresiones regulares**).
+
+```{r stringr-cht, echo = FALSE,  out.width = "87%", fig.align = "center", fig.cap = "Imagen extraída de https://stringr.tidyverse.org/"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/stringr.png")
+``` 
 
 ---
 
@@ -970,7 +998,7 @@ Si haces click en la consola y pulsas la flecha «arriba» del teclado, te irá 
 
 Siempre que veas el símbolo `>` como última línea en la consola significa que está listo para que le escribamos otra orden.
 
-<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tip_consola_lista.jpg" alt = "stringr" align = "right" width = "600">
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tip_consola_lista.jpg" alt = "tip-consola" align = "right" width = "750">
 
 
 ---
@@ -980,31 +1008,46 @@ Siempre que veas el símbolo `>` como última línea en la consola significa que
 .panelset[
 .panel[.panel-name[Ejercicios]
 
-* 📝 **Ejercicio 1**: define una variable que guarde tu edad, otra con tu nombre, otra respondiendo a la pregunta «¿tengo hermanos?» y otra con la fecha de tu nacimiento.
+* 📝 **Ejercicio 1**: define una variable que guarde tu edad y otra con tu nombre
+
+* 📝 **Ejercicio 2**: define otra variable que responda la pregunta «¿tengo hermanos?» y otra con la fecha de tu nacimiento.
  
 
-* 📝 **Ejercicio 2**: define otra variable con tus apellidos y junta las variables nombre y apellidos en una sola variable `nombre_completo`.
+* 📝 **Ejercicio 3**: define otra variable con tus apellidos. Junta con `paste()` o `glue()` las variables `nombre` y `apellidos` en una sola variable `nombre_completo`.
  
 
-* 📝 **Ejercicio 4**: calcula los días que han pasado desde la fecha de tu nacimiento
+* 📝 **Ejercicio 4**: calcula los días que han pasado desde la fecha de tu nacimiento, haciendo la resta entre la fecha de hoy (`today()`) y la fecha de nacimiento definida en el ejercicio 2. 
  
 
 * 📝 **Ejercicio 5**: obtén una variable lógica que nos diga si se cumplen (todas) las condiciones i) menor de 30 años (`edad < 30`); ii) con hermanos (`hermanos == TRUE`); iii) nacido en 1990 o posterior (`fecha_nacimiento >= as.Date("1990-01-01")`).
 
-* 📝 **Ejercicio 6**: modifica el código del ejercicio anterior para obtener una variable lógica que nos diga si se cumplen (al menos) alguna de las condiciones i) menor de 30 años; ii) con hermanos; iii) nacido en 1990 o posterior. Nos basta con que se cumple al menos una.
+* 📝 **Ejercicio 6**: modifica el código del ejercicio anterior para obtener una variable lógica que nos diga si se cumplen (al menos) ALGUNA de las condiciones.
 ]
 
 .panel[.panel-name[Solución ej. 1]
+
 ```{r}
 edad <- 32 # tipo numeric
+class(edad)
+
 nombre <- "Javier" # tipo caracter
-hermanos <- TRUE # tipo hermanos
-fecha_nacimiento <- as.Date("1989-09-10") # tipo fecha
+class(nombre)
 ```
 ]
 
-
 .panel[.panel-name[Solución ej. 2]
+
+```{r}
+hermanos <- TRUE # tipo hermanos
+class(hermanos)
+
+fecha_nacimiento <- as.Date("1989-09-10") # tipo fecha
+class(fecha_nacimiento)
+```
+
+]
+
+.panel[.panel-name[Solución ej. 3]
 
 ```{r}
 # Nombre
@@ -1028,7 +1071,7 @@ nombre_completo
 ```{r}
 library(lubridate)
 fecha_nacimiento <- as.Date("1989-09-10")
-days(today() - fecha_nacimiento)
+today() - fecha_nacimiento
 ```
 ]
 
@@ -1163,7 +1206,7 @@ paste(mi_nombre, collapse = ".") # separados por un punto .
 Podemos también combinar vectores numéricos con caracteres.
 
 ```{r}
-paste("persona", 1:5, sep = "_") # separado por una barra baja
+glue("persona_{1:5}") # separado por una barra baja
 ```
 
 ---
@@ -1253,7 +1296,7 @@ sum(y)  # suma
 mean(y) # media
 ```
 
-**IMPORTANTE**: las operaciones con ausentes no funcionan (salvo que los eliminemos antes con `na.rm = TRUE`).
+**IMPORTANTE**: las operaciones con ausentes darán como resultado ausente (salvo que los eliminemos antes con `na.rm = TRUE`).
 
 ```{r error = TRUE}
 y <- c(1, 2, NA, -5, 0)
@@ -1342,23 +1385,23 @@ x[order(x)]
 .panelset[
 .panel[.panel-name[Ejercicios]
 
-* 📝 **Ejercicio 1**: modifica el código para crear un vector de nombre `vector_num` que contenga los números 1, 5 y -7.
+* 📝 **Ejercicio 1**: modifica el código inferior para crear un vector de nombre `vector_num` que contenga los números 1, 5 y -7.
 
 ```{r eval = FALSE}
 # Vector de números
 vector_num <- c(1)
 ```
 
-* 📝 **Ejercicio 2**: define un vector que contenga los números `1, 10, -1 y 2`, y obtén la longitud del vector anterior vector_num.
+* 📝 **Ejercicio 2**: define un vector que contenga los números `1, 10, -1 y 2`, y obtén su longitud.
  
 
-* 📝 **Ejercicio 4**: crea un vector con las palabras “Hola”, “me”, “llamo” (y tu nombre y apellidos), y pega luego sus elementos de forma que la frase esté correctamente escrita en castellano. Tras hacerlo, añade “y tengo 30 años”.
+* 📝 **Ejercicio 3**: crea un vector con las palabras "Hola", "me", "llamo" (y tu nombre y apellidos), y pega luego sus elementos de forma que la frase esté correctamente escrita en castellano. Tras hacerlo, añade "y tengo 30 años".
  
  
-* 📝 **Ejercicio 7**: crea una secuencia que empiece en 1 y recorra todos los naturales hasta el 10. Después crea otra secuencia de longitud 7 que todos los números sean 3.
+* 📝 **Ejercicio 4**: crea una secuencia que empiece en 1 y recorra todos los naturales hasta el 10. Después crea otra secuencia de longitud 7 en la que todos los números sean 3.
  
 
-* 📝 **Ejercicio 9**: crea un vector con las edades de cuatro conocidos o familiares. Tras ello, determina cuáles de ellos tienen menos de 20 años, 30 años o más, menos de 40 años y más de 65 años.
+* 📝 **Ejercicio 5**: crea un vector con las edades de cuatro conocidos o familiares. Tras ello, determina cuáles de ellos tienen menos de 20 años, 30 años o más, menos de 40 años y más de 65 años.
 
 ]
 
@@ -1376,11 +1419,11 @@ vector_num
 ```{r}
 # Vector de números
 vector_num <- c(1, 10, -1, 2)
-vector_num
+length(vector_num)
 ```
 ]
 
-.panel[.panel-name[Solución ej. 4]
+.panel[.panel-name[Solución ej. 3]
 
 ```{r}
 # Definiendo el vector
@@ -1396,7 +1439,7 @@ glue("{frase} y tengo 30 años.")
 ```
 ]
 
-.panel[.panel-name[Solución ej. 7]
+.panel[.panel-name[Solución ej. 4]
 
 ```{r}
 1:10
@@ -1404,7 +1447,7 @@ rep(3, 7) # secuencia repetida de treses
 ```
 ]
 
-.panel[.panel-name[Solución ej. 9]
+.panel[.panel-name[Solución ej. 5]
 
 ```{r}
 edades <- c(27, 32, 60, 61) # en mi caso, por ejemplo
@@ -1419,7 +1462,7 @@ edades < 40 # menos de 40 años
 
 ---
 
-name: matrices-datafroames
+name: matrices-dataframes
 class: center, middle
 
 
@@ -1446,7 +1489,7 @@ Ya sabemos:
 
 ✅ Como **concatenar celdas** obteniendo variables (vectores, datos del mismo tipo).
 
-Lo que haremos a continuación será **juntar esas variables**: bien del **mismo tipo** (matrices), bien de **distinto tipo** (`data.frame`), en cualquier caso de **igual longitud**.
+Lo que haremos a continuación será **juntar esas variables**: bien del **mismo tipo** (matrices), bien de **distinto tipo** (`data.frame`), pero en cualquier caso de **igual longitud**.
 
 ---
 
@@ -1592,28 +1635,6 @@ datos_matriz[1, c("edades", "tlf")] # por nombres
 
 ---
 
-# Operaciones por filas y columnas (apply)
-
-Imagina que tuviésemos nuestra matriz de estaturas y pesos.
-
-```{r}
-datos_matriz <- cbind(estaturas, pesos)
-datos_matriz
-```
-
-¿Cómo podemos **obtener la media de cada columna**? Con la función `apply()` le indicaremos
-
-* la matriz
-* el sentido de la operación (`MARGIN = 1` por filas, `MARGIN = 2` por columnas)
-* la función a aplicar (en este caso, `mean`).
-
-```{r}
-# Media por columnas (MARGIN = 2)
-apply(datos_matriz, MARGIN = 2, FUN = "mean")
-```
-
----
-
 # Ejercicios
 
 .panelset[
@@ -1630,19 +1651,8 @@ x
 
 * 📝 **Ejercicio 2**: a la matriz anterior, suma un 1 a cada número de la matriz y divide el resultado entre 5.
  
- 
-* 📝 **Ejercicio 4**: el siguiente código define una matriz de dimensiones `4 x 3` y calcula la suma por columnas. Modifica el código para que realice la suma por filas.
- 
-```{r eval = FALSE}
-# Matriz
-matriz <- matrix(1:12, nrow = 4)
+* 📝 **Ejercicio 3**: accede a toda la segunda fila de la matriz anterior. Accede a toda la tercera columna de la matriz anterior. Accede al elemento que ocupa la primera fila y la segunda columna.
 
-# Suma por columnas
-apply(matriz, MARGIN = 2, FUN = "sum")
-```
-
-
-* 📝 **Ejercicio 5**: con la matriz anterior definida como `matrix(1:12, nrow = 4)`, calcula la media de todos los elementos, la media de cada fila y la media de cada columna.
 ]
 
 .panel[.panel-name[Solución Ej. 1]
@@ -1663,35 +1673,16 @@ x
 
 ]
 
-.panel[.panel-name[Solución Ej. 4]
+.panel[.panel-name[Solución Ej. 3]
 
 ```{r}
-# Matriz
-matriz <- matrix(1:12, nrow = 4)
-
-# Suma por filas
-apply(matriz, MARGIN = 1, FUN = "sum")
+x[2, ] # toda la segunda fila
+x[, 3] # toda la tercera columna
+x[1, 2] # primera fila y segunda columna
 ```
 
 ]
 
-.panel[.panel-name[Solución Ej. 5]
-
-```{r}
-# Matriz
-matriz <- matrix(1:12, nrow = 4)
-
-#  media de todos
-mean(matriz)
-
-# Media por filas (MARGIN = 1 ya que es una operación por filas)
-apply(matriz, MARGIN = 1, FUN = "mean")
-
-# Media por filas (MARGIN = 2 ya que es una operación por filas)
-apply(matriz, MARGIN = 2, FUN = "mean")
-```
-
-]
 ]
  
 ---
@@ -1757,6 +1748,10 @@ tabla <- data.frame(tabla, "n_hermanos" = c(0, 0, 1, 5))
 
 Con `View()` podemos **visualizar nuestra tabla**.
 
+```{r eval = FALSE}
+View(tabla)
+```
+
 ```{r echo = FALSE}
 knitr::kable(tabla)
 ```
@@ -1785,21 +1780,21 @@ No solo tiene las ventajas de una matriz si no que también tiene las ventajas d
 .panel[.panel-name[Ejercicios]
 
 
-* 📝 **Ejercicio 6**: el `data.frame` llamado `airquality`, del paquete `{datasets}`, contiene variables de la calidad del aire de la ciudad de Nueva York desde mayo hasta septiembre de 1973. Obtén el nombre de las variables.
+* 📝 **Ejercicio 1**: el `data.frame` llamado `airquality`, del paquete `{datasets}`, contiene variables de la calidad del aire de la ciudad de Nueva York desde mayo hasta septiembre de 1973. Obtén el nombre de las variables.
  
 
-* 📝 **Ejercicio 7**: obtén las dimensiones del anterior conjunto de datos. ¿Cuántas variables hay? ¿Cuántos días se han medido?
+* 📝 **Ejercicio 2**: obtén las dimensiones del anterior conjunto de datos. ¿Cuántas variables hay? ¿Cuántos días se han medido?
  
 
-* 📝 **Ejercicio 8**: filtra del conjunto anterior solo los datos del mes de julio.
+* 📝 **Ejercicio 3**: filtra del conjunto anterior solo los datos del mes de julio.
 
-* 📝 **Ejercicio 10**: qúedate solo con las variable Ozone y Temp.
+* 📝 **Ejercicio 4**: qúedate solo con las variable Ozone y Temp.
  
-* 📝 **Ejercicio 13**: añade a los datos originales una columna con la fecha completa (recuerda que es del año 1973 todas las observaciones.
+* 📝 **Ejercicio 5**: añade a los datos originales una columna con la fecha completa (recuerda que es del año 1973 todas las observaciones.
 
 ]
 
-.panel[.panel-name[Solución Ej. 6]
+.panel[.panel-name[Solución Ej. 1]
 
 ```{r}
 # install.packages("datasets") si no estuviera ya instalado
@@ -1809,7 +1804,7 @@ names(airquality)
 
 ]
 
-.panel[.panel-name[Solución Ej. 7]
+.panel[.panel-name[Solución Ej. 2]
 
 ```{r}
 # Dimensiones
@@ -1820,7 +1815,7 @@ ncol(airquality)
 
 ]
 
-.panel[.panel-name[Solución Ej. 8]
+.panel[.panel-name[Solución Ej. 3]
 
 ```{r}
 filtro_filas <- airquality[airquality$Month == 7, ]
@@ -1829,7 +1824,7 @@ filtro_filas
 
 ]
 
-.panel[.panel-name[Solución Ej. 10]
+.panel[.panel-name[Solución Ej. 4]
 
 ```{r}
 # Filtramos columnas
@@ -1839,7 +1834,7 @@ filtro_cols
 
 ]
 
-.panel[.panel-name[Solución Ej. 13]
+.panel[.panel-name[Solución Ej. 5]
 
 ```{r}
 # Construimos las fechas (pegamos año-mes-día con "-")
@@ -1898,6 +1893,23 @@ if (all(edades >= 18)) { # TRUE si TODOS son mayores de edad
 }
 ```
 
+---
+
+# Estructuras if-else
+
+Con `ifelse` podemos plantear una **estructura condicional en formato vectorial**, en una sola línea de código, pasándole tres argumentos:
+
+* la condición a cumplir
+* lo que asignamos cuando se cumple
+* lo que asignamos cuando no se cumple
+
+```{r}
+edades <- c(14, 17, 24, 56, 31, 20, 87, 73)
+edades_nuevas <-
+  ifelse(edades <= 18, "menor", "mayor")
+edades_nuevas
+```
+
 
 ---
 
@@ -1928,27 +1940,48 @@ while(ciclos <= 3) { #<<
 
 ---
 
+
+# Bucles (a evitar)
+
+Los **bucles** en `R` suelen ser **bastante ineficiente** y solemos tener** estructuras más eficientes**. Por ejemplo, imagina que queremos calcular el cuadrado de todos los números desde el 1 hasta el 500.
+
+* **Opción sin bucle**: definir la secuencia `1:500` y elevarla al cuadrado con `(1:500)^2`
+
+* **Opción con bucle**
+
+```{r eval = FALSE}
+for (i in 1:1:500) {
+  i^2
+}
+```
+
+Para comprobar la **eficiencia en tiempo** podemos usar el paquete `{microbenchmark}`: le pasamos las dos órdenes a comparar, y el número de veces `times` que ejecutaremos cada una para calcular tiempos medios.
+
+```{r}
+# install.packages("microbenchmark")
+library(microbenchmark)
+microbenchmark((1:500)^2, for (i in 1:1:500) {i^2}, times = 300)
+```
+
+---
+
 class: inverse center middle
 
-# Bloque II: introducción al dataviz en R.
+# Bloque II: introducción al manejo de datos.
 
 &nbsp;
 
-### [Repaso](#repaso-1)
-
-### [Introducción a Tidyverse](#tidyverse)
-
 ### [Funciones](#proyecto-funciones)
 
-### [Objetos tibble](#tibble)
+### [Datos tibble](#tibble)
 
 ### [Tidy data: ordenando los datos](#tidy-data)
 
-### [Dataviz e introducción a ggplot2](#dataviz)
+### [Introducción a Tidyverse](#tidyverse)
 
-### [Caso práctico](#caso-practico-2)
+### [Introducción a purrr (listas)](#purrr)
 
-### [🏅Evaluación](#evaluacion-2)
+### [Relacionando datos: joins](#joins)
 
 ---
 
@@ -1966,807 +1999,21 @@ Previously on Breaking Bad...
 # Repaso: tipos de datos
 
 
-.pull-left[<img src = "https://miro.medium.com/max/727/0*MgEQsDgZZ7fJcdhZ.png" alt = "course-ECI" align = "left" width = "450" style = "margin-top: -5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
-
-Imagen de https://medium.com/@tiwarigaurav2512
-]
-
-.pull-right[
-
-* **Celdas**: numéricas, texto, lógicas, fecha, etc.
-
-```{r}
-numero <- 1
-texto <- "hola"
-var_logica <- texto == "adios"
-var_logica
-```
-
-]
-
----
-
-# Repaso: tipos de datos
+<img src = "https://miro.medium.com/max/727/0*MgEQsDgZZ7fJcdhZ.png" alt = "course-ECI" align = "left" width = "990" style = "margin-top: -5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
 
 
-.pull-left[<img src = "https://miro.medium.com/max/727/0*MgEQsDgZZ7fJcdhZ.png" alt = "course-ECI" align = "left" width = "450" style = "margin-top: -5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
-
-Imagen de https://medium.com/@tiwarigaurav2512
-]
-
-.pull-right[
-* **Vectores**: variables, colección de celdas del mismo tipo.
-
-```{r}
-vector_num <- 1:3 # vector numérico
-
-glue("variable_{vector_num}") # vector de texto
-
-vector_num < 3 # vector lógico
-
-length(vector_num) # Longitud vector
-
-sum(vector_num) # Sumar vector numérico
-```
-
-]
-
----
-
-# Repaso: tipos de datos
-
-
-<img src = "https://miro.medium.com/max/727/0*MgEQsDgZZ7fJcdhZ.png" alt = "course-ECI" align = "left" width = "450" style = "margin-top: -5vh;margin-right: 0.5rem;margin-left: 0.5rem;">
-
-* **Matrices**: colección de variables, del mismo tipo e igual longitud.
-
-```{r}
-mat <- cbind("a" = 1:3, "b" = c(-1, 5, 6)) # construir matriz
-mat
-
-apply(mat, MARGIN = 2, FUN = mean) # media por columnas
-```
-
----
-
-# Repaso: tipos de datos
-
-
-* **data.frame**: colección de variables, de igual longitud pero cualquier tipo.
-
-```{r}
-df <- data.frame("nombre" = c("javi", "mar", "carlos"),
-                 "hermanos" = 1:3, "soltero" = c(TRUE, NA, FALSE),
-                 "fecha_nac" = as.Date(c("1989-01-01", "1989-02-02",
-                                         "1989-03-03")))
-df
-df$nombre
-```
+https://medium.com/@tiwarigaurav2512
 
 ---
 
 class: center, middle
 
-# **¿DUDAS?**
+# **¿SEGUIMOS?**
 
 ![](https://elsitioderuife.files.wordpress.com/2012/10/lenny-simpsons.jpg)
 
-
 ---
 
-name: tidyverse
-class: center, middle
-
-# Introducción a tidyverse
-
-## **Manipulando (para bien) los datos**
-
-&nbsp;
-
-El conjunto de paquetes de `{tidyverse}` supuso un antes y un después en el preprocesamiento de los datos en `R`
-
----
-
-# Entorno tidyverse
-
-Aunque conocemos ya un formato «excelizado» de almacenar los datos, muchas veces los **datos no los tenemos en el formato deseado**, o directamente queremos realizar algunas **transformaciones en los mismos**. Para trabajar con los datos vamos a cargar `{tidyverse}`, un **entorno de paquetes para el manejo de datos**.
-
-```{r eval = FALSE}
-install.packages("tidyverse") # SOLO la primera vez
-library(tidyverse)
-```
-
-```{r include = FALSE}
-library(tidyverse)
-```
-
-```{r flujo-tidyverse, echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Imagen extraída de https://sporella.github.io/datos_espaciales_presentacion/#30"}
-knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/flujo_tidyverse.png")
-``` 
-
----
-
-# Entorno tidyverse
-
-El **entorno tidyverse** es una de las **herramientas más importantes en el manejo de datos en R**, una **colección de paquetes** pensada para el manejo, la exploración, el análisis y la visualización de datos, **compartiendo una misma filosofía y gramática**.
-
-```{r flujo-tidyverse-2, echo = FALSE,  out.width = "90%", fig.align = "center", fig.cap = "Imagen extraída de https://www.storybench.org/getting-started-with-tidyverse-in-r/"}
-knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/flujo_tidyverse_1.png")
-``` 
-
----
-
-# Paquetes de tidyverse
-
-* `{tidyr}`: para **adecuar los datos a tidy data**
-
-* `{tibble}`: **mejorando los data.frame** para un manejo más eficiente.
-
-* Paquetes `{readr}` para una **carga rápida y eficaz de datos rectangulares** (formatos .csv, .tsv, etc). Paquete `{readxl}` para **importar archivos .xls y .xlsx**. Paquete `{haven}` para importar archivos desde **SPSS, Stata y SAS**. Paquete `{httr}` para **importar desde web**. Paquete `{rvest}` para **web scraping**.
-
-* `{dplyr}`: una **gramática de manipulación de datos** para facilitar su procesamiento.
-
-* `{ggplot2}`: una **gramática para la visualización** de datos.
-
-* Paquete `{stringr}` para un manejo sencillo de **cadenas de texto**. Paquete `{forcast}` para un manejo de **variables cualitativas** (en R conocidas como factores).
-
-* `{purrr}`: manejo de **listas**.
-
-* `{lubridate}` para el **manejo de fechas**.
-
-&nbsp;
-
-Puedes ver su **documentación completa** en <https://www.tidyverse.org/>.
-
----
-
-# Intro a tidyverse: conjunto starwars
-
-Para nuestra **introducción de tidyverse** vamos a trastear con el conjunto de datos `starwars` del paquete `{dplyr}` (incluido en `{tidyverse}`).
-
-
-.pull-left[
-
-```{r luke-starwars, echo = FALSE,  out.width = "90%", fig.align = "left", fig.cap = "Imagen extraída de https://rstudio-education.github.io/"}
-knitr::include_graphics("https://rstudio-education.github.io/bootcamper/slides/02-visualize-data/img/luke-skywalker.png")
-``` 
-]
-
-.pull-right[
-
-```{r}
-starwars
-```
-
-]
-
----
-
-# Intro a tidyverse: conjunto starwars
-
-
-```{r}
-glimpse(starwars) #<<
-```
-
-Dicho conjunto de datos, extraído de la [Star Wars API](https://swapi.dev/), recopila **14 variables para 87 personajes de Star Wars**. 
-
-```{r}
-dim(starwars)
-```
-
----
-
-# Intro a tidyverse: conjunto starwars
-
-```{r}
-print(starwars, n = 3, width = Inf)
-```
-
-* `int`: números enteros (`height`).
-* `dbl`: números reales (`mass`, `birth_year`).
-* `chr`: cadenas de texto (`name`, `hair_color`, `skin_color`, `eye_color`, `sex`, `gender`, `homeworld`, `species`).
-* `list`: listas (`films`, `vehicles`, `starships`).
-
----
-
-# Intro a tidyverse: conjunto starwars
-
-Para los **datos de tipo lista** tenemos guardados las películas de cada personaje, los vehículos de cada uno y las naves de cada personaje. Por ejemplo, con `starwars$films` podemos extraer las películas en las que aparecen los tres primeros personajes, basta con ejecutar (del conjunto starwars –> accedemos a la variable films con `$`)
-
-```{r}
-starwars$films[1:3]
-```
-
----
-
-# dplyr: manipulando datos
-
-```{r dplyr, echo = FALSE,  out.width = "63%", fig.align = "center", fig.cap = "Cheet sheet de las opciones del paquete dplyr para la manipulación de datos extraída de https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf"}
-knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/dplyr.png")
-``` 
-
----
-
-# Pipeline %>%
-
-En este entorno de trabajo tendremos un **operador clave**: el **operador pipeline (%>%)**, el cual lo debemos interpretar como una **flecha que une nodos**, y nos servirá para **concatenar operaciones sobre un conjunto de datos de forma legible**. Por ejemplo, si tuviésemos tres funciones `first()`, `second()` y `third()`, la opción más inmediata sería anidar las tres funciones.
-
-```{r eval = FALSE}
-third(second(first(x)))
-```
-
-Con el **pipeline %>%** podremos escribir (y leer) la concetanción de izquierda a derecha
-
-```{r eval = FALSE}
-first(x) %>% second(x) %>% third(x)
-```
-
-&nbsp;
-
-Dicho operador depende del paquete `{magrittr}`: para evitar esta dependencia (cuantos menos paquetes tengamos que cargar, mejor), desde la **versión 4.1.0 de R** disponemos de un operador pipeline nativo de R, el **operador |>** (disponible además fuera del entorno tidyverse).
-
----
-
-# Operaciones con filas: seleccionar
-
-Una de las **operaciones más comunes** es **filtrar registros**: de todos los individuos de nuestro conjunto de datos, seleccionaremos parte de ellos. Para hacerlo tenemos principalmente **tres opciones**:
-
-* **Seleccionar en base a algún filtro lógico**: con `filter()`, se seleccionarán solo individuos que cumplan ciertas condiciones (por ejemplo, solo los mayores de tal edad). Dentro de `filter()` se incluirán las condiciones lógicas a cumplir.
-
-
-Por ejemplo, vamos a **filtrar solo aquellos personajes con ojos marrones**, es decir, con la condición `eye_color == "brown"`.
-
-```{r}
-starwars %>% filter(eye_color == "brown") #<<
-```
-
----
-
-# Operaciones con filas: filter()
-
-Con `%>% filter()`, en **tan solo una línea**, hemos hecho más de lo que parece: `R` ha «recorrido» (algo similar a un bucle) cada una de las filas y ha ido comprobando que filas cumplen la condición y cuales no.
-
-El operador de comparación `==` puede ser **cambiado por `!=`** (seleccionamos los que **NO TIENEN ojos marrones**).
-
-```{r}
-starwars %>% filter(eye_color != "brown")
-```
-
-
----
-
-# Operaciones con filas: filter()
-
-También se pueden **seleccionar los personajes** que tienen los **ojos de una serie de colores** permitidos: con `%in%` le indicaremos que seleccione solo aquellas filas cuyo valor de la variable `eye_color` esté **dentro de un conjunto de candidatos**.
-
-```{r}
-starwars %>% # con ojos marrones, azules o rojos
-  filter(eye_color %in% c("brown", "blue", "red"))
-```
-  
----
-
-# Operaciones con filas: filter()
-
-Si es una variable numérica también podemos **seleccionar por rango** con `between()`, por ejemplo, los personajes cuya altura está **entre** 120 y 160 cm.
-
-```{r}
-# Con between filtramos por rango
-starwars %>% filter(between(height, 120, 160))
-```
-
----
-
-# Operaciones con filas: filter()
-
-Las condiciones se pueden **concatenar** todo lo que queramos, pudiendo en pocas líneas realizar un filtro complejo, por ejemplo, seleccionando los **personajes con ojos marrones Y ADEMÁS NO humanos**.
-
-```{r}
-starwars %>% filter(eye_color == "brown" & species != "Human")
-```
-
-Otro ejemplo: ojos azules o rojos, que no sean humanos, y con menos de 50 años.
-
-```{r}
-starwars %>%  filter(eye_color %in% c("blue", "red") & species != "Human" & birth_year < 50)
-```
-
----
-
-# Operaciones con filas: seleccionar
-
-Una de las **operaciones más comunes** es **filtrar registros**: de todos los individuos de nuestro conjunto de datos, seleccionaremos parte de ellos. Para hacerlo tenemos principalmente **tres opciones**:
-
-
-* **Seleccionar por su índice de fila**: con `[]` o `slice()`, se seleccionarán los individuos que ocupen cierta posición en la tabla (la fila que ocupa tal personaje).
-
-
-```{r}
-# slice: extramos filas por índice de fila.
-starwars %>% slice(1) #<<
-starwars[1, ]
-```
-
----
-
-# Operaciones con filas: slice()
-
-
-Podemos **extraer varias a la vez**, por ejemplo, filtrando las filas quinta, séptima y novena.
-
-```{r}
-# slice: extramos filas por índice de fila.
-starwars %>% slice(c(5, 7, 9))
-```
-
-También podemos **usar una secuencia de índices a extraer**, por ejemplo solo las filas pares.
-
-```{r}
-starwars %>% slice(seq(2, 8, by = 2)) # filas pares hasta la octava
-```
-
----
-
-# Operaciones con filas: slice()
-
-Disponemos además de opciones por defecto para directamente **extraer las m primeras o últimas filas** con `slice_head()` y `slice_tail()`.
-
-```{r}
-# Podemos extraer directamente las primeras o últimas filas
-starwars %>% slice_head(n = 3) # 3 primeras filas 
-```
-
-```{r}
-starwars %>% slice_tail(n = 2) # 2 últimas filas 
-```
-
----
-
-# Operaciones con filas: seleccionar
-
-Una de las **operaciones más comunes** es **filtrar registros**: de todos los individuos de nuestro conjunto de datos, seleccionaremos parte de ellos. Para hacerlo tenemos principalmente **tres opciones**:
-
-* **Seleccionar aleatoriamente**: con `slice()`, se seleccionarán los individuos aleatoriamente.
- 
-```{r}
-# También podemos hacer una extracción al azar de filas
-starwars %>% slice_sample(n = 3) # 3 al azar
-starwars %>% slice_sample(n = 3) # 3 al azar nuevas
-```
-
----
-
-# Operaciones con filas: slice_min()
-
-También tenemos `slice_min()` y `slice_max()` que nos permite **extraer filas en función del mínimo y máximo de una variable** (si hay empate, mostrará todas las filas aunque supere el número indicado, salvo que `with_ties = FALSE`). Por ejemplo, vamos a filtrar con `slice_min(height, n = 2)` los 2 personasjes más bajitos, y con `slice_max(mass, n = 3)` los 2 personajes más pesados.
-
-```{r}
-# Podemos extraer filas en función del mín/máx de una variable
-starwars %>% slice_min(height, n = 2) # los 2 más bajitos
-starwars %>% slice_max(mass, n = 2) # los 3 más pesados
-```
-
----
-
-# Operaciones con filas: reordenar
-
-Otra operación habitual en las filas es **ordenarlas en función del valor de alguna de las variables** con `arrange()`,  pasándole como argumento el nombre de la variable que usaremos para la ordenación. Por ejemplo, vamos a ordenar nuestra **tabla de personajes por altura, de bajitos a altos**.
-
-```{r}
-# Con arrange ordenamos en base al orden de la variable que introduzcamos
-starwars %>% arrange(height) #<<
-```
-
----
-
-# Operaciones con filas: reordenar
-
-Por defecto la ordenación es de menor a mayor pero podemos invertirlo usando `desc()`.
-
-```{r}
-# Por defecto lo hace ascendente pero podemos cambiarlo
-starwars %>% arrange(desc(height))
-```
-
----
-
-# Operaciones con filas: reordenar
-
-La ordenación también puede **realizarse en base al valor de dos o más variables**: ordenará las filas en base a la primera, en caso de empate usará la segunda, en caso de empate la tercera, y así sucesivamente. Vamos a ordenar los personajes por altura y, luego, por peso.
-
-```{r}
-# Un dato NA va siempre al final
-starwars %>% arrange(height, desc(mass))
-```
-
----
-
-# Ejercicio
-
-Como estarás imaginando podemos combinar varias acciones en pocas líneas, filtrando a la vez que ordenamos el filtro resultante. 
-
-.panelset[
-.panel[.panel-name[Ejercicio]
-
-
-* 📝 Selecciona solo los personajes que sean humanos, hombres y de ojos marrones, para después ordernarlos en altura descendente y peso ascendente.
-
-]
-
-.panel[.panel-name[Solución]
-
-```{r}
-# Podemos combinar varias acciones en pocas líneas
-starwars %>%
-  filter(eye_color == "brown",
-         species == "Human", sex == "male") %>%
-  arrange(height, desc(mass))
-```
-
-]
-]
-
----
-
-# Operaciones con filas: eliminar
-
-La misma lógica que hemos usado para seleccionar filas podemos usarla para **eliminar filas** con `slice()`, simplemente **negando** la condición de filtrado. Por ejemplo, vamos a eliminar las 5 primeras filas.
-
-```{r}
-# Eliminamos por índices
-starwars %>% slice(-(1:5)) # eliminamos las 5 primeras filas
-```
-
----
-
-# Datos ausentes (NA)
-
-Podemos también **eliminar los registros ausentes** en alguna de sus variables con `drop_na()`.
-
-```{r}
-starwars %>% drop_na()
-```
-
-Podemos indicarle que nos elimine con datos ausentes solo en algunos campos en concreto.
-
-```{r}
-starwars %>% drop_na(mass, height, sex, gender, birth_year)
-```
-
----
-
-# Operaciones con filas: duplicados
-
-Otra opción es **eliminar filas duplicadas** con `distinct()`, pasándole como argumentos el nombre de las variables que usaremos para quitar duplicados, por ejemplo, personajes con igual par de color de pelo y ojos.
-
-Por defecto, solo extrae las columnas en base a las cuales hemos eliminado duplicados. Si queremos que nos mantenga todas deberemos explicitarlo con `.keep_all = TRUE`.
-
-```{r}
-# Eliminamos registros con igual par (color_pelo, color_ojos)
-starwars %>%
-  distinct(hair_color, eye_color)
-```
-  
----
-
-# Operaciones con filas: añadir
-
-No suele ser habitual pero si quisiéramos añadir un nuevo registro manualmente, podremos hacerlo con `bind_rows()`, asegurándonos que las **variables en el nuevo registro son las mismas que en el original**. Por ejemplo, vamos a añadir al fichero original los 3 primeros registros (al final).
-
-```{r}
-starwars_nuevo <- bind_rows(starwars, starwars[1:3, ]) #<<
-dim(starwars)
-dim(starwars_nuevo)
-```
-
----
-
-# Operaciones con columnas: seleccionar
-
-La opción más sencilla para **seleccionar variables/columnas** es usar `select()`, pasándole como argumentos los nombres de columnas (¡SIN COMILLAS!) que queremos seleccionar, por ejemplo, color de pelo.
-
-```{r}
-# seleccionamos solo 1 columna: color de pelo
-starwars %>% select(hair_color) #<<
-```
-
----
-
-# Operaciones con columnas: seleccionar
-
-Podemos **seleccionar varias a la vez concatenando sus nombres**, por ejemplo, seleccionando las variables de color de pelo, piel y ojos.
-
-```{r}
-# seleccionamos solo 3 columnas: pelo, piel y ojos
-starwars %>% select(c(hair_color, skin_color, eye_color))
-```
-
----
-
-# Operaciones con columnas: seleccionar
-
-La misma lógica podemos aplicar para **deseleccionar**, excluyendo columnas
-
-```{r}
-# sin 3 columnas: pelo, piel y ojos
-starwars %>% select(-c(hair_color, skin_color, eye_color))
-```
-
----
-
-# Operaciones con columnas: seleccionar
-
-Las columnas también las podemos **seleccionar a través de expresiones regulares**, por ejemplo, seleccionando solo aquellas columnas que compartan un **sufijo común** en el nombre, con `ends_with()` dentro de órdenes como `select()`
-
-```{r}
-# Podemos seleccionar columnas por sufijo y prefijo
-starwars %>% select(ends_with("color")) # acaban en "color"
-```
-
-
----
-
-# Operaciones con columnas: seleccionar
-
-De una manera similar podemos seleccionar columnas cuyo **nombre empiecen o contengan alguna cadena de texto concreta**, con `starts_with()` o `contains()`.
-
-```{r}
-starwars %>% select(starts_with("h")) # empiezan por h
-```
-
----
-
-# Operaciones con columnas: seleccionar
-
-Incluso nos permite **seleccionar aquellas columnas que son del mismo tipo** (imagina que necesitamos solo las columnas numéricas para calcular ciertas estadísticas) con `where()`.
-
-```{r}
-# Seleccionamos solo la columnas numéricas
-starwars %>% select(where(is.numeric))
-```
-
----
-
-# Operaciones con columnas: renombrar
-
-A veces también podemos querer **modificar la «metainformación» renombrando el orden** de las columnas. Para ello debremos usar la función `rename()` poniendo **primero el nombre nuevo y luego el antiguo**. Como ejemplo, vamos a traducir el nombre de las columnas `name, height, mass` a castellano.
-
-```{r}
-# rename: renombrar columnas, primero el nuevo y luego el antiguo
-starwars %>% rename(nombre = name, altura = height, peso = mass)
-```
-
----
-
-# Operaciones con columnas: renombrar
-
-Muchas de las funciones pueden ir acompañadas de `at` o `if`, como `rename_if`, que nos permite hacer operaciones más personalizadas. Por ejemplo, vamos a renombrar las columnas, pasándolas a mayúscula con toupper, pero solo aquellas que sean de tipo numérico.
-
-```{r}
-starwars %>% rename_if(is.numeric, toupper)
-```
-
----
-
-# Operaciones con columnas: reordenar
-
-De la misma manera podemos **reordenar las columnas**, indicando el nombre de columnas que queremos mover, y con `.after` o `.before` para indicar antes o después de que columnas queremos moverlas.
-
-```{r}
-starwars %>% # altura y masa detrás de color de piel
-  relocate(height, mass, .after = skin_color) 
-```
-
----
-
-# Ejercicio
-
-Como estarás imaginando podemos combinar varias acciones en pocas líneas, filtrando a la vez que ordenamos el filtro resultante. 
-
-.panelset[
-.panel[.panel-name[Ejercicio]
-
-
-* 📝 Filtra el conjunto de personajes y quédate solo con aquellos que en la variable `height` no tengan un dato ausente.
-
-* 📝 Después selecciona solo las variables `name`, `height` y todas aquellas variables que CONTENGAN la palabra `color` en su nombre.
-
-* 📝 Del conjunto resultante comprueba que modalidades (y cuántos registros hay en cada una) de la variable `hair_color`
-
-* 📝 Después selecciona solo aquellos registros con el pelo (`hair_color`) negro
-
-* 📝 Del conjunto resultante, ordena los personajes de menor a mayor altura (`height`).
-
-* 📝 Por último renombra las columnas a castellano.
-
-]
-
-.panel[.panel-name[Paso 1]
-
-**IMPORTANTE**: todo lo que hagas en la tabla original, si el resultado final no se lo asignas `<-` a otra variable, lo verás en consola pero no se guardará en ningún sitio. Lo que no guardes, no existe.
-
-* 📝 Filtra el conjunto de personajes y quédate solo con aquellos que en la variable `height` no tengan un dato ausente.
-
-```{r}
-starwars_NA <- starwars %>% drop_na(height)
-dim(starwars_NA)
-```
-
-]
-
-.panel[.panel-name[Paso 2]
-
-* 📝 Después selecciona solo las variables `name`, `height` y todas aquellas variables que CONTENGAN la palabra `color` en su nombre.
-
-```{r}
-starwars %>% drop_na(height) %>%
-  select(c(name, height, contains("color")))
-```
-
-]
-
-.panel[.panel-name[Paso 3]
-
-* 📝 Del conjunto resultante comprueba que modalidades (y cuántos registros hay en cada una) de la variable `hair_color`
-
-
-```{r}
-starwars %>% drop_na(height) %>%
-  select(c(name, height, contains("color"))) %>%
-  count(hair_color)
-```
-
-]
-
-.panel[.panel-name[Paso 4]
-
-* 📝 Selecciona solo aquellos registros con el pelo (`hair_color`) negro
-
-```{r}
-starwars %>% drop_na(height) %>%
-  select(c(name, height, contains("color"))) %>%
-  filter(hair_color == "black")
-```
-
-]
-
-.panel[.panel-name[Paso 5]
-
-* 📝 Del conjunto resultante, ordena los personajes de menor a mayor altura (`height`).
-
-```{r}
-starwars %>% drop_na(height) %>%
-  select(c(name, height, contains("color"))) %>%
-  filter(hair_color == "black") %>%
-  arrange(height)
-```
-
-]
-
-.panel[.panel-name[Paso 6]
-
-* 📝 Por último renombra las columnas a castellano.
-
-```{r}
-starwars %>% drop_na(height) %>%
-  select(c(name, height, contains("color"))) %>%
-  filter(hair_color == "black") %>%
-  arrange(height) %>%
-  rename(nombre = name,
-         altura = height,
-         color_pelo = hair_color,
-         piel = skin_color,
-         color_ojos = eye_color)
-```
-
-]
-
-]
-
----
-
-# Visualizar el flujo de datos
-
-Existe una **reciente herramienta** que nos va a permitir **entender mejor y visualizar el flujo de trabajo** en `{tidyverse}`: <https://tidydatatutor.com/>. 
-Basta con poner el código que queremos ejecutar, y nos **muestra visualmente las operaciones en los datos**.
-
-<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tidytutor3.jpg" alt = "course-ECI" align = "right" width = "450" style = "margin-top: 1vh;margin-right: 0.5rem;margin-left: 0.5rem;">
-
-<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tidytutor4.jpg" alt = "course-ECI" align = "right" width = "450" style = "margin-top: 1vh;margin-right: 0.5rem;margin-left: 0.5rem;">
-
-<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tidytutor5.jpg" alt = "course-ECI" align = "right" width = "400" style = "margin-top: 1vh;margin-right: 0.5rem;margin-left: 0.5rem;">
-
----
-
-# Crear nuevas variables (mutate)
-
-A veces no queremos modificar variables ya existentes sino **crear nuevas variables** en base a las ya existentes. Para ello tenemos `mutate()`. Para empezar, vamos a crear una **nueva variable** `height_m` con la altura en centímetros.
-
-```{r}
-# altura en metros
-starwars %>% mutate(height_m = height / 100) %>%
-  relocate(height_m, .after = height)
-```
-
----
-
-# Crear nuevas variables (mutate)
-
-Otra opción es **quedarnos solo con las columnas nuevas** creadas con `transmute()`
-
-```{r}
-starwars %>% transmute(height_m = height / 100)
-```
-
----
-
-# Crear nuevas variables (mutate)
-
-También se pueden aplicar **funciones más complejas** como `map()` del paquete `{purrr}` para el manejo de **listas** (no se pueden vectorizar, esta función nos permite aplicar operaciones a listas elemento a elemento). Imagina que queremos **calcular el número de películas** en las que sale cada personaje.
-
-&nbsp;
-
-Las películas de cada personaje están en una lista: para saber la **cantidad de películas** en las que ha participado el primer personaje basta con usar el comando `length()` (nos dará el número de elementos de cada lista).
-
-```{r}
-length(starwars$films[1])
-length(starwars$films[2])
-```
-
----
-
-# Crear nuevas variables (mutate)
-
-**¿Cómo aplicar dicha a función a cada personaje?** Con `map_int()` (para que nos devuelva un vector de `int`) y la función a aplicar en cada elemento.
-
-```{r}
-# Mapeamos la lista con length pero devolvemos un vector de números enteros
-starwars$films %>% map_int(length)
-```
-
-
-&nbsp;
-
-Tenemos también otras funciones como `map_chr()`, `map_dfr()`, etc, que nos definen como será la salida (con `map` a secas lo devuelve en una lista).
-
-```{r}
-starwars$films %>% map_chr(length)
-```
-
----
-
-# Crear nuevas variables (mutate)
-
-Una vez que tenemos una forma de calcular la variable que queremos, lo añadimos con `mutate()`
-
-```{r}
-starwars %>%
-  mutate("n_peliculas" = map_int(films, length)) %>%
-  select(c(name, homeworld, n_peliculas))
-```
-
-  
----
-
-# Recategorizar variables
-
-Una operación también muy habitual es querer **recategorizar nuestras variables**. Supongamos por ejemplo que queremos crear una **categoría en función de su altura**. Para ello podemos podemos usar  `case_when`, en el que le podemos indicar que valores asignamos en función de condiciones. Vamos a crear una variable nueva de altura
-
-* Si `height > 180` –> serán `"altos"`.
-* Si `height <= 180` y `height > 120` –> serán `"bajos"`
-* Si `height <= 120` y `height > 0` –> serán `"enanos"`
-* Si no se cumple lo anterior –> serán `"ausentes"`
-
-```{r}
-starwars %>%
-  transmute(altura = case_when(height > 180 ~ "altos",
-                               height > 120 ~ "bajos",
-                               height > 0 ~ "enanos",
-                               TRUE ~ "ausentes"))
-```
-  
----
 name: proyecto-funciones
 class: center, middle
 
@@ -2776,13 +2023,13 @@ class: center, middle
 
 &nbsp;
 
-Las funciones nos servirán para encapsular nuestro código.
+Las funciones nos servirán para **encapsular nuestro código** de forma que podamos usarlo muchas veces sin necesidad de escribirlo de nuevo.
 
 ---
 
 # Funciones
 
-No solo podemos usar las funciones predeterminadas, como `sum()` o `paste()`, sino que además podemos **crear nuestras propias funciones**, para automatizar **tareas que vayamos a repetir**
+No solo podemos usar las funciones predeterminadas, como `sum()` o `paste()`, sino que además podemos **crear nuestras propias funciones**, para automatizar **tareas que vayamos a repetir**, y evitarnos líneas y líneas de código, horas y horas de programación.
 
 **¿Cómo crear nuestra propia función?** Veamos su **esquema básico**:
 
@@ -2803,7 +2050,7 @@ nombre_funcion <- function(argumento_1, argumento_2, ... ) {
 }
 ```
 
-**IMPORTANTE**: todas las variables que definamos dentro de la función son **variables locales, solo existirán dentro de la función** salvo que especifiquemos lo contrario.
+**IMPORTANTE**: las variables que definamos dentro de la función son **locales, solo existirán dentro de la función** salvo que especifiquemos lo contrario.
 
 ---
 
@@ -2986,127 +2233,6 @@ igualdad_nombres("Javi", "Lucía")
 
 ---
 
-# Ejercicios tidyverse
-
-
-.panelset[
-.panel[.panel-name[Ejercicios]
-
-
-* 📝 **Ejercicio 1**: del conjunto `starwars` encuentra todos los personajes cuyo peso esté entre 60kg y 90kg y que además tengan los ojos que no sean azules.
- 
-* 📝 **Ejercicio 2**: añadido al anterior, encuentra todos los personajes que además tengan menos de 100 años.
- 
-* 📝 **Ejercicio 3**: selecciona además solo  `name, mass, height, eye_color, birth_year`.
- 
-* 📝 **Ejercicio 4**: añadido al filtro anterior, ordena los registros por altura (en orden ascendente) y peso (en orden descendente).
- 
-* 📝 **Ejercicio 5**: selecciona solo las columnas que contengan variables numéricas, coloca los años de nacimiento como primera columna y cambia los nombres a castellano.
- 
-* 📝 **Ejercicio 6**: calcula una nueva columna que indique el IMC de cada personaje (define antes una función que lo calcule).
-
-* 📝 **Ejercicio 7**: selecciona los 3 personajes que en más películas han salido y los 3 que menos.
-
-]
-
-.panel[.panel-name[Sol. 1]
-
-```{r}
-# todas columnas
-filtro <-
-  starwars %>% filter(between(mass, 60, 90) & eye_color != "blue")
-print(filtro, width = Inf)
-```
-
-]
-
-.panel[.panel-name[Sol. 2]
-
-```{r}
-filtro <-
-  starwars %>%
-  filter(between(mass, 60, 90) & eye_color != "blue" &
-           birth_year < 100)
-print(filtro, width = Inf)
-```
-
-]
-
-.panel[.panel-name[Sol. 3]
-
-```{r}
-# Solo name, mass, height, eye_color, birth_year
-filtro %>% select(c(name, mass, height, eye_color, birth_year))
-```
-
-]
-
-
-.panel[.panel-name[Sol. 4]
-
-```{r}
-filtro %>% select(c(name, mass, height, eye_color, birth_year)) %>%
-  arrange(height, mass)
-```
-
-]
-
-.panel[.panel-name[Sol. 5]
-
-```{r}
-starwars %>%
-  select(where(is.numeric)) %>%
-  relocate(height, mass, .after = birth_year) %>%
-  rename(edad = birth_year, altura = height, peso = mass)
-```
-
-]
-
-.panel[.panel-name[Sol. 6]
-
-Primero definimos la función `IMC_fun` (calcula el IMC dada estatura y peso).
-
-```{r}
-IMC_fun <- function(m, h) {
-  
-  return(m / h^2)
-}
-IMC_fun(90, 1.6)
-```
-
-La función definida como `IMC_fun()` podemos ahora aplicarla dentro del `mutate()`.
-
-```{r}
-starwars %>%
-  mutate(height_m = height / 100,
-         IMC = IMC_fun(mass, height_m)) %>%
-  # Las movemos al inicio (por defecto las mete al final)
-  relocate(height_m, IMC, .after = name)
-```
-
-]
-
-.panel[.panel-name[Sol. 7]
-
- 
-```{r}
-starwars  %>%
-  mutate(n_films = map_int(films, length)) %>%
-  slice_max(n_films, n = 3)
-```
-
-```{r}
-starwars  %>%
-  mutate(n_films = map_int(films, length)) %>%
-  slice_min(n_films, n = 3)
-```
-
-]
-
-]
-
----
-
 name: tibble
 class: center, middle
 
@@ -3172,16 +2298,71 @@ tabla_tb
 
 # Tibble
 
-Puedes consultar **más funcionalidades** de dichos datos en <https://tibble.tidyverse.org/>
-
-Ahora además de poder ver una cabecera de las filas con `head()` tenemos la función `glimpse()`, que nos permite **obtener el resumen de columnas**
+Puedes consultar **más funcionalidades** de dichos datos en <https://tibble.tidyverse.org/>. Ahora además de poder ver una cabecera de las filas con `head()` tenemos la función `glimpse()`, que nos permite **obtener el resumen de columnas**
 
 ```{r}
-head(tabla_tb)
 glimpse(tabla_tb)
 ```
 
-Si ya tienes un `data.frame` es altamente recomendable **convertirlo a tibble** con `as_tibble()`
+Si ya tienes un `data.frame` es altamente recomendable **convertirlo a tibble** con `as_tibble()`. Prueba además el paquete `{datapasta}`, que nos permite **copiar y pegar tablas de páginas web**, conviertiéndolas en formato `tribble` (tablas `tibble` fila a fila).
+
+```{r}
+datos <- tribble(
+  ~colA, ~colB,
+  "a",   1,
+  "b",   2,
+)
+datos
+```
+
+---
+
+name: tidy-data
+class: center, middle
+
+# Importando datos
+
+## **Cargando datos**
+
+&nbsp;
+
+En `{tidyverse}` no solo tenemos distintas funciones para cargar archivos (los paquetes `{readr}`, `{readxl}`, `{haven}`, `{rvest}` o `{googlesheets4}` como ejemplos) sino que disponemos de distintos paquetes para la carga de datos desde API como las del **AEMET, Our World in Data, Eurostat, Twitter o Spotify**.
+
+---
+
+# Importando archivos
+
+El paquete `{readr}` dentro del entorno `{tidyverse}` contiene distintas funciones útiles para la carga de **datos rectangulares** (sin formatear).
+
+* `read_csv()`: archivos `.csv` cuyo separador sea la coma `,`
+* `read_csv2()`: archivos `.csv` cuyo separado sea la coma `;`
+* `read_tsv()`: archivos cuyos valores estén separados por un tabulador.
+* `read_delim()`: función general para leer archivos delimitados por caracteres.
+
+Todos necesitan como argumento la **ruta del archivo**, amén de otros argumentos opcionales (saltar o no cabecera, si los decimales son con punto o coma, etc)
+
+```{r readr, echo = FALSE,  out.width = "65%", fig.align = "center", fig.cap = "Resumen del paquete `{readr}`. Ver más en https://readr.tidyverse.org/"}
+knitr::include_graphics("https://github.com/rstudio/cheatsheets/raw/main/pngs/thumbnails/data-import-cheatsheet-thumbs.png")
+``` 
+
+---
+
+# Importando archivos
+
+El paquete `{readxl}` contiene distintas funciones útiles para la carga de **archivos formateados por Excel** 
+
+* `read_excel()`: para archivos Excel en general.
+* `read_xls()`: para archivos `.xls` en particular
+* `read_xlsx()`: para archivos `.xlsx` en particular
+
+&nbsp;
+
+El paquete `{haven}` contiene distintas funciones útiles para la carga de **archivos de SAS, SPSS y Stata**. En todos los paquetes mencionados, podemos ejecutar funciones equivalentes `write_...()` para exportar dichos datos y guardarlos en los formatos mencionados.
+
+&nbsp;
+
+El paquete `{rvest}` contiene distintas funciones útiles para screpear web sencillas como wikipedia. Puedes ver más información en <https://rvest.tidyverse.org/>
+
 
 ---
 
@@ -3257,18 +2438,32 @@ Lo que haremos será **incluir una nueva columna llamada `year`** que nos marque
 # pivot_longer: pivotando tablas
 
 
+.pull-left[
+
 Con la función `pivot_longer` del mencionado paquete le indicaremos lo siguiente:
 
-* `cols`: el **nombre de las columnas a pivotar** (con comillas porque son números, no texto como nombre).
-* `names_to`: el nombre de la columna a la que vamos a mandar los valores que figuran ahora en los nombres de las columnas.
-* `values_to`: el nombre de la columna a la que vamos a mandar los valores.
+* `cols`: **nombre de las columnas a pivotar**.
+* `names_to`: nombre de la columna a la que vamos a mandar los valores que figuran ahora en los nombres de las columnas.
+* `values_to`: nombre de la columna a la que vamos a mandar los valores.
 
 ```{r}
-table4a %>% pivot_longer(cols = c("1999", "2000"), names_to = "year",
-                         values_to = "values") #<<
+table4a %>%
+  pivot_longer(cols = c("1999", "2000"),
+               names_to = "year",
+               values_to = "values") #<<
 ```
 
-Ahora tenemos **un registro por fila, una variable por columna y cada celda representa un único valor**. Lo que hacemos con `pivot_longer()` es **«ampliar» la tabla haciéndola más larga (más filas)** pero con menos columnas.
+]
+
+.pull-right[
+
+```{r tidy1, echo = FALSE,  out.width = "99%", fig.align = "center", fig.cap = "Imagen extraída de https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf"}
+knitr::include_graphics("./img/tidy1.jpg")
+``` 
+
+]
+
+
 
 ---
 
@@ -3289,31 +2484,63 @@ relig_income %>% pivot_longer(-religion, names_to = "ingresos", values_to = "fre
 
 # Messy data: un registro en varias filas
 
-Otro caso puede ser tener un mismo registro (datos de un mismo individuo) pero dividido en varias filas.
+.pull-left[
+
+El **caso inverso**: tener un mismo registro (datos de un mismo individuo) pero dividido en varias filas con `pivot_wider()` **«ampliaremos» la tabla a lo ancho**
 
 ```{r}
 table2[1:3, ]
 ```
 
-Los registros con el mismo año deberían ser el mismo, es la misma información, pero están divididos en dos filas. Lo que haremos será lo opuesto a antes: con `pivot_wider()` **«ampliaremos» la tabla a lo ancho**
 
 ```{r}
-table2 %>% pivot_wider(names_from = type, values_from = count) #<<
+table2 %>%
+  pivot_wider(names_from = type,
+              values_from = count) #<<
 ```
+
+]
+
+.pull-right[
+
+```{r tidy2, echo = FALSE,  out.width = "99%", fig.align = "center", fig.cap = "Imagen extraída de https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf"}
+knitr::include_graphics("./img/tidy2.jpg")
+``` 
+
+]
 
 ---
 
 # Messy data: múltiples valores en celda
 
-```{r}
+.pull-left[
+
+```{r eval = FALSE}
 table3
 ```
 
-En la columna `rate` hay **guardados dos valores, separados por /**, lo que hace que en **una celda no tenga un único valor**. La función `separate()` nos permitirá **separar los múltiples valores de la columna** (por defecto **localiza como separador cualquier caracter que no sea alfa-numérico**)
+```{r echo = FALSE}
+table3[1:4, ]
+```
+
+En la columna `rate` hay **guardados dos valores, separados por /**, en una **celda no hay un único valor**. La función `separate()` nos permitirá **separar los múltiples valores**
 
 ```{r}
-table3 %>% separate(rate, into = c("cases", "population")) #<<
+table3 %>%
+  separate(rate,
+           into = c("cases",
+                    "population")) #<<
 ```
+
+]
+
+.pull-right[
+
+```{r tidy3, echo = FALSE,  out.width = "99%", fig.align = "center", fig.cap = "Imagen extraída de https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf"}
+knitr::include_graphics("./img/tidy3.jpg")
+``` 
+
+]
 
 ---
 
@@ -3322,14 +2549,35 @@ table3 %>% separate(rate, into = c("cases", "population")) #<<
 Si **queremos un caracter concreto para dividir** podemos indicárselo explícitamente
 
 ```{r}
-table3 %>% separate(rate, into = c("cases", "population"), sep = "/")
+table3 %>%
+  separate(rate,
+           into = c("cases",
+                    "population"),
+           sep = "/")
 ```
+
+---
+
+# Messy data: unite()
+
+.pull-left[
 
 De la misma manera que **podemos separar columnas también podemos unirlas**. Para ello vamos a usar la tabla `table5`: con la función `unite()` vamos a **unir el siglo (en century) y el año (en year)**.
 
 ```{r}
-table5 %>% unite(date, century, year) #<<
+table5 %>%
+  unite(date, century, year) #<<
 ```
+
+]
+
+.pull-right[
+
+```{r tidy4, echo = FALSE,  out.width = "99%", fig.align = "center", fig.cap = "Imagen extraída de https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf"}
+knitr::include_graphics("./img/tidy4.jpg")
+``` 
+
+]
 
 ---
 
@@ -3339,7 +2587,10 @@ Una opción muy útil que podemos usar al **aplicar la separación de los múlti
 
 ```{r}
 table3 %>%
-  separate(rate, into = c("cases", "population"), convert = TRUE)
+  separate(rate, 
+           into = c("cases",
+                    "population"),
+           convert = TRUE)
 ```
 
 ---
@@ -3418,15 +2669,1885 @@ table5 %>%
 
 ]
 
+
 ---
 
-# Dataviz e introducción a ggplot2
+name: tidyverse
+class: center, middle
 
-## **La gramática de los gráficos**
+# Introducción a tidyverse
+
+## **Manipulando (para bien) los datos**
 
 &nbsp;
 
-El paquete `{ggplot2}` se basa en la idea propuesta en «Grammar of graphics» del recién fallecido Wilkinson.
+El conjunto de paquetes de `{tidyverse}` supuso un antes y un después en el preprocesamiento de los datos en `R`
+
+---
+
+# Entorno tidyverse
+
+Aunque conocemos ya un formato «excelizado» de almacenar los datos, muchas veces los **datos no los tenemos en el formato deseado**, o directamente queremos realizar algunas **transformaciones en los mismos**. Para trabajar con los datos vamos a cargar `{tidyverse}`, un **entorno de paquetes para el manejo de datos**.
+
+```{r eval = FALSE}
+install.packages("tidyverse") # SOLO la primera vez
+library(tidyverse)
+```
+
+```{r include = FALSE}
+library(tidyverse)
+```
+
+```{r flujo-tidyverse, echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Imagen extraída de https://sporella.github.io/datos_espaciales_presentacion/#30"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/flujo_tidyverse.png")
+``` 
+
+---
+
+# Entorno tidyverse
+
+El **entorno tidyverse** es una de las **herramientas más importantes en el manejo de datos en R**, una **colección de paquetes** pensada para el manejo, la exploración, el análisis y la visualización de datos, **compartiendo una misma filosofía y gramática**.
+
+```{r flujo-tidyverse-2, echo = FALSE,  out.width = "90%", fig.align = "center", fig.cap = "Imagen extraída de https://www.storybench.org/getting-started-with-tidyverse-in-r/"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/flujo_tidyverse_1.png")
+``` 
+
+---
+
+# Paquetes de tidyverse
+
+* `{tidyr}`: para **adecuar los datos a tidy data**
+
+* `{tibble}`: **mejorando los data.frame** para un manejo más eficiente.
+
+* Paquetes `{readr}` para una **carga rápida y eficaz de datos rectangulares** (formatos .csv, .tsv, etc). Paquete `{readxl}` para **importar archivos .xls y .xlsx**. Paquete `{haven}` para importar archivos desde **SPSS, Stata y SAS**. Paquete `{httr}` para **importar desde web**. Paquete `{rvest}` para **web scraping**.
+
+* `{dplyr}`: una **gramática de manipulación de datos** para facilitar su procesamiento.
+
+* `{ggplot2}`: una **gramática para la visualización** de datos.
+
+* Paquete `{stringr}` para un manejo sencillo de **cadenas de texto**. Paquete `{forcast}` para un manejo de **variables cualitativas** (en R conocidas como factores).
+
+* `{purrr}`: manejo de **listas**.
+
+* `{lubridate}` para el **manejo de fechas**.
+
+&nbsp;
+
+Puedes ver su **documentación completa** en <https://www.tidyverse.org/>.
+
+---
+
+# Intro a tidyverse: conjunto starwars
+
+Para nuestra **introducción de tidyverse** vamos a trastear con el conjunto de datos `starwars` del paquete `{dplyr}` (incluido en `{tidyverse}`).
+
+
+.pull-left[
+
+```{r luke-starwars, echo = FALSE,  out.width = "90%", fig.align = "left", fig.cap = "Imagen extraída de https://rstudio-education.github.io/"}
+knitr::include_graphics("https://rstudio-education.github.io/bootcamper/slides/02-visualize-data/img/luke-skywalker.png")
+``` 
+]
+
+.pull-right[
+
+```{r}
+starwars
+```
+
+]
+
+---
+
+# Intro a tidyverse: conjunto starwars
+
+
+```{r}
+glimpse(starwars) #<<
+```
+
+Dicho conjunto de datos, extraído de la [Star Wars API](https://swapi.dev/), recopila **14 variables para 87 personajes de Star Wars**. 
+
+```{r}
+dim(starwars)
+```
+
+---
+
+# Intro a tidyverse: conjunto starwars
+
+```{r}
+print(starwars, n = 3, width = Inf)
+```
+
+* `int`: números enteros (`height`).
+* `dbl`: números reales (`mass`, `birth_year`).
+* `chr`: cadenas de texto (`name`, `hair_color`, `skin_color`, `eye_color`, `sex`, `gender`, `homeworld`, `species`).
+* `list`: listas (`films`, `vehicles`, `starships`).
+
+---
+
+# Intro a tidyverse: conjunto starwars
+
+Los **datos de tipo lista** (aparecen con un icono distinto en el menú de variables) son el dato más flexible de `R`: permiten **concatenar datos de cualquier tipo PERO también de cualquier longitud**.
+
+Por ejemplo en `starwars` tenemos guardados las películas de cada personaje en modo lista en la variable `starwars$films`. Por ejemplo, podemos extraer las películas en las que aparecen los tres primeros personajes, basta con ejecutar (del conjunto starwars –> accedemos a la variable films con `$`)
+
+```{r}
+starwars$films[1:2]
+```
+
+El paquete `{purrr}` contienen multitud de herramientas para **aplicar de forma sencilla funciones a cada elemento de una lista**.
+
+---
+
+# dplyr: manipulando datos
+
+```{r dplyr, echo = FALSE,  out.width = "63%", fig.align = "center", fig.cap = "Cheet sheet de las opciones del paquete dplyr para la manipulación de datos extraída de https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/dplyr.png")
+``` 
+
+---
+
+# Pipeline (tuberías) %>%
+
+En este entorno de trabajo tendremos un **operador clave**: el **operador pipeline (%>%)**, el cual lo debemos interpretar como una **tubería conectada a los datos por el que pasan operaciones**, de una forma legible. Con el **pipeline %>%** podremos escribir (y leer) la concetanción de órdenes de forma sencilla y **léxicamente interpertable**
+
+```{r eval = FALSE}
+# Idea
+datos %>%
+  filtro(...) %>%
+  ordeno(...) %>%
+  selecciono(...) %>%
+  modifico(...) %>%
+  agrupo(...) %>%
+  resumo(...) %>%
+  visualizo(...)
+```
+
+&nbsp;
+
+Dicho operador depende del paquete `{magrittr}`: para evitar esta dependencia (cuantos menos paquetes, mejor), desde la **versión 4.1.0 de R** disponemos de un operador nativo de R, el **operador |>** (disponible además fuera de tidyverse).
+
+---
+
+# Visualizar el flujo de datos
+
+Existe una **reciente herramienta** que nos va a permitir **entender mejor y visualizar el flujo de trabajo** en `{tidyverse}`: <https://tidydatatutor.com/>. 
+Basta con poner el código que queremos ejecutar, y nos **muestra visualmente las operaciones en los datos**.
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tidytutor3.jpg" alt = "course-ECI" align = "right" width = "450" style = "margin-top: 1vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tidytutor4.jpg" alt = "course-ECI" align = "right" width = "450" style = "margin-top: 1vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/tidytutor5.jpg" alt = "course-ECI" align = "right" width = "400" style = "margin-top: 1vh;margin-right: 0.5rem;margin-left: 0.5rem;">
+
+---
+
+# Filtrar filas: filter()
+
+.pull-left[
+
+Una de las **operaciones más comunes** es **filtrar registros en base a alguna condición**: con `filter()` se seleccionarán solo individuos que cumplan ciertas condiciones.
+
+
+```{r eval = FALSE}
+# Idea
+starwars %>%
+  filtro(cond1, cond2, ...)
+```
+
+&nbsp;
+
+Por ejemplo, vamos a **filtrar aquellos personajes con ojos marrones** (cumpliendo la condición `eye_color == "brown"`)
+
+```{r}
+starwars %>%
+  filter(eye_color == "brown") #<<
+```
+
+]
+
+.pull-right[
+
+```{r filter1, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/filter1.jpg")
+``` 
+
+]
+
+---
+
+# Filtrar filas: filter()
+
+.pull-left[
+
+El operador de comparación `==` puede ser cambiado por otros:
+
+
+* `!=`: parte de la izq distinta la dcha.
+* `<`, `>`: menor, mayor que...
+* `<=`, `>=`: menor o igual, mayor igual que...
+* `%in%`: si los valores pertenecen a una lista finita de opciones permitidas.
+* `between(variable, val1, val2)`: si los valores (normalmente continuos) son mayores que `val1` y menores que `val2`
+
+```{r}
+starwars %>%
+  filter(eye_color != "brown")
+```
+
+
+
+]
+
+.pull-right[
+
+```{r filter2, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/filter2.jpg")
+``` 
+
+]
+
+---
+
+# Filtrar filas: filter()
+
+.pull-left[
+
+```{r eval = FALSE}
+# con ojos marrones o azules o rojos
+starwars %>% 
+  filter(eye_color %in% c("brown", "blue"))
+```
+
+```{r echo = FALSE}
+# con ojos marrones o azules o rojos
+starwars %>% 
+  select(name, height, mass, eye_color) %>%
+  filter(eye_color %in% c("brown", "blue")) %>%
+  slice(1:5)
+```
+
+```{r eval = FALSE}
+# con estatura entre 120 y 160 cm
+starwars %>%
+  filter(between(height, 120, 160))
+```
+
+```{r echo = FALSE}
+# con estatura entre 120 y 160 cm
+starwars %>%
+  select(name, height, mass, eye_color) %>%
+  filter(between(height, 120, 160)) %>%
+  slice(1:5)
+```
+
+]
+
+.pull-right[
+
+```{r filter3, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/filter3.jpg")
+``` 
+
+]
+
+---
+
+
+# Filtrar filas: filter()
+
+.pull-left[
+
+Las condiciones se pueden **concatenar**, pudiendo en pocas líneas realizar un filtro complejo
+
+* `a & b`: solo devolverá `TRUE` cuando se cumpla tanto `a` como `b`.
+* `a | b`: devolverá `TRUE` cuando se cumpla al menos una de ellas (a y no b, b y no a, o ambas).
+
+Por ejemplo, seleccionamos los **personajes con ojos marrones Y ADEMÁS NO humanos**, o los personajes con más de 60 años.
+
+```{r}
+starwars %>%
+  filter((eye_color == "brown" &
+            species != "Human") |
+           birth_year > 60)
+```
+
+]
+
+.pull-right[
+
+```{r filter5, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/filter5.jpg")
+``` 
+
+
+]
+
+---
+
+# Ejercicios con filter() 
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: selecciona del conjunto de `starwars` solo los personajes que sean humanos (`species == "Human"`)
+
+* 📝 **Ejercicio 2**: selecciona del conjunto de `starwars` solo los personajes cuyo peso esté entre 65 y 90 kg.
+
+* 📝 **Ejercicio 3**: selecciona del conjunto de `starwars` los personajes con ojos marrones o rojos.
+
+* 📝 **Ejercicio 4**: selecciona del conjunto de `starwars` los personajes no humanos, hombres y que midan más de 170 cm, o los personajes con ojos marrones o rojos.
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+```{r}
+starwars %>%
+  filter(species == "Human")
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+```{r}
+starwars %>%
+  filter(between(mass, 65, 90))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+```{r}
+starwars %>%
+  filter(eye_color %in% c("brown", "red"))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+```{r}
+starwars %>%
+  filter((species != "Human" &
+            sex == "Male" &
+            height > 170) |
+           eye_color %in% c("brown", "red"))
+```
+
+]
+
+]
+
+---
+
+# Rebanadas de los datos: slice()
+
+También podemos **seleccionar filas por su posición** con `slice()`.
+
+```{r}
+# slice: extraemos filas por índice de fila.
+starwars %>% slice(1) #<<
+```
+
+Podemos **extraer varias a la vez**, incluso **usar una secuencia de índices a extraer**, por ejemplo solo las filas pares.
+
+```{r}
+# filas pares hasta la octava
+starwars %>%
+  slice(seq(2, 8, by = 2)) 
+```
+
+
+
+
+---
+
+# Rebanadas de los datos: slice()
+
+.pull-left[
+
+Disponemos además de opciones por defecto
+
+* `slice_head(n = ...)`: extraer las n primeras filas.
+* `slice_tail(n = ...)`: extraer las n últimas filas.
+* `slice_sample(n = ...)`: extrae n filas elegidas aleatoriamente.
+* `slice_min(var, n = ...)` y `slice_max(var, n = ...)`: **extrae las n filas con menor/mayor de una variable** (si hay empate, mostrará todas salvo que `with_ties = FALSE`). 
+
+
+```{r}
+# los 3 más bajitos
+starwars %>%
+  slice_min(height, n = 3) 
+```
+
+]
+
+.pull-right[
+
+```{r filter6, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/filter6.jpg")
+``` 
+
+
+]
+
+---
+
+# Reordenar filas: rearrange()
+
+Otra operación habitual en las filas es **ordenar las filas en función del valor de alguna de las variables** con `arrange()`,  pasándole como argumento el nombre de la variable que usaremos para la ordenación. Por defecto la ordenación es de menor a mayor pero podemos invertirlo usando `desc()`.
+
+```{r eval = FALSE}
+datos %>%
+  filtro(cond1, cond2) %>%
+  ordeno(var1, desc(var2)) #<<
+```
+Por ejemplo, vamos a **ordenar** los personajes por altura, de bajitos a altos, y en caso de empate, por peso (pero al revés, de pesados a ligeros).
+
+
+```{r}
+starwars %>%
+  arrange(height, desc(mass)) #<<
+```
+
+---
+
+# Eliminar filas
+
+La misma lógica que hemos usado para seleccionar filas podemos usarla para **eliminar filas**:
+
+* `filter(!condicion)`: filtramos aquellas filas que NO CUMPLEN la condición (eliminando las que sí).
+* `slice(-indices)`: eliminamos las filas que ocupan los indices.
+
+Por ejemplo, vamos a eliminar las 80 primeras filas.
+
+```{r}
+# eliminamos las 80 primeras filas
+starwars %>%
+  slice(-(1:80)) 
+```
+
+---
+
+# Eliminar datos ausentes (NA)
+
+Podemos también **eliminar los registros ausentes** en alguna de sus variables con `drop_na()`. Si no especificamos variables, elimina todos los registros que tenga alguno de sus campos ausente.
+
+```{r}
+starwars %>%
+  drop_na()
+```
+
+Podemos indicarle que nos elimine filas con datos ausentes fijándonos solo en **algunos campos en concreto**.
+
+```{r eval = FALSE}
+starwars %>%
+  drop_na(mass, height, sex, gender, birth_year)
+```
+
+---
+
+# Eliminar duplicados: distinct()
+
+Otra opción es **eliminar filas duplicadas** con `distinct()`, pasándole como argumentos el nombre de las variables que usaremos para quitar duplicados, por ejemplo, personajes con igual par de color de pelo y ojos.
+
+Por defecto, solo extrae las columnas en base a las cuales hemos eliminado duplicados. Si queremos que nos mantenga todas deberemos explicitarlo con `.keep_all = TRUE`.
+
+```{r}
+# Elimina filas con igual (color_pelo, color_ojos)
+starwars %>%
+  distinct(hair_color, eye_color)
+```
+  
+---
+
+# Añadir filas: bind_rows()
+
+Si quisiéramos añadir un nuevo registro manualmente, podremos hacerlo con `bind_rows()`, asegurándonos que las **variables en el nuevo registro son las mismas que en el original**. Por ejemplo, vamos a añadir al fichero original los 3 primeros registros (al final).
+
+```{r}
+starwars_nuevo <-
+  bind_rows(starwars, starwars[1:3, ]) #<<
+dim(starwars)
+dim(starwars_nuevo)
+```
+
+---
+
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: selecciona solo los personajes que sean humanos y de ojos marrones, para después ordernarlos en altura descendente y peso ascendente.
+
+* 📝 **Ejercicio 2**:  extrae 3 registros aleatoriamente. Vuelve a hacerlo para comprobar que salen diferentes.
+
+* 📝 **Ejercicio 3**:  extrae el 10% de los registros aleatoriamente, llamando a `slice_sample()` asignando valor al argumento `prop`
+
+* 📝 **Ejercicio 4**: selecciona los 3 personajes más mayores y los 3 personajes más bajitos.
+
+* 📝 **Ejercicio 5**: para saber que valores únicos hay en el color de pelo, elimina duplicados por dicha variable `hair_color`, eliminando antes los ausentes de dicha variable
+
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+```{r}
+# Podemos combinar varias acciones en pocas líneas
+starwars %>%
+  filter(eye_color == "brown",
+         species == "Human") %>%
+  arrange(height, desc(mass))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+```{r}
+starwars %>%
+  slice_sample(n = 3)
+```
+
+```{r}
+starwars %>%
+  slice_sample(n = 3)
+```
+
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+```{r}
+starwars %>%
+  slice_sample(prop = 0.1)
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+
+```{r}
+starwars %>%
+  slice_max(birth_year, n = 3)
+```
+
+```{r}
+starwars %>%
+  slice_min(height, n = 3)
+```
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+
+```{r}
+starwars %>%
+  drop_na(hair_color) %>%
+  distinct(hair_color)
+```
+
+]
+
+]
+
+---
+
+
+
+
+# Seleccionar columnas: select()
+
+.pull-left[
+
+La opción más sencilla para **seleccionar variables** es `select()`, con argumentos los nombres de columnas (¡SIN COMILLAS!).
+
+```{r eval = FALSE}
+# Idea
+datos %>%
+  filtro(cond1, cond2) %>%
+  ordeno(var1, desc(var2)) %>%
+  selecciono(col1, col2, ...)
+
+```
+
+Seleccionamos por ejemplo la columna `hair_color`
+
+```{r}
+# seleccionamos 1 columna
+starwars %>%
+  select(hair_color) #<<
+```
+
+]
+
+.pull-right[
+
+```{r select1, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/select1.jpg")
+``` 
+
+]
+
+---
+
+# Seleccionar columnas: select()
+
+.pull-left[
+
+Como sucedía al filtrar, la función `select()` es bastante versatil y nos permite:
+
+* Seleccionar **varias variables a la vez** (concatenando sus nombres)
+* **Deseleccionar** columnas con `-`
+* Seleccionar columnas que **comiencen por un prefijo** (`starts_with()`), **terminen** con un sufijo (`ends_with()`), **contengan** un texto (`contains()`) o cumplan una **expresión regular** (`matches()`)
+* Seleccionar columnas de **un tipo** haciendo uso de `where(is.numeric)`, etc.
+
+```{r}
+# color de piel y de pelo (en ese orden)
+starwars %>%
+  select(c(skin_color, hair_color))
+```
+
+]
+
+
+.pull-right[
+
+```{r select2, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/select2.jpg")
+``` 
+
+]
+
+---
+
+# Seleccionar columnas: select()
+
+.pull-left[
+
+```{r eval = FALSE}
+# desde name hasta hair_color
+starwars %>% select(c(name:hair_color))
+```
+
+```{r echo = FALSE}
+# desde name hasta hair_color
+starwars %>%
+  select(c(name:hair_color)) %>%
+  slice(1:5)
+```
+
+```{r eval = FALSE}
+# nombre acaba en "color"
+starwars %>%  select(ends_with("color"))
+```
+
+```{r echo = FALSE}
+# nombre acaba en "color"
+starwars %>%
+  select(ends_with("color")) %>%
+  slice(1:5)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+# empiezan por h
+starwars %>% select(starts_with("h"))
+```
+
+```{r echo = FALSE}
+# nombre acaba en "color"
+starwars %>%
+  select(starts_with("h")) %>%
+  slice(1:5)
+```
+
+```{r eval = FALSE}
+# Solo columnas numéricas
+starwars %>% select(where(is.numeric))
+```
+
+```{r echo = FALSE}
+# Solo la columnas numéricas
+starwars %>%
+  select(where(is.numeric)) %>%
+  slice(1:5)
+```
+
+]
+
+---
+
+# Recolocar columnas: relocate()
+
+Fíjate que con `select()` podrías además recolocar columnas, indícandole el orden, ayudándote también del selector `everything()`
+
+```{r eval = FALSE}
+starwars %>%
+  select(c(species, name, birth_year, everything()))
+```
+
+Para facilitar la recolocación tenemos una función para ello, `relocate()`,  indicándole en `.after` o `.before` detrás o delante de qué columnas queremos moverlas.
+
+```{r}
+starwars %>% relocate(species, .before = name)
+```
+
+---
+
+# Extraer columnas: pull()
+
+.pull-left[
+
+Si observas la salida de los `select()`, sigue siendo una tabla `tibble`, nos preserva la naturaleza de nuestros datos.
+
+```{r}
+starwars %>% select(name)
+```
+
+]
+
+.pull-right[
+
+A veces no querremos dicha estructura sino **extraer literalmente la columna en un vector**, algo que podemos hacer con `pull()`
+
+```{r}
+starwars %>% pull(name)
+```
+
+]
+
+---
+
+# Renombrar columnas: rename()
+
+.pull-left[
+
+A veces también podemos querer **modificar la «metainformación» de los datos**, renombrando las columnas. Para ello usaremos la función `rename()` poniendo **primero el nombre nuevo y luego el antiguo**. Como ejemplo, vamos a traducir el nombre de las columnas `name, height, mass` a castellano.
+
+```{r}
+starwars %>% 
+  rename(nombre = name,
+         altura = height,
+         peso = mass)
+```
+
+]
+.pull-right[
+
+```{r rename1, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/rename1.jpg")
+``` 
+
+]
+
+---
+
+# Modificadores: at, if
+
+Muchas de las funciones vistas pueden ir acompañadas de `at` o `if`, como `rename_if`, que nos permite hacer operaciones más personalizadas. Por ejemplo, vamos a renombrar solo las columnas que sean de tipo numérico, y además les aplicaremos la función `toupper()`, pasándolas a mayúsculas.
+
+```{r}
+starwars %>%
+  rename_if(is.numeric, toupper)
+```
+
+---
+
+# Ejercicios: select() y rename()
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: filtra el conjunto de personajes y quédate solo con aquellos que en la variable `height` no tengan un dato ausente.
+
+* 📝 **Ejercicio 2**: con los datos obtenidos del filtro anterior, selecciona solo las variables `name`, `height`, así como todas aquellas variables que CONTENGAN la palabra `color` en su nombre.
+
+* 📝 **Ejercicio 3**: con los datos obtenidos del ejercicio, traduce el nombre de las columnas a castellano
+
+* 📝 **Ejercicio 4**: con los datos obtenidos del ejercicio, coloca la variable de color de pelo justo detrás de la variable de nombres.
+
+* 📝 **Ejercicio 5**: con los datos obtenidos del ejercicio, comprueba cuántas modalidades únicas hay en la variable de color de pelo.
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+**IMPORTANTE**: todo lo que hagas en la tabla original, si el resultado final no se lo asignas `<-` a otra variable, lo verás en consola pero no se guardará en ningún sitio. Lo que no guardes, no existe.
+
+
+```{r}
+starwars_NA <- starwars %>% drop_na(height)
+starwars_NA 
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+```{r}
+starwars %>%
+  drop_na(height) %>%
+  select(c(name, height, contains("color")))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+
+```{r}
+starwars %>%
+  drop_na(height) %>%
+  select(c(name, height, contains("color"))) %>%
+  rename(nombre = name, altura = height,
+         color_pelo = hair_color,
+         color_piel = skin_color,
+         color_ojos = eye_color)
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+
+```{r}
+starwars %>%
+  drop_na(height) %>%
+  select(c(name, height, contains("color"))) %>%
+  rename(nombre = name, altura = height,
+         color_pelo = hair_color,
+         color_piel = skin_color,
+         color_ojos = eye_color) %>%
+  relocate(color_pelo, .after = nombre)
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+```{r}
+starwars %>% drop_na(height) %>% select(c(name, height, contains("color"))) %>%
+  rename(nombre = name, altura = height, color_pelo = hair_color,
+         color_piel = skin_color, color_ojos = eye_color) %>%
+  relocate(color_pelo, .after = nombre) %>% distinct(color_pelo)
+```
+
+**IMPORTANTE**: recuerda que `distinct()` de mantener todas las columnas añadiendo `.keep_all = TRUE`.
+
+]
+
+]
+
+---
+
+
+# Modificar/crear variables: mutate()
+
+.pull-left[
+
+A veces queremos **modificar o crear  variables**. Para ello tenemos la función `mutate()`. 
+
+```{r eval = FALSE}
+# Idea
+datos %>%
+  filtro(cond1, cond2) %>%
+  ordeno(var1, desc(var2)) %>%
+  selecciono(col1, col2, ...) %>%
+  modifico(var_nueva = funcion(var_existentes))
+```
+
+Para empezar, vamos a crear una **nueva variable** `height_m` con la altura en centímetros.
+
+```{r eval = FALSE}
+# altura en metros
+starwars %>%
+  mutate(height_m = height / 100)
+```
+
+```{r echo = FALSE}
+# altura en metros
+starwars %>%
+  mutate(height_m = height / 100) %>%
+  select(c(name, mass, height, height_m))
+```
+
+
+
+]
+
+.pull-right[
+
+```{r mutate1, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/mutate1.jpg")
+``` 
+
+]
+
+---
+
+# Modificar/crear variables: mutate()
+
+Otra opción es **quedarnos solo con las columnas nuevas** creadas con `transmute()`
+
+```{r control, eval = FALSE}
+starwars %>%
+  transmute(height_m = height / 100)
+```
+
+```{r control-2, echo = FALSE}
+starwars %>%
+  transmute(height_m = height / 100) %>%
+  slice(1:5)
+```
+
+También se pueden aplicar **funciones más complejas** como `if_else()` o `case_when()`
+
+```{r eval = FALSE}
+starwars %>%
+  mutate(humano = if_else(species == "Human", "humano", "no humano"))
+```
+
+```{r echo = FALSE}
+starwars %>%
+  mutate(humano =
+           if_else(species == "Human", "humano",
+                   "no humano")) %>%
+  select(c(name, height, mass, species, humano))
+```
+
+---
+
+# Recategorizar: case_when()
+
+Una operación también muy habitual es querer **recategorizar nuestras variables**. Supongamos por ejemplo que queremos crear una **categoría en función de su altura**. Para ello podemos podemos usar  `case_when`, en el que le podemos indicar que valores asignamos en función de condiciones. Vamos a crear una variable nueva de altura
+
+* Si `height > 180` –> serán `"altos"`.
+* Si `height <= 180` y `height > 120` –> serán `"bajos"`
+* Si `height <= 120` y `height > 0` –> serán `"enanos"`
+* Si no se cumple lo anterior –> serán `"ausentes"`
+
+```{r eval = FALSE}
+starwars %>%
+  mutate(altura = case_when(height > 180 ~ "altos",
+                               height > 120 ~ "bajos",
+                               height > 0 ~ "enanos",
+                               TRUE ~ "ausentes"))
+```
+
+```{r echo = FALSE}
+starwars %>%
+  mutate(altura = case_when(height > 180 ~ "altos",
+                               height > 120 ~ "bajos",
+                               height > 0 ~ "enanos",
+                               TRUE ~ "ausentes")) %>%
+   select(c(name, height, mass, altura))
+```
+  
+---
+
+# Ejercicios
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: define una función llamada `IMC()`, que dados dos argumentos `peso` y `estatura` (en metros), nos devuelve el índice de masa corporal ($IMC = \frac{peso}{altura^2}$).
+ 
+* 📝 **Ejercicio 2**: con esa función definida, añade a `starwars` una nueva columna que indique el IMC de cada personaje.
+
+* 📝 **Ejercicio 3**: selecciona los 3 personajes con mayor IMC y los 3 con menos.
+
+* 📝 **Ejercicio 4**: define una nueva variable llamada `edad` que nos recategorice la variable `birth_year`: `"menor"` para los que tengan menos de 18 años; `"adulto"` entre 18 y 65 años (ambos inclusive); `"mayor"` de 66 a 99 años; y `"centenario"` de 100 en adelante.
+
+]
+
+.panel[.panel-name[Sol. 1]
+
+Primero definimos la función `IMC` (calcula el IMC dada estatura y peso).
+
+```{r}
+# Suponiendo a la altura ya en metros
+IMC <- function(peso, estatura) {
+  
+  IMC <- peso / estatura^2
+  return(IMC)
+}
+
+IMC(90, 1.60)
+IMC(71, 1.73)
+```
+
+]
+
+.panel[.panel-name[Sol. 2]
+
+La función definida como `IMC()` podemos ahora aplicarla dentro del `mutate()`.
+
+```{r}
+starwars %>%
+  mutate(height_m = height / 100,
+         IMC = IMC(mass, height_m)) %>%
+  # Las movemos al inicio (por defecto las mete al final)
+  relocate(height_m, IMC, .after = name)
+```
+
+]
+
+.panel[.panel-name[Sol. 3]
+
+ 
+```{r mutate-ej-3}
+starwars_IMC <- 
+  starwars %>%
+  mutate(height_m = height / 100, IMC = IMC(mass, height_m))
+starwars_IMC %>% slice_max(IMC, n = 3)
+starwars_IMC %>% slice_min(IMC, n = 3)
+```
+
+]
+
+.panel[.panel-name[Sol. 4]
+
+ 
+```{r}
+starwars %>%
+  mutate(edad =
+           case_when(birth_year < 18 ~ "menor",
+                     between(birth_year, 18, 65) ~
+                       "adulto",
+                     between(birth_year, 66, 99) ~
+                       "mayor",
+                     TRUE ~ "centenario"))
+```
+
+]
+
+]
+
+---
+
+
+# Contar: count()
+
+Tenemos además la función `count()` que nos permitirá contar los datos.
+
+```{r eval = FALSE}
+# Idea
+datos %>%
+  filtro(cond1, cond2) %>%
+  ordeno(var1, desc(var2)) %>%
+  selecciono(col1, col2, ...) %>%
+  modifico(var_nueva = funcion(var_existentes)) %>%
+  cuento(var1, var2)
+```
+
+
+Cuando lo usamos en solitario, `count()` nos devolverá simplemente el **número de registros**
+
+```{r}
+starwars %>% count()
+```
+
+---
+
+# Contar: count()
+
+Cuando lo usamos pasándole como argumento una o varias variables, `count()` nos cuenta lo que se conoce en estadística como **frecuencias absolutas**: el número de elementos pertenecientes a cada una de las **modalidades**. En el caso por ejemplo del fichero de `starwars` `sex` tiene 4 modalidades `female, hermaphroditic, male, none`.
+
+```{r}
+starwars %>% count(sex)
+```
+
+Si pasamos varias variables nos calcula las **frecuencias absolutas n-dimensionales**
+
+```{r}
+starwars %>% count(sex, gender)
+```
+
+---
+
+# Paréntesis: estadística descriptiva
+
+En estadística, como en probabilidad, podemos distinguir las variables en función de las modalidades permitidas en dos grandes categorías:
+
+* **Variables categóricas (nominales o cualitativas)**. Son variables que representan categorías o cualidades. Ejemplos: color, forma, estado civil, religión, etc. Estas variables las podemos **subdividir en función de si admiten o no un orden**:
+  - **Cualitativas ordinales**: aunque representen cualidades, tienen una jerarquía de orden. Ejemplos: suspenso-aprobado-notable, sano - herido leve - grave, etc.
+  - **Cualitativas nominales**: no admiten (salvo problemas nuestros) una jerarquía de orden. Ejemplos: ateo-católico-musulmán, soltero-casado, homber-mujer, etc.
+
+&nbsp;
+
+* **Variables cuantitativas**:  representan una **cantidad numérica** medible, una característica cuantificable matemáticamente. A su vez se pueden subdividir en dos grupos.
+  - **Cuantitativas discretas**: se pueden **contar** y **enumerar (aunque sean infinitos)**, detrás de un valor puedo saber cuál viene después (personas, granos de arena, etc).
+  - **Cuantitativas continuas**: no solo toman infinitos valores sino que entre dos valores cualesquiera, también hay infinitos términos, no se puede determinar el siguiente valor a uno dado (estaturas, pesos, temperatura, etc).
+
+---
+
+# Paréntesis: estadística descriptiva
+
+En estadística llamamos **medidas de centralización** a aquellas medidas que nos indican en torno a qué **valores se concentran los datos**
+
+* **Media**: medida de centralización basada en el valor que nos **minimiza el promedio de desviaciones al cuadrado**. La media es el valor que está más «cerca» de todos los puntos a la vez, pero **SOLO se puede calcular para variables cuantitativas**: solo podemos calcular medias de números.
+
+* **Mediana**: medida de centralización definida como el **valor que ocupa el centro de los datos** cuando los **ordenamos de menor a mayor**, un valor que nos deja por debajo al menos el 50% y por encima al menos el 50%, y **SOLO se puede calcular para variables cuantitativas** o **variables cualitatives ordinales** (solo podemos calcular el valor de en medio en datos que permitan ser ordenados).
+
+* **Moda**: medida de centralización definida como el **valor más repetido**. Al contrario que la media y la mediana, la moda **no tiene porque ser única**: podemos tener un empate. Si todos se repiten por igual, al no destacar ninguno, se dice que es **amodal**. Se puede **calcular para todo tipo de variables**.
+
+---
+
+# Paréntesis: estadística descriptiva
+
+.pull-left[
+
+Es importante saber las **diferencias entre las medidas de centralización** respecto a lo que en estadística se llama **robustez**
+
+* La **media es muy poco robusta**: valores extremos la perturban muy fácil. Piensa en una baraja de cartas: si extraemos 10 ases, la media será 1. Si cambiamos uno por un 10, solo por cambiar el 10% de los datos la media casi se duplica.
+
+```{r}
+mean(c(1, 1, 1, 1, 1, 1, 1, 1, 1, 10))
+```
+
+* La **mediana es algo más robusta** pero la **moda es la más robusta**: para que cambie en el ejemplo se necesitarían cambiar más de la mitad de los datos Y ADEMÁS que los nuevos sean todos repetidos.
+
+]
+
+.pull-right[
+
+![](https://www.bankinter.com/file_source/blog/Contents/A-Imagenes/Interior%20noticias/salario-medio-mas-frecuente.jpg)
+
+La **falta de robustez** de la media es la razón por la que, a la hora de analizar por ejemplo datos tan desiguales como los salarios en España, el **salario medio** no nos aporta realmente información útil sobre la centralidad de los datos, ya que personas extremadamente ricas hacen que la media sea bastante más elevada que el **salario más frecuente**.
+
+]
+
+---
+
+# Paréntesis: estadística descriptiva
+
+De la misma manera podemos pedirle que nos calcule **medidas de dispersión** (varianza, desv. típica y cv), que nos indican cómo de **dispersos están los datos respecto a un centro**, normalmente la media, y **medidas de localización (percentiles)**, valores que nos parten los datos en trozos iguales)
+
+
+&nbsp;
+
+El **coeficiente de variación (CV)** es una medida de dispersión adimensional: nos permita comparar entre variables para saber cuál es más dispersa.
+
+---
+
+
+
+# Agrupar: group_by()
+
+
+Una de las funciones más potentes es `group_by()`  que nos permitirá **agrupar nuestros registros**
+
+```{r eval = FALSE}
+# Idea
+datos %>%
+  filtro() %>%
+  ordeno() %>%
+  selecciono() %>%
+  modifico() %>%
+  agrupo(var1, var2, ...) %>%
+  cuento(var) %>%
+  desagrupo() #<<
+```
+
+Cuando aplicamos `group_by()` es importante entender que **NO MODIFICA los datos**: nos crea una variable de grupo que **modificará las acciones futuras que apliquemos**. Internamente, es como generar **múltiples subtablas**, y las operaciones aplicadas después se **aplicarán a cada una por separado**.
+
+---
+
+# Agrupar: group_by()
+
+.pull-left[
+
+Por ejemplo, vamos a **agrupar por las variables `sex` y `gender`**, y después aplicaremos `count()`: ya no realiza el conteo de filas en general, sino que cuenta los registros para cada par sexo-género distinto (realiza la acción en cada subtabla).
+
+```{r}
+starwars %>%
+  group_by(sex, gender) %>% #<< 
+  count() %>%
+  ungroup() #<<
+```
+
+**IMPORTANTE**: siempre que agrupes, acuérdate de desagrupar con `ungroup()`.
+
+]
+
+.pull-right[
+
+```{r group1, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/group_1.jpg")
+``` 
+
+```{r group-count, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/group_count.jpg")
+``` 
+
+]
+
+---
+
+# Resumir: summarise()
+
+
+La función `summarise()` unida a `group_by()` es de las más útiles de `{tidyverse}`: nos permite **sumarizar o resumir nuestros datos**.
+
+```{r eval = FALSE}
+# Idea
+datos %>%
+  filtro() %>%
+  selecciono() %>%
+  agrupo(var1, var2, ...) %>% #<<
+  resumo() %>%
+  desagrupo() #<<
+```
+
+Un ejemplo: vamos a calcular la **media de las alturas**. Si lo hacemos sin `group_by()` se hará de todos los personajes.
+
+```{r}
+starwars %>% drop_na(height) %>%
+  summarise(media_altura = mean(height)) #<<
+```
+
+---
+
+# Resumir: summarise()
+
+.pull-left[
+
+```{r eval = FALSE}
+# Idea
+datos %>%
+  filtro() %>%
+  selecciono() %>%
+  agrupo(var1, var2, ...) %>% #<<
+  resumo() %>%
+  desagrupo() #<<
+```
+
+Si la misma acción la realizamos con un `group_by()` previo, la media de las alturas se hará ahora **de forma independiente, en cada subtabla por grupo creada**.
+
+```{r}
+starwars %>% drop_na(height) %>% group_by(sex) %>% 
+  summarise(media = mean(height)) %>%
+  ungroup()
+```
+
+
+]
+
+.pull-right[
+
+```{r group-summa, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/group_summarise.jpg")
+``` 
+
+]
+
+
+---
+
+# Resumir: summarise()
+
+Podemos **resumir varias variables a la vez**, haciendo uso de la función `across()`
+
+* primero indicamos **las variables a recorrer** (en este caso `height:mass`)
+* después indicamos la función a aplicar (en este caso, la media `mean()`
+* por último indicamos  argumentos extras si fuesen necesarios (en este caso, `na.rm = TRUE` para eliminar los ausentes en la media)
+
+```{r}
+starwars %>%
+  group_by(sex) %>% #<<
+  summarise(medias = across(height:mass, mean, na.rm = TRUE)) %>% #<<
+  ungroup()
+```
+
+---
+
+# Resumir: summarise()
+
+Además la función `across()` podemos combinarla con `where()`, para que resuma las variables de un mismo tipo, por ejemplo `where(is.numeric)` selecciona solo las numéricas.
+
+```{r}
+starwars %>%
+  drop_na(height, mass) %>%
+  group_by(sex, gender) %>%
+  summarise(across(where(is.numeric), mean)) %>%
+  ungroup()
+```
+
+Algunas de las funciones más útiles dentro de `summarise()`:
+
+* `sum()`, `mean()`, `median()`
+* `min()`, `which.min()`, `max()`, `which.max()`
+* `n()` (número de registros), `n_distinct()` (número de registros únicos).
+
+---
+
+# Resumir: skim()
+
+En el paquete `{skimr}` tenemos una función `skim()` que noes permite **resumir rápidamente nuestras variables**, proporcionándonos los principales parámetros de centralización, dispersión y localización.
+
+```{r eval = FALSE}
+library(skimr)
+starwars %>%
+  select(name:gender) %>%
+  skim()
+```
+
+---
+
+# Operaciones por filas: rowwise()
+
+Una opción muy útil usada antes de una operación también es `rowwise()`: toda operación que venga después se aplicará **en cada fila por separado**. Por ejemplo, vamos a definir un conjunto dummy de notas.
+
+```{r eval = FALSE}
+notas <- tibble("mates" = sample(0:10, size = 4, replace = TRUE),
+                "lengua" = sample(0:10, size = 4, replace = TRUE))
+```
+
+```{r echo = FALSE}
+notas <- tibble("mates" = sample(0:10, size = 4, replace = TRUE),
+                "lengua" = sample(0:10, size = 4, replace = TRUE))
+```
+
+
+Si aplicamos la media directamente, en cada fila el valor `media_curso` es **idéntico ya que nos ha hecho la media global**.  En realidad a nosotros nos gustaría **sacar una media por registro, por alumno**. Para eso usaremos `rowwise()` antes del cálculo.
+
+```{r}
+# Aplicado por fila
+notas %>% rowwise() %>% mutate(media_curso = mean(c(mates, lengua)))
+```
+
+---
+
+# Ejercicios
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: con `group_by()` y `count()`, extrae cuántas personajes a cada especie de `starwars`
+
+* 📝 **Ejercicio 2**: determina con `summarise()` y `n_distinct()` el número de especies distintas
+
+
+* 📝 **Ejercicio 3**: tras eliminar ausentes de peso y altura, añade una nueva variable que nos calcule el IMC de cada personaje, y determina el IMC medio de nuestros datos desagregados por sexo.
+
+* 📝 **Ejercicio 4**: obtén la edad mínima y máxima de cada sexo.
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+```{r}
+starwars %>% 
+  group_by(species) %>%
+  count() %>%
+  ungroup()
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+```{r}
+starwars %>%
+  summarise(especies_distintas = n_distinct(species))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+
+```{r}
+starwars %>%
+  drop_na(height, mass) %>%
+  mutate(IMC = mass / (height/100)^2) %>%
+  group_by(sex) %>%
+  summarise(media_IMC = mean(IMC)) %>%
+  ungroup()
+```
+
+
+]
+
+
+.panel[.panel-name[Sol. Ej. 4]
+
+```{r}
+starwars %>% drop_na(birth_year) %>%
+  group_by(sex) %>%
+  summarise(edad_min = min(birth_year),
+            edad_max = max(birth_year))
+```
+
+
+]
+
+]
+
+---
+
+name: purr
+class: center, middle
+
+# Introducción al manejo de listas
+
+## **Concatenando cualquier objeto**
+
+&nbsp;
+
+Las listas son un tipo de objeto que permite incluir cualquier tipo de dato y longitud, y el paquete `{purrr}` de `{tidyverse}` permite su manejo como si fuesen vectores.
+
+---
+
+# Purrr: listas
+
+Las **listas** son el tipo de dato **más flexible** ya que permite **concatenar variables de diferente tipo pero también de diferente longitud**, con estructuras totalmente heterógeneas.
+
+Un ejemplo: vamos a crear una lista con un vector de textos (nombre de  padres), un valor lógico (si están casado o no) y un vector numérico (edades de los miembros que viven con nosotros)
+
+```{r}
+var1 <- c("Paloma", "Gregorio")
+var2 <- TRUE
+var3 <- c(61, 62, 28)
+```
+
+Para reunirlas en un solo objeto de tipo lista basta con usar `list()`, indicándole si queremos el nombre de cada elemento.
+
+```{r}
+lista <- list("nombres_padres" = var1, "casados" = var2, "edades_familia" = var3)
+lista
+```
+
+---
+
+# Purrr: listas
+
+* **Longitud**: las variables de tipo lista solo tienen una dimensión, como un vector (solo que en cada elemento hay a su vez otro objeto)
+
+```{r}
+length(lista)
+```
+
+Si los juntásemos con un data.frame o tibble, al tener distinta longitud, obtendríamos un error: 
+
+```{r error = TRUE}
+data.frame("nombres_padres" = var1,
+           "casados" = var2,
+           "edades_familia" = var3)
+```
+
+---
+  
+# Purrr: listas
+
+  
+Para **acceder a un elemento de la lista** tenemos dos opciones:
+
+
+* **Acceder por índice**: con el operador `[[i]]` accedemos al elemento i-ésimo de la lista (con el corchete doble, en contraposición con el corchete simple que nos permite acceder a varios elementos a la vez)
+
+
+* **Acceder por nombre**: con el operador `$` accedemos al elemento por su nombre
+
+```{r}
+# Accedemos por índice
+lista[[1]]
+lista$progenitores
+lista[1:2]
+```
+
+---
+
+# Purrr: listas
+
+Una lista no se puede vectorizar de forma inmediata, por lo cualquier operación aritmética aplicada a una lista dará error.
+
+```{r error = TRUE}
+datos <- list("a" = 1:5, "b" = 10:20)
+datos
+datos / 2
+```
+
+Para ello están disponibles las funciones del paquete `{purrr}`.
+
+---
+
+# Purrr: listas
+
+La más sencilla es `map()`, que **recorre cada elemento de la lista** y nos aplica la función que le indiquemos.
+
+```{r}
+datos %>% map(mean)
+```
+
+Puede ser una función predefinida o una propia
+
+```{r}
+datos %>% map(function(x) { x / 2})
+```
+
+---
+
+# Purrr: listas
+
+Si te fijas por defecto `map()` devuelve a su vez una lista
+
+```{r}
+datos %>% map(mean)
+```
+
+¿Cómo indicarle que **queremos que nos devuelva un vector numérico** con las medias? Tenemos a nuestra disposición distintas funciones `map_xxx()`, como `map_dbl()`, para indicarle el formato de salida
+
+```{r}
+datos %>% map_dbl(mean)
+```
+
+
+---
+
+name: joins
+class: center, middle
+
+# Relacionando datos
+
+## **Cruzando tablas con joins**
+
+&nbsp;
+
+No siempre tenemos la información en una sola tabla y a veces nos interesará cruzar las tablas por algún identificador como un DNI o un id.
+
+
+---
+
+# Relacionando datos: join
+
+Un clásico de todo lenguaje que maneja datos son los famosos **join**: siempre que veamos un join, lo debemos imaginar es que estamos **cruzando una o variables tablas**, haciendo uso de una columna identificadora de cada una de ellas (por ejemplo, imagina que cruzamos datos de hacienda y de antecedentes penales, haciendo _join_ por la columna `DNI`).
+
+
+
+```{r joins, echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Esquema con los principales tipos de join, extraído de https://estradawebgroup.com/Post/-Que-es-y-para-que-sirve-SQL-Joins-/4278"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/sql-joins.jpg")
+``` 
+
+
+---
+
+# Relacionando datos: join
+
+.pull-left[
+
+```{r eval = FALSE}
+tabla_1 %>% 
+  xxx_join(tabla_2)
+```
+
+Disponemos de distintos tipos de join:
+
+* `inner_join()`: solo **sobreviven los registros cuyos id esté en ambas** tablas.
+* `left_join()`: **mantiene todos los registros de la primera tabla**, y busca cuales tienen id también en la segunda (en caso de no tenerlo, se rellena con ausente los campos de la segunda tabla).
+* `right_join()`: **mantiene todos los registros de la segunda tabla**, y busca cuales tienen id también en la primera (en caso de no tenerlo, se rellena con ausente los campos de la primera tabla).
+* `anti_join()`: nos devuelve los **registros que estén en la primera tabla y no en la segunda**.
+
+]
+
+
+.pull-right[
+
+```{r left-join, echo = FALSE,  out.width = "50%", fig.align = "center", fig.cap = "Esquema del left join"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/left_join.jpg")
+``` 
+
+```{r right-join, echo = FALSE,  out.width = "50%", fig.align = "center", fig.cap = "Esquema del right join"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/right_join.jpg")
+``` 
+
+```{r full-join, echo = FALSE,  out.width = "50%", fig.align = "center", fig.cap = "Esquema del full join, extraído de https://r4ds.had.co.nz/relational-data.html#mutating-joins"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/full_join.jpg")
+``` 
+
+]
+
+---
+
+# Relacionando datos: join
+
+Para los ejemolos usaremos las tablas disponibles en el paquete `{nycflights13}`
+
+```{r}
+library(nycflights13)
+```
+
+* airlines: nombre de aerolíneas (con su abreviatura).
+* airports: datos de aeropuertos (nombres, longitud, latitud, altitud, etc).
+* flights: datos de vuelos.
+* planes: datos de los aviones.
+* weather: datos meteorológicos horarios de las estaciones LGA, JFK y EWR.
+
+```{r}
+# Seleccionamos antes columnas para que sea más corto
+flights_filtrada <- flights %>%
+  select(year:day, arr_time, carrier:dest)
+flights_filtrada
+```
+
+---
+
+# Left join
+
+.pull-left[
+
+* `left_join()`: **mantiene todos los registros de la primera tabla**, y busca cuales tienen id también en la segunda (en caso de no tenerlo, se rellena con ausente los campos de la segunda tabla).
+
+```{r eval = FALSE}
+flights_filtrada %>%
+  left_join(airlines)
+```
+
+]
+
+
+.pull-right[
+
+```{r left-join2, echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Esquema del left join"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/left_join.jpg")
+``` 
+
+]
+
+
+Queremos **TODAS las filas de los vuelos** con la información extra que tenemos de la aerolínea que opere los vuelos. El campo común que nos permite cruzarla, la **clave (key)**, es el código abreviado de las aerolíneas (`by = carrier`).
+
+```{r}
+flights_filtrada %>% left_join(airlines, by = "carrier")
+```
+
+---
+
+# Left join
+
+La tabla `airlines` tenía 2 columnas, una la clave y otra con el nombre `name` de la aerolínea. ¿Y si en flights hay algún vuelo operado por alguna aerolínea que no estuviese en esa segunda tabla `airlines`? Al estar haciendo `left_join()`, nos mantendrá todos los registros de la primera tabla pero si no los encuentra en la segunda, imputará ausente.
+
+```{r}
+# Eliminamos una aerolínea
+airlines_sin_UA <- airlines %>% filter(!(carrier %in% c("UA")))
+flights_filtrada %>% left_join(airlines_sin_UA, by = "carrier")
+```
+
+---
+
+# Right join
+
+
+.pull-left[
+
+* `right_join()`: **mantiene todos los registros de la segunda tabla**, y busca cuales id en la primera.
+
+```{r eval = FALSE}
+tabla_1 %>%
+  right_join(tabla_2)
+```
+
+]
+
+.pull-right[
+
+```{r right-join2, echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Esquema del right join"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/right_join.jpg")
+``` 
+
+]
+
+```{r}
+tabla_1 <- tibble("key_1" = 1:5, "valor" = paste0("x", 1:5))
+tabla_2 <- tibble("key_2" = 3:7, "valor" = paste0("x", 3:7))
+```
+
+.pull-left[
+
+```{r}
+# Left
+tabla_1 %>%
+  left_join(tabla_2, by = c("key_1" = "key_2"))
+```
+]
+
+.pull-right[
+
+```{r}
+# Left
+tabla_1 %>%
+  right_join(tabla_2, by = c("key_1" = "key_2"))
+```
+]
+
+
+---
+
+# Claves y sufijos
+
+* `by = c("var_t1" = "var_t2")`: le indicaremos en qué columna de cada tabla están las claves por las que vamos a cruzar (si se llaman igual, basta con `by = "var_t1"`).
+
+.pull-left[
+
+```{r}
+# Left
+tabla_1 %>%
+  left_join(tabla_2, by = c("key_1" = "key_2"))
+```
+]
+
+.pull-right[
+
+```{r}
+# Left
+tabla_1 %>%
+  right_join(tabla_2, by = c("key_1" = "key_2"))
+```
+]
+
+
+Además podemos **cruzar por varias columnas a la vez** (interpretará como igual registro aquel que tenga el conjunto de claves igual), con `by = c("var1_t1" = "var1_t2", "var2_t1" = "var2_t2", ...)`
+
+
+---
+
+# Claves y sufijos
+
+
+* `suffix`: si al unir dos tablas, hay columnas que se llaman igual, por defecto nos añade los sufijos `_x` y `_y`.
+
+```{r}
+# Left
+tabla_1 %>% left_join(tabla_2, by = c("key_1" = "key_2"))
+```
+
+Dicho **sufijo podemos especificárselo** en `suffix`, que nos permita distingar la variable de una tabla y de otra.
+
+
+```{r}
+# Left
+tabla_1 %>% left_join(tabla_2, by = c("key_1" = "key_2"), suffix = c("_tab1", "_tab_2"))
+```
+]
+
+---
+
+# Inner, full y anti join
+
+* `inner_join()` vs `full_join()`: solo los registros comunes vs todos de ambas.
+
+```{r}
+# Inner
+tabla_1 %>% inner_join(tabla_2, by = c("key_1" = "key_2"), suffix = c("_tab1", "_tab_2"))
+```
+
+```{r}
+# full
+tabla_1 %>% full_join(tabla_2, by = c("key_1" = "key_2"), suffix = c("_tab1", "_tab_2"))
+```
+
+* `anti_join()`: los que están en la primera y no en la segunda.
+
+```{r}
+# antijoin
+tabla_1 %>%
+  anti_join(tabla_2, by = c("key_1" = "key_2"), suffix = c("_tabla1", "_tabla_2"))
+```
+
+---
+
+# Ejercicios
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: del paquete `{nycflights13}` cruza la tabla `flights` con `airlines`. Queremos mantener todos los registros de vuelo, añadiendo la información de las aerolíneas a la tabla de aviones. 
+
+* 📝 **Ejercicio 2**: a la tabla obtenida del apartado anterior, cruza con los datos de los aviones en `planes`, pero incluyendo solo aquellos vuelos de los que tengamos información de sus aviones (y viceversa). 
+
+* 📝 **Ejercicio 3**: repite el ejercicio anterior pero conservando ambas variables `year` (en una es el año del vuelo, en la otra es el año de construcción del avión).
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+```{r}
+flights %>% left_join(airlines, by = "carrier")
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+```{r}
+flights %>% left_join(airlines, by = "carrier") %>%
+  inner_join(planes, by = "tailnum")
+```
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+```{r}
+flights %>% left_join(airlines, by = "carrier") %>%
+  inner_join(planes, by = "tailnum",
+             suffix = c("_vuelo", "_const"))
+```
+]
+
+]
+
+---
+
+class: inverse center middle
+
+# Bloque III: introducción al dataviz en R.
+
+&nbsp;
+
+### [Dataviz: introducción histórica.](#intro-historica)
+
+### [Introducción a ggplot2](#intro-ggplot2)
+
+### [La importancia de visualizar datos](#importancia-dataviz)
+
+### [Profundizando en ggplot2](#importancia-dataviz)
+
+
+---
+
+name: intro-historica
+class: center, middle
+
+# Dataviz: introducción histórica
+
+## **La historia de los gráficos estadísticos**
+
+&nbsp;
+
+La aparición de gráficos estadísticos es relativamente reciente en la ciencia (hasta la Edad Media solo se acercaban a la idea los mapas)
 
 ---
 
@@ -3437,11 +4558,9 @@ El paquete `{ggplot2}` se basa en la idea propuesta en «Grammar of graphics» d
 
 <img src = "https://images-na.ssl-images-amazon.com/images/I/713JiiOHrEL.jpg" alt = "atlas" align = "right" width = "230" style = "margin-top: 0.1vh;margin-right: 0.5rem;margin-left: 0.5rem;">
 
-Podríamos considerar a los **mapas** como las primeras **visualización de datos**, con la representación de nuestra realidad en **superficies bidimensionales** <sup>1</sup>, usando sistemas de coordenadas para resumir o proyectar la realidad.
+Podríamos considerar los **mapas** como las primeras **visualización de datos**, con la representación de nuestra realidad en **superficies bidimensionales**. Las propias palabras _chart_ y _cartography_ derivan del mismo origen latino, _charta_, así como otros términos matemáticos relacionados como contornos, niveles, curvas, escalas o dominios <sup>2</sup>, aunque el primer uso datado de coordenadas parece venir de los egipcios. <sup>3</sup>
 
-&nbsp;
-
-Las propias palabras _chart_ y _cartography_ derivan del mismo origen latino, _charta_, así como otros términos matemáticos relacionados como contornos, niveles, curvas, escalas o dominios <sup>2</sup>, aunque el primer uso datado de coordenadas parece venir de los egipcios. <sup>3</sup>
+Parte de esta introducción está basada en:
 
 .footnote[[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
 
@@ -3449,62 +4568,20 @@ Las propias palabras _chart_ y _cartography_ derivan del mismo origen latino, _c
 
 [3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
 
-
----
-
-# Breve historia del dataviz
-
-La **visualización de datos** o _dataviz_ está muy ligada a la evolución de ramas que han acabado convergiendo en paralelo:
-
-* La **producción de los datos**: hasta no hace mucho, el dato no era usado ni generado para explicar a la población sino para «uso interno».
-
-* La **estadística** (convertir el dato en información).
-
-* La **tecnología**: cómo cualquier acto de comunicación visual, está tremendamente condicionado a los medios técnicos.
-
-* La **comunicación**: no es lo mismo producir una visualización para un periódico en papel (no editable) que para un formato digital.
-
-&nbsp;
-
-Parte de esta introducción está basada en
-
-[«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](https://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
-
-«The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo.
-
-[«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
-
-
 ---
 
 # Breve historia de la estadística
 
 .pull-left[
+
 * Del (neo)latín «statisticum collegium»: consejo de **Estado**.
 * Del alemán «statistik» (ciencia del **Estado**, intoducido por G. Achenwall).
 
 &nbsp;
 
-**Origen**: una herramienta para la **administración** eficiente del Estado
+**Origen**: una herramienta para la **administración** eficiente del Estado, pero **sin intención de comunicar ni de convertir el dato en información**.
 
-&nbsp;
-
-Hasta no hace tanto, la mayoría de usos de la Estadística eran para una gestión de los recursos públicos, pero **sin intención de comunicar ni de convertir el dato en información**.
-
-]
-
-
-.pull-right[
-```{r echo = FALSE, out.width = "90%", fig.align = "center"}
-knitr::include_graphics("./img/biblia.jpg")
-```
-]
-
----
-
-# Breve historia de la estadística
-
-## Primeros usos: elaboración de censos
+#### Primeros usos: elaboración de censos
 
 Los **primeros usos** documentados de la estadística fueron la elaboración de **censos** por parte de **mesopotámicos, chinos y egipcios**, con tres fines:
 
@@ -3512,14 +4589,18 @@ Los **primeros usos** documentados de la estadística fueron la elaboración de 
 * Reparto de **tierras** y optimización de su uso.
 * **Reclutamiento de soldados**.
 
-## Estadística en la guerra
-
-.pull-left[Según Tucídides, conceptos estadísticos como la **moda** datan del **siglo V a.C.**: para asaltar la muralla de la ciudad de Platea, ponían a contar a varios soldados el número de ladrillos vistos en la muralla, quedándose con el **conteo más repetido (la moda, el más frecuente)**, permitiendo el cálculo de la altura de la muralla.]
+]
 
 .pull-right[
+
+## Estadística en la guerra
+
+Según Tucídides, conceptos estadísticos como la **moda** datan del **siglo V a.C.**: para asaltar la muralla de la ciudad de Platea, ponían a contar a varios soldados el número de ladrillos vistos en la muralla, quedándose con el **conteo más repetido (la moda, el más frecuente)**, permitiendo el cálculo de la altura de la muralla.
+
 ```{r echo = FALSE, out.width = "70%", fig.align = "center"}
 knitr::include_graphics("./img/peloponeso.jpg")
 ```
+
 ]
 
 ---
@@ -3776,14 +4857,6 @@ knitr::include_graphics("https://pbs.twimg.com/media/BgDR4urIMAAnHmG?format=jpg&
 ``` 
 
 Gráfica extraída de <https://twitter.com/Dave_Andrade/status/432576336872624129?t=FGjLtxE8V1BJR_QdXdtZgQ&s=19>
-
----
-
-# Vizfail
-
-```{r echo = FALSE,  out.width = "50%", fig.align = "center", fig.cap = "Ejemplo de un desastre"}
-knitr::include_graphics("./img/gijon_psoe.jpg")
-``` 
 
 ---
 
@@ -4112,8 +5185,6 @@ Se le considera uno de los pioneros de la **epidemiología moderna** y la **esta
 
 ]
 
---
-
 .pull-right[
 
 ```{r echo = FALSE, out.width = "100%", fig.align = "center"}
@@ -4344,26 +5415,7 @@ knitr::include_graphics("https://pbs.twimg.com/media/FIg4bLWX0AgHuBT?format=jpg&
 
 ---
 
-# La espiral de la polémica
-
-
-.pull-left[
-
-```{r echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Mejora de https://twitter.com/abmakulec/status/1479496581439238152"}
-knitr::include_graphics("https://pbs.twimg.com/media/FIg4FiIXIAITUq6?format=jpg&name=medium")
-``` 
-
-]
-
-.pull-right[
-
-✖️ La **espiral es una forma geométrica compleja**: la original, al no estar ni centrada ni ser concéntrica, distorsiona (aún más) el crecimiento de los casos y su estacionalidad.
-
-]
-
----
-
-# Líneas rojas (opinión personal)
+# ¿Líneas rojas?
 
 * Entender el contexto y respetar el dato
 
@@ -4408,6 +5460,19 @@ knitr::include_graphics("./img/semaforo.jpg")
 
 
 [«The Visual Display of Quantitative Information» de E. W. Tufte](https://www.amazon.es/Visual-Display-Quantitative-Information/dp/0961392142)
+
+---
+
+name: intro-ggplot2
+class: center, middle
+
+# Dataviz e introducción a ggplot2
+
+## **La gramática de los gráficos**
+
+&nbsp;
+
+El paquete `{ggplot2}` se basa en la idea propuesta en «Grammar of graphics» del recién fallecido Wilkinson.
 
 ---
 
@@ -5935,300 +7000,8 @@ ggplot(starwars_filtro,
 name: stats
 class: center, middle
 
-# Introducción a la estadística
-
-## **Algunos conceptos necesarios**
-
-&nbsp;
-
-La **estadística descriptiva** es la rama de la estadística que se dedica al preprocesamiento, análisis preliminar de las muestras, resumen y visualización.
-
----
 
 # Segundo intento: diagrama de barras
-
-Antes de aprender a visualizar un diagrama de barras, veamos algunos **conceptos clave en estadística descriptiva**
-
-* **Población**: es la posible **colección de individuos o elementos** a estudiar (por ejemplo, los cientos de miles de habitantes de los mundos de Star Wars). Normalmente esa población es **inaccesible** en su totalidad.
-
-* **Muestra**: una **selección «representativa»** de individuos de la población total (teórica). En nuestro caso, de los miles de habitantes de los mundos de Star Wars hemos extraído una muestra de 87 personas. 
-
-* **Tamaño muestral**: comunmente denotado como $n$, es el número de individuos seleccionados de nuestra población.
-
-```{r}
-library(tidyverse)
-nrow(starwars) # tamaño muestral
-starwars
-```
-
-
----
-
-# Estadística descriptiva
-
-En estadística llamamos **caracteres** a cada una de las variables, cada una de las **características  que se miden/estudian** para cada uno de los individuos seleccionados. 
-
-```{r}
-# Características
-names(starwars)
-```
-
-Y para cada una de ellas llamaremos **modalidades** a los **diferentes valores que puede adoptar** una característica o variable. En el caso por ejemplo del fichero de `starwars` tenemos distintas opciones:
-
-* `sex`: tiene 4 modalidades `female, hermaphroditic, male, none` (podemos extraerlas con `unique()`, que nos dará los valores únicos de una variable).
-
-```{r}
-unique(starwars$sex)
-```
-
----
-
-# Estadística descriptiva
-
-En estadística, como en probabilidad, podemos distinguir las variables en función de las modalidades permitidas en dos grandes categorías:
-
-* **Variables categóricas (nominales o cualitativas)**. Son variables que representan categorías o cualidades. Ejemplos: color, forma, estado civil, religión, etc. Estas variables las podemos **subdividir en función de si admiten o no un orden**:
-  - **Cualitativas ordinales**: aunque representen cualidades, tienen una jerarquía de orden. Ejemplos: suspenso-aprobado-notable, sano - herido leve - grave, etc.
-  - **Cualitativas nominales**: no admiten (salvo problemas nuestros) una jerarquía de orden. Ejemplos: ateo-católico-musulmán, soltero-casado, homber-mujer, etc.
-
-&nbsp;
-
-* **Variables cuantitativas**:  representan una **cantidad numérica** medible, una característica cuantificable matemáticamente. A su vez se pueden subdividir en dos grupos.
-  - **Cuantitativas discretas**: se pueden **contar** y **enumerar (aunque sean infinitos)**, detrás de un valor puedo saber cuál viene después (personas, granos de arena, etc).
-  - **Cuantitativas continuas**: no solo toman infinitos valores sino que entre dos valores cualesquiera, también hay infinitos términos, no se puede determinar el siguiente valor a uno dado (estaturas, pesos, temperatura, etc).
-
----
-
-# Frecuencias: contando los datos
-
-El **diagrama de barras** es uno de los gráficos más utilizados para visualizar las **frecuencias** (número de veces que aparece) de **variables cualitativas o cuantitativas discretas**
-
-Vamos a **calcular las frecuencias** de la variable `sex` de `starwars`. Y lo primero es contar: **¿cuántos registros hay de cada una de las clases?** Para ello usaremos la función `count()` aplicada a `sex`
-
-
-```{r}
-starwars %>%
-  count(sex) #<<
-```
-
----
-
-# Frecuencias: contando los datos
-
-Esa columna $n$ es lo que conocemos como **frecuencias absolutas**: el número de veces que la variable toma dicha valor. Algunas veces nos interesa obtener las **frecuencias relativas**: la **proporción del total** que representa dicha cantidad, denotada como $f_i$, para cada nivel $n_i$. Añadimos también  esas **frecuencias relativas en porcentaje**
-
-```{r}
-starwars %>%
-  count(sex) %>%
-  mutate(f = n / sum(n), #<<
-         f_proc = 100 * f) 
-```
-
-
----
-
-# Agrupando con group_by()
-
-Las frecuencias también podemos obtenerlas de forma **bidimensional**, agrupando los datos por dos variables con `group_by()`: esta orden no modificada nada de los datos, lo que haces **modificar las acciones** que vengan después, de forma **desagregada por los grupos creados**
-
-```{r}
-starwars %>%
-  group_by(sex, gender) %>% #<< 
-  count()
-```
-
-Ahora $n$ es en realidad un $n_ij$, la frecuencia de cada par $(i, j)$, para las posibles modalidades $i$ de $X$ y $j$ de $Y$ (en este caso, `sex` y `gender`).
-
----
-
-# Resumiendo los datos
-
-La función `group_by()` es de las más útiles de `{tidyverse}`, en especial con la orden `summarise()`, orden que nos permite sumarizar o resumir nuestros datos. Por ejemplo, vamos a calcular la media de la altura de los personajes.
-
-```{r}
-starwars %>%
-  summarise(media_altura = mean(height)) #<<
-```
-
-Dado que tenemos alturas ausentes, o bien las eliminamos y o bien al aplicar `mean()` le indicamos el argumento `na.rm = TRUE` para que nos los elimine.
-
-```{r}
-starwars %>%
-  drop_na(height) %>% #<<
-  summarise(media_altura = mean(height)) #<<
-```
-
----
-
-# Resumiendo los datos
-
-Si la misma acción la realizamos con un `group_by()` previo, la media de las alturas ya no lo hará en global sino que calculará una **media por grupos**, desagregada por las variables que le indiquemos en `group_by()`
-
-```{r}
-starwars %>% 
-  drop_na(height, mass) %>%
-  group_by(sex) %>% #<<
-  summarise(media = mean(height)) %>%
-  ungroup() #<<
-```
-
----
-
-# Resumiendo los datos
-
-Podemos calcular varias estadísticas a la vez, combinándolo con algunas de las opciones que ya hemos visto, como `across()` (primer variables, luego función)
-
-```{r}
-starwars %>% drop_na(height, mass) %>% group_by(sex) %>% 
-  summarise(medias = across(c(height, mass), mean)) %>% #<<
-  ungroup()
-```
-
----
-
-# Resumiendo los datos
-
-Un **ejemplo más complejo en pocas líneas**: las medias de todas las variables cuantitativas (numéricas), desgregadas por sexo y género.
-
-```{r}
-starwars %>% drop_na(height, mass) %>% group_by(sex, gender) %>%
-  summarise(across(where(is.numeric), mean)) %>%
-  ungroup()
-```
-
----
-
-# Resumiendo los datos
-
-Una opción muy útil usada antes de una operación también es `rowwise()`: toda operación que venga después se aplicará **en cada fila por separado**. Por ejemplo, vamos a definir un conjunto dummy de notas en mates, lengua y dibujo de 50 alumnos. Para ello usamos la función `sample()`: le decimos que seleccione aleatoriamente `size = 50` notas de un conjunto de notas posibles, y que lo haga con reemplazamiento (`replace = TRUE`, es decir, que dos alumnos puedan tener la misma nota).
-
-```{r}
-notas <- tibble("mates" = sample(0:10, size = 50, replace = TRUE),
-                "lengua" = sample(0:10, size = 50, replace = TRUE),
-                "dibujo" = sample(0:10, size = 50, replace = TRUE))
-notas
-```
-
----
-
-# Resumiendo los datos
-
-Una vez que tenemos 3 notas por cada uno de los 50 alumnos, **¿qué sucede si yo quiero calcular la nota media del curso?**
-
-```{r}
-notas %>%
-  mutate(media_curso = mean(c(mates, lengua, dibujo)))
-```
-
-Si aplicamos la media directamente, en cada fila el valor `media_curso` es **idéntico ya que nos ha hecho la media global** de las 50 filas y 3 columnas (la media de 150 datos). 
-
----
-
-# Resumiendo los datos
-
-En realidad a nosotros nos gustaría **sacar una media por registro, por alumno**, que para cada alumno tengamos la media de las asignaturas. Para eso usaremos `rowwise()` antes del cálculo.
-
-```{r}
-# Aplicado por fila
-notas %>% rowwise() %>%
-  mutate(media_curso = mean(c(mates, lengua, dibujo)))
-```
-
----
-
-# Medidas de centralización
-
-Hemos hablado de **tipos de variables** y algunas medidas como la media. En estadística llamamos **medidas de centralización** a aquellas medidas que nos indican en torno a qué **valores se concentran los datos**
-
-* **Media**: medida de centralización basada en el valor que nos **minimiza el promedio de desviaciones al cuadrado**. La media es el valor que está más «cerca» de todos los puntos a la vez.
-
-```{r}
-starwars %>% drop_na(height) %>% summarise(mean(height))
-```
-
-**IMPORTANTE**: la media **SOLO se puede calcular para variables cuantitativas**: solo podemos calcular medias de números, no podemos hacer la media de rojo y azul.
-
----
-
-# Medidas de centralización
-
-* **Mediana**: medida de centralización definida como el **valor que ocupa el centro de los datos** cuando los **ordenamos de menor a mayor**, un valor que nos deja por debajo al menos el 50% y por encima al menos el 50%.
-
-```{r}
-starwars %>% drop_na(height) %>%
-  summarise(mean(height), median(height))
-```
-
-**IMPORTANTE**: la medina **SOLO se puede calcular para variables cuantitativas** o **variables cualitatives ordinales**: solo podemos calcular el valor de en medio en datos que permitan ser ordenados.
-
----
-
-# Medidas de centralización
-
-* **Moda**: medida de centralización definida como el **valor más repetido**. Al contrario que la media y la mediana, la moda **no tiene porque ser única**: podemos tener un empate. Si todos se repiten por igual, al no destacar ninguno, se dice que es **amodal**.
-
-La ventaja es que se puede **calcular para todo tipo de variables**. El incoveniente es que la moda tenemos algún problema mayor ya que no hay un función en los paquetes `{base}` para su cálculo directo. Para calcularla podemos usar el paquete `{modeest}` la función `mfv()` nos calcula la moda exacta de una variable numérica discreta o cuantitativa, la función `mlv()` nos calcula la moda estimada de una variable numérica continua.
-
-```{r}
-library(modeest)
-starwars %>% drop_na(height) %>%
-  summarise(mean(height), median(height), mlv(height))
-```
-
----
-
-# Medidas de centralización
-
-Es importante saber las **diferencias entre las medidas de centralización** respecto a lo que en estadística se llama **robustez**
-
-* La **media es muy poco robusta**: valores extremos la perturban muy fácil. Piensa en una baraja de cartas: si extraemos 10 ases, la media será 1. Si cambiamos uno por un 10, solo por cambiar el 10% de los datos la media casi se duplica.
-
-```{r}
-mean(c(1, 1, 1, 1, 1, 1, 1, 1, 1, 10))
-```
-
-* La **mediana es algo más robusta**: para que cambie en el ejemplo se necesitarían cambiar al menos la mitad de los elementos.
-
-```{r}
-median(c(1, 1, 1, 1, 2, 3, 4, 5, 6, 7))
-```
-
-* La **moda es la más robusta**: para que cambie en el ejemplo se necesitarían cambiar más de la mitad de los datos Y ADEMÁS que los nuevos sean todos repetidos.
-
----
-
-# Robustez
-
-![](https://www.bankinter.com/file_source/blog/Contents/A-Imagenes/Interior%20noticias/salario-medio-mas-frecuente.jpg)
-
-La **falta de robustez** de la media es la razón por la que, a la hora de analizar por ejemplo datos tan desiguales como los salarios en España, el **salario medio** no nos aporta realmente información útil sobre la centralidad de los datos, ya que personas extremadamente ricas hacen que la media sea bastante más elevada que el **salario más frecuente**.
-
----
-
-# Medidas de dispersión
-
-De la misma manera podemos pedirle que nos calcule **medidas de dispersión** (varianza, desv. típica y cv), que nos indican cómo de **dispersos están los datos respecto a un centro**, normalmente la media, y **medidas de localización (percentiles)**, valores que nos parten los datos en trozos iguales)
-
-```{r}
-starwars %>% drop_na(mass) %>%
-  summarise(media = mean(mass), mediana = median(mass),
-            var = var(mass), sd = sd(mass),
-            p13 = quantile(mass, probs = c(0.13)),
-            p87 = quantile(mass, probs = c(0.87)))
-```
-
-El **coeficiente de variación (CV)** es una medida de dispersión adimensional: nos permita comparar entre variables para saber cuál es más dispersa.
-
-```{r}
-starwars %>% drop_na(mass, height) %>%
-  summarise(media = across(c(mass, height), mean),
-            var = across(c(mass, height), var),
-            cv = sqrt(var) / abs(media))
-```
-
----
-
-# Volvemos a ggplot: diagrama de barras
 
 Vamos a visualizar en un **diagrama de barras** la **variable cualitativa** `species`, calculando primero el número de personajes de cada especie con `count()`  (filtrando primero los ausentes).
 
@@ -6428,43 +7201,6 @@ ggplot(starwars %>%
   labs(fill = "Frecuencia absoluta",
        x = "Número de personajes", y = "Especies")
 ```
-
-]
-
----
-
-# Nubes de palabras
-
-.pull-left[
-
-Otra opción con **variables cualitativas**, en especial para visualizar palabras en textos y documentos, son precisamente las **word cloud o nubes de palabras**. Con el paquete `{wordcloud2}` podremos **visualizar las nubes de términos**, por ejemplo de las **especies de starwars**, en un tamaño relativo al número de veces que aparece.
-
-```{r eval = FALSE}
-library(wordcloud2)
-wordcloud2(starwars %>% drop_na(species) %>%
-             mutate(species =
-                      fct_lump_min(species, min = 2,
-                                   other_level = "otras")) %>% 
-             count(species),
-           size = 0.8, color= 'random-dark')
-```
-
-]
-
-.pull-right[
-
-```{r echo = FALSE, out.width = "25%"}
-library(wordcloud2)
-gg <- 
-  wordcloud2(starwars %>% drop_na(species) %>%
-             mutate(species =
-                      fct_lump_min(species, min = 2,
-                                   other_level = "otras")) %>% 
-             count(species),
-           size = 0.8, color= 'random-dark')
-htmltools::tagList(list(gg))
-```
-
 
 ]
 
@@ -6703,7 +7439,7 @@ ggplot(gapminder_por_continente,
 
 ]
 
-.panel[.panel-name[Sol. 5]
+.panel[.panel-name[Sol. 6]
 
 .pull-left[
 
@@ -6749,8 +7485,6 @@ ggplot(gapminder_por_continente,
 ]
 
 ---
-
-class: center, middle
 
 # CASO PRÁCTICO
 
@@ -8182,12 +8916,12 @@ showtext_auto()
 gg <- gg + 
   theme(plot.subtitle =
           element_text(family = "Permanent Marker",
-                       size = 21, color = "white"),
+                       size = 19, color = "white"),
         plot.caption =
           element_text(family = "Permanent Marker",
-                       color = "white", size = 19),
+                       color = "white", size = 17),
         axis.text = 
-          element_text(size = 15,
+          element_text(size = 11,
                        family = "Permanent Marker",
                        color = "white"))
 gg
@@ -8314,29 +9048,18 @@ glimpse(Nightingale)
 
 class: center, middle
 
-# Mañana más y mejor. ¡Muchísimas gracias a todos/as/es!
 
-Las diapositivas han sido generadas con el paquete [**{xaringan}**](https://github.com/yihui/xaringan).
-
-
-Los estilos (.css y .js) de estas diapositivas están basados en las diapositivas del repositorio <https://github.com/dieghernan/rpubs>
-
----
-
-name: rmarkdown
-class: center, middle
-
-# Casos prácticos: informes RMarkdown
-
-## **presentado nuestros análisis**
+# Bloque IV: comunicando resultados
 
 &nbsp;
 
-`Rmarkdown` es una herramienta para juntar en un mismo documento `markdown` (como el lenguaje marcado que se usa para wordpress o newsletter), código `R`, imágenes, fórmulas, etc
+### [Introducción a rmarkdown](#intro-historica)
+
+### [Profundizando en rmarkdown](#intro-historica)
 
 ---
 
-# Rmarkdown
+# Introducción a rmarkdown
 
 Vamos acabar nuestra primera sesión de `R` con una **forma práctica de presentar** nuestros análisis y resultados, y que será el formato en el que pedirán las **prácticas evaluables**: hablemos de **Rmarkdown**.
 
@@ -8353,7 +9076,7 @@ install.packages("rmarkdown")
 ---
 
 
-# Rmarkdown
+# Introducción a rmarkdown
 
 **¿Cuál es la ventaja de generarlos desde rmarkdown?**
 
@@ -8373,7 +9096,7 @@ Una **herramienta** que nos permite crear de forma sencilla documentos:
 
 ---
 
-# Rmarkdown
+# Introducción a rmarkdown
 
 <img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/file_rmarkdown.jpg" alt = "rmd" align = "left" width = "300" style = "margin-top: 3vh;margin-right: 3rem;margin-left: 0.5rem;">
 
@@ -8389,7 +9112,7 @@ Una **herramienta** que nos permite crear de forma sencilla documentos:
 
 ---
 
-# Rmarkdown
+# Introducción a rmarkdown
 
 
 ```{r echo = FALSE, out.width = '55%'}
@@ -8457,7 +9180,7 @@ Podemos **mejorar un poco el texto**:
 
 ---
 
-# Chunks de código
+# Profundizando: chunks de código
 
 <img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/chunk_1.jpg" alt = "rmd" align = "left" width = "400" style = "margin-top: 2vh;margin-right: 1rem;margin-left: 0.5rem;">
 
@@ -8474,7 +9197,8 @@ Tras tejer de nuevo y obtenemos ahora un documento que tiene una caja de código
  
 ---
 
-# Etiquetando chunks
+
+# Profundizando: etiquetando chunks
 
 Los _chunks_ de código pueden tener un **nombre o etiqueta** para poder referenciarlos de nuevo (y para no repetir código). En la etiqueta no se pueden poner espacios, preferiblemente solo letras y guiones.
 
@@ -8485,7 +9209,7 @@ Los _chunks_ de código pueden tener un **nombre o etiqueta** para poder referen
 
 ---
 
-# Organizando el documento
+# Profundizando: organizando el documento
 
 El **documento podemos dividirlo en secciones y subsecciones**. Para ello usaremos la sintaxis de _markdown_, poniendo **almohadillas**: una `#` para secciones, `##` para subsecciones, `###` para subsubsecciones, etc. Vamos a crear una **sección principal** que sea `# Primer informe` y una **subsección** que se titule `## Chunks de código` donde incluiremos los dos chunks que tenemos hasta ahora.
 
@@ -8497,7 +9221,7 @@ También podemos **organizar nuestro documento** creando listas de ítems, usand
 
 ---
 
-# Ejecutando chunk a chunk
+# Profundizando: ejecutando chunk a chunk
 
 En cada _chunk_ aparece una botón de _play_: pulsándolo podemos tener la **ejecución y salida de cada chunk** en nuestro `.Rmd`, sin tener que esperar a «tejer» (con Knit) todo el documento para ver lo que vamos ejecutando.
 
@@ -8512,7 +9236,7 @@ Además **podemos incluir código R dentro de la línea de texto**.
 
 ---
 
-# Personalizando chunks
+# Profundizando: personalizando chunks
 
 Los _chunks_ podemos **personalizarlos** con algunas opciones, pasándolos como argumentos dentro de las llaves `{r etiqueta, ...}`.
 
@@ -8533,7 +9257,7 @@ Puedes ver las **diferentes salidas** en el archivo [primer_rmarkdown.Rmd](https
 
 ---
 
-# Variables y ecuaciones
+# Profundizando: variables y ecuaciones
 
 También podemos **incluir ecuaciones** haciendo uso de código latex (entre dolares `$$`), así como nombres de variables.
 
