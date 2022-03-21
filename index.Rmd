@@ -24,7 +24,7 @@ output:
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(fig.retina = 3, out.width = "100%", cache = FALSE,
                       comment = ">", echo = TRUE, message = FALSE,
-                      warning = FALSE, hiline = TRUE, dpi = 300)
+                      warning = FALSE, hiline = TRUE, dpi = 150)
 
 # xaringan Extra
 # devtools::install_github("gadenbuie/xaringanExtra")
@@ -4927,32 +4927,6 @@ knitr::include_graphics("https://omeka.lehigh.edu/files/fullsize/65fc32c11a768f1
 
 ---
 
-# Edmond Halley
-
-El astrónomo **Edmond Halley** fue uno de los primeros científicos en usar la visualización de datos para sus trabajos, publicando en 1686 un gráfico relacionando la presión barométrica en función de la altitud, y se le atribuye el primer mapa no geográfico: un mapa representando datos meteorológicos (direcciones de viento)
-
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "80%", fig.align = "center", fig.cap = "Gráfico bivariante de Halley, extraída de https://friendly.github.io/HistDataVis"}
-knitr::include_graphics("https://friendly.github.io/HistDataVis/figs-web/06_2-halleygraph2.png")
-``` 
-
-]
-
-.pull-right[
-
-```{r echo = FALSE, out.width = "80%", fig.align = "center", fig.cap = "Mapa meteorológico, extraído de Thrower (1969)"}
-knitr::include_graphics("./img/mapa_halley.jpg")
-``` 
-
-]
-
-[9] [«Edmond Halley as a Thematic Geo-Cartographer» de Norman J. W. Thrower (1969)](https://www.jstor.org/stable/2561832)
-
-
----
-
 # El gran boom: los gráficos de Playfair
 
 La figura que cambió el dataviz fue, sin lugar a dudas, el economista y político **William Playfair (1759-1823)**. En 1786 publicó el **«Atlas político y comercial»** con 44 gráficas (43 series temporales y el **diagrama de barras más famoso**, aunque no el primero).
@@ -5052,29 +5026,6 @@ knitr::include_graphics("./img/playfair_8.jpg")
 [13] [«An Inquiry Into the Permanent Causes of the Decline and Fall of Powerful and Wealthy Nations» de William Playfair (1821)](https://www.amazon.com/Permanent-Powerful-Nations-Prosperity-Prolonged/dp/140691830X)
 
 
----
-
-# Primeros gráficos de tarta
-
-Junto a **J.H. Lambert** (sí, el de la proyección cartográfica), Playfair inventó las gráficas circulares y los **diagramas de tartas**.
-
-.pull-left[
-
-```{r echo = FALSE, out.width = "85%", fig.align = "center", fig.cap = "Gráfica de Lambert visualizando la temperatura de la tierra (eje horizontal: tiempo; eje vertical: latitud)."}
-knitr::include_graphics("https://www.researchgate.net/profile/Ian-Spence-7/publication/228091928/figure/fig18/AS:668617855234069@1536422327601/Lamberts-chart-of-soil-temperatures-1779.ppm")
-``` 
-
-]
-
-.pull-right[
-
-```{r echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Gráfica de Playfair, considerada el primer diagrama de tartas, visualizando el tamaño, localización y población de 5 países, extraída de https://friendly.github.io/HistDataVis."}
-knitr::include_graphics("./img/playfair_9.png")
-``` 
-
-]
-
-[14] [«The Statistical Breviary» de William Playfair (1801)](https://www.amazon.es/Statistical-Breviary-Shewing-Resources-Kingdom/dp/1293282693)
 
 ---
 
@@ -5373,45 +5324,6 @@ knitr::include_graphics("https://pbs.twimg.com/media/FIg4FiIXIAITUq6?format=jpg&
 
 El **uso de colores** no es solo algo estético: es una variable más, y la paleta elegida así como su uso es fundamental (por ejemplo, la inclusión de colores nos permite centrarnos en los oscuros, y comparar entre tonalidades).
 
-
----
-
-
-# La espiral de la polémica
-
-.pull-left[
-
-```{r echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Mejora de https://twitter.com/abmakulec/status/1479496581439238152"}
-knitr::include_graphics("https://pbs.twimg.com/media/FIg4PXhXoAU7C2P?format=jpg&name=medium")
-``` 
-
-]
-
-.pull-right[
-
-✖️ No hay ninguna codificación de ningún tipo, ni en ejes ni en colores: añadir **barras con tamaños** codifica de nuevo los datos (ya estaban con colores), y su solapamiento en algunos periodos nos permiten calibrar mejor la colosal magnitud de ómicron en ese momento. El **tamaño de las barras** no solo nos permite medir, per se, sino facilitar aún más la comparación, sin ejes centrales sin significado en base a los datos.
-
-]
-
-
----
-
-
-# La espiral de la polémica
-
-.pull-left[
-
-```{r echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Mejora de https://twitter.com/abmakulec/status/1479496581439238152"}
-knitr::include_graphics("https://pbs.twimg.com/media/FIg4bLWX0AgHuBT?format=jpg&name=medium")
-``` 
-
-]
-
-.pull-right[
-
-✖️ La forma de llevarlo a cabo, **incluyendo solo algunos meses** (¿por qué esos y no otros?), hace más complicado obtener información sin recorrer la espiral (que quizás sea en parte un acierto, por darte la sensación de mareo). Además el **grid que se incluye no aporta escala ni información** por lo que distrae de la verdadera información.
-
-]
 
 ---
 
@@ -6428,7 +6340,7 @@ De esta manera podríamos incluso **visualizar el fichero de datos originales in
 
 ```{r eval = FALSE}
 library(MetBrewer)
-ggplot(gapminder,
+ggplot(gapminder %>% filter(year > 1962),
        aes(y = lifeExp, x = pop,
            size = gdpPercap, color = continent)) +
   geom_point(alpha = 0.6) +
@@ -6444,7 +6356,7 @@ ggplot(gapminder,
 
 ```{r echo = FALSE}
 library(MetBrewer)
-ggplot(gapminder,
+ggplot(gapminder %>% filter(year > 1962),
        aes(y = lifeExp, x = pop,
            size = gdpPercap, color = continent)) +
   geom_point(alpha = 0.6) +
