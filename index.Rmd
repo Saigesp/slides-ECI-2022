@@ -24,7 +24,7 @@ output:
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(fig.retina = 3, out.width = "100%", cache = FALSE,
                       comment = ">", echo = TRUE, message = FALSE,
-                      warning = FALSE, hiline = TRUE, dpi = 150)
+                      warning = FALSE, hiline = TRUE, dpi = 120)
 
 # xaringan Extra
 # devtools::install_github("gadenbuie/xaringanExtra")
