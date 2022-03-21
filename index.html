@@ -1121,7 +1121,7 @@ now()
 ```
 
 ```
-&gt; [1] "2022-03-21 12:27:48 CET"
+&gt; [1] "2022-03-21 13:02:59 CET"
 ```
 
 ---
@@ -3109,11 +3109,11 @@ microbenchmark((1:500)^2, for (i in 1:1:500) {i^2}, times = 300)
 ```
 &gt; Unit: microseconds
 &gt;                            expr      min       lq        mean    median
-&gt;                       (1:500)^2    1.454    1.891    2.520457    2.4575
-&gt;  for (i in 1:1:500) {     i^2 } 1089.994 1174.487 1365.720197 1219.5325
+&gt;                       (1:500)^2    1.745    2.326    3.940737    3.5585
+&gt;  for (i in 1:1:500) {     i^2 } 1305.417 1494.836 2073.959343 1816.3040
 &gt;         uq      max neval cld
-&gt;     2.9125   10.720   300  a 
-&gt;  1385.7405 4187.878   300   b
+&gt;     4.4765   19.168   300  a 
+&gt;  2218.6795 8351.443   300   b
 ```
 
 ---
@@ -5071,9 +5071,9 @@ starwars %&gt;%
 &gt; # A tibble: 3 × 14
 &gt;   name      height  mass hair_color skin_color eye_color birth_year sex   gender
 &gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Sly Moore    178    48 none       pale       white             NA &lt;NA&gt;  &lt;NA&gt;  
-&gt; 2 Yarael P…    264    NA none       white      yellow            NA male  mascu…
-&gt; 3 Owen Lars    178   120 brown, gr… light      blue              52 male  mascu…
+&gt; 1 Dooku        193    80 white      fair       brown          102   male  mascu…
+&gt; 2 Zam Wese…    168    55 blonde     fair, gre… yellow          NA   fema… femin…
+&gt; 3 Anakin S…    188    84 blond      fair       blue            41.9 male  mascu…
 &gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
@@ -5088,9 +5088,9 @@ starwars %&gt;%
 &gt; # A tibble: 3 × 14
 &gt;   name      height  mass hair_color skin_color eye_color birth_year sex   gender
 &gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Tion Med…    206    80 none       grey       black           NA   male  mascu…
-&gt; 2 Dexter J…    198   102 none       brown      yellow          NA   male  mascu…
-&gt; 3 Anakin S…    188    84 blond      fair       blue            41.9 male  mascu…
+&gt; 1 Jar Jar …    196    66 none       orange     orange            52 male  mascu…
+&gt; 2 Mace Win…    188    84 none       dark       brown             72 male  mascu…
+&gt; 3 Padmé Am…    165    45 brown      light      brown             46 fema… femin…
 &gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
@@ -5110,14 +5110,14 @@ starwars %&gt;%
 &gt; # A tibble: 8 × 14
 &gt;   name      height  mass hair_color skin_color eye_color birth_year sex   gender
 &gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Bossk        190   113 none       green      red             53   male  mascu…
-&gt; 2 Luke Sky…    172    77 blond      fair       blue            19   male  mascu…
-&gt; 3 Jocasta …    167    NA white      fair       blue            NA   fema… femin…
-&gt; 4 Palpatine    170    75 grey       pale       yellow          82   male  mascu…
-&gt; 5 Lama Su      229    88 none       grey       black           NA   male  mascu…
-&gt; 6 Rugor Na…    206    NA none       green      orange          NA   male  mascu…
-&gt; 7 Jek Tono…    180   110 brown      fair       blue            NA   male  mascu…
-&gt; 8 Darth Va…    202   136 none       white      yellow          41.9 male  mascu…
+&gt; 1 Quarsh P…    183    NA black      dark       brown             62 &lt;NA&gt;  &lt;NA&gt;  
+&gt; 2 Han Solo     180    80 brown      fair       brown             29 male  mascu…
+&gt; 3 Gasgano      122    NA none       white, bl… black             NA male  mascu…
+&gt; 4 Rugor Na…    206    NA none       green      orange            NA male  mascu…
+&gt; 5 Yoda          66    17 white      green      brown            896 male  mascu…
+&gt; 6 Saesee T…    188    NA none       pale       orange            NA male  mascu…
+&gt; 7 Dud Bolt      94    45 none       blue, grey yellow            NA male  mascu…
+&gt; 8 Barriss …    166    50 black      yellow     blue              40 fema… femin…
 &gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
@@ -6456,10 +6456,10 @@ notas %&gt;% rowwise() %&gt;% mutate(media_curso = mean(c(mates, lengua)))
 &gt; # Rowwise: 
 &gt;   mates lengua media_curso
 &gt;   &lt;int&gt;  &lt;int&gt;       &lt;dbl&gt;
-&gt; 1     8      2         5  
-&gt; 2     3      4         3.5
-&gt; 3     7      4         5.5
-&gt; 4    10      5         7.5
+&gt; 1    10     10        10  
+&gt; 2     7      3         5  
+&gt; 3     6     10         8  
+&gt; 4     2      3         2.5
 ```
 
 ---
@@ -11582,359 +11582,6 @@ gg
 # Tachán
 
 &lt;img src="index_files/figure-html/unnamed-chunk-529-1.png" width="50%" style="display: block; margin: auto;" /&gt;
-
----
-
-class: center, middle
-
-# CASO PRÁCTICO
-
-## VISUALIZANDO EN COORDENADAS POLARES
-
-&amp;nbsp;
-
-Vamos a imitar a Florence Nightingale
-
-
----
-
-# Gráficos en coordenadas polares
-
-El gráfico de rosa o área polar fue una absoluta revolución ya que permitía representar tres variables a la vez: 
-
-* **tiempo** (cada gajo es un mes)
-* **nº de muertes** (área del gajo)
-* **causa de la muerte** (color del gajo): azules para enfermedades infecciosas, rojas para heridas, negras para otras causas.
-
-
-```r
-knitr::include_graphics("img/rosa_nightingale.jpg")
-```
-
-&lt;div class="figure"&gt;
-&lt;img src="img/rosa_nightingale.jpg" alt="Gráfico original de Florence Nightingale" width="50%" /&gt;
-&lt;p class="caption"&gt;Gráfico original de Florence Nightingale&lt;/p&gt;
-&lt;/div&gt;
-
----
-
-# Gráficos en coordenadas polares
-
-
-&lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="img/rosa_nightingale.jpg" alt="Gráfico original de Florence Nightingale" width="50%" /&gt;
-&lt;p class="caption"&gt;Gráfico original de Florence Nightingale&lt;/p&gt;
-&lt;/div&gt;
-
-Florence quería demostrar que el enorme nº de bajas debidas a enfermedades infecciosas era **evitable**y así lo hizo con el gráfico de la izquierda, comparado con el de la derecha: al margen de junio de 1855, el % de muertes por enfermedades (área azul) descendió tras sus medidas para mejorar las condiciones de los hospitales.
-
----
-
-# Gráficos en coordenadas polares
-
-
-Vamos a intentar recrear su brillante visualización. Los datos los podemos obtener de un paquete muy interesante con datos relacionados con eventos de la **historia de la estadística y dataviz**, el paquete `{HistData}`, y el conjunto `Nightingale`
-
-
-```r
-library(HistData)
-Nightingale
-```
-
-```
-&gt;          Date Month Year  Army Disease Wounds Other Disease.rate Wounds.rate
-&gt; 1  1854-04-01   Apr 1854  8571       1      0     5          1.4         0.0
-&gt; 2  1854-05-01   May 1854 23333      12      0     9          6.2         0.0
-&gt; 3  1854-06-01   Jun 1854 28333      11      0     6          4.7         0.0
-&gt; 4  1854-07-01   Jul 1854 28722     359      0    23        150.0         0.0
-&gt; 5  1854-08-01   Aug 1854 30246     828      1    30        328.5         0.4
-&gt; 6  1854-09-01   Sep 1854 30290     788     81    70        312.2        32.1
-&gt; 7  1854-10-01   Oct 1854 30643     503    132   128        197.0        51.7
-&gt; 8  1854-11-01   Nov 1854 29736     844    287   106        340.6       115.8
-&gt; 9  1854-12-01   Dec 1854 32779    1725    114   131        631.5        41.7
-&gt; 10 1855-01-01   Jan 1855 32393    2761     83   324       1022.8        30.7
-&gt; 11 1855-02-01   Feb 1855 30919    2120     42   361        822.8        16.3
-&gt; 12 1855-03-01   Mar 1855 30107    1205     32   172        480.3        12.8
-&gt; 13 1855-04-01   Apr 1855 32252     477     48    57        177.5        17.9
-&gt; 14 1855-05-01   May 1855 35473     508     49    37        171.8        16.6
-&gt; 15 1855-06-01   Jun 1855 38863     802    209    31        247.6        64.5
-&gt; 16 1855-07-01   Jul 1855 42647     382    134    33        107.5        37.7
-&gt; 17 1855-08-01   Aug 1855 44614     483    164    25        129.9        44.1
-&gt; 18 1855-09-01   Sep 1855 47751     189    276    20         47.5        69.4
-&gt; 19 1855-10-01   Oct 1855 46852     128     53    18         32.8        13.6
-&gt; 20 1855-11-01   Nov 1855 37853     178     33    32         56.4        10.5
-&gt; 21 1855-12-01   Dec 1855 43217      91     18    28         25.3         5.0
-&gt; 22 1856-01-01   Jan 1856 44212      42      2    48         11.4         0.5
-&gt; 23 1856-02-01   Feb 1856 43485      24      0    19          6.6         0.0
-&gt; 24 1856-03-01   Mar 1856 46140      15      0    35          3.9         0.0
-&gt;    Other.rate
-&gt; 1         7.0
-&gt; 2         4.6
-&gt; 3         2.5
-&gt; 4         9.6
-&gt; 5        11.9
-&gt; 6        27.7
-&gt; 7        50.1
-&gt; 8        42.8
-&gt; 9        48.0
-&gt; 10      120.0
-&gt; 11      140.1
-&gt; 12       68.6
-&gt; 13       21.2
-&gt; 14       12.5
-&gt; 15        9.6
-&gt; 16        9.3
-&gt; 17        6.7
-&gt; 18        5.0
-&gt; 19        4.6
-&gt; 20       10.1
-&gt; 21        7.8
-&gt; 22       13.0
-&gt; 23        5.2
-&gt; 24        9.1
-```
-
-```r
-glimpse(Nightingale)
-```
-
-```
-&gt; Rows: 24
-&gt; Columns: 10
-&gt; $ Date         &lt;date&gt; 1854-04-01, 1854-05-01, 1854-06-01, 1854-07-01, 1854-08-…
-&gt; $ Month        &lt;ord&gt; Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Jan, Feb, Ma…
-&gt; $ Year         &lt;int&gt; 1854, 1854, 1854, 1854, 1854, 1854, 1854, 1854, 1854, 185…
-&gt; $ Army         &lt;int&gt; 8571, 23333, 28333, 28722, 30246, 30290, 30643, 29736, 32…
-&gt; $ Disease      &lt;int&gt; 1, 12, 11, 359, 828, 788, 503, 844, 1725, 2761, 2120, 120…
-&gt; $ Wounds       &lt;int&gt; 0, 0, 0, 0, 1, 81, 132, 287, 114, 83, 42, 32, 48, 49, 209…
-&gt; $ Other        &lt;int&gt; 5, 9, 6, 23, 30, 70, 128, 106, 131, 324, 361, 172, 57, 37…
-&gt; $ Disease.rate &lt;dbl&gt; 1.4, 6.2, 4.7, 150.0, 328.5, 312.2, 197.0, 340.6, 631.5, …
-&gt; $ Wounds.rate  &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.4, 32.1, 51.7, 115.8, 41.7, 30.7, 1…
-&gt; $ Other.rate   &lt;dbl&gt; 7.0, 4.6, 2.5, 9.6, 11.9, 27.7, 50.1, 42.8, 48.0, 120.0, …
-```
-
----
-
-class: center, middle
-
-
-# Bloque IV: comunicando resultados
-
-&amp;nbsp;
-
-### [Introducción a rmarkdown](#intro-historica)
-
-### [Profundizando en rmarkdown](#intro-historica)
-
----
-
-# Introducción a rmarkdown
-
-Vamos acabar nuestra primera sesión de `R` con una **forma práctica de presentar** nuestros análisis y resultados, y que será el formato en el que pedirán las **prácticas evaluables**: hablemos de **Rmarkdown**.
-
-
-Una de las principales **fortalezas** de `R` frente a `Python` es, no solo la visualización de datos, sino sus **opciones para generar informes**, incluso **libros**, **webs**, apuntes y hasta **diapositivas** (tanto el manual como estas mismas diapositivas han sido basadas en paquetes usan `{rmarkdown}`.
-
-
-```r
-install.packages("rmarkdown")
-```
-
-&lt;img src = "https://rubenfcasal.github.io/bookdown_intro/images/rmarkdown.png" alt = "rmd" align = "left" width = "280" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
-
-
----
-
-
-# Introducción a rmarkdown
-
-**¿Cuál es la ventaja de generarlos desde rmarkdown?**
-
-La más obvia: lo podemos hacer desde `RStudio` sin salirnos del entorno de programación, e integrar fácilmente **código R**.
-
-&lt;img src = "https://d33wubrfki0l68.cloudfront.net/87603549ad0d95b0071da0f9270b2f89ead3b39b/48700/lesson-images/websites-1-render.png" alt = "rmd" align = "left" width = "500" style = "margin-top: 3vh;margin-right: 3rem;margin-left: 0.5rem;"&gt;
-
-**¿Qué es Rmarkdown?**
-
-Una **herramienta** que nos permite crear de forma sencilla documentos:
-
-* **Markdown**: creado en 2004 por John Gruber, y de uso libre, es un **«lenguaje» que nos permite crear contenido** con un diseño legible, permitiendo la inclusión sencilla de párrafos, negritas, cursivas, etc. Si acostumbras a escribir en **wordpress, blogs u otras plataformas**, seguramente hayas escrito de esta forma (sin saberlo quizás).
-* **Latex**:  para escribir notación matemática como `\(x^2\)`.
-* **Código y salidas de R**.
-* **Imágenes**
-* **Estilos (css, js, etc)**
-
----
-
-# Introducción a rmarkdown
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/file_rmarkdown.jpg" alt = "rmd" align = "left" width = "300" style = "margin-top: 3vh;margin-right: 3rem;margin-left: 0.5rem;"&gt;
-
-
-**Crear un Rmarkdown**: para crear el primero fichero con extensión `.rmd` (la extensión de los archivos `R Markdown`). Tras hacer click en el botón `File &lt;&lt; New File &lt;&lt; R Markdown`, nos aparecerá un menú con varias opciones.
-
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/new_rmd.jpg" alt = "rmd" align = "left" width = "350" style = "margin-top: 3vh;margin-right: 3rem;margin-left: 0.5rem;"&gt;
-
-* **Formatos de salida**: `.pdf`, `.html` (documento dinámico, permite la interacción con el usuario, como una «página web»), `.doc` (nada recomendable)
-* **Título (title)**: título de nuestro documento. 
-* **Autor (author)**: autor del documento.
-
----
-
-# Introducción a rmarkdown
-
-
-&lt;img src="./img/rmd_estructura.jpg" width="55%" /&gt;
-
-
-Un fichero `.Rmd` se divide básicamente en **tres partes**
-
-* **Cabecera**: el inicio que hay entre `---` (los ajustes del documento general).
-* **Texto**: texto escrito que con markdown podremos mejorar con **negritas** (escrito como `**negritas**`, con doble astérisco al inicio y final), _cursivas_ (`_cursivas_`, con barra baja al inicio y final) o destacar nombres de funciones o `variables de R`. Recuerda que puedes añadir además **ecuaciones** como `\(x^2\)` (he escrito `$x^2$`, la ecuación entre dólares).
-* **Código R**: las cajitas donde metamos nuestro código `R` se llamarán **chunks**.
-
-**IMPORTANTE**: salvo que indiquemos lo contrario con **chunks**, todo lo que vamos a escribir en el documento es texto. No código R.
-
----
-
-# Cabecera
-
-La **cabecera están en formato YAML**, y contiene los **metadatos** del documento: título, autor, fecha, estilos (si los tuviésemos), etc. Vamos a cambiar la cabecera que nos ha generado por defecto de la siguiente forma:
-
-* **Title**: `"Probando Probando"`
-* **author**: `"Señor X"`
-* **date**: `"11/7/2014"`
-* **output**: `html_document`
-
-Le indicamos el **formato de salida**, en este caso un **documento HTML**.
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/rmd_vacio.jpg" alt = "rmd" align = "left" width = "500" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
-
----
-
-# Cuerpo de texto
-
-Para empezar nuestro documento escribiremos, por ejemplo, la siguiente frase
-
-&gt; Este material ha sido diseñado como complemento y recursos de apoyo al curso de la Escuela de Invierno de la UCM titulado «Analizando datos, visualizando información, contando historias», celebrado presencialmente del 31 de enero al 4 de febrero de 2022 (16:00 a 21:00 horas, de lunes a viernes).
-
-**Guardamos** el archivo `.Rmd` haciendo click en el botón Guardar y **tejeremos** nuestro documento haciendo click en el botón `Knit`.
-
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/primer_html_rmd.jpg" alt = "rmd" align = "left" width = "400" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
-
----
-
-# Añadiendo formato
-
-Podemos **mejorar un poco el texto**:
-
-* Vamos a añadir **negrita** a la frase `"curso de la Escuela de Invierno de la UCM"` (poniendo ** al inicio y al final).
-
---
-
-* Vamos añadir **cursiva** a la palabra `"material"` (poniendo _ al inicio y al final).
-
---
-
-* Vamos añadir un **enlace**, &lt;https://www.ucm.es/eci//cursoecic02-pre&gt;, asociándolo al título `«Analizando datos, visualizando información, contando historias»`. Para ello el título lo ponemos entre corchetes y justo detrás el enlace entre paréntesis [«Analizando datos, visualizando información, contando historias»](https://www.ucm.es/eci//cursoecic02-pre)
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/rmd_2.jpg" alt = "rmd" align = "left" width = "520" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
-
---
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/html_rmd_2.jpg" alt = "rmd" align = "left" width = "380" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
-
----
-
-# Profundizando: chunks de código
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/chunk_1.jpg" alt = "rmd" align = "left" width = "400" style = "margin-top: 2vh;margin-right: 1rem;margin-left: 0.5rem;"&gt;
-
-
-Nuestras **cajas de código** llamadas _chunks_ serán altos en el camino en nuestro texto _markdown_ donde podremos incluir código. Para incluir uno deberá de ir **encabezado** de la siguiente forma.
-
---
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/rmd_3.jpg" alt = "rmd" align = "left" width = "530" style = "margin-top: 1vh;margin-right: 1rem;margin-left: 0.5rem;"&gt;
-
-Dentro de la cajita **escribiremos código R**, como lo veníamos haciendo hasta ahora. Vamos por ejemplo a **definir dos variables y su suma**. Dentro de esos _chunks_ puedes **comentar código** como hacemos habitualmente con `#`.
-
-Tras tejer de nuevo y obtenemos ahora un documento que tiene una caja de código y su salida, en este caso `x + y`.
- 
----
-
-
-# Profundizando: etiquetando chunks
-
-Los _chunks_ de código pueden tener un **nombre o etiqueta** para poder referenciarlos de nuevo (y para no repetir código). En la etiqueta no se pueden poner espacios, preferiblemente solo letras y guiones.
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/chunk_repe_tag.jpg" alt = "rmd" align = "left" width = "500" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/html_tag_chunk.jpg" alt = "rmd" align = "left" width = "500" style = "margin-top: 3vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
-
-
----
-
-# Profundizando: organizando el documento
-
-El **documento podemos dividirlo en secciones y subsecciones**. Para ello usaremos la sintaxis de _markdown_, poniendo **almohadillas**: una `#` para secciones, `##` para subsecciones, `###` para subsubsecciones, etc. Vamos a crear una **sección principal** que sea `# Primer informe` y una **subsección** que se titule `## Chunks de código` donde incluiremos los dos chunks que tenemos hasta ahora.
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/secciones_rmd.jpg" alt = "rmd" align = "left" width = "450" style = "margin-top: 2vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
-
-También podemos **organizar nuestro documento** creando listas de ítems, usando `*` para cada uno de ellos.
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/items_rmd.jpg" alt = "rmd" align = "left" width = "450" style = "margin-top: 2vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
-
----
-
-# Profundizando: ejecutando chunk a chunk
-
-En cada _chunk_ aparece una botón de _play_: pulsándolo podemos tener la **ejecución y salida de cada chunk** en nuestro `.Rmd`, sin tener que esperar a «tejer» (con Knit) todo el documento para ver lo que vamos ejecutando.
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/play_chunk.jpg" alt = "rmd" align = "left" width = "500" style = "margin-top: 2vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/chunk_ejecutado.jpg" alt = "rmd" align = "left" width = "500" style = "margin-top: 2vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
-
-Además **podemos incluir código R dentro de la línea de texto**.
-
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/codigo_inline_rmd.jpg" alt = "rmd" align = "right" width = "450" style = "margin-top: 2vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
-
----
-
-# Profundizando: personalizando chunks
-
-Los _chunks_ podemos **personalizarlos** con algunas opciones, pasándolos como argumentos dentro de las llaves `{r etiqueta, ...}`.
-
-* `include = FALSE`: se **ejecuta el código** pero **no se muestra** ni código ni resultados en la salida final (pero lo que se ejecuta puede ser usado en otros chunks futuros). Por ejemplo, `{r etiqueta, include = FALSE}`
-
-* `echo = FALSE`: se **ejecuta el código** y se **muestra el resultado** pero **no el código** en la salida final. Por ejemplo, `{r etiqueta, echo = FALSE}`
- 
-* `eval = FALSE`: se **muestra** pero **no se ejecuta** el código en la salida final.
-
-* `message = FALSE`: se **ejecuta el código** pero **no se muestran los mensajes** de salida que tendríamos en consola (en caso de existir).
-
-* `warning = FALSE`: se **ejecuta el código** pero **no se muestran los warning** que tendríamos en consola (en caso de existir).
-
-* `error = TRUE`: se **ejecuta el código** pero permite ejecutar el código **con errores** mostrando los mensajes de error que tendríamos en consola (en caso de existir).
-
-Puedes ver las **diferentes salidas** en el archivo [primer_rmarkdown.Rmd](https://github.com/dadosdelaplace/courses-ECI-2022/blob/main/scripts/primer_rmarkdown.Rmd)
-
-
----
-
-# Profundizando: variables y ecuaciones
-
-También podemos **incluir ecuaciones** haciendo uso de código latex (entre dolares `$$`), así como nombres de variables.
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/variables_rmd.jpg" alt = "rmd" align = "left" width = "600" style = "margin-top: 2vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
-
-&lt;img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/variables_html.jpg" alt = "rmd" align = "left" width = "600" style = "margin-top: 2vh;margin-right: 0.5rem;margin-left: 0.5rem;"&gt;
-
-
----
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
